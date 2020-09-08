@@ -1,0 +1,7 @@
+<map id="souffle::MagicSetTransformer::MagicSetCoreTransformer::addRelevantVariables" name="souffle::MagicSetTransformer::MagicSetCoreTransformer::addRelevantVariables">
+<area shape="rect" id="node2" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="283,5,413,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_variable.html#a2b73a95c7b59624d956dee0ed4e13884" title="Return variable name. " alt="" coords="274,57,422,98"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="264,123,432,149"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="480,115,648,157"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="696,115,887,157"/>
+</map>

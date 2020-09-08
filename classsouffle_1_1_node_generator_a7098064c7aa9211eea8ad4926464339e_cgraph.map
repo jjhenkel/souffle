@@ -1,0 +1,23 @@
+<map id="souffle::NodeGenerator::visitExtend" name="souffle::NodeGenerator::visitExtend">
+<area shape="rect" id="node2" href="$classsouffle_1_1_node_generator.html#adf4918592473b561987de722d422b1f6" title="Encode and create the relation, return the relation id. " alt="" coords="263,169,437,211"/>
+<area shape="rect" id="node21" href="$classsouffle_1_1_ram_bin_relation_statement.html#aa9ac1adab80611274b2f6a42e12f1707" title="Get first relation. " alt="" coords="227,235,473,276"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1_ram_bin_relation_statement.html#a713123b8834d8ab2198720d2398667ab" title="Get second relation. " alt="" coords="227,300,473,341"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_node_generator.html#a8e245239bff0eff10b84f20914bdfc3f" title="Create and add relation into the runtime environment. " alt="" coords="532,104,705,145"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_ram_index_analysis.html#a475526dcb15efeaa12e8b561494d74e1" title="get the minimal index cover for a relation " alt="" coords="521,169,716,211"/>
+<area shape="rect" id="node20" href="$classsouffle_1_1_node_generator.html#af575fa077e975e36f3f0fe216fcbbfd9" title="Get a valid relation id for encoding. " alt="" coords="532,235,705,276"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#ac80f9b1a2370c37848a21ce4eeb6bbee" title="souffle::createBTreeProvenance\lIndex" alt="" coords="764,104,991,145"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="1059,86,1163,113"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1_order.html#acba06648b910cba7978cca29cbf87ed1" title="souffle::Order::size" alt="" coords="1039,137,1183,163"/>
+<area shape="rect" id="node6" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="1231,86,1373,113"/>
+<area shape="rect" id="node7" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="1421,86,1572,113"/>
+<area shape="rect" id="node15" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1620,19,1825,46"/>
+<area shape="rect" id="node8" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1655,71,1791,112"/>
+<area shape="rect" id="node16" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="1655,137,1790,163"/>
+<area shape="rect" id="node17" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1650,187,1795,214"/>
+<area shape="rect" id="node9" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1875,5,2060,47"/>
+<area shape="rect" id="node10" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1873,71,2061,112"/>
+<area shape="rect" id="node14" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1892,136,2043,177"/>
+<area shape="rect" id="node11" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="2336,41,2500,83"/>
+<area shape="rect" id="node12" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="2109,100,2288,141"/>
+<area shape="rect" id="node13" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="2350,107,2486,148"/>
+</map>

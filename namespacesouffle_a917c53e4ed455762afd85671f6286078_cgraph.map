@@ -1,0 +1,6 @@
+<map id="souffle::TEST" name="souffle::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_trie.html#a4a1c83d5b8858281ca8b1622867148b0" title="Determines whether this trie is empty or not. " alt="" coords="166,5,313,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_trie.html#ac2aca7acbf15881d6f673e2702a193dd" title="Inserts a new entry. " alt="" coords="168,56,311,83"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_trie.html#a8c08695b078cf8a4b2a91530e0556227" title="Inserts all elements stored within the given trie into this trie. " alt="" coords="160,107,319,133"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_trie.html#a8f7b41339b2f9ea97df15d0411072d08" title="Determines the number of entries in this trie. " alt="" coords="174,157,305,184"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="souffle::MinimiseProgramTransformer::existsValidPermutation" name="souffle::MinimiseProgramTransformer::existsValidPermutation">
+<area shape="rect" id="node2" href="$classsouffle_1_1_minimise_program_transformer.html#a95b530a16b49daee6429c397cbabbc77" title="– Bijective Equivalence Helper Methods – " alt="" coords="312,71,543,112"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_normalised_clause.html#a0709dcc4979d91469f1954ffbbc9896b" title="souffle::NormalisedClause\l::getElements" alt="" coords="591,5,784,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_normalised_clause.html#ad1c4ecac9c108e1dcc33b8e514436f51" title="souffle::NormalisedClause\l::getConstants" alt="" coords="591,71,784,112"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_normalised_clause.html#a0cf6ea0cc77a9c945c1ac8815f5b25f5" title="souffle::NormalisedClause\l::getVariables" alt="" coords="591,136,784,177"/>
+</map>

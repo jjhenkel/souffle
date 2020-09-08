@@ -1,0 +1,13 @@
+<map id="ram/Filter.h" name="ram/Filter.h">
+<area shape="rect" id="node2" href="$_abstract_conditional_8h.html" title="ram/AbstractConditional.h" alt="" coords="1139,80,1331,107"/>
+<area shape="rect" id="node3" href="$_condition_8h.html" title="ram/Condition.h" alt="" coords="568,155,695,181"/>
+<area shape="rect" id="node4" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="481,304,579,331"/>
+<area shape="rect" id="node17" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="1735,535,1911,562"/>
+<area shape="rect" id="node26" href="$_nested_operation_8h.html" title="ram/NestedOperation.h" alt="" coords="1379,155,1553,181"/>
+<area shape="rect" id="node27" href="$_operation_8h.html" title="ram/Operation.h" alt="" coords="973,229,1101,256"/>
+<area shape="rect" id="node29" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="1546,453,1741,480"/>
+<area shape="rect" id="node6" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="923,453,1068,480"/>
+<area shape="rect" id="node5" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="285,379,482,405"/>
+<area shape="rect" id="node7" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="1131,528,1305,569"/>
+<area shape="rect" id="node18" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="2011,617,2113,644"/>
+</map>

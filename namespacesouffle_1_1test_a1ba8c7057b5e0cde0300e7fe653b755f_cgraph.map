@@ -1,0 +1,5 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a109db698f6adb0de81299c0108b617f6" title="helper to convert tuple to record reference for the synthesiser " alt="" coords="215,13,321,39"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_record_table.html#a122b6885779babed0fa4851e161c5c73" title="convert record reference to a record " alt="" coords="192,64,344,105"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_record_table.html#a30764bb03ecccb41235514a2cfbbcb0d" title="convert record to record reference " alt="" coords="392,5,544,47"/>
+</map>

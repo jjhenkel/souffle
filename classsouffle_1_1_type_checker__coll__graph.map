@@ -1,0 +1,15 @@
+<map id="souffle::TypeChecker" name="souffle::TypeChecker">
+<area shape="rect" id="node2" href="$structsouffle_1_1_ast_visitor.html" title="{souffle::AstVisitor\l\&lt; void \&gt;\n||+ operator()()\l+ visit()\l+ ~AstVisitor()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\land 6 more...\l}" alt="" coords="539,895,677,1178"/>
+<area shape="rect" id="node3" href="$structsouffle_1_1ast__visitor__tag.html" title="A tag type required for the is_ast_visitor type trait to identify AstVisitors. " alt="" coords="5,623,176,701"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_type_analysis.html" title="{souffle::TypeAnalysis\n||+ getTypes()\l+ print()\l+ run()\l+ TypeAnalysis()\l+ analyseTypes()\l}" alt="" coords="2666,969,2825,1105"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_analysis.html" title="Abstract class for a AST Analysis. " alt="" coords="2586,594,2737,730"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_ast_program.html" title="The program class consists of relations, clauses and types. " alt="" coords="1341,873,1573,1200"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_error_report.html" title="{souffle::ErrorReport\n||+ addDiagnostic()\l+ addError()\l+ addWarning()\l+ ErrorReport()\l+ ErrorReport()\l+ exitIfErrors()\l+ getNumErrors()\l+ getNumIssues()\l+ getNumWarnings()\l+ print()\l}" alt="" coords="3602,557,3761,767"/>
+<area shape="rect" id="node31" href="$classsouffle_1_1_ast_translation_unit.html" title="Translation unit class for the translation pipeline. " alt="" coords="3169,932,3362,1141"/>
+<area shape="rect" id="node28" href="$structsouffle_1_1_type_set.html" title="A collection to represent sets of types. " alt="" coords="3800,543,3925,781"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_ast_node.html" title="Abstract class for syntactic elements in an input program. " alt="" coords="1970,543,2113,781"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_src_location.html" title="A class describing a range in an input file. " alt="" coords="1967,359,2116,480"/>
+<area shape="rect" id="node18" href="$structsouffle_1_1_src_location_1_1_point.html" title="A class locating a single point in an input file. " alt="" coords="2091,160,2240,281"/>
+<area shape="rect" id="node27" href="$classsouffle_1_1_type_environment.html" title="A type environment is a set of types. " alt="" coords="3753,910,3972,1163"/>
+<area shape="rect" id="node32" href="$classsouffle_1_1_debug_report.html" title="Class representing a HTML report, consisting of a list of sections. " alt="" coords="3186,557,3345,767"/>
+</map>

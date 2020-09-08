@@ -1,0 +1,5 @@
+<map id="souffle::RamIndexAnalysis::getSearchSignature" name="souffle::RamIndexAnalysis::getSearchSignature">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_relation.html#aa2d201d636a8b01283b5996a56d7abb8" title="Get arity of relation. " alt="" coords="259,5,417,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_search_signature.html#add3b77aefc1bcd93923f42fdc6403973" title="souffle::SearchSignature\l::getFullSearchSignature" alt="" coords="248,71,428,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_search_signature.html#a949ec42a09c4f8aafd7c2286224c5cce" title="souffle::SearchSignature\l::arity" alt="" coords="476,71,656,112"/>
+</map>

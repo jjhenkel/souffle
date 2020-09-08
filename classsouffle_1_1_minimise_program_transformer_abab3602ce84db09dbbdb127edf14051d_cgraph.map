@@ -1,0 +1,20 @@
+<map id="souffle::MinimiseProgramTransformer::reduceLocallyEquivalentClauses" name="souffle::MinimiseProgramTransformer::reduceLocallyEquivalentClauses">
+<area shape="rect" id="node2" href="$classsouffle_1_1_minimise_program_transformer.html#ac2867160d9eaa059a822d549412ad8a2" title="souffle::MinimiseProgram\lTransformer::areBijectivelyEquivalent" alt="" coords="320,139,587,180"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="357,351,550,392"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#a4d9e53888640a9abfd7ea7c43715152a" title="Returns a vector of clauses in the program describing the relation with the given name..." alt="" coords="380,417,527,443"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_clause_normalisation_analysis.html#a9d2ec7adf8dd94472f2fa8926b1d85ad" title="souffle::ClauseNormalisation\lAnalysis::getNormalisation" alt="" coords="348,519,559,560"/>
+<area shape="rect" id="node17" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="357,584,550,625"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="689,475,839,516"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="378,649,529,691"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_minimise_program_transformer.html#a234974fa308c60c64a8aa43574a8fac6" title="souffle::MinimiseProgram\lTransformer::existsValidPermutation" alt="" coords="635,109,893,151"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_normalised_clause.html#ad1c4ecac9c108e1dcc33b8e514436f51" title="souffle::NormalisedClause\l::getConstants" alt="" coords="1220,5,1413,47"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_normalised_clause.html#a0709dcc4979d91469f1954ffbbc9896b" title="souffle::NormalisedClause\l::getElements" alt="" coords="1220,75,1413,116"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_normalised_clause.html#a0cf6ea0cc77a9c945c1ac8815f5b25f5" title="souffle::NormalisedClause\l::getVariables" alt="" coords="1220,149,1413,191"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_normalised_clause.html#ad9ee1de865233ad3d24856b17191319e" title="souffle::NormalisedClause\l::isFullyNormalised" alt="" coords="667,227,861,268"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_minimise_program_transformer.html#a95b530a16b49daee6429c397cbabbc77" title="– Bijective Equivalence Helper Methods – " alt="" coords="941,109,1172,151"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="685,292,843,333"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="683,358,845,385"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_ast_program.html#aa04b430e385f40c6fe2bf7ad2ca31bb3" title="Return clauses. " alt="" coords="689,409,839,451"/>
+<area shape="rect" id="node14" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="983,449,1130,475"/>
+<area shape="rect" id="node16" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="699,541,829,567"/>
+</map>

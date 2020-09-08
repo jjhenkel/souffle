@@ -1,0 +1,14 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_disjoint_set.html#a72c6d822d03f4f5c29b7a487e0ad6858" title="Extract parent from block. " alt="" coords="596,34,773,60"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_disjoint_set.html#aeffaec2f3fc61d5ad016407edbb03d77" title="Create a node with its parent as itself, rank 0. " alt="" coords="192,258,337,300"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_disjoint_set.html#abb14c55059807b69f2d8a3c50702c54f" title="Check whether the two indices are in the same set. " alt="" coords="192,56,337,97"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_disjoint_set.html#a3ea01e537b3e5033d35fc5e0ab3e03ac" title="Return the number of elements in this disjoint set (not the number of pairs) " alt="" coords="192,378,337,420"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_disjoint_set.html#a708d264ee2f9ec6bf7ed995af20a062c" title="Union the two specified index nodes. " alt="" coords="192,121,337,162"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_piggy_list.html#acb3509a8a16a695117d887b353cfb6b7" title="souffle::PiggyList\l::createNode" alt="" coords="400,289,533,330"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_piggy_list.html#a42d37008bbace7c10f6448824a35aa5b" title="Retrieve a reference to the stored value at index. " alt="" coords="385,238,548,264"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_disjoint_set.html#ae892a7febe8076794433d5546a9a3b94" title="Yield a block given parent and rank. " alt="" coords="612,158,757,200"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_disjoint_set.html#aed80ba6959ac42fae1ea8985a55d6c89" title="Equivalent to the find() function in union/find Find the highest ancestor of the provided node &#45; flat..." alt="" coords="394,56,539,97"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_disjoint_set.html#a2537a5caf8cbb4ac1461528479558abd" title="Extract rank from block. " alt="" coords="597,107,772,134"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_piggy_list.html#a746c46251639906bcfcc16bbd113b0d8" title="Well, returns the number of nodes exist within the list + number of nodes queued to be inserted The r..." alt="" coords="400,406,533,448"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_disjoint_set.html#a8b751defd8700b68f6ce352b24099eb2" title="Update the root of the tree of which x is, to have y as the base instead. " alt="" coords="394,121,539,162"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="souffle::TypeConstraintsAnalysis::collectConstraints" name="souffle::TypeConstraintsAnalysis::collectConstraints">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_clause.html#a5a29a4f9ba5d0e4aea869cf71a6efbbf" title="Return the atom that represents the head of the clause. " alt="" coords="271,5,409,47"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="256,71,424,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="472,71,663,112"/>
+</map>

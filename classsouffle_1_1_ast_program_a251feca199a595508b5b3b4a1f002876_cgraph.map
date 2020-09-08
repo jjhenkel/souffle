@@ -1,0 +1,8 @@
+<map id="souffle::AstProgram::getPragmaDirectives" name="souffle::AstProgram::getPragmaDirectives">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_program.html#a9eedebf66a0a46a6f307b3e995d24068" title="souffle::AstProgram\l::addRelation" alt="" coords="226,57,377,98"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_program.html#a4f826133054d1115c2e3c542d7892829" title="Remove relation. " alt="" coords="220,122,383,163"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="454,5,558,32"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_relation.html#a5db8b505969c2f75286a54875c4aaed1" title="Get qualified relation name. " alt="" coords="432,57,580,98"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="431,122,581,163"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="629,129,776,156"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="souffle::InterpreterRelInterface" name="souffle::InterpreterRelInterface">
+<area shape="rect" id="node2" href="$classsouffle_1_1_relation.html" title="Object&#45;oriented wrapper class for Souffle&#39;s templatized relations. " alt="" coords="5,380,163,648"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_relation.html" title="A relation, composed of a collection of indexes. " alt="" coords="497,402,693,626"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_interpreter_index.html" title="An index is an abstraction of a data structure. " alt="" coords="632,5,811,288"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_symbol_table.html" title="Global pool of re&#45;usable strings. " alt="" coords="1021,387,1189,641"/>
+<area shape="rect" id="node12" href="$structsouffle_1_1_lock.html" title="A small utility class for implementing simple locks. " alt="" coords="917,86,1021,207"/>
+</map>

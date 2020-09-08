@@ -1,0 +1,51 @@
+<map id="souffle::InterpreterEngine::execute" name="souffle::InterpreterEngine::execute">
+<area shape="rect" id="node2" href="$classsouffle_1_1_interpreter_context.html#a143c0a2624150d9017149476264ad1b0" title="Add subroutine return value. " alt="" coords="249,5,444,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_context.html#a5c70d8c5ed0b1742d8c9f9cf27582321" title="Create a view in the environment. " alt="" coords="249,71,444,112"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_interpreter_relation.html#a0fc33bf274670d6bdc004511f6f044c0" title="Check if the relation is empty. " alt="" coords="501,72,697,113"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_interpreter_engine.html#a2f5b590b5edc04f5aac18fd41ec0c2c0" title="Execute helper. " alt="" coords="253,457,440,499"/>
+<area shape="rect" id="node8" href="$namespacesouffle.html#aa3bd1d83dcab901258167a7892db39be" title="In C++20 there will be a new way to cast between types by reinterpreting bits (std::bit_cast), but as of January 2020 it is not yet supported. " alt="" coords="526,465,673,491"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="547,530,651,557"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_interpreter_relation.html#ac3bd78e2071d9ad58111cacbcfd8766f" title="Extend another relation. " alt="" coords="501,137,697,179"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_interpreter_context.html#a09840688c63fcd85cf8031344c2e86e5" title="Get subroutine Arguments. " alt="" coords="249,640,444,681"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_interpreter_relation.html#a7efc6f29e2a86d262b6e71c6e549effe" title="Return arity. " alt="" coords="249,239,445,280"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_interpreter_relation.html#a3d11d2c3a467ebabc18f62ceb5afdff9" title="Return number of tuples in relation (full&#45;order) " alt="" coords="501,333,697,375"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_interpreter_relation.html#a5d59c8a0adc778f4615a57bb94e7b166" title="Clear all indexes. " alt="" coords="501,399,697,440"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1_i_o_system.html#ae1e53d74f6e822a2df86eabc69cdcdce" title="souffle::IOSystem::\lgetInstance" alt="" coords="274,705,419,747"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_interpreter_engine.html#af8cc25021ee3bccbd84ae7d668a52089" title="Return current iteration number for loop operation. " alt="" coords="253,771,440,812"/>
+<area shape="rect" id="node20" href="$classsouffle_1_1_interpreter_engine.html#aedd49165148c60c2492a1703bd525bad" title="Return method handler. " alt="" coords="253,836,440,877"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1_interpreter_preamble.html#af52f224bda49256cebba41ab3a88d3c3" title="Return views for outer&#45;most filter operations. " alt="" coords="244,901,449,943"/>
+<area shape="rect" id="node23" href="$classsouffle_1_1_interpreter_preamble.html#a28dad49c17c8882dd6e6a8a4ae94056b" title="Return outer&#45;most filter operations. " alt="" coords="244,967,449,1008"/>
+<area shape="rect" id="node24" href="$classsouffle_1_1_i_o_system.html#a6286b3771e7f93956e63be284ccbb58b" title="Return a new ReadStream. " alt="" coords="274,1032,419,1073"/>
+<area shape="rect" id="node26" href="$classsouffle_1_1_interpreter_engine.html#a54c405ee092d2eef1c53eab8e8bcbf1d" title="Return the record table. " alt="" coords="253,1097,440,1139"/>
+<area shape="rect" id="node27" href="$classsouffle_1_1_interpreter_node.html#a3f24f734d9fbf0be9d34ee112064da3a" title="get relation from handle " alt="" coords="258,1163,435,1204"/>
+<area shape="rect" id="node28" href="$classsouffle_1_1_interpreter_engine.html#a85105157e191b41c0b318e05aac48bc0" title="Return a reference to the relation on the given index. " alt="" coords="506,1257,693,1299"/>
+<area shape="rect" id="node30" href="$classsouffle_1_1_interpreter_engine.html#a91e8edd3d5538ef3f2d2162f047e2b6a" title="Return the string symbol table. " alt="" coords="253,1345,440,1387"/>
+<area shape="rect" id="node31" href="$classsouffle_1_1_interpreter_node.html#ae4a6b809ec071ed8156ff4356ab699e6" title="get node type " alt="" coords="258,1411,435,1452"/>
+<area shape="rect" id="node32" href="$classsouffle_1_1_interpreter_context.html#a9eb382a701ec673be978d9e7e34ef1db" title="Return a view. " alt="" coords="249,1476,444,1517"/>
+<area shape="rect" id="node33" href="$classsouffle_1_1_interpreter_preamble.html#ad8445fdbf4d4af9e4a928587cd129966" title="Return Views information for outer filter operation. " alt="" coords="244,1541,449,1583"/>
+<area shape="rect" id="node34" href="$classsouffle_1_1_interpreter_preamble.html#a9e193156d37b45f3351a5eeeaa79e8ef" title="Return Views information for nested operation. " alt="" coords="244,1607,449,1648"/>
+<area shape="rect" id="node35" href="$classsouffle_1_1_i_o_system.html#a7086c5e2f4ab1919bfb89a9f35813b0f" title="Return a new WriteStream. " alt="" coords="274,1672,419,1713"/>
+<area shape="rect" id="node36" href="$classsouffle_1_1_interpreter_engine.html#ae61d22b7e8eb6464e593703ec4a3fd5d" title="Increment the counter. " alt="" coords="253,1737,440,1779"/>
+<area shape="rect" id="node37" href="$classsouffle_1_1_interpreter_engine.html#aba5561029e720702444af45b8fef8fcf" title="Increase iteration number by one. " alt="" coords="253,1803,440,1844"/>
+<area shape="rect" id="node38" href="$classsouffle_1_1_interpreter_relation.html#aadf4e0a1fa2c21d88544b42622a7f168" title="Add the given tuple to this relation. " alt="" coords="249,1868,445,1909"/>
+<area shape="rect" id="node39" href="$classsouffle_1_1_signal_handler.html#ab7eed040c4ebc493e77f60046e820b6c" title="souffle::SignalHandler\l::instance" alt="" coords="264,1933,429,1975"/>
+<area shape="rect" id="node40" href="$classsouffle_1_1_profile_event_singleton.html#adf94d78a9d87272b42a1fe4bc31f918d" title="get instance " alt="" coords="240,1999,453,2040"/>
+<area shape="rect" id="node41" href="$classsouffle_1_1_symbol_table.html#ada9d8afe1219bf54d16507b424f512c6" title="Find the index of a symbol in the table, inserting a new symbol if it does not exist there already..." alt="" coords="268,2064,425,2105"/>
+<area shape="rect" id="node42" href="$classsouffle_1_1_profile_event_singleton.html#a09d8e99d145207286edb972d51d715d6" title="create quantity event " alt="" coords="240,2129,453,2171"/>
+<area shape="rect" id="node43" href="$classsouffle_1_1_record_table.html#a30764bb03ecccb41235514a2cfbbcb0d" title="convert record to record reference " alt="" coords="271,2195,423,2236"/>
+<area shape="rect" id="node44" href="$classsouffle_1_1_interpreter_relation.html#a6f19b72c70c1585db416a0771a245b9d" title="Obtains a partitioned stream list for parallel computation. " alt="" coords="249,2260,445,2301"/>
+<area shape="rect" id="node45" href="$classsouffle_1_1_interpreter_engine.html#a90522877295a06620c1c65ae556bd815" title="Reset iteration number. " alt="" coords="253,2325,440,2367"/>
+<area shape="rect" id="node46" href="$classsouffle_1_1_symbol_table.html#a438d450330bc4128144f08c6ae0c4989" title="Find a symbol in the table by its index, note that this gives an error if the index is out of bounds..." alt="" coords="268,523,425,564"/>
+<area shape="rect" id="node47" href="$classsouffle_1_1_interpreter_relation.html#ac91af58bb2f5ab34317ad97b86f4cebc" title="Obtains a stream to scan the entire relation. " alt="" coords="249,2391,445,2432"/>
+<area shape="rect" id="node48" href="$classsouffle_1_1_signal_handler.html#a7db0968d537d06d216823b9baa9a5834" title="souffle::SignalHandler\l::setMsg" alt="" coords="264,2456,429,2497"/>
+<area shape="rect" id="node49" href="$classsouffle_1_1_interpreter_engine.html#ad34564f4c8610b618eb37fb44e583bc6" title="Swap the content of two relations. " alt="" coords="253,1228,440,1269"/>
+<area shape="rect" id="node50" href="$classsouffle_1_1_record_table.html#a122b6885779babed0fa4851e161c5c73" title="convert record reference to a record " alt="" coords="271,2521,423,2563"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_interpreter_relation.html#a72ef02d8fe8cf64d9076d28842c6494b" title="Obtains a view on an index of this relation, facilitating hint&#45;supported accesses. " alt="" coords="501,7,697,48"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_interpreter_index.html#ab7d99c5517ad2fc2a97485950662287c" title="Tests whether this index is empty or not. " alt="" coords="745,72,924,113"/>
+<area shape="rect" id="node10" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="763,530,906,557"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_interpreter_relation.html#a006b1bfcd01807c86b901542c68e465b" title="Return arity. " alt="" coords="501,203,697,244"/>
+<area shape="rect" id="node17" href="$classsouffle_1_1_interpreter_relation.html#a8757cab66c0dfe27c31bf8e50e1c5e03" title="Check if a tuple exists in relation. " alt="" coords="501,268,697,309"/>
+<area shape="rect" id="node21" href="$classsouffle_1_1_interpreter_engine.html#a323ee06e33bb580a66b8e04ba3f5e220" title="Load DLL. " alt="" coords="506,836,693,877"/>
+<area shape="rect" id="node25" href="$classsouffle_1_1_i_o_system.html#a42d9301f7c96f6555e9d006028b73041" title="souffle::IOSystem::\l~IOSystem" alt="" coords="527,1032,672,1073"/>
+<area shape="rect" id="node29" href="$classsouffle_1_1_node_generator.html#a4f4637f4f5382648d7989f30f25ba4ac" title="Return relation handle from given index. " alt="" coords="748,1257,921,1299"/>
+</map>

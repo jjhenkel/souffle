@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structsouffle_1_1_type_visitor.html" title="A visitor for Types. " alt="" coords="5,5,191,32"/>
+<area shape="rect" id="node2" href="$classsouffle_1_1_visit_once_type_visitor.html" title="A visitor for types visiting each type only once (effectively breaking recursive cycles). " alt="" coords="239,5,485,32"/>
+</map>

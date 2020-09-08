@@ -1,0 +1,11 @@
+<map id="souffle::RamParallelIndexChoice" name="souffle::RamParallelIndexChoice">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_index_choice.html" title="Use an index to find a tuple in a relation such that a given condition holds. " alt="" coords="779,1317,963,1468"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_index_operation.html" title="{souffle::RamIndexOperation\n||+ apply()\l+ clone()\l+ getChildNodes()\l+ getRangePattern()\l+ printIndex()\l+ RamIndexOperation()\l# equal()\l}" alt="" coords="645,1103,849,1268"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_relation_operation.html" title="Abstract class for operations on relations. " alt="" coords="388,889,609,1040"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ram_tuple_operation.html" title="Abstract class for relation searches and lookups. " alt="" coords="284,676,487,827"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ram_nested_operation.html" title="Abstract class for a nesting operations in a loop&#45;nest. " alt="" coords="203,433,418,613"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ram_operation.html" title="Abstract class for a relational algebra operation. " alt="" coords="5,249,173,371"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ram_node.html" title="RamNode is a superclass for all RAM IR classes. " alt="" coords="18,5,161,200"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_ram_abstract_choice.html" title="Abstract class for a choice operation. " alt="" coords="885,1117,1088,1253"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_ram_abstract_parallel.html" title="Abstract class for parallel operation. " alt="" coords="987,1354,1194,1431"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="souffle::RedundantRelationsAnalysis::run" name="souffle::RedundantRelationsAnalysis::run">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="256,35,449,76"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="256,100,449,141"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="277,165,428,207"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_precedence_graph_analysis.html#a12efc4ad0a132a66a0b622c58f71e111" title="souffle::PrecedenceGraph\lAnalysis::graph" alt="" coords="259,231,447,272"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="499,5,658,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="497,71,660,98"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="505,173,652,199"/>
+</map>

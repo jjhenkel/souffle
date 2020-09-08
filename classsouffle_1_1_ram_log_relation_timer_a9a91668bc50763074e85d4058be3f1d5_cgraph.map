@@ -1,0 +1,7 @@
+<map id="souffle::RamLogRelationTimer::print" name="souffle::RamLogRelationTimer::print">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_relation.html#a445819695b0b607dd8605137edc69971" title="Get name. " alt="" coords="306,5,463,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_relation_statement.html#a77d30eb0482a72bef77c865a91d14871" title="Get RAM relation. " alt="" coords="272,71,497,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_statement.html#a38fe9c69b37eeecc6422d98a35b74ba4" title="Print RAM node. " alt="" coords="299,136,471,177"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a06f428910159c119c1dcdcab76ab7dfa" title="Stringify a string using escapes for escape, newline, tab, double&#45;quotes and semicolons. " alt="" coords="321,202,449,229"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a0fff2be077dd5d1105f3a6e718339f2f" title="A utility printing a given value multiple times. " alt="" coords="329,253,440,279"/>
+</map>

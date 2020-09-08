@@ -1,0 +1,5 @@
+<map id="souffle::AstProgram::setClauses" name="souffle::AstProgram::setClauses">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_program.html#a36a9cf206241d64c1dabe532026fc3ae" title="Add a clause. " alt="" coords="204,5,355,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="204,71,355,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_program.html#a4dd4bfc7c0761e3d05412099256ced4f" title="Remove a directive. " alt="" coords="204,136,355,177"/>
+</map>

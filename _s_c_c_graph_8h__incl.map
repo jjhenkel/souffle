@@ -1,0 +1,18 @@
+<map id="ast/analysis/SCCGraph.h" name="ast/analysis/SCCGraph.h">
+<area shape="rect" id="node2" href="$_graph_utils_8h.html" title="GraphUtils.h" alt="" coords="781,304,883,331"/>
+<area shape="rect" id="node18" href="$ast_2_relation_8h.html" title="ast/Relation.h" alt="" coords="1893,155,2003,181"/>
+<area shape="rect" id="node39" href="$ast_2analysis_2_analysis_8h.html" title="ast/analysis/Analysis.h" alt="" coords="949,155,1120,181"/>
+<area shape="rect" id="node40" href="$_i_o_type_8h.html" title="ast/analysis/IOType.h" alt="" coords="1013,80,1173,107"/>
+<area shape="rect" id="node41" href="$_precedence_graph_8h.html" title="ast/analysis/PrecedenceGraph.h" alt="" coords="1198,80,1429,107"/>
+<area shape="rect" id="node3" href="$_file_util_8h.html" title="souffle/utility/FileUtil.h" alt="" coords="498,379,667,405"/>
+<area shape="rect" id="node19" href="$_relation_tag_8h.html" title="RelationTag.h" alt="" coords="1924,229,2033,256"/>
+<area shape="rect" id="node27" href="$_attribute_8h.html" title="ast/Attribute.h" alt="" coords="1600,229,1715,256"/>
+<area shape="rect" id="node28" href="$ast_2_node_8h.html" title="ast/Node.h" alt="" coords="1841,304,1933,331"/>
+<area shape="rect" id="node29" href="$_src_location_8h.html" title="parser/SrcLocation.h" alt="" coords="1644,379,1799,405"/>
+<area shape="rect" id="node32" href="$_qualified_name_8h.html" title="ast/QualifiedName.h" alt="" coords="2417,304,2572,331"/>
+<area shape="rect" id="node33" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="2329,379,2524,405"/>
+<area shape="rect" id="node35" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="2794,453,2969,495"/>
+<area shape="rect" id="node37" href="$ast_2utility_2_node_mapper_8h.html" title="ast/utility/NodeMapper.h" alt="" coords="3001,229,3183,256"/>
+<area shape="rect" id="node20" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="3004,304,3180,331"/>
+<area shape="rect" id="node21" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="3095,379,3198,405"/>
+</map>

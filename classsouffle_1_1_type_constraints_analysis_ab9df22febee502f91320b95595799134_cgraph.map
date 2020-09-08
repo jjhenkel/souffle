@@ -1,0 +1,12 @@
+<map id="souffle::TypeConstraintsAnalysis::iterateOverAtom" name="souffle::TypeConstraintsAnalysis::iterateOverAtom">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_atom.html#a9c726c597d7921245dd97dcc72b8aeed" title="Return arguments. " alt="" coords="495,5,726,32"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#ab18cbb3adc2ab328de0db30a3fddf7e0" title="Returns the relation referenced by the given atom. " alt="" coords="250,56,433,83"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_type_environment.html#ada544cc106c8c80c9120e2c1d1424ebf" title="souffle::TypeEnvironment\l::getType" alt="" coords="248,107,435,149"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_type_environment.html#a5ead83575e9abfebb3a0b180a33a7d96" title="souffle::TypeEnvironment\l::isType" alt="" coords="248,173,435,214"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#a850ddc94302e9b170a98729a22a4c8fa" title="Applies a function to each element of a vector and returns the results. " alt="" coords="290,239,393,265"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="985,60,1132,87"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_atom.html#a2fcd569fa7d8ed8c0c2dfd0d1c362e50" title="Return qualified name. " alt="" coords="483,56,739,83"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="537,107,685,133"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="810,56,914,83"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="787,107,937,149"/>
+</map>

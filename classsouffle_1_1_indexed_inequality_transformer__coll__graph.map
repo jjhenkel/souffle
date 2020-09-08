@@ -1,0 +1,5 @@
+<map id="souffle::IndexedInequalityTransformer" name="souffle::IndexedInequalityTransformer">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_transformer.html" title="RamTransformer &#160;abstract transformer class for a translation unit " alt="" coords="5,388,188,509"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_index_analysis.html" title="{souffle::RamIndexAnalysis\n||+ getIndexes()\l+ getIndexes()\l+ getSearchSignature()\l+ getSearchSignature()\l+ getSearchSignature()\l+ getSearchSignature()\l+ isTotalSignature()\l+ print()\l+ RamIndexAnalysis()\l+ run()\l}" alt="" coords="213,344,407,553"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_analysis.html" title="Abstract class for a RAM Analysis. " alt="" coords="101,145,260,281"/>
+</map>

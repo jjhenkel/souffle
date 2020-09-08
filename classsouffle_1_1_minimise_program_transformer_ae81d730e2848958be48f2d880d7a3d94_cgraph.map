@@ -1,0 +1,6 @@
+<map id="souffle::MinimiseProgramTransformer::reduceClauseBodies" name="souffle::MinimiseProgramTransformer::reduceClauseBodies">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="335,5,445,32"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="325,56,455,83"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="293,107,487,149"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="315,173,465,214"/>
+</map>

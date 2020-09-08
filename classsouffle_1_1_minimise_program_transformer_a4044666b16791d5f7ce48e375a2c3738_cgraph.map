@@ -1,0 +1,5 @@
+<map id="souffle::MinimiseProgramTransformer::removeRedundantClauses" name="souffle::MinimiseProgramTransformer::removeRedundantClauses">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="322,5,431,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="280,57,473,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="301,122,452,163"/>
+</map>

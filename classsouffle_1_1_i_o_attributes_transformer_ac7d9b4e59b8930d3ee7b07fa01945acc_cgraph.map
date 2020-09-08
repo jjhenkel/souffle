@@ -1,0 +1,14 @@
+<map id="souffle::IOAttributesTransformer::setAttributeNames" name="souffle::IOAttributesTransformer::setAttributeNames">
+<area shape="rect" id="node2" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="525,5,688,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="284,57,477,98"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_relation.html#ae27800d5845e8ac6df95b20bfc51aecf" title="Get relation attributes. " alt="" coords="533,122,681,163"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_program.html#ae84a2ab777b8766301dca51b3e999303" title="Return relation directives. " alt="" coords="531,187,682,229"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="284,227,477,269"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="307,293,455,320"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#abe4e3f19879707216a2758b03f4e2deb" title="Creates an object to be forwarded to some output stream for printing sequences of elements interspers..." alt="" coords="331,344,430,371"/>
+<area shape="rect" id="node13" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="318,395,443,421"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="527,57,686,98"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="736,195,883,221"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="555,253,659,280"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="531,305,682,346"/>
+</map>

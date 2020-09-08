@@ -1,0 +1,18 @@
+<map id="souffle::profile::Tui::runCommand" name="souffle::profile::Tui::runCommand">
+<area shape="rect" id="node2" href="$classsouffle_1_1profile_1_1_output_processor.html#a949dcbd9624c108584c3ac5cad32a448" title="souffle::profile::Output\lProcessor::getRelTable" alt="" coords="211,5,379,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1profile_1_1_output_processor.html#aa996994e1685ee24446556d98b8c7ae7" title="souffle::profile::Output\lProcessor::getRulTable" alt="" coords="211,71,379,112"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1profile_1_1_input_reader.html#a4c496c68f943db0022338e4a46111551" title="souffle::profile::InputReader\l::hasReceivedInput" alt="" coords="195,136,396,177"/>
+<area shape="rect" id="node6" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="228,202,363,229"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1profile_1_1_table.html#ac99e71fd2b566a2e68a72da291a86aa5" title="souffle::profile::Table\l::addRow" alt="" coords="444,39,601,80"/>
+<area shape="rect" id="node7" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="451,227,594,254"/>
+<area shape="rect" id="node8" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="649,177,800,203"/>
+<area shape="rect" id="node16" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="848,278,1053,305"/>
+<area shape="rect" id="node9" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="883,161,1019,203"/>
+<area shape="rect" id="node17" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="878,227,1023,254"/>
+<area shape="rect" id="node10" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1103,96,1288,137"/>
+<area shape="rect" id="node11" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1101,161,1289,203"/>
+<area shape="rect" id="node15" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1120,227,1271,268"/>
+<area shape="rect" id="node12" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="1564,132,1728,173"/>
+<area shape="rect" id="node13" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="1337,191,1516,232"/>
+<area shape="rect" id="node14" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="1578,197,1714,239"/>
+</map>

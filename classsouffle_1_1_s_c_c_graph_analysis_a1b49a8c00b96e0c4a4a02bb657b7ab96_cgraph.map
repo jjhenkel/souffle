@@ -1,0 +1,4 @@
+<map id="souffle::SCCGraphAnalysis::getInternalRelationsWithExternalSuccessors" name="souffle::SCCGraphAnalysis::getInternalRelationsWithExternalSuccessors">
+<area shape="rect" id="node2" href="$classsouffle_1_1_s_c_c_graph_analysis.html#ab4fc4459ec21b0f3a3b5e53e2fec9a59" title="Get all internal relations of a given SCC. " alt="" coords="299,5,493,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_precedence_graph_analysis.html#a12efc4ad0a132a66a0b622c58f71e111" title="souffle::PrecedenceGraph\lAnalysis::graph" alt="" coords="302,71,490,112"/>
+</map>

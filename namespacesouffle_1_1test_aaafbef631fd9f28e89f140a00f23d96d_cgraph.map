@@ -1,0 +1,13 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_type_environment.html#a2ecbb236148361513347516945fd8f3b" title="create type in this environment " alt="" coords="203,5,390,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_type_environment.html#ada544cc106c8c80c9120e2c1d1424ebf" title="souffle::TypeEnvironment\l::getType" alt="" coords="203,71,390,112"/>
+<area shape="rect" id="node4" href="$namespacesouffle_1_1test.html#a843b88cc3d9195f6a4f8b630dac9adcb" title="souffle::test::isNotSubtypeOf" alt="" coords="192,137,401,163"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a8cc19c66d9d13ce64e65f14dcabb43b3" title="Determines whether type a is a subtype of type b. " alt="" coords="449,162,603,189"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#ab2822ded4e7fd1466479b3fd6a1345a0" title="A utility function enabling the creation of a vector with a fixed set of elements within a single exp..." alt="" coords="233,238,361,265"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a14b5f9eb9ec09c40e558b242e75de872" title="A generic test checking whether all elements within a container satisfy a certain predicate..." alt="" coords="964,117,1075,143"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a34f8eecb81c090fca9e58d3357b63ed9" title="A generic test checking whether any elements within a container satisfy a certain predicate..." alt="" coords="715,137,833,163"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_type.html#a2bc9172d0ce6390a7960b24b16172c79" title="souffle::Type::getTypeEnvironment" alt="" coords="651,187,897,214"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#a56f7e0bb6f22aecf27c01b2365d4316f" title="Determines whether the given type is a sub&#45;type of the given root type. " alt="" coords="695,238,853,265"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_subset_type.html#ac5c52e503cbce42370d6ada3f050773d" title="souffle::SubsetType\l::getBaseType" alt="" coords="945,197,1093,239"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_union_type.html#a0175bce933a70c1d3691114860ac17fc" title="souffle::UnionType\l::getElementTypes" alt="" coords="948,263,1091,304"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="souffle::AstExecutionOrder::clone" name="souffle::AstExecutionOrder::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_execution_order.html#a1efe606069fb90ea58426f9071b17fdc" title="souffle::AstExecutionOrder\l::AstExecutionOrder" alt="" coords="251,5,445,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="248,71,448,98"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_node.html#a38a857cd303c757a73992769de815e08" title="Set source location for the AstNode. " alt="" coords="496,13,695,39"/>
+</map>

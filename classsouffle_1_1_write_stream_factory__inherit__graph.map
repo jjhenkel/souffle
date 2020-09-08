@@ -1,0 +1,8 @@
+<map id="souffle::WriteStreamFactory" name="souffle::WriteStreamFactory">
+<area shape="rect" id="node2" href="$classsouffle_1_1_write_cout_c_s_v_factory.html" title="{souffle::WriteCoutCSVFactory\n||+ getName()\l+ getWriter()\l+ ~WriteCoutCSVFactory()\l}" alt="" coords="5,167,216,274"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_write_cout_j_s_o_n_factory.html" title="{souffle::WriteCoutJSONFactory\n||+ getName()\l+ getWriter()\l+ ~WriteCoutJSONFactory()\l}" alt="" coords="241,167,458,274"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_write_cout_print_size_factory.html" title="{souffle::WriteCoutPrintSize\lFactory\n||+ getName()\l+ getWriter()\l+ ~WriteCoutPrintSizeFactory()\l}" alt="" coords="483,160,709,281"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_write_file_c_s_v_factory.html" title="{souffle::WriteFileCSVFactory\n||+ getName()\l+ getWriter()\l+ ~WriteFileCSVFactory()\l}" alt="" coords="733,167,936,274"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_write_file_j_s_o_n_factory.html" title="{souffle::WriteFileJSONFactory\n||+ getName()\l+ getWriter()\l+ ~WriteFileJSONFactory()\l}" alt="" coords="961,167,1170,274"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_write_s_q_lite_factory.html" title="{souffle::WriteSQLiteFactory\n||+ getName()\l+ getWriter()\l+ ~WriteSQLiteFactory()\l}" alt="" coords="1195,167,1392,274"/>
+</map>

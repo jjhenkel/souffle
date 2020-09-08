@@ -1,0 +1,9 @@
+<map id="souffle::AstAlgebraicDataType::clone" name="souffle::AstAlgebraicDataType::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_algebraic_data_type.html#a3cce2ab57fce8c87600bce933f94783d" title="souffle::AstAlgebraicData\lType::AstAlgebraicDataType" alt="" coords="264,5,467,47"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="311,71,420,98"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_type.html#a51fb73dfb862fd5c9d1c0754d99f81a8" title="Return type name. " alt="" coords="240,122,491,149"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="265,173,465,199"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_type.html#a69d9ac0cc659cc986ddda93de165dd97" title="souffle::AstType::AstType" alt="" coords="539,13,723,39"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_node.html#aec7e7384fa4ec1ec83d76882849acffd" title="souffle::AstNode::AstNode" alt="" coords="771,13,963,39"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_node.html#a54d46554a24c9223d28dccc8e8dc51c5" title="souffle::AstNode::\l~AstNode" alt="" coords="1011,5,1148,47"/>
+</map>

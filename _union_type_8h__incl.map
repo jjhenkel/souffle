@@ -1,0 +1,8 @@
+<map id="ast/UnionType.h" name="ast/UnionType.h">
+<area shape="rect" id="node2" href="$ast_2_node_8h.html" title="ast/Node.h" alt="" coords="266,155,358,181"/>
+<area shape="rect" id="node3" href="$_src_location_8h.html" title="parser/SrcLocation.h" alt="" coords="336,229,491,256"/>
+<area shape="rect" id="node10" href="$_qualified_name_8h.html" title="ast/QualifiedName.h" alt="" coords="924,155,1079,181"/>
+<area shape="rect" id="node11" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="717,229,912,256"/>
+<area shape="rect" id="node21" href="$_type_8h.html" title="ast/Type.h" alt="" coords="627,80,715,107"/>
+<area shape="rect" id="node16" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="683,304,858,345"/>
+</map>

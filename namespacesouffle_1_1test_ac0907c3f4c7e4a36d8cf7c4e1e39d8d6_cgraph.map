@@ -1,0 +1,8 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_piggy_list.html#a59aa5a318f66a562ee39fe5dd80f762a" title="souffle::PiggyList\l::append" alt="" coords="208,5,341,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_piggy_list.html#a13c68de26380f7c0b80d7162da1d9bea" title="souffle::PiggyList\l::begin" alt="" coords="208,71,341,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_piggy_list.html#a2d163894b8b8ef9874f9fa0f85efb56c" title="Clear all elements from the PiggyList. " alt="" coords="208,136,341,177"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_piggy_list.html#a3bcc307ceebf100fbebedc0397af820a" title="souffle::PiggyList::end" alt="" coords="192,202,357,229"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_piggy_list.html#a42d37008bbace7c10f6448824a35aa5b" title="Retrieve a reference to the stored value at index. " alt="" coords="193,253,356,279"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_piggy_list.html#a746c46251639906bcfcc16bbd113b0d8" title="Well, returns the number of nodes exist within the list + number of nodes queued to be inserted The r..." alt="" coords="208,304,341,345"/>
+</map>

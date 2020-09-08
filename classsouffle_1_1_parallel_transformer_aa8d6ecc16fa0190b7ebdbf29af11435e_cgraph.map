@@ -1,0 +1,22 @@
+<map id="souffle::ParallelTransformer::parallelizeOperations" name="souffle::ParallelTransformer::parallelizeOperations">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_transformer.html#a09ebbf557165cbdebf5d95d5124f709b" title="apply the transformer to a translation unit &#160;translationUnit that will be transformed. " alt="" coords="283,414,465,455"/>
+<area shape="rect" id="node17" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="319,552,429,579"/>
+<area shape="rect" id="node18" href="$namespacesouffle.html#a7fba43e03f480ca372449b103dfc9a2f" title="Creates a node mapper based on a corresponding lambda expression. " alt="" coords="253,603,495,629"/>
+<area shape="rect" id="node19" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="290,799,458,825"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="563,5,725,32"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="581,56,707,83"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ram_translation_unit.html#ab464bb1f13b9a284e54b9150582c1b97" title="get the RAM Program of the translation unit " alt="" coords="543,107,745,149"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a1c65551944c7ecf6f44ec851b49bdbb0" title="souffle::now" alt="" coords="593,173,695,200"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ram_transformer.html#a10a0d3a003094ad4a8de96b968d26e29" title="transform the translation unit / used by apply &#160;translationUnit that will be transformed. " alt="" coords="553,225,735,266"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ram_translation_unit.html#adc388ca999ac2b1a8b584f517e60d930" title="throw away all alive analyses of the translation unit " alt="" coords="543,290,745,331"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ram_transformer.html#ac8533b87fb70032e240b5fc8c40dea33" title="get name of the transformer " alt="" coords="553,355,735,397"/>
+<area shape="rect" id="node10" href="$namespacesouffle_1_1test.html#a10453085bc4f71f32dcda443d4b3c446" title="souffle::test::count" alt="" coords="573,421,715,448"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ram_translation_unit.html#aa12b4d374b978ea3dea421c11fd55478" title="get debug report " alt="" coords="543,473,745,514"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_debug_report.html#a5e9ee78bb3c716e38cb79b485e28eb39" title="souffle::DebugReport\l::startSection" alt="" coords="565,538,723,579"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_debug_report.html#a555b97488e24480a728dd1782eafa9db" title="souffle::DebugReport\l::addCodeSection" alt="" coords="565,603,723,645"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_debug_report.html#a7e549c285244587078499c95b590d9a1" title="souffle::DebugReport\l::endSection" alt="" coords="565,669,723,710"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_ram_translation_unit.html#a34cc65ccb9f56403c617ed235f8100ab" title="get error report " alt="" coords="543,734,745,775"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_error_report.html#a43341b617858ddfafb8f893e32d9bd6e" title="souffle::ErrorReport\l::getNumErrors" alt="" coords="571,799,717,841"/>
+<area shape="rect" id="node20" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="560,865,728,906"/>
+<area shape="rect" id="node21" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="793,865,984,906"/>
+</map>

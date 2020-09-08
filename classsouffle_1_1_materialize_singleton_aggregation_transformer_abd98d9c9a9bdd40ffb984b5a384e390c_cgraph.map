@@ -1,0 +1,7 @@
+<map id="souffle::MaterializeSingletonAggregationTransformer::findUniqueVariableName" name="souffle::MaterializeSingletonAggregationTransformer::findUniqueVariableName">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_variable.html#a2b73a95c7b59624d956dee0ed4e13884" title="Return variable name. " alt="" coords="321,5,469,47"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="332,71,457,98"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="311,122,479,149"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="527,115,695,156"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="743,115,933,156"/>
+</map>

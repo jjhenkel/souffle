@@ -1,0 +1,34 @@
+<map id="ast/transform/MagicSet.h" name="ast/transform/MagicSet.h">
+<area shape="rect" id="node2" href="$_atom_8h.html" title="ast/Atom.h" alt="" coords="3131,692,3224,719"/>
+<area shape="rect" id="node13" href="$_qualified_name_8h.html" title="ast/QualifiedName.h" alt="" coords="2935,774,3089,801"/>
+<area shape="rect" id="node19" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="2257,931,2431,972"/>
+<area shape="rect" id="node30" href="$_binary_constraint_8h.html" title="ast/BinaryConstraint.h" alt="" coords="2034,617,2201,644"/>
+<area shape="rect" id="node34" href="$_clause_8h.html" title="ast/Clause.h" alt="" coords="3303,617,3406,644"/>
+<area shape="rect" id="node36" href="$ast_2_translation_unit_8h.html" title="ast/TranslationUnit.h" alt="" coords="5055,468,5211,495"/>
+<area shape="rect" id="node45" href="$_pipeline_8h.html" title="ast/transform/Pipeline.h" alt="" coords="2124,80,2303,107"/>
+<area shape="rect" id="node48" href="$ast_2transform_2_transformer_8h.html" title="ast/transform/Transformer.h" alt="" coords="4777,393,4980,420"/>
+<area shape="rect" id="node50" href="$_remove_redundant_relations_8h.html" title="ast/transform/RemoveRedundant\lRelations.h" alt="" coords="5697,304,5933,345"/>
+<area shape="rect" id="node3" href="$_argument_8h.html" title="ast/Argument.h" alt="" coords="4148,774,4271,801"/>
+<area shape="rect" id="node4" href="$ast_2_node_8h.html" title="ast/Node.h" alt="" coords="4118,856,4210,883"/>
+<area shape="rect" id="node5" href="$_src_location_8h.html" title="parser/SrcLocation.h" alt="" coords="4041,938,4196,965"/>
+<area shape="rect" id="node12" href="$_literal_8h.html" title="ast/Literal.h" alt="" coords="3924,774,4023,801"/>
+<area shape="rect" id="node14" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="3417,856,3612,883"/>
+<area shape="rect" id="node24" href="$ast_2utility_2_node_mapper_8h.html" title="ast/utility/NodeMapper.h" alt="" coords="1868,774,2049,801"/>
+<area shape="rect" id="node25" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="1196,856,1372,883"/>
+<area shape="rect" id="node26" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="651,938,754,965"/>
+<area shape="rect" id="node31" href="$ast_2_constraint_8h.html" title="ast/Constraint.h" alt="" coords="3796,692,3921,719"/>
+<area shape="rect" id="node32" href="$_binary_constraint_ops_8h.html" title="souffle/BinaryConstraint\lOps.h" alt="" coords="1209,767,1388,808"/>
+<area shape="rect" id="node33" href="$_type_attribute_8h.html" title="souffle/TypeAttribute.h" alt="" coords="901,856,1070,883"/>
+<area shape="rect" id="node35" href="$_execution_plan_8h.html" title="ast/ExecutionPlan.h" alt="" coords="3355,692,3506,719"/>
+<area shape="rect" id="node37" href="$_global_8h.html" title="Global.h" alt="" coords="5111,938,5187,965"/>
+<area shape="rect" id="node38" href="$ast_2_program_8h.html" title="ast/Program.h" alt="" coords="2682,543,2795,569"/>
+<area shape="rect" id="node39" href="$ast_2analysis_2_analysis_8h.html" title="ast/analysis/Analysis.h" alt="" coords="5617,938,5788,965"/>
+<area shape="rect" id="node40" href="$_precedence_graph_8h.html" title="ast/analysis/PrecedenceGraph.h" alt="" coords="5461,856,5691,883"/>
+<area shape="rect" id="node41" href="$_s_c_c_graph_8h.html" title="ast/analysis/SCCGraph.h" alt="" coords="5359,774,5540,801"/>
+<area shape="rect" id="node42" href="$_sum_type_branches_8h.html" title="ast/analysis/SumTypeBranches.h" alt="" coords="5716,856,5951,883"/>
+<area shape="rect" id="node43" href="$analysis_2_type_8h.html" title="ast/analysis/Type.h" alt="" coords="4460,543,4607,569"/>
+<area shape="rect" id="node44" href="$_debug_report_8h.html" title="reports/DebugReport.h" alt="" coords="4767,938,4935,965"/>
+<area shape="rect" id="node46" href="$_debug_reporter_8h.html" title="ast/transform/DebugReporter.h" alt="" coords="2353,155,2575,181"/>
+<area shape="rect" id="node47" href="$ast_2transform_2_meta_8h.html" title="ast/transform/Meta.h" alt="" coords="4307,311,4466,338"/>
+<area shape="rect" id="node49" href="$_null_8h.html" title="ast/transform/Null.h" alt="" coords="3436,229,3588,256"/>
+</map>

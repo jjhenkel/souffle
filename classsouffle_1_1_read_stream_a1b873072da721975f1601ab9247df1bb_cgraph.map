@@ -1,0 +1,4 @@
+<map id="souffle::ReadStream::consumeChar" name="souffle::ReadStream::consumeChar">
+<area shape="rect" id="node2" href="$classsouffle_1_1_read_stream.html#afc068ffbae9187204c5173eaca91bfc6" title="Advance position in the string until first non&#45;whitespace character. " alt="" coords="207,5,373,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_read_stream.html#aee510be935308774bd7e9d7a3104d4eb" title="souffle::ReadStream\l::readNextTuple" alt="" coords="421,5,575,47"/>
+</map>

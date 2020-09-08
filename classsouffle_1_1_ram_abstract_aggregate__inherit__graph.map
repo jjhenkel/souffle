@@ -1,0 +1,6 @@
+<map id="souffle::RamAbstractAggregate" name="souffle::RamAbstractAggregate">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_aggregate.html" title="Aggregation function applied on some relation. " alt="" coords="47,263,217,413"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_index_aggregate.html" title="Indexed aggregation on a relation. " alt="" coords="250,263,457,413"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_parallel_aggregate.html" title="Parallel Aggregation function applied on some relation. " alt="" coords="5,469,224,575"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ram_parallel_index_aggregate.html" title="Aggregate over values of a relation using an index in parallel. " alt="" coords="249,461,477,583"/>
+</map>

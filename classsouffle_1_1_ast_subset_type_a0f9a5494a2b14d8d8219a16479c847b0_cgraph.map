@@ -1,0 +1,9 @@
+<map id="souffle::AstSubsetType::clone" name="souffle::AstSubsetType::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_subset_type.html#a3faae17322c369adc46fea2d89ee6de0" title="souffle::AstSubsetType\l::AstSubsetType" alt="" coords="263,5,433,47"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_subset_type.html#a805438559b76a1cf07dcfd2b963ccbf1" title="Return base type. " alt="" coords="263,71,433,112"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_type.html#a51fb73dfb862fd5c9d1c0754d99f81a8" title="Return type name. " alt="" coords="223,137,473,163"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="248,187,448,214"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_type.html#a69d9ac0cc659cc986ddda93de165dd97" title="souffle::AstType::AstType" alt="" coords="521,13,705,39"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_node.html#aec7e7384fa4ec1ec83d76882849acffd" title="souffle::AstNode::AstNode" alt="" coords="753,13,945,39"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_node.html#a54d46554a24c9223d28dccc8e8dc51c5" title="souffle::AstNode::\l~AstNode" alt="" coords="993,5,1131,47"/>
+</map>

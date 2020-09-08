@@ -1,0 +1,20 @@
+<map id="souffle::AstSemanticCheckerImpl::checkRecordType" name="souffle::AstSemanticCheckerImpl::checkRecordType">
+<area shape="rect" id="node2" href="$classsouffle_1_1_error_report.html#a699dc9231cef74ac54573e3c79de7143" title="Adds an error with the given message and location. " alt="" coords="315,56,461,97"/>
+<area shape="rect" id="node4" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="317,173,459,199"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_ast_record_type.html#aad6de4dd7821f7ae0cbca803df275f59" title="Get fields of record. " alt="" coords="303,224,473,265"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1_ast_type.html#a51fb73dfb862fd5c9d1c0754d99f81a8" title="Return type name. " alt="" coords="263,290,513,317"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_type_environment.html#a5ead83575e9abfebb3a0b180a33a7d96" title="souffle::TypeEnvironment\l::isType" alt="" coords="295,341,481,383"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_diagnostic_message.html#ad3fd6ab90856d9cdd9bbba3140440362" title="souffle::DiagnosticMessage\l::DiagnosticMessage" alt="" coords="561,5,761,47"/>
+<area shape="rect" id="node5" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="586,173,737,199"/>
+<area shape="rect" id="node13" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="809,239,1015,266"/>
+<area shape="rect" id="node6" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="844,173,980,215"/>
+<area shape="rect" id="node14" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="845,71,979,98"/>
+<area shape="rect" id="node15" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="839,122,985,149"/>
+<area shape="rect" id="node7" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1064,108,1249,149"/>
+<area shape="rect" id="node8" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1063,173,1251,215"/>
+<area shape="rect" id="node12" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1081,239,1232,280"/>
+<area shape="rect" id="node9" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="1525,144,1689,185"/>
+<area shape="rect" id="node10" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="1299,203,1477,244"/>
+<area shape="rect" id="node11" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="1539,209,1675,251"/>
+<area shape="rect" id="node17" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="588,274,735,301"/>
+</map>

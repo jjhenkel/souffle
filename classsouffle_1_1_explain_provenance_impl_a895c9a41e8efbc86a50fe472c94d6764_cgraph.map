@@ -1,0 +1,36 @@
+<map id="souffle::ExplainProvenanceImpl::measureRelation" name="souffle::ExplainProvenanceImpl::measureRelation">
+<area shape="rect" id="node2" href="$namespacesouffle_1_1test.html#aa6c5045991d8e1bae130ffb16b2c2255" title="souffle::test::duration" alt="" coords="271,5,432,32"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_explain_provenance_impl.html#a999338ed10bec10372a934d5a2111318" title="souffle::ExplainProvenance\lImpl::explain" alt="" coords="252,347,451,389"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_souffle_program.html#a8a5b114c5b6c8022c936a533248996e7" title="Get Relation by its name from relationMap, if relation not found, return a nullptr. " alt="" coords="761,318,936,359"/>
+<area shape="rect" id="node32" href="$classsouffle_1_1_symbol_table.html#a74e200201738bad69d948c014ec9db3e" title="Finds the index of a symbol in the table, giving an error if it&#39;s not found. " alt="" coords="527,755,685,797"/>
+<area shape="rect" id="node33" href="$namespacesouffle.html#a1c65551944c7ecf6f44ec851b49bdbb0" title="souffle::now" alt="" coords="301,464,402,491"/>
+<area shape="rect" id="node34" href="$namespacesouffle.html#aa3bd1d83dcab901258167a7892db39be" title="In C++20 there will be a new way to cast between types by reinterpreting bits (std::bit_cast), but as of January 2020 it is not yet supported. " alt="" coords="278,515,425,541"/>
+<area shape="rect" id="node35" href="$classsouffle_1_1_relation.html#a7943e499688e4c73e293ed9db53bc329" title="Get the number of tuples in a relation. " alt="" coords="271,565,432,592"/>
+<area shape="rect" id="node3" href="$namespacesouffle_1_1test.html#a10453085bc4f71f32dcda443d4b3c446" title="souffle::test::count" alt="" coords="535,5,677,32"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="541,275,671,301"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_explain_provenance.html#ada5bbe2ac7df64ac7b3f32df08a39051" title="Decode arguments from their ram representation and return as strings. " alt="" coords="507,377,705,418"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_souffle_program.html#a867427d49c4959daadc68de947914e5b" title="Execute a subroutine. " alt="" coords="519,442,693,483"/>
+<area shape="rect" id="node23" href="$classsouffle_1_1_relation.html#a8e8e6b38e1d621e9cccd365eaedbd7e1" title="Return the arity of a relation. " alt="" coords="539,625,673,666"/>
+<area shape="rect" id="node24" href="$classsouffle_1_1_relation.html#a8f1f622f85fe0c662f00c42d5416de14" title="Return the number of auxiliary attributes. " alt="" coords="539,690,673,731"/>
+<area shape="rect" id="node25" href="$namespacesouffle.html#ab4197fde9d6be59495c0c8b613de0129" title="Determines whether arguments of constraint are orderable. " alt="" coords="517,107,695,149"/>
+<area shape="rect" id="node26" href="$namespacesouffle.html#abe4e3f19879707216a2758b03f4e2deb" title="Creates an object to be forwarded to some output stream for printing sequences of elements interspers..." alt="" coords="557,173,655,200"/>
+<area shape="rect" id="node27" href="$classsouffle_1_1_symbol_table.html#a438d450330bc4128144f08c6ae0c4989" title="Find a symbol in the table by its index, note that this gives an error if the index is out of bounds..." alt="" coords="527,559,685,601"/>
+<area shape="rect" id="node30" href="$namespacesouffle.html#a673608e9453179d30f6607384f54463a" title="Splits a string given a delimiter. " alt="" coords="536,224,676,251"/>
+<area shape="rect" id="node31" href="$namespacesouffle.html#a399105b8de1698758c5b18bc9efca9fa" title="Converts symbolic representation of an operator to the operator. " alt="" coords="499,508,713,535"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="797,508,901,535"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1_relation.html#aafe66b5dd0bb775432f884bc47741a52" title="Get the symbol table of a relation. " alt="" coords="781,442,916,483"/>
+<area shape="rect" id="node10" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="984,508,1127,535"/>
+<area shape="rect" id="node11" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="1175,508,1325,535"/>
+<area shape="rect" id="node19" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1373,441,1579,468"/>
+<area shape="rect" id="node12" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1408,493,1544,534"/>
+<area shape="rect" id="node20" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="1409,559,1543,585"/>
+<area shape="rect" id="node21" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1403,609,1549,636"/>
+<area shape="rect" id="node13" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1628,427,1813,469"/>
+<area shape="rect" id="node14" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1627,493,1815,534"/>
+<area shape="rect" id="node18" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1645,558,1796,599"/>
+<area shape="rect" id="node15" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="2089,463,2253,505"/>
+<area shape="rect" id="node16" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="1863,522,2041,563"/>
+<area shape="rect" id="node17" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="2103,529,2239,570"/>
+<area shape="rect" id="node28" href="$structsouffle_1_1_lock.html#a0fe2edd3ac13a141851fa021716bae04" title="souffle::Lock::acquire" alt="" coords="769,693,929,720"/>
+<area shape="rect" id="node29" href="$classsouffle_1_1_symbol_table.html#ab9b012e60e61e149cfc430a9eccc20ea" title="souffle::SymbolTable\l::size" alt="" coords="770,559,927,601"/>
+</map>

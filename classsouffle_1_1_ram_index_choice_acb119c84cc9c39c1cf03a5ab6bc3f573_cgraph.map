@@ -1,0 +1,6 @@
+<map id="souffle::RamIndexChoice::RamIndexChoice" name="souffle::RamIndexChoice::RamIndexChoice">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_relation.html#aa2d201d636a8b01283b5996a56d7abb8" title="Get arity of relation. " alt="" coords="269,5,427,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_index_operation.html#ace310bad18356b42d1e7372b87618fbc" title="Get range pattern. " alt="" coords="246,71,450,112"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ram_relation_operation.html#a499c5f7c9562a0cfe16ee3668e19ca88" title="Get search relation. " alt="" coords="237,136,459,177"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="507,78,653,105"/>
+</map>

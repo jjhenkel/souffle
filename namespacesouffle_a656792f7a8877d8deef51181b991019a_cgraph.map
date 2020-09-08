@@ -1,0 +1,6 @@
+<map id="souffle::createAnnotatedClause" name="souffle::createAnnotatedClause">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="265,5,375,32"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="236,56,404,83"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="452,49,620,90"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="668,49,859,90"/>
+</map>

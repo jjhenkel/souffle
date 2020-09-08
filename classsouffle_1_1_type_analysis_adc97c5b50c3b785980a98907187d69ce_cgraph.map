@@ -1,0 +1,13 @@
+<map id="souffle::TypeAnalysis::TypeAnalysis" name="souffle::TypeAnalysis::TypeAnalysis">
+<area shape="rect" id="node2" href="$classsouffle_1_1_type_analysis.html#ad8b14d983a147434ebbbea66d4072229" title="print the analysis result in HTML format " alt="" coords="227,31,385,73"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_type_analysis.html#a37750304e3c3efc004294bbc934e8549" title="run analysis for a Ast translation unit " alt="" coords="212,97,400,124"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="463,5,626,32"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="448,57,641,98"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_program.html#aa04b430e385f40c6fe2bf7ad2ca31bb3" title="Return clauses. " alt="" coords="469,122,620,163"/>
+<area shape="rect" id="node8" href="$namespacesouffle.html#a656792f7a8877d8deef51181b991019a" title="souffle::createAnnotated\lClause" alt="" coords="453,187,636,229"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="700,129,847,156"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="719,187,828,213"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="689,237,857,264"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="905,230,1073,271"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="1121,230,1312,271"/>
+</map>

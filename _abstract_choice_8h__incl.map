@@ -1,0 +1,9 @@
+<map id="ram/AbstractChoice.h" name="ram/AbstractChoice.h">
+<area shape="rect" id="node2" href="$_condition_8h.html" title="ram/Condition.h" alt="" coords="1019,80,1146,107"/>
+<area shape="rect" id="node3" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="1153,155,1252,181"/>
+<area shape="rect" id="node5" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="663,304,809,331"/>
+<area shape="rect" id="node6" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="685,379,859,420"/>
+<area shape="rect" id="node4" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="1075,229,1272,256"/>
+<area shape="rect" id="node16" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="263,386,439,413"/>
+<area shape="rect" id="node17" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="37,468,139,495"/>
+</map>

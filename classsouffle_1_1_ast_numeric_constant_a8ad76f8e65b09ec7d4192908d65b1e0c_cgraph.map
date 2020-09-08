@@ -1,0 +1,6 @@
+<map id="souffle::AstNumericConstant::clone" name="souffle::AstNumericConstant::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_numeric_constant.html#a7543b9eaf208d8d29d60597971025a11" title="souffle::AstNumericConstant\l::AstNumericConstant" alt="" coords="261,5,469,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_constant.html#a096e202ad0e1a58d59d501ca999c8ec2" title="Get string representation of Constant. " alt="" coords="289,71,442,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="265,137,465,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_numeric_constant.html#ad55654c8c9b125d7c3c510992c9565d8" title="souffle::AstNumericConstant\l::getType" alt="" coords="261,188,469,229"/>
+</map>

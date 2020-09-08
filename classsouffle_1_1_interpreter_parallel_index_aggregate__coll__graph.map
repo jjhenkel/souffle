@@ -1,0 +1,12 @@
+<map id="souffle::InterpreterParallelIndexAggregate" name="souffle::InterpreterParallelIndexAggregate">
+<area shape="rect" id="node2" href="$classsouffle_1_1_interpreter_index_aggregate.html" title="{souffle::InterpreterIndex\lAggregate\n||+ InterpreterIndexAggregate()\l}" alt="" coords="1153,653,1371,745"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_aggregate.html" title="{souffle::InterpreterAggregate\n||+ getExpr()\l+ InterpreterAggregate()\l}" alt="" coords="594,483,805,575"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_interpreter_node.html" title="This is a shadow node for a RamNode that is enriched for with local information so that the interpret..." alt="" coords="228,277,405,413"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ram_node.html" title="RamNode is a superclass for all RAM IR classes. " alt="" coords="196,5,339,200"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_interpreter_conditional_operation.html" title="Encode a conditional operation for the interpreter node. " alt="" coords="572,292,827,399"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_interpreter_nested_operation.html" title="Encode a nested operation for the interpreter node. " alt="" coords="851,292,1078,399"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_interpreter_super_operation.html" title="Interpreter node that utilizes the super instruction optimization should inherit from this class..." alt="" coords="1068,476,1285,583"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_interpreter_super_instruction.html" title="This class encodes information for a super&#45;instruction, which is used to eliminate Number and TupleEl..." alt="" coords="1103,277,1325,413"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_interpreter_view_operation.html" title="Interpreter operation that utilizes the index view from underlying relation should inherit from this ..." alt="" coords="1309,476,1521,583"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1_interpreter_abstract_parallel.html" title="Interpreter node that utilizes parallel execution should inherit from this class. ..." alt="" coords="1507,645,1705,752"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="souffle::TEST" name="souffle::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_sparse_array.html#ada402ab6495b1a3ea0dc93443e416811" title="An iterator referencing the position after the last non&#45;default element. " alt="" coords="160,5,344,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_sparse_array.html#a92cdadaddec7130dc7c7d0fc4bbb7239" title="Updates the value stored in cell i by the given value. " alt="" coords="175,57,329,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_sparse_array.html#a67fd4896e62751b7f3fa3bdcdfe3a819" title="An operation obtaining the smallest non&#45;default element such that it&#39;s index is greater the given ind..." alt="" coords="175,122,329,163"/>
+</map>

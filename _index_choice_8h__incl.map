@@ -1,0 +1,23 @@
+<map id="ram/IndexChoice.h" name="ram/IndexChoice.h">
+<area shape="rect" id="node2" href="$_abstract_choice_8h.html" title="ram/AbstractChoice.h" alt="" coords="912,304,1075,331"/>
+<area shape="rect" id="node3" href="$_condition_8h.html" title="ram/Condition.h" alt="" coords="1665,379,1791,405"/>
+<area shape="rect" id="node4" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="1960,453,2059,480"/>
+<area shape="rect" id="node6" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="1362,603,1507,629"/>
+<area shape="rect" id="node17" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="300,685,476,711"/>
+<area shape="rect" id="node26" href="$_expression_8h.html" title="ram/Expression.h" alt="" coords="1815,379,1950,405"/>
+<area shape="rect" id="node27" href="$_index_operation_8h.html" title="ram/IndexOperation.h" alt="" coords="2017,80,2181,107"/>
+<area shape="rect" id="node28" href="$_operation_8h.html" title="ram/Operation.h" alt="" coords="2785,379,2913,405"/>
+<area shape="rect" id="node30" href="$ram_2_relation_8h.html" title="ram/Relation.h" alt="" coords="3140,379,3257,405"/>
+<area shape="rect" id="node34" href="$_relation_operation_8h.html" title="ram/RelationOperation.h" alt="" coords="2771,155,2952,181"/>
+<area shape="rect" id="node42" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="3489,603,3684,629"/>
+<area shape="rect" id="node7" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="2427,677,2602,719"/>
+<area shape="rect" id="node5" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="1911,528,2108,555"/>
+<area shape="rect" id="node18" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="242,767,345,793"/>
+<area shape="rect" id="node37" href="$ram_2_utils_8h.html" title="ram/Utils.h" alt="" coords="1469,229,1563,256"/>
+<area shape="rect" id="node31" href="$_relation_tag_8h.html" title="RelationTag.h" alt="" coords="1735,603,1844,629"/>
+<area shape="rect" id="node35" href="$_tuple_operation_8h.html" title="ram/TupleOperation.h" alt="" coords="2556,229,2719,256"/>
+<area shape="rect" id="node36" href="$_nested_operation_8h.html" title="ram/NestedOperation.h" alt="" coords="2535,304,2710,331"/>
+<area shape="rect" id="node38" href="$_conjunction_8h.html" title="ram/Conjunction.h" alt="" coords="1149,304,1291,331"/>
+<area shape="rect" id="node39" href="$_true_8h.html" title="ram/True.h" alt="" coords="1555,304,1645,331"/>
+<area shape="rect" id="node40" href="$_undef_value_8h.html" title="ram/UndefValue.h" alt="" coords="1821,304,1960,331"/>
+</map>

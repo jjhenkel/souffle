@@ -1,0 +1,11 @@
+<map id="souffle::MagicSetTransformer::NormaliseDatabaseTransformer::partitionIO" name="souffle::MagicSetTransformer::NormaliseDatabaseTransformer::partitionIO">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="333,5,442,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="291,57,484,98"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="291,122,484,163"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="313,188,461,215"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="534,17,693,58"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="532,83,695,109"/>
+<area shape="rect" id="node8" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="561,151,665,177"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="538,202,689,243"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="743,209,889,236"/>
+</map>

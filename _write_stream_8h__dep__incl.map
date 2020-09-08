@@ -1,0 +1,8 @@
+<map id="include/souffle/io/WriteStream.h" name="include/souffle/io/WriteStream.h">
+<area shape="rect" id="node2" href="$_compiled_souffle_8h.html" title="include/souffle/Compiled\lSouffle.h" alt="" coords="5,273,188,315"/>
+<area shape="rect" id="node3" href="$_i_o_system_8h.html" title="include/souffle/io\l/IOSystem.h" alt="" coords="110,184,243,225"/>
+<area shape="rect" id="node4" href="$_interpreter_engine_8cpp.html" title="interpreter/InterpreterEngine.cpp" alt="" coords="278,281,513,307"/>
+<area shape="rect" id="node5" href="$_write_stream_c_s_v_8h.html" title="include/souffle/io\l/WriteStreamCSV.h" alt="" coords="105,95,248,136"/>
+<area shape="rect" id="node6" href="$_write_stream_j_s_o_n_8h.html" title="include/souffle/io\l/WriteStreamJSON.h" alt="" coords="272,95,423,136"/>
+<area shape="rect" id="node7" href="$_write_stream_s_q_lite_8h.html" title="include/souffle/io\l/WriteStreamSQLite.h" alt="" coords="499,95,660,136"/>
+</map>

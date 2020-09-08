@@ -1,0 +1,16 @@
+<map id="souffle::AstUserDefinedFunctorsTransformer::clone" name="souffle::AstUserDefinedFunctorsTransformer::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_user_defined_functors_transformer.html#a37f52d657c087b80b67ea4bc50d76d12" title="souffle::AstUserDefinedFunctors\lTransformer::transform" alt="" coords="283,286,512,327"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="617,5,721,32"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_program.html#a69ceb64c50b5e47518d505416e4579fa" title="Return functor declarations. " alt="" coords="579,57,759,98"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_error_report.html#a699dc9231cef74ac54573e3c79de7143" title="Adds an error with the given message and location. " alt="" coords="595,122,742,163"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_functor_declaration.html#a32abce5bc11dcccd25d8c405c0ba662a" title="Return number of arguments. " alt="" coords="560,187,777,229"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ast_functor_declaration.html#ad42a7c7b44eb0915fd9f44076c46f77f" title="Return type. " alt="" coords="560,253,777,294"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_ast_functor_declaration.html#a98f95cbd766d772e904bd4e65ba1387b" title="Get return type. " alt="" coords="560,318,777,359"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_functor_declaration.html#a19270332733f80c3395abab03ac4620b" title="Check whether functor is stateful. " alt="" coords="560,383,777,425"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="572,449,765,490"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_ast_translation_unit.html#aec4a1cc2e03286db878a5d2f0377f894" title="Return error report. " alt="" coords="572,514,765,555"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_ast_program.html#a0a658e411394dfc93da0ab36e06d0101" title="Apply the mapper to all child nodes. " alt="" coords="593,579,744,621"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="852,64,999,91"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_diagnostic_message.html#ad3fd6ab90856d9cdd9bbba3140440362" title="souffle::DiagnosticMessage\l::DiagnosticMessage" alt="" coords="825,122,1025,163"/>
+<area shape="rect" id="node15" href="$namespacesouffle.html#a850ddc94302e9b170a98729a22a4c8fa" title="Applies a function to each element of a vector and returns the results. " alt="" coords="874,587,977,613"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_piggy_list.html#a59aa5a318f66a562ee39fe5dd80f762a" title="souffle::PiggyList\l::append" alt="" coords="220,5,353,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_sparse_disjoint_set.html#a56160b019e1d2ab013e2917422d141c7" title="souffle::SparseDisjointSet\l::contains" alt="" coords="192,71,381,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_piggy_list.html#a42d37008bbace7c10f6448824a35aa5b" title="Retrieve a reference to the stored value at index. " alt="" coords="205,137,368,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_sparse_disjoint_set.html#af875c291ab89e9a46ca731ba8912e065" title="souffle::SparseDisjointSet\l::makeNode" alt="" coords="192,188,381,229"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_piggy_list.html#a746c46251639906bcfcc16bbd113b0d8" title="Well, returns the number of nodes exist within the list + number of nodes queued to be inserted The r..." alt="" coords="220,253,353,295"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_sparse_disjoint_set.html#ada2332d0aadc2afc2278a8a762f28d0e" title="souffle::SparseDisjointSet\l::size" alt="" coords="192,319,381,360"/>
+<area shape="rect" id="node8" href="$namespacesouffle_1_1test.html#a30ffe5d0413da2be54aaaeba51d2093d" title="souffle::test::TEST" alt="" coords="217,385,356,411"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_sparse_disjoint_set.html#aecffc96a1de5eaf0afe51415b29242e8" title="Retrieve dense encoding, adding it in if non&#45;existent. " alt="" coords="192,436,381,477"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_sparse_disjoint_set.html#a6ce935a6c3fd19d68ffc6d9f15da7c3d" title="souffle::SparseDisjointSet\l::unionNodes" alt="" coords="192,501,381,543"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_rule_body.html#ad554bfad4d052b10adafdf8aa28c19f2" title="souffle::RuleBody::atom" alt="" coords="429,359,605,386"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="455,410,580,437"/>
+</map>

@@ -1,0 +1,26 @@
+<map id="souffle::MagicSetTransformer::NormaliseDatabaseTransformer::transform" name="souffle::MagicSetTransformer::NormaliseDatabaseTransformer::transform">
+<area shape="rect" id="node2" href="$classsouffle_1_1_magic_set_transformer_1_1_normalise_database_transformer.html#af1b7a8c05dd5ab8ad6572faaed7763c1" title="Separates the IDB from the EDB, so that they are disjoint. " alt="" coords="291,274,528,330"/>
+<area shape="rect" id="node21" href="$classsouffle_1_1_ast_translation_unit.html#aa98655ac4e6bdd1a20d0c882c47508c8" title="Destroy all cached analyses of translation unit. " alt="" coords="313,547,506,588"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1_magic_set_transformer_1_1_normalise_database_transformer.html#a8499c195a3b655bb6fdf320f9f3b0f80" title="Normalise all arguments within each clause. " alt="" coords="291,466,528,522"/>
+<area shape="rect" id="node24" href="$classsouffle_1_1_magic_set_transformer_1_1_normalise_database_transformer.html#a4554f3c900ac75107681d95a034b312c" title="Partitions the input and output relations. " alt="" coords="291,171,528,227"/>
+<area shape="rect" id="node25" href="$classsouffle_1_1_magic_set_transformer_1_1_normalise_database_transformer.html#a4680854734e6445e8804e2825852e981" title="Extracts output relations into separate simple query relations, so that they are unused in any other ..." alt="" coords="291,354,528,410"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="883,386,992,413"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="593,69,786,111"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a4d9e53888640a9abfd7ea7c43715152a" title="Returns a vector of clauses in the program describing the relation with the given name..." alt="" coords="616,14,763,41"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="593,288,786,329"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="615,186,763,213"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_ast_qualified_name.html#ad0b3356de316d11e1782e83425b0e69a" title="prepend qualifiers " alt="" coords="593,353,785,395"/>
+<area shape="rect" id="node15" href="$namespacesouffle.html#a6923ebc66b61b5b1f9042a5192f10cb2" title="Rename all atoms hat appear in a node to a given name. " alt="" coords="606,470,773,497"/>
+<area shape="rect" id="node18" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="605,521,773,547"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="858,123,1017,164"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="856,71,1019,98"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_program.html#aa04b430e385f40c6fe2bf7ad2ca31bb3" title="Return clauses. " alt="" coords="862,5,1013,47"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="1094,247,1241,274"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="885,189,989,215"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="862,240,1013,281"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_ast_node.html#ad7c4f8ce0322749e72ed60f543c6fd93" title="Apply the mapper to all child nodes. " alt="" coords="851,487,1024,514"/>
+<area shape="rect" id="node17" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="873,437,1002,463"/>
+<area shape="rect" id="node19" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="853,539,1021,580"/>
+<area shape="rect" id="node20" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="1072,539,1263,580"/>
+<area shape="rect" id="node23" href="$classsouffle_1_1_ast_term.html#a5bf9145afa6b327c21e3393123c292c3" title="Get arguments. " alt="" coords="576,622,803,649"/>
+</map>

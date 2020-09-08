@@ -1,0 +1,6 @@
+<map id="souffle::WriteStreamJSON" name="souffle::WriteStreamJSON">
+<area shape="rect" id="node4" href="$classsouffle_1_1_write_cout_j_s_o_n.html" title="{souffle::WriteCoutJSON\n|# isFirst\l|+ WriteCoutJSON()\l+ ~WriteCoutJSON()\l# writeNextTuple()\l# writeNullary()\l}" alt="" coords="5,733,176,855"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_write_file_j_s_o_n.html" title="{souffle::WriteFileJSON\n|# file\l# isFirst\l|+ WriteFileJSON()\l+ ~WriteFileJSON()\l# writeNextTuple()\l# writeNullary()\l# getFileName()\l}" alt="" coords="200,719,363,869"/>
+<area shape="rect" id="node2" href="$classsouffle_1_1_write_stream.html" title="{souffle::WriteStream\n|# summary\l|+ writeAll()\l+ writeNext()\l+ writeSize()\l+ WriteStream()\l# outputADT()\l# outputRecord()\l# writeNext()\l# writeNextTuple()\l# writeNullary()\l# writeSize()\l}" alt="" coords="108,277,263,487"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_serialisation_stream.html" title="{souffle::SerialisationStream\l\&lt; true \&gt;\n|# arity\l# auxiliaryArity\l# recordTable\l# symbolTable\l# typeAttributes\l# types\l|+ ~SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l&#45; setupFromJson()\l}" alt="" coords="84,5,287,229"/>
+</map>

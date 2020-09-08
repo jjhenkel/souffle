@@ -1,0 +1,6 @@
+<map id="souffle::InterpreterProject" name="souffle::InterpreterProject">
+<area shape="rect" id="node2" href="$classsouffle_1_1_interpreter_node.html" title="This is a shadow node for a RamNode that is enriched for with local information so that the interpret..." alt="" coords="241,447,419,583"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_node.html" title="RamNode is a superclass for all RAM IR classes. " alt="" coords="196,189,339,384"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_interpreter_super_operation.html" title="Interpreter node that utilizes the super instruction optimization should inherit from this class..." alt="" coords="475,461,692,568"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_interpreter_super_instruction.html" title="This class encodes information for a super&#45;instruction, which is used to eliminate Number and TupleEl..." alt="" coords="583,219,805,355"/>
+</map>

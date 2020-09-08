@@ -1,0 +1,12 @@
+<map id="ram/UserDefinedOperator.h" name="ram/UserDefinedOperator.h">
+<area shape="rect" id="node2" href="$_abstract_operator_8h.html" title="ram/AbstractOperator.h" alt="" coords="1275,80,1449,107"/>
+<area shape="rect" id="node3" href="$_expression_8h.html" title="ram/Expression.h" alt="" coords="1147,155,1281,181"/>
+<area shape="rect" id="node4" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="1059,229,1158,256"/>
+<area shape="rect" id="node26" href="$_type_attribute_8h.html" title="souffle/TypeAttribute.h" alt="" coords="5,155,175,181"/>
+<area shape="rect" id="node27" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="1823,379,2018,405"/>
+<area shape="rect" id="node6" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="777,379,923,405"/>
+<area shape="rect" id="node7" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="1421,453,1596,495"/>
+<area shape="rect" id="node5" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="1002,304,1199,331"/>
+<area shape="rect" id="node17" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="663,461,839,487"/>
+<area shape="rect" id="node18" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="949,543,1052,569"/>
+</map>

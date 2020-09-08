@@ -1,0 +1,9 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$namespacesouffle_1_1test.html#a10453085bc4f71f32dcda443d4b3c446" title="souffle::test::count" alt="" coords="231,5,374,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_rel_interface.html#ac2b7125cd2accfaf5ea82265d42e0617" title="Insert tuple. " alt="" coords="192,57,413,98"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_min_index_selection.html#adb233b983fc7109512b63d3cdc57a2b4" title="insert a total order index " alt="" coords="206,122,399,163"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_interpreter_relation.html#aadf4e0a1fa2c21d88544b42622a7f168" title="Add the given tuple to this relation. " alt="" coords="461,57,657,98"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_interpreter_index.html#a2b14aad64a996e9664a135bad4cf843c" title="Inserts a tuple into this index. " alt="" coords="706,57,885,98"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_search_signature.html#add3b77aefc1bcd93923f42fdc6403973" title="souffle::SearchSignature\l::getFullSearchSignature" alt="" coords="469,122,649,163"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_search_signature.html#a949ec42a09c4f8aafd7c2286224c5cce" title="souffle::SearchSignature\l::arity" alt="" coords="705,122,885,163"/>
+</map>

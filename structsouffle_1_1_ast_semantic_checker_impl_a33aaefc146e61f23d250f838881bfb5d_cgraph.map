@@ -1,0 +1,34 @@
+<map id="souffle::AstSemanticCheckerImpl::checkRelation" name="souffle::AstSemanticCheckerImpl::checkRelation">
+<area shape="rect" id="node2" href="$classsouffle_1_1_error_report.html#a699dc9231cef74ac54573e3c79de7143" title="Adds an error with the given message and location. " alt="" coords="563,49,709,91"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_error_report.html#aafbdd26e7ec9ee493c536c48062659dd" title="Adds a warning with the given message and location. " alt="" coords="302,5,449,47"/>
+<area shape="rect" id="node5" href="$structsouffle_1_1_ast_semantic_checker_impl.html#a9306477885d164eac576a5d7d15bc6cc" title="souffle::AstSemanticChecker\lImpl::checkRelationDeclaration" alt="" coords="263,349,488,391"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_relation.html#ae27800d5845e8ac6df95b20bfc51aecf" title="Get relation attributes. " alt="" coords="562,115,710,156"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_relation.html#a54bd8f26d113f3141d49e926a030b52d" title="Return the arity of this relation. " alt="" coords="562,611,710,652"/>
+<area shape="rect" id="node25" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="536,677,736,703"/>
+<area shape="rect" id="node27" href="$namespacesouffle.html#a4d9e53888640a9abfd7ea7c43715152a" title="Returns a vector of clauses in the program describing the relation with the given name..." alt="" coords="302,415,449,442"/>
+<area shape="rect" id="node29" href="$classsouffle_1_1_ast_relation.html#a5db8b505969c2f75286a54875c4aaed1" title="Get qualified relation name. " alt="" coords="301,568,449,609"/>
+<area shape="rect" id="node30" href="$classsouffle_1_1_ast_relation.html#ad2025f014882934287fbf5bf05a9ced7" title="Get relation representation. " alt="" coords="301,633,450,675"/>
+<area shape="rect" id="node31" href="$classsouffle_1_1_ast_relation.html#a698481c4da3f71880cb2cf8c622a9cdc" title="Check for a relation qualifier. " alt="" coords="301,699,449,740"/>
+<area shape="rect" id="node32" href="$classsouffle_1_1_i_o_type.html#a802a8fbac8c20b25f4b85acb23c26bc0" title="souffle::IOType::isInput" alt="" coords="290,765,461,791"/>
+<area shape="rect" id="node33" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="313,815,438,842"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_diagnostic_message.html#ad3fd6ab90856d9cdd9bbba3140440362" title="souffle::DiagnosticMessage\l::DiagnosticMessage" alt="" coords="784,20,984,61"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ast_attribute.html#abd0d0fac076ada4cf65ebdabaeeca3cd" title="Return type name. " alt="" coords="560,245,712,287"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="584,311,688,338"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_program.html#a0eca120e93df25229f5a39e6895137c2" title="Return types. " alt="" coords="561,180,711,221"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_type_environment.html#a5f0050cc57fd20fdb2d52789d86d3147" title="souffle::TypeEnvironment\l::isPrimitiveType" alt="" coords="543,363,729,404"/>
+<area shape="rect" id="node13" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="565,559,707,586"/>
+<area shape="rect" id="node26" href="$classsouffle_1_1_ast_attribute.html#ae62393fafdf25f1ab1d4ac7727c0037d" title="Return attribute name. " alt="" coords="560,428,712,469"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="811,187,957,214"/>
+<area shape="rect" id="node14" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="809,559,959,586"/>
+<area shape="rect" id="node22" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1032,626,1237,653"/>
+<area shape="rect" id="node15" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1067,560,1203,601"/>
+<area shape="rect" id="node23" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="1067,458,1202,485"/>
+<area shape="rect" id="node24" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1062,509,1207,535"/>
+<area shape="rect" id="node16" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1287,495,1472,536"/>
+<area shape="rect" id="node17" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1285,560,1473,601"/>
+<area shape="rect" id="node21" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1304,625,1455,667"/>
+<area shape="rect" id="node18" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="1748,531,1912,572"/>
+<area shape="rect" id="node19" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="1521,589,1700,631"/>
+<area shape="rect" id="node20" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="1762,596,1898,637"/>
+<area shape="rect" id="node28" href="$classsouffle_1_1_ast_program.html#aa04b430e385f40c6fe2bf7ad2ca31bb3" title="Return clauses. " alt="" coords="561,493,711,535"/>
+</map>

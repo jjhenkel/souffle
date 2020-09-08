@@ -1,0 +1,6 @@
+<map id="souffle::WriteFileCSV" name="souffle::WriteFileCSV">
+<area shape="rect" id="node2" href="$classsouffle_1_1_write_stream_c_s_v.html" title="{souffle::WriteStreamCSV\n||# writeNextTupleCSV()\l# writeNextTupleElement()\l# WriteStreamCSV()\l}" alt="" coords="536,1005,735,1112"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_write_stream.html" title="{souffle::WriteStream\n||+ writeAll()\l+ writeNext()\l+ writeSize()\l+ WriteStream()\l# outputADT()\l# outputRecord()\l# writeNext()\l# writeNextTuple()\l# writeNullary()\l# writeSize()\l}" alt="" coords="493,733,647,943"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_serialisation_stream.html" title="{souffle::SerialisationStream\l\&lt; true \&gt;\n||+ ~SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l&#45; setupFromJson()\l}" alt="" coords="394,520,597,671"/>
+<area shape="rect" id="node7" href="$classjson11_1_1_json.html" title="{json11::Json\n||+ array_items()\l+ bool_value()\l+ dump()\l+ dump()\l+ has_shape()\l+ int_value()\l+ is_array()\l+ is_bool()\l+ is_null()\l+ is_number()\land 31 more...\l+ parse()\l+ parse()\l+ parse_multi()\l+ parse_multi()\l}" alt="" coords="433,160,558,443"/>
+</map>

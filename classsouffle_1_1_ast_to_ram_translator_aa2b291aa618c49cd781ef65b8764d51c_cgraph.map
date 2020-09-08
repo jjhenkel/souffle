@@ -1,0 +1,6 @@
+<map id="souffle::AstToRamTranslator::getInputDirectives" name="souffle::AstToRamTranslator::getInputDirectives">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_program.html#ae84a2ab777b8766301dca51b3e999303" title="Return relation directives. " alt="" coords="256,5,407,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_relation.html#a5db8b505969c2f75286a54875c4aaed1" title="Get qualified relation name. " alt="" coords="257,71,405,112"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a6b370fe6877c2777646f7fad4aad0cb2" title="souffle::unescape" alt="" coords="263,137,399,163"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="455,13,601,39"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="souffle::RemoveEmptyRelationsTransformer::removeEmptyRelationUses" name="souffle::RemoveEmptyRelationsTransformer::removeEmptyRelationUses">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_program.html#a36a9cf206241d64c1dabe532026fc3ae" title="Add a clause. " alt="" coords="360,5,511,47"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="625,63,735,90"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a6aa6d61f4a71ddbb2458d23ce24dbced" title="Returns a clause which contains head of the given clause. " alt="" coords="364,122,507,149"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="339,173,532,215"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="360,239,511,280"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="351,305,519,331"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_clause.html#aa943423c45971e70c837da5b88c8fc04" title="Obtains the execution plan associated to this clause or null if there is none. " alt="" coords="609,115,751,156"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_clause.html#a5a29a4f9ba5d0e4aea869cf71a6efbbf" title="Return the atom that represents the head of the clause. " alt="" coords="611,180,749,221"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="580,246,780,273"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="596,297,764,339"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="828,297,1019,339"/>
+</map>

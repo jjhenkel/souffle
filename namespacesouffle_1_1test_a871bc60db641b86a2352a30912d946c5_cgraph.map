@@ -1,0 +1,10 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1detail_1_1btree.html#a66253a0b67db1170ffd8d8b998689272" title="Determines whether the given element is a member of this tree. " alt="" coords="219,5,372,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1detail_1_1btree.html#af6b96ea0b32c7cbe5f39c1c8a572aba9" title="Locates the given key within this tree and returns an iterator referencing its position. " alt="" coords="219,71,372,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1detail_1_1_lambda_b_tree.html#ae2bdf268075f277e992ad88646a7cda0" title="Inserts the given key into this tree. " alt="" coords="192,136,399,177"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1detail_1_1btree.html#a0ebcdd3b433abfa1daa6f648d3c03c3c" title="souffle::detail::btree\l::printTree" alt="" coords="219,201,372,243"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1detail_1_1btree.html#a94faf32f8ee0537781512397d9bb442d" title="souffle::detail::btree\l::size" alt="" coords="219,267,372,308"/>
+<area shape="rect" id="node7" href="$namespacesouffle_1_1test.html#a30ffe5d0413da2be54aaaeba51d2093d" title="souffle::test::TEST" alt="" coords="226,333,365,359"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_rule_body.html#ad554bfad4d052b10adafdf8aa28c19f2" title="souffle::RuleBody::atom" alt="" coords="447,307,623,334"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="472,358,597,385"/>
+</map>

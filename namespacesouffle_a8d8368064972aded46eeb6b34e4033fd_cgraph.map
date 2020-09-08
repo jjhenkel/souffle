@@ -1,0 +1,33 @@
+<map id="souffle::validOverloads" name="souffle::validOverloads">
+<area shape="rect" id="node2" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="274,5,403,32"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a6502e279c40a34078cb9d93a465c7590" title="Filter a vector to exclude certain elements. " alt="" coords="275,56,402,83"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a8affaadaa53ee3984b294261de5e0ee4" title="souffle::functorBuiltIn" alt="" coords="257,107,420,133"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_term.html#a5bf9145afa6b327c21e3393123c292c3" title="Get arguments. " alt="" coords="225,157,452,184"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_intrinsic_functor.html#aa82d3fc73757161bf43fc0ce75a9c718" title="Get function. " alt="" coords="241,209,436,250"/>
+<area shape="rect" id="node8" href="$namespacesouffle.html#a3ee420750c5fe0cbd927daeafc9c73a2" title="souffle::getTypeAttribute" alt="" coords="247,275,430,301"/>
+<area shape="rect" id="node29" href="$classsouffle_1_1_type_analysis.html#ae54c7f752529cbe534c2cc52944c7768" title="Get the computed types for the given argument. " alt="" coords="259,326,418,367"/>
+<area shape="rect" id="node32" href="$namespacesouffle.html#a850ddc94302e9b170a98729a22a4c8fa" title="Applies a function to each element of a vector and returns the results. " alt="" coords="287,392,390,419"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="506,157,653,184"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="1023,252,1127,279"/>
+<area shape="rect" id="node22" href="$namespacesouffle.html#acb9889c6dd0b6c742bea931d7f4ab227" title="Check if the type is of a kind corresponding to the TypeAttribute. " alt="" coords="515,216,644,243"/>
+<area shape="rect" id="node10" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="1197,252,1340,279"/>
+<area shape="rect" id="node11" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="1388,252,1539,279"/>
+<area shape="rect" id="node19" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1587,185,1792,212"/>
+<area shape="rect" id="node12" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1621,237,1757,278"/>
+<area shape="rect" id="node20" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="1622,303,1757,329"/>
+<area shape="rect" id="node21" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1617,353,1762,380"/>
+<area shape="rect" id="node13" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1841,171,2027,213"/>
+<area shape="rect" id="node14" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1840,237,2028,278"/>
+<area shape="rect" id="node18" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1859,302,2009,343"/>
+<area shape="rect" id="node15" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="2303,207,2467,249"/>
+<area shape="rect" id="node16" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="2076,266,2255,307"/>
+<area shape="rect" id="node17" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="2317,273,2453,314"/>
+<area shape="rect" id="node23" href="$classsouffle_1_1_type_environment.html#afb7bfce80a9e7dabd4c46cbac13c201d" title="souffle::TypeEnvironment\l::getConstantType" alt="" coords="737,158,923,199"/>
+<area shape="rect" id="node24" href="$classsouffle_1_1_type.html#a2bc9172d0ce6390a7960b24b16172c79" title="souffle::Type::getTypeEnvironment" alt="" coords="707,224,953,251"/>
+<area shape="rect" id="node25" href="$namespacesouffle.html#a56f7e0bb6f22aecf27c01b2365d4316f" title="Determines whether the given type is a sub&#45;type of the given root type. " alt="" coords="751,107,909,133"/>
+<area shape="rect" id="node26" href="$namespacesouffle.html#a14b5f9eb9ec09c40e558b242e75de872" title="A generic test checking whether all elements within a container satisfy a certain predicate..." alt="" coords="1020,48,1131,75"/>
+<area shape="rect" id="node27" href="$classsouffle_1_1_subset_type.html#ac5c52e503cbce42370d6ada3f050773d" title="souffle::SubsetType\l::getBaseType" alt="" coords="1001,99,1149,141"/>
+<area shape="rect" id="node28" href="$classsouffle_1_1_union_type.html#a0175bce933a70c1d3691114860ac17fc" title="souffle::UnionType\l::getElementTypes" alt="" coords="1004,165,1147,206"/>
+<area shape="rect" id="node30" href="$classsouffle_1_1_type_analysis.html#a70bd76d1a3aa0875180cfcc4fd49fa24" title="Analyse the given clause and computes for each contained argument a set of potential types..." alt="" coords="500,326,659,367"/>
+<area shape="rect" id="node31" href="$classsouffle_1_1_ast_constraint_analysis.html#af22129c80f7cc902684a64c94887f3dd" title="Runs this constraint analysis on the given clause. " alt="" coords="721,326,939,367"/>
+</map>

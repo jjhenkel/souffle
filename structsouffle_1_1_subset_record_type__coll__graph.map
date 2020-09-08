@@ -1,0 +1,8 @@
+<map id="souffle::SubsetRecordType" name="souffle::SubsetRecordType">
+<area shape="rect" id="node2" href="$classsouffle_1_1_subset_type.html" title="A type being a subset of another type. " alt="" coords="208,1086,356,1193"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_type.html" title="An abstract base class for types to be covered within a type environment. " alt="" coords="191,821,373,1016"/>
+<area shape="rect" id="node11" href="$structsouffle_1_1_record_type.html" title="A record type combining a list of fields into a new, aggregated type. " alt="" coords="36,1079,184,1200"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_qualified_name.html" title="Qualified Name class defines fully/partially qualified names to identify objects in components..." alt="" coords="54,520,246,744"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_type_environment.html" title="A type environment is a set of types. " alt="" coords="270,505,489,759"/>
+<area shape="rect" id="node7" href="$structsouffle_1_1_type_set.html" title="A collection to represent sets of types. " alt="" coords="285,175,410,413"/>
+</map>

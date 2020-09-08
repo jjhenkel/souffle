@@ -1,0 +1,10 @@
+<map id="souffle::reorderAtoms" name="souffle::reorderAtoms">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_clause.html#a633dd9d64dd06d315d44c6d5cba17e1a" title="Add a literal to the body of the clause. " alt="" coords="218,5,357,47"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="452,30,561,57"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a6aa6d61f4a71ddbb2458d23ce24dbced" title="Returns a clause which contains head of the given clause. " alt="" coords="216,122,359,149"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_clause.html#a1b5199df425ba5839383a75c5bb8a254" title="Obtains a copy of the internally maintained body literals. " alt="" coords="218,199,357,240"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_clause.html#aa943423c45971e70c837da5b88c8fc04" title="Obtains the execution plan associated to this clause or null if there is none. " alt="" coords="435,81,578,123"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_clause.html#a5a29a4f9ba5d0e4aea869cf71a6efbbf" title="Return the atom that represents the head of the clause. " alt="" coords="437,147,576,188"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="407,213,607,239"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="433,263,580,290"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a8ba27d2caf5a777268d89eaf5cbfed2a" title="souffle::duration_in_ns" alt="" coords="192,19,361,45"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_symbol_table.html#af6b3faf17e9c79c484a1b4e801b372c9" title="Bulk insert symbols into the table, note that this operation is more efficient than repeated inserts ..." alt="" coords="198,95,355,137"/>
+<area shape="rect" id="node9" href="$namespacesouffle_1_1test.html#a4195ac46f2a48cfa9b911259a22c3ccb" title="souffle::test::now" alt="" coords="209,161,344,188"/>
+<area shape="rect" id="node3" href="$namespacesouffle_1_1test.html#a10453085bc4f71f32dcda443d4b3c446" title="souffle::test::count" alt="" coords="418,5,561,32"/>
+<area shape="rect" id="node5" href="$structsouffle_1_1_lock.html#a0fe2edd3ac13a141851fa021716bae04" title="souffle::Lock::acquire" alt="" coords="409,56,569,83"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_symbol_table.html#a0e9cd8797c462161176e1179c7561634" title="Convenience method to place a new symbol in the table, if it does not exist. " alt="" coords="411,107,568,149"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_symbol_table.html#ab9b012e60e61e149cfc430a9eccc20ea" title="souffle::SymbolTable\l::size" alt="" coords="411,173,568,214"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_symbol_table.html#af10a87da32dbca31c798a5e975dbe267" title="Empty constructor. " alt="" coords="617,107,775,149"/>
+</map>

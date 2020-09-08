@@ -1,0 +1,9 @@
+<map id="souffle::MagicSetTransformer::MagicSetCoreTransformer::transform" name="souffle::MagicSetTransformer::MagicSetCoreTransformer::transform">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="306,5,415,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_relation.html#ae27800d5845e8ac6df95b20bfc51aecf" title="Get relation attributes. " alt="" coords="507,49,655,90"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="264,107,457,149"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="287,173,435,200"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="704,115,851,141"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="529,115,633,141"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="505,166,656,207"/>
+</map>

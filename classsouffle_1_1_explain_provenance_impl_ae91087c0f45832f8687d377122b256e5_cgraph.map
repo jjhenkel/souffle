@@ -1,0 +1,30 @@
+<map id="souffle::ExplainProvenanceImpl::explainSubproof" name="souffle::ExplainProvenanceImpl::explainSubproof">
+<area shape="rect" id="node2" href="$classsouffle_1_1_explain_provenance_impl.html#a999338ed10bec10372a934d5a2111318" title="souffle::ExplainProvenance\lImpl::explain" alt="" coords="252,298,451,339"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_souffle_program.html#a8a5b114c5b6c8022c936a533248996e7" title="Get Relation by its name from relationMap, if relation not found, return a nullptr. " alt="" coords="761,268,936,310"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="541,225,671,252"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_explain_provenance.html#ada5bbe2ac7df64ac7b3f32df08a39051" title="Decode arguments from their ram representation and return as strings. " alt="" coords="507,327,705,368"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_souffle_program.html#a867427d49c4959daadc68de947914e5b" title="Execute a subroutine. " alt="" coords="519,392,693,434"/>
+<area shape="rect" id="node21" href="$classsouffle_1_1_relation.html#a8e8e6b38e1d621e9cccd365eaedbd7e1" title="Return the arity of a relation. " alt="" coords="539,575,673,616"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1_relation.html#a8f1f622f85fe0c662f00c42d5416de14" title="Return the number of auxiliary attributes. " alt="" coords="539,640,673,682"/>
+<area shape="rect" id="node23" href="$namespacesouffle.html#ab4197fde9d6be59495c0c8b613de0129" title="Determines whether arguments of constraint are orderable. " alt="" coords="517,58,695,99"/>
+<area shape="rect" id="node24" href="$namespacesouffle.html#abe4e3f19879707216a2758b03f4e2deb" title="Creates an object to be forwarded to some output stream for printing sequences of elements interspers..." alt="" coords="557,124,655,150"/>
+<area shape="rect" id="node25" href="$classsouffle_1_1_symbol_table.html#a438d450330bc4128144f08c6ae0c4989" title="Find a symbol in the table by its index, note that this gives an error if the index is out of bounds..." alt="" coords="527,510,685,551"/>
+<area shape="rect" id="node28" href="$namespacesouffle.html#a673608e9453179d30f6607384f54463a" title="Splits a string given a delimiter. " alt="" coords="536,174,676,201"/>
+<area shape="rect" id="node29" href="$namespacesouffle.html#a399105b8de1698758c5b18bc9efca9fa" title="Converts symbolic representation of an operator to the operator. " alt="" coords="499,458,713,485"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="797,458,901,485"/>
+<area shape="rect" id="node20" href="$classsouffle_1_1_relation.html#aafe66b5dd0bb775432f884bc47741a52" title="Get the symbol table of a relation. " alt="" coords="781,392,916,434"/>
+<area shape="rect" id="node8" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="984,458,1127,485"/>
+<area shape="rect" id="node9" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="1175,458,1325,485"/>
+<area shape="rect" id="node17" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1373,392,1579,418"/>
+<area shape="rect" id="node10" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1408,443,1544,484"/>
+<area shape="rect" id="node18" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="1409,509,1543,536"/>
+<area shape="rect" id="node19" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1403,560,1549,586"/>
+<area shape="rect" id="node11" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1628,378,1813,419"/>
+<area shape="rect" id="node12" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1627,443,1815,484"/>
+<area shape="rect" id="node16" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1645,508,1796,550"/>
+<area shape="rect" id="node13" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="2089,414,2253,455"/>
+<area shape="rect" id="node14" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="1863,472,2041,514"/>
+<area shape="rect" id="node15" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="2103,479,2239,520"/>
+<area shape="rect" id="node26" href="$structsouffle_1_1_lock.html#a0fe2edd3ac13a141851fa021716bae04" title="souffle::Lock::acquire" alt="" coords="769,576,929,602"/>
+<area shape="rect" id="node27" href="$classsouffle_1_1_symbol_table.html#ab9b012e60e61e149cfc430a9eccc20ea" title="souffle::SymbolTable\l::size" alt="" coords="770,510,927,551"/>
+</map>

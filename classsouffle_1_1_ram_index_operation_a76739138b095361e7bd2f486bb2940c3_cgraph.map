@@ -1,0 +1,11 @@
+<map id="souffle::RamIndexOperation::clone" name="souffle::RamIndexOperation::clone">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="310,5,419,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_nested_operation.html#afdbbe7da4e005809c1ca1531b06f65f0" title="Get nested operation. " alt="" coords="257,57,472,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_nested_operation.html#a680ef8e965daa0ff12930306cd6a48a5" title="Get profile text. " alt="" coords="257,122,472,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ram_tuple_operation.html#ae121c8c72d4b9dcb56fe2d69b6364720" title="Get identifier. " alt="" coords="263,187,466,229"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ram_index_operation.html#a4431474e04baff53b197fdbc5767a680" title="souffle::RamIndexOperation\l::RamIndexOperation" alt="" coords="263,253,467,294"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ram_relation.html#aa2d201d636a8b01283b5996a56d7abb8" title="Get arity of relation. " alt="" coords="552,187,709,229"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ram_index_operation.html#ace310bad18356b42d1e7372b87618fbc" title="Get range pattern. " alt="" coords="529,253,733,294"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_ram_relation_operation.html#a499c5f7c9562a0cfe16ee3668e19ca88" title="Get search relation. " alt="" coords="520,318,741,359"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="789,260,936,287"/>
+</map>

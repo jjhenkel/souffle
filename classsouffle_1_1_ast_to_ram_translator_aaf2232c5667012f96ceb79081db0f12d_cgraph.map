@@ -1,0 +1,12 @@
+<map id="souffle::AstToRamTranslator::getEvaluationArity" name="souffle::AstToRamTranslator::getEvaluationArity">
+<area shape="rect" id="node2" href="$classsouffle_1_1_auxiliary_arity.html#aa74996626bafb679d17a45d1989c9447" title="Returns the number of auxiliary parameters of an atom&#39;s relation. " alt="" coords="271,5,433,47"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="550,71,698,98"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ast_atom.html#a2fcd569fa7d8ed8c0c2dfd0d1c362e50" title="Return qualified name. " alt="" coords="496,122,752,149"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_ast_qualified_name.html#a3ab08192c891164b71b4289a3ec32cbe" title="convert to a string separated by fullstop " alt="" coords="256,173,448,215"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_auxiliary_arity.html#a44e9d1df17b6aa5b85813f6b7894fe83" title="Returns the number of auxiliary parameters of a relation. " alt="" coords="543,5,705,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="800,13,963,39"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="829,130,933,157"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="806,64,957,105"/>
+<area shape="rect" id="node8" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="1011,71,1157,98"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#abe4e3f19879707216a2758b03f4e2deb" title="Creates an object to be forwarded to some output stream for printing sequences of elements interspers..." alt="" coords="575,181,673,207"/>
+</map>

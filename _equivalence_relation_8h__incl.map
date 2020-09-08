@@ -1,0 +1,10 @@
+<map id="include/souffle/datastructure/EquivalenceRelation.h" name="include/souffle/datastructure/EquivalenceRelation.h">
+<area shape="rect" id="node2" href="$_ram_types_8h.html" title="souffle/RamTypes.h" alt="" coords="152,281,301,307"/>
+<area shape="rect" id="node8" href="$_lambda_b_tree_8h.html" title="souffle/datastructure\l/LambdaBTree.h" alt="" coords="1345,184,1503,225"/>
+<area shape="rect" id="node13" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="1745,363,1919,404"/>
+<area shape="rect" id="node22" href="$_parallel_util_8h.html" title="souffle/utility/Parallel\lUtil.h" alt="" coords="525,363,685,404"/>
+<area shape="rect" id="node29" href="$_piggy_list_8h.html" title="souffle/datastructure\l/PiggyList.h" alt="" coords="376,273,533,315"/>
+<area shape="rect" id="node30" href="$_union_find_8h.html" title="souffle/datastructure\l/UnionFind.h" alt="" coords="1461,95,1619,136"/>
+<area shape="rect" id="node9" href="$_b_tree_8h.html" title="souffle/datastructure\l/BTree.h" alt="" coords="1300,273,1457,315"/>
+<area shape="rect" id="node10" href="$_cache_util_8h.html" title="souffle/utility/CacheUtil.h" alt="" coords="901,370,1088,397"/>
+</map>

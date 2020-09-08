@@ -1,0 +1,7 @@
+<map id="souffle::AstType" name="souffle::AstType">
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_algebraic_data_type.html" title="Combination of types using sums and products. " alt="" coords="5,476,223,612"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_record_type.html" title="Record type class for record type declarations. " alt="" coords="247,461,416,627"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_subset_type.html" title="Defines subset type class. " alt="" coords="440,476,609,612"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_union_type.html" title="The union type class. " alt="" coords="634,461,797,627"/>
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_node.html" title="Abstract class for syntactic elements in an input program. " alt="" coords="356,5,499,244"/>
+</map>

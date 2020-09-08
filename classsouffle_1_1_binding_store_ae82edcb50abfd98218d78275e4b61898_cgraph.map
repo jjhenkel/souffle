@@ -1,0 +1,12 @@
+<map id="souffle::BindingStore::generateBindingDependencies" name="souffle::BindingStore::generateBindingDependencies">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_binary_constraint.html#aec8d30b8684b3a2f5f715204999776a0" title="Return binary operator. " alt="" coords="283,5,487,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_binding_store.html#a8e6b2e6e507f00bafbad583a79a089c8" title="Add binding dependencies formed on lhs by a &lt;lhs&gt; = &lt;rhs&gt; equality constraint. " alt="" coords="290,123,479,164"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="543,69,711,95"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_variable.html#a2b73a95c7b59624d956dee0ed4e13884" title="Return variable name. " alt="" coords="553,120,701,161"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_binding_store.html#abab4db2fe1a33ae4398cced98940083a" title="Add a new conjunction of variables as a potential binder for a given variable. " alt="" coords="535,185,719,227"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="767,61,935,103"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="983,61,1173,103"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="1221,189,1351,215"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_binding_store.html#a594ec5b176c2869a3c9b3158ba8d1998" title="Reduce the full set of dependencies for all tracked variables, binding whatever needs to be bound..." alt="" coords="767,185,934,227"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_binding_store.html#abb22bacd553e7fefeacf4bec7f801d22" title="Reduce a conjunctive set of dependencies based on the current bound variable set. ..." alt="" coords="999,240,1157,281"/>
+</map>

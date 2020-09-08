@@ -1,0 +1,17 @@
+<map id="ram/Choice.h" name="ram/Choice.h">
+<area shape="rect" id="node2" href="$_abstract_choice_8h.html" title="ram/AbstractChoice.h" alt="" coords="583,229,745,256"/>
+<area shape="rect" id="node3" href="$_condition_8h.html" title="ram/Condition.h" alt="" coords="702,304,829,331"/>
+<area shape="rect" id="node4" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="1104,379,1203,405"/>
+<area shape="rect" id="node6" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="449,528,594,555"/>
+<area shape="rect" id="node17" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="976,610,1152,637"/>
+<area shape="rect" id="node26" href="$_operation_8h.html" title="ram/Operation.h" alt="" coords="1581,304,1709,331"/>
+<area shape="rect" id="node28" href="$ram_2_relation_8h.html" title="ram/Relation.h" alt="" coords="2017,304,2135,331"/>
+<area shape="rect" id="node32" href="$_relation_operation_8h.html" title="ram/RelationOperation.h" alt="" coords="1639,80,1820,107"/>
+<area shape="rect" id="node35" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="2525,528,2720,555"/>
+<area shape="rect" id="node7" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="2090,603,2265,644"/>
+<area shape="rect" id="node5" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="1005,453,1203,480"/>
+<area shape="rect" id="node18" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="1227,692,1330,719"/>
+<area shape="rect" id="node29" href="$_relation_tag_8h.html" title="RelationTag.h" alt="" coords="1987,528,2096,555"/>
+<area shape="rect" id="node33" href="$_tuple_operation_8h.html" title="ram/TupleOperation.h" alt="" coords="1581,155,1744,181"/>
+<area shape="rect" id="node34" href="$_nested_operation_8h.html" title="ram/NestedOperation.h" alt="" coords="1329,229,1503,256"/>
+</map>

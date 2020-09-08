@@ -1,0 +1,7 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_equivalence_relation.html#a1d7f0c4be48aef1557027696c5509b7c" title="iterator pointing to the beginning of the tuples, with no restrictions " alt="" coords="208,5,415,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_equivalence_relation.html#ad250eaaace5ec907cfdfeaf57d05957a" title="Returns whether there exists a pair with these two nodes. " alt="" coords="208,71,415,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_equivalence_relation.html#a17ed88b84bb2364ad962d899352b69d2" title="iterator pointing to the end of the tuples " alt="" coords="192,137,431,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_equivalence_relation.html#a725decc989a5f638cf8780a68ebdb93c" title="Insert the two values symbolically as a binary relation. " alt="" coords="208,188,415,229"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_equivalence_relation.html#a555b07b774a103285669cca091c8dbdc" title="Size of relation. " alt="" coords="208,253,415,295"/>
+</map>

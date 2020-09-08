@@ -1,0 +1,20 @@
+<map id="souffle::RemoveRedundantRelationsTransformer::clone" name="souffle::RemoveRedundantRelationsTransformer::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_remove_redundant_relations_transformer.html#ad5ca2b07d20f41a9e6e9d8920faee9ec" title="souffle::RemoveRedundant\lRelationsTransformer::\ltransform" alt="" coords="256,343,452,399"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="1059,351,1252,392"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_redundant_relations_analysis.html#a42b489a07dbf2298dd76170424f20eb1" title="souffle::RedundantRelations\lAnalysis::getRedundantRelations" alt="" coords="500,409,735,451"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a03f654ab9f36aa754617f4239aea27c0" title="Remove relation and all its clauses from the program. " alt="" coords="529,219,706,246"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="1302,321,1461,363"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="1300,387,1463,414"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="1059,205,1252,247"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="823,37,971,63"/>
+<area shape="rect" id="node13" href="$namespacesouffle.html#ab9292da1654c357225e86d08bb81081c" title="Removes the set of clauses with the given relation name. " alt="" coords="783,307,1011,334"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_ast_program.html#a4f826133054d1115c2e3c542d7892829" title="Remove relation. " alt="" coords="815,241,978,283"/>
+<area shape="rect" id="node16" href="$namespacesouffle.html#ac21a1b9a684c2a726a2b4729c5bf500d" title="Removes the set of IOs with the given relation name. " alt="" coords="797,139,996,166"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="1103,37,1207,63"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="1306,5,1457,47"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="1511,97,1657,123"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="1080,285,1231,327"/>
+<area shape="rect" id="node17" href="$namespacesouffle.html#a31e4c7cc91ccf5433ca701d55c790a6c" title="souffle::getDirectives" alt="" coords="1075,154,1236,181"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_ast_program.html#a4dd4bfc7c0761e3d05412099256ced4f" title="Remove a directive. " alt="" coords="1080,88,1231,129"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1_ast_program.html#ae84a2ab777b8766301dca51b3e999303" title="Return relation directives. " alt="" coords="1306,121,1457,163"/>
+</map>

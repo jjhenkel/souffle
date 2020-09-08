@@ -1,0 +1,6 @@
+<map id="souffle::RamIndexOperation::printIndex" name="souffle::RamIndexOperation::printIndex">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_relation.html#aa2d201d636a8b01283b5996a56d7abb8" title="Get arity of relation. " alt="" coords="289,5,447,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_relation_operation.html#a499c5f7c9562a0cfe16ee3668e19ca88" title="Get search relation. " alt="" coords="257,71,479,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_tuple_operation.html#ae121c8c72d4b9dcb56fe2d69b6364720" title="Get identifier. " alt="" coords="267,136,469,177"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#aaaed06bbcb6b8efcfd2474b1c5d81aa3" title="Determines if an expression represents an undefined value. " alt="" coords="273,202,463,229"/>
+</map>

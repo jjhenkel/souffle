@@ -1,0 +1,51 @@
+<map id="genJsonAtoms" name="genJsonAtoms">
+<area shape="rect" id="node2" href="$classsouffle_1_1profile_1_1_input_reader.html#aab746fdf89ff2a8b7b009efe515a2d96" title="souffle::profile::InputReader\l::appendTabCompletion" alt="" coords="177,5,379,47"/>
+<area shape="rect" id="node3" href="$namespacesouffle_1_1profile_1_1_tools.html#a65cd76e226eb994f292d7323815e865d" title="escape escapes and quotes, and remove surrounding quotes " alt="" coords="491,236,647,277"/>
+<area shape="rect" id="node4" href="$namespacesouffle_1_1profile_1_1_tools.html#a7c25512762a92c980a664299f22ccf01" title="Remove &#160;&#160;and &#160;characters, &#160;&#160;and &#160;sequence of two chars, and wrapping quotes. " alt="" coords="200,1031,356,1072"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1profile_1_1_input_reader.html#ae5691d46e4148e6593f1de31ef9525dd" title="souffle::profile::InputReader\l::clearTabCompletion" alt="" coords="177,1096,379,1137"/>
+<area shape="rect" id="node6" href="$namespacesouffle_1_1test.html#a10453085bc4f71f32dcda443d4b3c446" title="souffle::test::count" alt="" coords="497,813,640,839"/>
+<area shape="rect" id="node7" href="$namespacesouffle_1_1profile_1_1_tools.html#a69ece90093830c522e8c69d5e7ed3968" title="souffle::profile::Tools\l::file_exists" alt="" coords="200,1161,356,1203"/>
+<area shape="rect" id="node8" href="$namespacesouffle_1_1profile_1_1_tools.html#ad8bb140211706d667172df3bd5b619e7" title="souffle::profile::Tools\l::formatMemory" alt="" coords="200,1227,356,1268"/>
+<area shape="rect" id="node9" href="$namespacesouffle_1_1profile_1_1_tools.html#aaa4b4e17dc458867cb4da55f25b3ac76" title="souffle::profile::Tools\l::formatNum" alt="" coords="200,1292,356,1333"/>
+<area shape="rect" id="node10" href="$namespacesouffle_1_1profile_1_1_tools.html#afe466b09ae5ee2e1c7c64d55a0ae0c21" title="souffle::profile::Tools\l::formatTable" alt="" coords="200,325,356,367"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1profile_1_1_table.html#ad5808507021b6f9cdd5641aac825f29e" title="souffle::profile::Table\l::getRows" alt="" coords="490,325,647,367"/>
+<area shape="rect" id="node12" href="$namespacesouffle_1_1profile_1_1_tools.html#a3ce43960a9154229043078dcf8be3637" title="souffle::profile::Tools\l::formatTime" alt="" coords="200,1357,356,1399"/>
+<area shape="rect" id="node13" href="$_tui_8h.html#a8e8f416a7e346ba6a404fa4e778e0fe3" title="genJsonConfiguration" alt="" coords="198,173,358,199"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_profile_event_singleton.html#adf94d78a9d87272b42a1fe4bc31f918d" title="get instance " alt="" coords="462,73,675,115"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_profile_event_singleton.html#aff4702afd24a8e9517b45cb5f7f2fe9a" title="souffle::ProfileEventSingleton\l::getDB" alt="" coords="462,156,675,197"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1profile_1_1_tui.html#a1ddcb1a43bb1327638a1a547a160a517" title="souffle::profile::Tui\l::genJsonRelations" alt="" coords="207,391,349,432"/>
+<area shape="rect" id="node17" href="$classsouffle_1_1profile_1_1_output_processor.html#a3e9eb169f1e5833392a062c84b41e5bc" title="souffle::profile::Output\lProcessor::getProgramRun" alt="" coords="472,723,665,764"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1profile_1_1_output_processor.html#a949dcbd9624c108584c3ac5cad32a448" title="souffle::profile::Output\lProcessor::getRelTable" alt="" coords="775,663,943,704"/>
+<area shape="rect" id="node20" href="$classsouffle_1_1profile_1_1_output_processor.html#aa996994e1685ee24446556d98b8c7ae7" title="souffle::profile::Output\lProcessor::getRulTable" alt="" coords="775,793,943,835"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1profile_1_1_output_processor.html#a17bb5ea546bf6b9d61e02a18cbafc9ac" title="souffle::profile::Output\lProcessor::getAtomTable" alt="" coords="768,859,951,900"/>
+<area shape="rect" id="node23" href="$classsouffle_1_1profile_1_1_output_processor.html#affab09ed060294b5cdf7112cc25bec96" title="souffle::profile::Output\lProcessor::getVersions" alt="" coords="775,597,944,639"/>
+<area shape="rect" id="node24" href="$classsouffle_1_1profile_1_1_output_processor.html#abbfb4d5864dd1e5e79d2c9da6f3da11d" title="souffle::profile::Output\lProcessor::getVersionAtoms" alt="" coords="757,924,961,965"/>
+<area shape="rect" id="node25" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="506,391,631,418"/>
+<area shape="rect" id="node26" href="$namespacesouffle.html#ae8dc819c0300aaaafa4ef9c7cdd84d4d" title="souffle::genJsonRules" alt="" coords="198,507,358,534"/>
+<area shape="rect" id="node27" href="$namespacesouffle_1_1profile_1_1_tools.html#a2a26cf00df092cbd565298fcd045a0d2" title="split on the delimiter " alt="" coords="491,544,647,585"/>
+<area shape="rect" id="node29" href="$classsouffle_1_1profile_1_1_tui.html#a097c601742e3b6f0c90f130d5facce6e" title="souffle::profile::Tui\l::genJsonTop" alt="" coords="207,761,349,803"/>
+<area shape="rect" id="node30" href="$classsouffle_1_1profile_1_1_html_generator.html#af10b8de4828e447b7b975e03f8c92086" title="souffle::profile::HtmlGenerator\l::getHtml" alt="" coords="168,1423,388,1464"/>
+<area shape="rect" id="node35" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="211,1489,345,1515"/>
+<area shape="rect" id="node43" href="$classsouffle_1_1profile_1_1_table.html#ad4cd261b758bcc2bc223b1b8d9aaa94e" title="souffle::profile::Table\l::sort" alt="" coords="199,1724,357,1765"/>
+<area shape="rect" id="node21" href="$classsouffle_1_1profile_1_1_output_processor.html#a0b1b87d45038d57e7fb16ba943f893c7" title="souffle::profile::Output\lProcessor::getSubrulTable" alt="" coords="765,728,954,769"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1profile_1_1_table.html#ac99e71fd2b566a2e68a72da291a86aa5" title="souffle::profile::Table\l::addRow" alt="" coords="1041,761,1199,803"/>
+<area shape="rect" id="node28" href="$classsouffle_1_1_table.html#a88231c129c15ab846c85d3b493bdb8e3" title="souffle::Table::size" alt="" coords="497,493,640,519"/>
+<area shape="rect" id="node31" href="$classsouffle_1_1profile_1_1_html_generator.html#a8539f14e0c8e498c55b92ef6c00eedac" title="souffle::profile::HtmlGenerator\l::getFirstHalf" alt="" coords="459,1357,679,1399"/>
+<area shape="rect" id="node33" href="$classsouffle_1_1profile_1_1_html_generator.html#aee3c0cbaa408cdabaa4c3b3bca30218b" title="souffle::profile::HtmlGenerator\l::getSecondHalf" alt="" coords="459,1423,679,1464"/>
+<area shape="rect" id="node32" href="$classsouffle_1_1profile_1_1_html_generator.html#a8861f580cb55da7e505c7306703aab08" title="souffle::profile::HtmlGenerator\l::wrapCss" alt="" coords="749,1357,969,1399"/>
+<area shape="rect" id="node34" href="$classsouffle_1_1profile_1_1_html_generator.html#af009d01c614ec1912e4eaf9cebe5954b" title="souffle::profile::HtmlGenerator\l::wrapJs" alt="" coords="749,1423,969,1464"/>
+<area shape="rect" id="node36" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="497,1539,640,1566"/>
+<area shape="rect" id="node37" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="784,1489,935,1515"/>
+<area shape="rect" id="node41" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1017,1590,1223,1617"/>
+<area shape="rect" id="node38" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1052,1473,1188,1515"/>
+<area shape="rect" id="node42" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1047,1539,1193,1566"/>
+<area shape="rect" id="node39" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1272,1441,1457,1483"/>
+<area shape="rect" id="node40" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1271,1507,1459,1548"/>
+<area shape="rect" id="node44" href="$classsouffle_1_1profile_1_1_data_comparator.html#af08f9cf841481752c50d2483027f0a07" title="Sort by non&#45;recursive time. " alt="" coords="453,1823,684,1864"/>
+<area shape="rect" id="node45" href="$classsouffle_1_1profile_1_1_data_comparator.html#a286b840ac5b9694c711f384e3edc0914" title="Sort by recursive time. " alt="" coords="437,1889,700,1915"/>
+<area shape="rect" id="node46" href="$classsouffle_1_1profile_1_1_data_comparator.html#a734aaeddd3c8a7952ac75358d9cdfe5d" title="Sort by copy time. " alt="" coords="437,1939,700,1966"/>
+<area shape="rect" id="node47" href="$classsouffle_1_1profile_1_1_data_comparator.html#ae89cb5ff565853d5eb8c5a6299f8774a" title="Sort by tuple count. " alt="" coords="436,1590,701,1617"/>
+<area shape="rect" id="node48" href="$classsouffle_1_1profile_1_1_data_comparator.html#a76f98b6d43dc528c8f8bddb3746e8269" title="Sort by ID. " alt="" coords="442,1641,695,1667"/>
+<area shape="rect" id="node49" href="$classsouffle_1_1profile_1_1_data_comparator.html#ac520aeef0437cb4a54c57b83bfc7af82" title="Sort by name. " alt="" coords="453,1692,684,1733"/>
+<area shape="rect" id="node50" href="$classsouffle_1_1profile_1_1_data_comparator.html#a48b1c57f77017e9ae5a301526ca4a438" title="Sort by total time. " alt="" coords="453,1757,684,1799"/>
+</map>

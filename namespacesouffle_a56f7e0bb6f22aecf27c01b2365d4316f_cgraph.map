@@ -1,0 +1,5 @@
+<map id="souffle::isOfRootType" name="souffle::isOfRootType">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a14b5f9eb9ec09c40e558b242e75de872" title="A generic test checking whether all elements within a container satisfy a certain predicate..." alt="" coords="231,5,341,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_subset_type.html#ac5c52e503cbce42370d6ada3f050773d" title="souffle::SubsetType\l::getBaseType" alt="" coords="212,57,360,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_union_type.html#a0175bce933a70c1d3691114860ac17fc" title="souffle::UnionType\l::getElementTypes" alt="" coords="215,122,357,163"/>
+</map>

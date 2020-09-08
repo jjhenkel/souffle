@@ -1,0 +1,9 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_equivalence_relation.html#a1d7f0c4be48aef1557027696c5509b7c" title="iterator pointing to the beginning of the tuples, with no restrictions " alt="" coords="208,5,415,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_equivalence_relation.html#a84ed1091422ee726f11f09b0c900c303" title="Empty the relation. " alt="" coords="208,71,415,112"/>
+<area shape="rect" id="node4" href="$namespacesouffle_1_1test.html#a10453085bc4f71f32dcda443d4b3c446" title="souffle::test::count" alt="" coords="240,137,383,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_equivalence_relation.html#a17ed88b84bb2364ad962d899352b69d2" title="iterator pointing to the end of the tuples " alt="" coords="192,187,431,214"/>
+<area shape="rect" id="node6" href="$namespacetestutil.html#a033ee69d872bfbb8267de21ef642a357" title="testutil::ignore" alt="" coords="253,238,370,265"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_equivalence_relation.html#a725decc989a5f638cf8780a68ebdb93c" title="Insert the two values symbolically as a binary relation. " alt="" coords="208,289,415,331"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_equivalence_relation.html#a555b07b774a103285669cca091c8dbdc" title="Size of relation. " alt="" coords="208,355,415,396"/>
+</map>

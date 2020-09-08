@@ -1,0 +1,5 @@
+<map id="souffle::TypeConstraintsAnalysis" name="souffle::TypeConstraintsAnalysis">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_constraint_analysis.html" title="{souffle::AstConstraintAnalysis\l\&lt; TypeVar \&gt;\n|# assignment\l# constraints\l# variables\l|+ analyse()\l+ collectConstraints()\l# addConstraint()\l# getVar()\l# getVar()\l}" alt="" coords="5,461,223,641"/>
+<area shape="rect" id="node3" href="$structsouffle_1_1_ast_visitor.html" title="{souffle::AstVisitor\l\&lt; void \&gt;\n||+ operator()()\l+ visit()\l+ ~AstVisitor()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\l# LINK()\land 6 more...\l}" alt="" coords="45,131,183,413"/>
+<area shape="rect" id="node4" href="$structsouffle_1_1ast__visitor__tag.html" title="A tag type required for the is_ast_visitor type trait to identify AstVisitors. " alt="" coords="29,5,199,83"/>
+</map>

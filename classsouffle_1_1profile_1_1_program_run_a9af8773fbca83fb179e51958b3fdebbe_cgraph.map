@@ -1,0 +1,6 @@
+<map id="souffle::profile::ProgramRun::setStarttime" name="souffle::profile::ProgramRun::setStarttime">
+<area shape="rect" id="node2" href="$namespacesouffle_1_1test.html#a5aa039c5d9fc1d573db6bfa98f1fcd53" title="souffle::test::time" alt="" coords="232,31,369,57"/>
+<area shape="rect" id="node3" href="$namespacesouffle_1_1test.html#a4195ac46f2a48cfa9b911259a22c3ccb" title="souffle::test::now" alt="" coords="431,5,565,32"/>
+<area shape="rect" id="node4" href="$namespacesouffle_1_1test.html#aa6c5045991d8e1bae130ffb16b2c2255" title="souffle::test::duration" alt="" coords="417,56,579,83"/>
+<area shape="rect" id="node5" href="$namespacesouffle_1_1test.html#a10453085bc4f71f32dcda443d4b3c446" title="souffle::test::count" alt="" coords="627,56,769,83"/>
+</map>

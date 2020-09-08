@@ -1,0 +1,5 @@
+<map id="souffle::MinIndexSelection::getAttributesToDischarge" name="souffle::MinIndexSelection::getAttributesToDischarge">
+<area shape="rect" id="node2" href="$classsouffle_1_1_search_signature.html#a949ec42a09c4f8aafd7c2286224c5cce" title="souffle::SearchSignature\l::arity" alt="" coords="248,5,428,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="257,71,419,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_relation.html#ae9a77387bbbfc96932197e52023c7d21" title="Relation representation type. " alt="" coords="259,123,417,164"/>
+</map>

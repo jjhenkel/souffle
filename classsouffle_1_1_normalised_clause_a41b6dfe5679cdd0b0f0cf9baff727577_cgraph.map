@@ -1,0 +1,13 @@
+<map id="souffle::NormalisedClause::NormalisedClause" name="souffle::NormalisedClause::NormalisedClause">
+<area shape="rect" id="node2" href="$classsouffle_1_1_normalised_clause.html#acb2785102ad441578272e841769d86c3" title="Parse a body literal into the element list. " alt="" coords="247,264,440,305"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_atom.html#a9c726c597d7921245dd97dcc72b8aeed" title="Return arguments. " alt="" coords="745,71,975,98"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_normalised_clause.html#afa38421ce3e95e3b8f69f9b38d085576" title="Return a normalised string repr of an argument. " alt="" coords="763,295,957,336"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_clause.html#a1b5199df425ba5839383a75c5bb8a254" title="Obtains a copy of the internally maintained body literals. " alt="" coords="274,5,413,47"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_ast_clause.html#a5a29a4f9ba5d0e4aea869cf71a6efbbf" title="Return the atom that represents the head of the clause. " alt="" coords="274,483,413,524"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_normalised_clause.html#a12a0a3216b0e75f5f7a56d05ba1a2cb1" title="Parse an atom with a preset name qualifier into the element list. " alt="" coords="489,173,683,215"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_qualified_name.html#ad0b3356de316d11e1782e83425b0e69a" title="prepend qualifiers " alt="" coords="764,229,956,271"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#a10525539360588d9c9048cb27f80d6ea" title="Converts operator to its symbolic representation. " alt="" coords="488,365,684,407"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="523,122,649,149"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_atom.html#a2fcd569fa7d8ed8c0c2dfd0d1c362e50" title="Return qualified name. " alt="" coords="732,178,988,205"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="1036,42,1183,69"/>
+</map>

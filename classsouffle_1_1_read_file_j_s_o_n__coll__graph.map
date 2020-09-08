@@ -1,0 +1,6 @@
+<map id="souffle::ReadFileJSON" name="souffle::ReadFileJSON">
+<area shape="rect" id="node2" href="$classsouffle_1_1_read_stream_j_s_o_n.html" title="{souffle::ReadStreamJSON\n||+ ReadStreamJSON()\l# readNextElementList()\l# readNextElementObject()\l# readNextTuple()\l# readNextTupleList()\l# readNextTupleObject()\l}" alt="" coords="839,1020,1041,1171"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_read_stream.html" title="{souffle::ReadStream\n||+ readAll()\l# consumeChar()\l# consumeWhiteSpace()\l# readADT()\l# readAlphanumeric()\l# readNextTuple()\l# readRecord()\l# ReadStream()\l# readUntil()\l}" alt="" coords="526,748,709,943"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_serialisation_stream.html" title="{souffle::SerialisationStream\l\&lt; false \&gt;\n||+ ~SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l&#45; setupFromJson()\l}" alt="" coords="417,520,620,671"/>
+<area shape="rect" id="node7" href="$classjson11_1_1_json.html" title="{json11::Json\n||+ array_items()\l+ bool_value()\l+ dump()\l+ dump()\l+ has_shape()\l+ int_value()\l+ is_array()\l+ is_bool()\l+ is_null()\l+ is_number()\land 31 more...\l+ parse()\l+ parse()\l+ parse_multi()\l+ parse_multi()\l}" alt="" coords="17,160,143,443"/>
+</map>

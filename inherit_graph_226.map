@@ -1,0 +1,12 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classsouffle_1_1_serialisation_stream.html" title="souffle::SerialisationStream\l\&lt; true \&gt;" alt="" coords="5,74,208,115"/>
+<area shape="rect" id="node2" href="$classsouffle_1_1_write_stream.html" title="souffle::WriteStream" alt="" coords="256,81,411,108"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_write_cout_print_size.html" title="souffle::WriteCoutPrintSize" alt="" coords="460,5,655,32"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_write_stream_c_s_v.html" title="souffle::WriteStreamCSV" alt="" coords="467,56,648,83"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_write_stream_j_s_o_n.html" title="souffle::WriteStreamJSON" alt="" coords="464,107,651,133"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_write_stream_s_q_lite.html" title="souffle::WriteStreamSQLite" alt="" coords="459,157,656,184"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_write_cout_c_s_v.html" title="souffle::WriteCoutCSV" alt="" coords="707,5,871,32"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_write_file_c_s_v.html" title="souffle::WriteFileCSV" alt="" coords="711,56,867,83"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_write_cout_j_s_o_n.html" title="souffle::WriteCoutJSON" alt="" coords="704,107,875,133"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_write_file_j_s_o_n.html" title="souffle::WriteFileJSON" alt="" coords="708,157,871,184"/>
+</map>

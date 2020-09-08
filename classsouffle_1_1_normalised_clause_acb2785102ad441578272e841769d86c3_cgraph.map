@@ -1,0 +1,10 @@
+<map id="souffle::NormalisedClause::addClauseBodyLiteral" name="souffle::NormalisedClause::addClauseBodyLiteral">
+<area shape="rect" id="node2" href="$classsouffle_1_1_normalised_clause.html#a12a0a3216b0e75f5f7a56d05ba1a2cb1" title="Parse an atom with a preset name qualifier into the element list. " alt="" coords="248,43,441,85"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_normalised_clause.html#afa38421ce3e95e3b8f69f9b38d085576" title="Return a normalised string repr of an argument. " alt="" coords="522,111,715,153"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_qualified_name.html#ad0b3356de316d11e1782e83425b0e69a" title="prepend qualifiers " alt="" coords="523,177,715,218"/>
+<area shape="rect" id="node8" href="$namespacesouffle.html#a10525539360588d9c9048cb27f80d6ea" title="Converts operator to its symbolic representation. " alt="" coords="247,235,443,277"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="282,301,407,328"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_atom.html#a9c726c597d7921245dd97dcc72b8aeed" title="Return arguments. " alt="" coords="503,5,734,32"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_atom.html#a2fcd569fa7d8ed8c0c2dfd0d1c362e50" title="Return qualified name. " alt="" coords="491,56,747,83"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="795,5,941,32"/>
+</map>

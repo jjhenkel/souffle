@@ -1,0 +1,15 @@
+<map id="include/souffle/io/ReadStreamSQLite.h" name="include/souffle/io/ReadStreamSQLite.h">
+<area shape="rect" id="node2" href="$_ram_types_8h.html" title="souffle/RamTypes.h" alt="" coords="1181,341,1331,367"/>
+<area shape="rect" id="node8" href="$_symbol_table_8h.html" title="souffle/SymbolTable.h" alt="" coords="2296,169,2461,196"/>
+<area shape="rect" id="node9" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="1347,251,1523,278"/>
+<area shape="rect" id="node32" href="$_read_stream_8h.html" title="souffle/io/ReadStream.h" alt="" coords="1973,95,2150,121"/>
+<area shape="rect" id="node42" href="$_string_util_8h.html" title="souffle/utility/StringUtil.h" alt="" coords="725,251,910,278"/>
+<area shape="rect" id="node19" href="$_parallel_util_8h.html" title="souffle/utility/Parallel\lUtil.h" alt="" coords="3044,244,3204,285"/>
+<area shape="rect" id="node21" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="3397,251,3592,278"/>
+<area shape="rect" id="node10" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="651,341,754,367"/>
+<area shape="rect" id="node26" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="3601,333,3775,375"/>
+<area shape="rect" id="node33" href="$_record_table_8h.html" title="souffle/RecordTable.h" alt="" coords="2276,251,2436,278"/>
+<area shape="rect" id="node37" href="$_serialisation_stream_8h.html" title="souffle/io/Serialisation\lStream.h" alt="" coords="1978,244,2145,285"/>
+<area shape="rect" id="node38" href="$json11_8h.html" title="souffle/utility/json11.h" alt="" coords="1953,341,2119,367"/>
+<area shape="rect" id="node34" href="$_compiled_tuple_8h.html" title="souffle/CompiledTuple.h" alt="" coords="2296,341,2475,367"/>
+</map>

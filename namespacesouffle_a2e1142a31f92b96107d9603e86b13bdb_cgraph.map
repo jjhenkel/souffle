@@ -1,0 +1,9 @@
+<map id="souffle::transformEqrelRelation" name="souffle::transformEqrelRelation">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_atom.html#aa4eb252e809d6d4cd009389010d72ea4" title="Add argument to the atom. " alt="" coords="277,5,504,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_program.html#a36a9cf206241d64c1dabe532026fc3ae" title="Add a clause. " alt="" coords="315,57,466,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_relation.html#a54bd8f26d113f3141d49e926a030b52d" title="Return the arity of this relation. " alt="" coords="317,122,465,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_relation.html#a5db8b505969c2f75286a54875c4aaed1" title="Get qualified relation name. " alt="" coords="317,187,465,229"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_relation.html#ad2025f014882934287fbf5bf05a9ced7" title="Get relation representation. " alt="" coords="316,253,465,294"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a850ddc94302e9b170a98729a22a4c8fa" title="Applies a function to each element of a vector and returns the results. " alt="" coords="339,319,442,345"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_relation.html#a74fee05e2281fd21dac19a2df839af21" title="Set relation representation. " alt="" coords="317,370,465,411"/>
+</map>

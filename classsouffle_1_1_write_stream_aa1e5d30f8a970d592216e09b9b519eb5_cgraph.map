@@ -1,0 +1,6 @@
+<map id="souffle::WriteStream::writeAll" name="souffle::WriteStream::writeAll">
+<area shape="rect" id="node2" href="$classsouffle_1_1_write_stream.html#a392d189cfacc42312878e1340eabe70c" title="souffle::WriteStream\l::writeNext" alt="" coords="208,5,363,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_write_stream.html#a149a2cf5397e6856d956a04b19ca537f" title="souffle::WriteStream\l::writeNullary" alt="" coords="208,71,363,112"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_write_stream.html#a146d0383eb6ab1ca175216f971cdb5b3" title="souffle::WriteStream\l::writeSize" alt="" coords="208,136,363,177"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_write_stream.html#abf1640f88bd5a4d2406dbc563615b94e" title="souffle::WriteStream\l::writeNextTuple" alt="" coords="411,5,565,47"/>
+</map>

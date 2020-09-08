@@ -1,0 +1,4 @@
+<map id="souffle::WriteCoutPrintSize" name="souffle::WriteCoutPrintSize">
+<area shape="rect" id="node2" href="$classsouffle_1_1_write_stream.html" title="{souffle::WriteStream\n|# summary\l|+ writeAll()\l+ writeNext()\l+ writeSize()\l+ WriteStream()\l# outputADT()\l# outputRecord()\l# writeNext()\l# writeNextTuple()\l# writeNullary()\l# writeSize()\l}" alt="" coords="29,277,184,487"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_serialisation_stream.html" title="{souffle::SerialisationStream\l\&lt; true \&gt;\n|# arity\l# auxiliaryArity\l# recordTable\l# symbolTable\l# typeAttributes\l# types\l|+ ~SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l&#45; setupFromJson()\l}" alt="" coords="5,5,208,229"/>
+</map>

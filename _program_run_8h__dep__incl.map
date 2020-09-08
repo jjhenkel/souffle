@@ -1,0 +1,11 @@
+<map id="include/souffle/profile/ProgramRun.h" name="include/souffle/profile/ProgramRun.h">
+<area shape="rect" id="node2" href="$_profile_use_8cpp.html" title="ast/analysis/ProfileUse.cpp" alt="" coords="269,191,466,218"/>
+<area shape="rect" id="node3" href="$_profile_use_8h.html" title="ast/analysis/ProfileUse.h" alt="" coords="96,102,279,129"/>
+<area shape="rect" id="node5" href="$_output_processor_8h.html" title="include/souffle/profile\l/OutputProcessor.h" alt="" coords="541,95,703,136"/>
+<area shape="rect" id="node6" href="$_tui_8h.html" title="include/souffle/profile\l/Tui.h" alt="" coords="541,184,703,225"/>
+<area shape="rect" id="node10" href="$_reader_8h.html" title="include/souffle/profile\l/Reader.h" alt="" coords="354,95,517,136"/>
+<area shape="rect" id="node4" href="$_reorder_literals_8cpp.html" title="ast/transform/ReorderLiterals.cpp" alt="" coords="5,191,244,218"/>
+<area shape="rect" id="node7" href="$_cli_8h.html" title="include/souffle/profile\l/Cli.h" alt="" coords="467,273,630,315"/>
+<area shape="rect" id="node9" href="$main_8cpp.html" title="main.cpp" alt="" coords="654,281,737,307"/>
+<area shape="rect" id="node8" href="$souffle__prof_8cpp.html" title="souffle_prof.cpp" alt="" coords="486,363,611,389"/>
+</map>

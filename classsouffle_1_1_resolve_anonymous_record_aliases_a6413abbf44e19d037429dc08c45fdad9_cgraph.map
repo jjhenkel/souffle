@@ -1,0 +1,10 @@
+<map id="souffle::ResolveAnonymousRecordAliases::findVariablesRecordMapping" name="souffle::ResolveAnonymousRecordAliases::findVariablesRecordMapping">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="305,56,498,97"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_clause.html#a1b5199df425ba5839383a75c5bb8a254" title="Obtains a copy of the internally maintained body literals. " alt="" coords="332,121,471,163"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a007a45afc198f8e8bdda35c50da5f26b" title="Analyse the given clause and computes for each contained argument whether it is a grounded value or n..." alt="" coords="303,187,500,214"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_variable.html#a2b73a95c7b59624d956dee0ed4e13884" title="Return variable name. " alt="" coords="327,239,475,280"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#a6befeedfd76433e1bd51a1f6cd42afec" title="souffle::isEqConstraint" alt="" coords="317,305,485,331"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="550,5,709,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="548,71,711,98"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="556,129,703,155"/>
+</map>

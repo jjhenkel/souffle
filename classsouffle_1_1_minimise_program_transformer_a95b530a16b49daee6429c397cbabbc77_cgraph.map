@@ -1,0 +1,5 @@
+<map id="souffle::MinimiseProgramTransformer::isValidPermutation" name="souffle::MinimiseProgramTransformer::isValidPermutation">
+<area shape="rect" id="node2" href="$classsouffle_1_1_normalised_clause.html#ad1c4ecac9c108e1dcc33b8e514436f51" title="souffle::NormalisedClause\l::getConstants" alt="" coords="284,5,477,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_normalised_clause.html#a0709dcc4979d91469f1954ffbbc9896b" title="souffle::NormalisedClause\l::getElements" alt="" coords="284,71,477,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_normalised_clause.html#a0cf6ea0cc77a9c945c1ac8815f5b25f5" title="souffle::NormalisedClause\l::getVariables" alt="" coords="284,136,477,177"/>
+</map>

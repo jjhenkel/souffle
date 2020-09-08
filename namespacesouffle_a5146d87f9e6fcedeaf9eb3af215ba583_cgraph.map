@@ -1,0 +1,7 @@
+<map id="souffle::TEST" name="souffle::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_trie.html#afaf8af82f0a3f3ae1cb99e3a4c90431e" title="Obtains an iterator referencing the first element stored within this trie. " alt="" coords="169,5,311,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_trie.html#a20f49fb027baba6b4c25305693f3f46b" title="Determines whether a given tuple is present within the set specified by this trie. " alt="" coords="160,56,320,83"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_trie.html#aaebd63a2231c556ef5a6f3abbd05f939" title="Obtains an iterator referencing the position after the last element stored within this trie..." alt="" coords="175,107,305,133"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_trie.html#ac2aca7acbf15881d6f673e2702a193dd" title="Inserts a new entry. " alt="" coords="169,157,311,184"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_trie.html#a8c08695b078cf8a4b2a91530e0556227" title="Inserts all elements stored within the given trie into this trie. " alt="" coords="161,208,319,235"/>
+</map>

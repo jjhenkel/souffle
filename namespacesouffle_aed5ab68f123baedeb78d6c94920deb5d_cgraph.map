@@ -1,0 +1,27 @@
+<map id="souffle::getGreatestCommonSubtypes" name="souffle::getGreatestCommonSubtypes">
+<area shape="rect" id="node2" href="$structsouffle_1_1_type_set.html#a2110dea550ae2c1eaf6ef65e2854f925" title="souffle::TypeSet::empty" alt="" coords="282,158,457,185"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#abb20659f25b4513908b813cfdbf43e23" title="Computes the greatest common sub types of the two given types. " alt="" coords="264,209,475,251"/>
+<area shape="rect" id="node6" href="$structsouffle_1_1_type_set.html#ad779397583248bcbf50b982e5314c2e2" title="Adds the given type to this set. " alt="" coords="523,297,693,323"/>
+<area shape="rect" id="node26" href="$structsouffle_1_1_type_set.html#ae26622401685d8ac9080b2f5a83d7eaa" title="Universality check. " alt="" coords="289,326,450,353"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_union_type.html#a0175bce933a70c1d3691114860ac17fc" title="souffle::UnionType\l::getElementTypes" alt="" coords="1039,176,1181,217"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_type.html#a2bc9172d0ce6390a7960b24b16172c79" title="souffle::Type::getTypeEnvironment" alt="" coords="741,195,988,222"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a8cc19c66d9d13ce64e65f14dcabb43b3" title="Determines whether type a is a subtype of type b. " alt="" coords="531,246,685,273"/>
+<area shape="rect" id="node12" href="$structsouffle_1_1_type_visitor.html#a963724927b9a9ad03d129c031177a7d5" title="souffle::TypeVisitor\l::visit" alt="" coords="535,79,681,120"/>
+<area shape="rect" id="node8" href="$namespacesouffle.html#a56f7e0bb6f22aecf27c01b2365d4316f" title="Determines whether the given type is a sub&#45;type of the given root type. " alt="" coords="785,297,944,323"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#a14b5f9eb9ec09c40e558b242e75de872" title="A generic test checking whether all elements within a container satisfy a certain predicate..." alt="" coords="1055,347,1165,374"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#a34f8eecb81c090fca9e58d3357b63ed9" title="A generic test checking whether any elements within a container satisfy a certain predicate..." alt="" coords="805,246,924,273"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_subset_type.html#ac5c52e503cbce42370d6ada3f050773d" title="souffle::SubsetType\l::getBaseType" alt="" coords="1036,281,1184,323"/>
+<area shape="rect" id="node13" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="813,86,917,113"/>
+<area shape="rect" id="node14" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="1039,86,1181,113"/>
+<area shape="rect" id="node15" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="1232,86,1383,113"/>
+<area shape="rect" id="node23" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1431,19,1636,46"/>
+<area shape="rect" id="node16" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1465,71,1601,112"/>
+<area shape="rect" id="node24" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="1466,137,1601,163"/>
+<area shape="rect" id="node25" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1461,187,1606,214"/>
+<area shape="rect" id="node17" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1685,5,1871,47"/>
+<area shape="rect" id="node18" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1684,71,1872,112"/>
+<area shape="rect" id="node22" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1703,136,1853,177"/>
+<area shape="rect" id="node19" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="2147,41,2311,83"/>
+<area shape="rect" id="node20" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="1920,100,2099,141"/>
+<area shape="rect" id="node21" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="2161,107,2297,148"/>
+</map>

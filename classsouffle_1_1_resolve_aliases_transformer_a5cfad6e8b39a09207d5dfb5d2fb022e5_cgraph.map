@@ -1,0 +1,12 @@
+<map id="souffle::ResolveAliasesTransformer::clone" name="souffle::ResolveAliasesTransformer::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_resolve_aliases_transformer.html#abbd9ee9a4d600bc9e61746b43de54f30" title="souffle::ResolveAliasesTransformer\l::transform" alt="" coords="304,115,555,156"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="603,5,796,47"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="615,71,783,98"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a4d9e53888640a9abfd7ea7c43715152a" title="Returns a vector of clauses in the program describing the relation with the given name..." alt="" coords="626,122,773,149"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="624,173,775,215"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_program.html#a36a9cf206241d64c1dabe532026fc3ae" title="Add a clause. " alt="" coords="624,239,775,280"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="844,57,1012,99"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="1060,57,1251,99"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_program.html#aa04b430e385f40c6fe2bf7ad2ca31bb3" title="Return clauses. " alt="" coords="853,123,1003,164"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="1082,130,1229,157"/>
+</map>

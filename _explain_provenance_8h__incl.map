@@ -1,0 +1,11 @@
+<map id="include/souffle/provenance/ExplainProvenance.h" name="include/souffle/provenance/ExplainProvenance.h">
+<area shape="rect" id="node2" href="$_ram_types_8h.html" title="souffle/RamTypes.h" alt="" coords="546,341,695,367"/>
+<area shape="rect" id="node8" href="$_souffle_interface_8h.html" title="souffle/SouffleInterface.h" alt="" coords="2148,95,2333,121"/>
+<area shape="rect" id="node9" href="$_symbol_table_8h.html" title="souffle/SymbolTable.h" alt="" coords="1503,169,1668,196"/>
+<area shape="rect" id="node10" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="2436,251,2612,278"/>
+<area shape="rect" id="node11" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="1317,341,1420,367"/>
+<area shape="rect" id="node35" href="$_string_util_8h.html" title="souffle/utility/StringUtil.h" alt="" coords="408,251,593,278"/>
+<area shape="rect" id="node20" href="$_parallel_util_8h.html" title="souffle/utility/Parallel\lUtil.h" alt="" coords="1124,244,1284,285"/>
+<area shape="rect" id="node22" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="1766,251,1960,278"/>
+<area shape="rect" id="node27" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="1800,333,1974,375"/>
+</map>

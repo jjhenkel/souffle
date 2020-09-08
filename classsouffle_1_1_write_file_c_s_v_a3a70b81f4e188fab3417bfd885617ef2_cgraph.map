@@ -1,0 +1,20 @@
+<map id="souffle::WriteFileCSV::writeNextTuple" name="souffle::WriteFileCSV::writeNextTuple">
+<area shape="rect" id="node2" href="$classsouffle_1_1_write_stream_c_s_v.html#a644de90602b3ea37764e24d47a8047ce" title="souffle::WriteStreamCSV\l::writeNextTupleCSV" alt="" coords="209,93,391,135"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_write_stream_c_s_v.html#a9707341767cc4fec05724879f0ce8f19" title="souffle::WriteStreamCSV\l::writeNextTupleElement" alt="" coords="439,93,621,135"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_write_stream.html#a7570763c861007d8a3bff115aece8598" title="souffle::WriteStream\l::outputRecord" alt="" coords="669,35,824,76"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_write_stream.html#a3837bd72b746f569ada4d54f53bb415e" title="souffle::WriteStream\l::outputADT" alt="" coords="872,89,1027,131"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="1091,97,1195,123"/>
+<area shape="rect" id="node5" href="$classjson11_1_1_json.html#af7eebdc61914abc7a209331ef81e4528" title="json11::Json::long\l_value" alt="" coords="1075,5,1211,47"/>
+<area shape="rect" id="node8" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="1259,97,1401,123"/>
+<area shape="rect" id="node9" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="1449,97,1600,123"/>
+<area shape="rect" id="node17" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1648,30,1853,57"/>
+<area shape="rect" id="node10" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1683,81,1819,123"/>
+<area shape="rect" id="node18" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="1683,147,1818,174"/>
+<area shape="rect" id="node19" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1678,198,1823,225"/>
+<area shape="rect" id="node11" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1903,16,2088,57"/>
+<area shape="rect" id="node12" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1901,81,2089,123"/>
+<area shape="rect" id="node16" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1920,147,2071,188"/>
+<area shape="rect" id="node13" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="2364,52,2528,93"/>
+<area shape="rect" id="node14" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="2137,111,2316,152"/>
+<area shape="rect" id="node15" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="2378,117,2514,159"/>
+</map>

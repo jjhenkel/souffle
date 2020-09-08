@@ -1,0 +1,31 @@
+<map id="souffle::ReadStreamJSON::readNextTupleObject" name="souffle::ReadStreamJSON::readNextTupleObject">
+<area shape="rect" id="node2" href="$classjson11_1_1_json.html#a7ae9827c72672471741538eb91dee1d4" title="json11::Json::array\l_items" alt="" coords="703,158,846,199"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="505,115,609,141"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_read_stream_j_s_o_n.html#a29671d4e21c3227aded929ed41dacee2" title="souffle::ReadStreamJSON\l::readNextElementObject" alt="" coords="239,217,425,258"/>
+<area shape="rect" id="node4" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="703,107,846,133"/>
+<area shape="rect" id="node5" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="909,107,1060,133"/>
+<area shape="rect" id="node13" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="1108,5,1313,32"/>
+<area shape="rect" id="node6" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="1143,107,1279,149"/>
+<area shape="rect" id="node14" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="1143,56,1278,83"/>
+<area shape="rect" id="node15" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="1138,173,1283,200"/>
+<area shape="rect" id="node7" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1363,42,1548,83"/>
+<area shape="rect" id="node8" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1361,107,1549,149"/>
+<area shape="rect" id="node12" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1380,173,1531,214"/>
+<area shape="rect" id="node9" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="1824,78,1988,119"/>
+<area shape="rect" id="node10" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="1597,137,1776,178"/>
+<area shape="rect" id="node11" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="1838,143,1974,185"/>
+<area shape="rect" id="node17" href="$classjson11_1_1_json.html#a4ae030733f6ebd910882afb9e2364b1a" title="json11::Json::is_null" alt="" coords="481,224,632,251"/>
+<area shape="rect" id="node19" href="$classjson11_1_1_json.html#a8bc1877dd93ffa5457c214308e0cf472" title="json11::Json::is_object" alt="" coords="473,400,640,427"/>
+<area shape="rect" id="node28" href="$classjson11_1_1_json.html#ad5b17cd97662f0c239cc3de39fd5c0e8" title="json11::Json::object\l_items" alt="" coords="701,691,849,733"/>
+<area shape="rect" id="node18" href="$classjson11_1_1_json.html#aa9c2e69e711a000bdbd424e6b2f06139" title="json11::Json::type" alt="" coords="706,224,843,251"/>
+<area shape="rect" id="node20" href="$classjson11_1_1_json.html#a23ccdd948ff1738a61d416d89d3a80b0" title="json11::Json::bool\l_value" alt="" coords="707,458,843,499"/>
+<area shape="rect" id="node21" href="$classjson11_1_1_json.html#a65aad4271963eeb2688ebdbd152ea307" title="json11::Json::dump" alt="" coords="702,524,847,551"/>
+<area shape="rect" id="node25" href="$classjson11_1_1_json.html#af7093e5034daa0e138be9013440292c9" title="json11::Json::int_value" alt="" coords="691,575,859,601"/>
+<area shape="rect" id="node26" href="$classjson11_1_1_json.html#af7eebdc61914abc7a209331ef81e4528" title="json11::Json::long\l_value" alt="" coords="707,626,843,667"/>
+<area shape="rect" id="node27" href="$classjson11_1_1_json.html#a735c0d270710c51ba06627c328a58138" title="json11::Json::number\l_value" alt="" coords="695,275,854,317"/>
+<area shape="rect" id="node29" href="$classjson11_1_1_json.html#a27be11485819f6556791ef5b37c63fe6" title="json11::Json::operator[]" alt="" coords="688,341,861,368"/>
+<area shape="rect" id="node30" href="$classjson11_1_1_json.html#a9399e1cf8d2a8a1bc7f231a74ae13184" title="json11::Json::string\l_value" alt="" coords="702,393,847,434"/>
+<area shape="rect" id="node22" href="$classjson11_1_1_json.html#ac3b4d21992ef92e42ebe04b74c8e1573" title="json11::Json::parse" alt="" coords="913,524,1057,551"/>
+<area shape="rect" id="node23" href="$namespacejson11.html#a09e8999b825805c2c3aed866f3f53d65" title="json11::esc" alt="" coords="1163,499,1258,525"/>
+<area shape="rect" id="node24" href="$classjson11_1_1_json.html#a5fbf95bb641ad8bac78a929fd1164ceb" title="json11::Json::Json" alt="" coords="1143,549,1278,576"/>
+</map>

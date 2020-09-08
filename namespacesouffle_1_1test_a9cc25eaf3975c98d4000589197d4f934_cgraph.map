@@ -1,0 +1,10 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_disjoint_set.html#a72c6d822d03f4f5c29b7a487e0ad6858" title="Extract parent from block. " alt="" coords="192,5,369,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_disjoint_set.html#a2537a5caf8cbb4ac1461528479558abd" title="Extract rank from block. " alt="" coords="193,56,368,83"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_disjoint_set.html#aeffaec2f3fc61d5ad016407edbb03d77" title="Create a node with its parent as itself, rank 0. " alt="" coords="208,107,353,149"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_disjoint_set.html#a3ea01e537b3e5033d35fc5e0ab3e03ac" title="Return the number of elements in this disjoint set (not the number of pairs) " alt="" coords="208,187,353,229"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_piggy_list.html#acb3509a8a16a695117d887b353cfb6b7" title="souffle::PiggyList\l::createNode" alt="" coords="432,34,565,75"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_piggy_list.html#a42d37008bbace7c10f6448824a35aa5b" title="Retrieve a reference to the stored value at index. " alt="" coords="417,100,580,127"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_disjoint_set.html#ae892a7febe8076794433d5546a9a3b94" title="Yield a block given parent and rank. " alt="" coords="426,151,571,193"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_piggy_list.html#a746c46251639906bcfcc16bbd113b0d8" title="Well, returns the number of nodes exist within the list + number of nodes queued to be inserted The r..." alt="" coords="432,217,565,258"/>
+</map>

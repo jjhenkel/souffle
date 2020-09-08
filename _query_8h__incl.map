@@ -1,0 +1,11 @@
+<map id="ram/Query.h" name="ram/Query.h">
+<area shape="rect" id="node2" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="991,155,1089,181"/>
+<area shape="rect" id="node4" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="451,304,597,331"/>
+<area shape="rect" id="node5" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="958,379,1133,420"/>
+<area shape="rect" id="node15" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="48,386,224,413"/>
+<area shape="rect" id="node24" href="$_operation_8h.html" title="ram/Operation.h" alt="" coords="976,80,1104,107"/>
+<area shape="rect" id="node26" href="$_statement_8h.html" title="ram/Statement.h" alt="" coords="1455,80,1587,107"/>
+<area shape="rect" id="node28" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="1309,304,1504,331"/>
+<area shape="rect" id="node3" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="663,229,860,256"/>
+<area shape="rect" id="node16" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="281,468,383,495"/>
+</map>

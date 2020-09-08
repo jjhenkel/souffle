@@ -1,0 +1,10 @@
+<map id="include/souffle/swig/SwigInterface.h" name="include/souffle/swig/SwigInterface.h">
+<area shape="rect" id="node2" href="$_souffle_interface_8h.html" title="souffle/SouffleInterface.h" alt="" coords="978,95,1163,121"/>
+<area shape="rect" id="node3" href="$_ram_types_8h.html" title="souffle/RamTypes.h" alt="" coords="507,251,656,278"/>
+<area shape="rect" id="node9" href="$_symbol_table_8h.html" title="souffle/SymbolTable.h" alt="" coords="1215,169,1380,196"/>
+<area shape="rect" id="node10" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="781,251,957,278"/>
+<area shape="rect" id="node20" href="$_parallel_util_8h.html" title="souffle/utility/Parallel\lUtil.h" alt="" coords="1741,244,1901,285"/>
+<area shape="rect" id="node22" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="1523,251,1717,278"/>
+<area shape="rect" id="node11" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="521,341,623,367"/>
+<area shape="rect" id="node27" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="1782,333,1957,375"/>
+</map>

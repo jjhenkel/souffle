@@ -1,0 +1,5 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_piggy_list.html#a59aa5a318f66a562ee39fe5dd80f762a" title="souffle::PiggyList\l::append" alt="" coords="207,5,340,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_piggy_list.html#a42d37008bbace7c10f6448824a35aa5b" title="Retrieve a reference to the stored value at index. " alt="" coords="192,71,355,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_piggy_list.html#a746c46251639906bcfcc16bbd113b0d8" title="Well, returns the number of nodes exist within the list + number of nodes queued to be inserted The r..." alt="" coords="207,123,340,164"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="ram/TupleOperation.h" name="ram/TupleOperation.h">
+<area shape="rect" id="node2" href="$_nested_operation_8h.html" title="ram/NestedOperation.h" alt="" coords="465,80,639,107"/>
+<area shape="rect" id="node3" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="1248,229,1347,256"/>
+<area shape="rect" id="node25" href="$_operation_8h.html" title="ram/Operation.h" alt="" coords="640,155,768,181"/>
+<area shape="rect" id="node5" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="470,379,615,405"/>
+<area shape="rect" id="node16" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="237,461,413,487"/>
+<area shape="rect" id="node4" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="996,304,1193,331"/>
+<area shape="rect" id="node6" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="995,453,1170,495"/>
+<area shape="rect" id="node17" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="195,543,298,569"/>
+</map>

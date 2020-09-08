@@ -1,0 +1,4 @@
+<map id="souffle::AstIntrinsicFunctor::print" name="souffle::AstIntrinsicFunctor::print">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a4b3242f85365c79b6f93264303fa86dd" title="Determines whether a functor should be written using infix notation (e.g. " alt="" coords="248,5,427,32"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#abe4e3f19879707216a2758b03f4e2deb" title="Creates an object to be forwarded to some output stream for printing sequences of elements interspers..." alt="" coords="288,56,387,83"/>
+</map>

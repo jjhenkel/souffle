@@ -1,0 +1,20 @@
+<map id="souffle::RecursiveClausesAnalysis::RecursiveClausesAnalysis" name="souffle::RecursiveClausesAnalysis::RecursiveClausesAnalysis">
+<area shape="rect" id="node2" href="$classsouffle_1_1_recursive_clauses_analysis.html#a30aa06715398b0bbe5c89c634f38822d" title="print the analysis result in HTML format " alt="" coords="308,5,496,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_recursive_clauses_analysis.html#a259936abcc51b403c7e372b60a83ea18" title="run analysis for a Ast translation unit " alt="" coords="308,71,496,112"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="568,21,736,47"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="808,71,1001,112"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_recursive_clauses_analysis.html#a4d776e81de902badb30ec0db059cb6fc" title="Determines whether the given clause is recursive within the given program. " alt="" coords="544,132,760,173"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="821,5,989,47"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="1049,5,1240,47"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="808,136,1001,177"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#ae5266d9360a88847a65d1c581f778d89" title="Returns the relation referenced by the head of the given clause. " alt="" coords="813,202,996,229"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="1065,79,1224,120"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="1063,145,1226,171"/>
+<area shape="rect" id="node13" href="$namespacesouffle.html#ab18cbb3adc2ab328de0db30a3fddf7e0" title="Returns the relation referenced by the given atom. " alt="" coords="1053,199,1236,226"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_ast_clause.html#a5a29a4f9ba5d0e4aea869cf71a6efbbf" title="Return the atom that represents the head of the clause. " alt="" coords="1075,251,1214,292"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_ast_atom.html#a2fcd569fa7d8ed8c0c2dfd0d1c362e50" title="Return qualified name. " alt="" coords="1288,174,1544,201"/>
+<area shape="rect" id="node15" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="1342,225,1490,251"/>
+<area shape="rect" id="node16" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="1615,195,1719,222"/>
+<area shape="rect" id="node17" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="1592,247,1743,288"/>
+<area shape="rect" id="node18" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="1791,254,1937,281"/>
+</map>

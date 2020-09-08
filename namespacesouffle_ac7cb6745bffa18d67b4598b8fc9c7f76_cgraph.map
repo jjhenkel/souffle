@@ -1,0 +1,9 @@
+<map id="souffle::convertDotToSVG" name="souffle::convertDotToSVG">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a5e22287be4345c05c5f70b1d37eaec77" title="souffle::execStdOut" alt="" coords="255,5,404,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_temp_file_stream.html#ad08440393409d55efbf08ddeaa06a218" title="souffle::TempFileStream\l::getFileName" alt="" coords="240,57,419,98"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a64753e143a37bb9414121fc75987cb14" title="Check whether a given file exists and it is an executable. " alt="" coords="467,123,624,149"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a6e9757564e85959db8b14a9be7d544e1" title="Simple implementation of a which tool. " alt="" coords="273,173,385,200"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a69107e934a60222580ee8ba6882dc3d3" title="Check whether a file exists in the file system. " alt="" coords="672,123,800,149"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a7f93cdf21f1a24b593da6691dc892828" title="A generic factory for constraints of the form. " alt="" coords="497,173,594,200"/>
+<area shape="rect" id="node8" href="$namespacesouffle.html#a79fa4170c4094bc943de6fa5acb5796e" title="Check whether a directory exists in the file system. " alt="" coords="483,224,608,251"/>
+</map>

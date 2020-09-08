@@ -1,0 +1,5 @@
+<map id="souffle::AstAggregator::clone" name="souffle::AstAggregator::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_aggregator.html#a233088c8e7d9bdee5239f8a79ff77216" title="souffle::AstAggregator\l::AstAggregator" alt="" coords="237,5,403,47"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="265,71,375,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="220,122,420,149"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classsouffle_1_1_serialisation_stream.html" title="souffle::SerialisationStream\l\&lt; false \&gt;" alt="" coords="5,49,208,90"/>
+<area shape="rect" id="node2" href="$classsouffle_1_1_read_stream.html" title="souffle::ReadStream" alt="" coords="256,56,409,83"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_read_stream_c_s_v.html" title="souffle::ReadStreamCSV" alt="" coords="465,5,644,32"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_read_stream_j_s_o_n.html" title="souffle::ReadStreamJSON" alt="" coords="462,56,647,83"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_read_stream_s_q_lite.html" title="souffle::ReadStreamSQLite" alt="" coords="457,107,652,133"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_read_file_c_s_v.html" title="souffle::ReadFileCSV" alt="" coords="703,5,857,32"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_read_file_j_s_o_n.html" title="souffle::ReadFileJSON" alt="" coords="700,56,860,83"/>
+</map>

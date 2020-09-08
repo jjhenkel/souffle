@@ -1,0 +1,9 @@
+<map id="souffle::MagicSetTransformer::NormaliseDatabaseTransformer::normaliseArguments" name="souffle::MagicSetTransformer::NormaliseDatabaseTransformer::normaliseArguments">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="349,5,459,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_term.html#a5bf9145afa6b327c21e3393123c292c3" title="Get arguments. " alt="" coords="291,56,517,83"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="307,107,501,149"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="320,173,488,200"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="576,56,723,83"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="565,166,733,207"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="781,166,972,207"/>
+</map>

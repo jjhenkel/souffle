@@ -1,0 +1,38 @@
+<map id="souffle::MinimiseProgramTransformer::clone" name="souffle::MinimiseProgramTransformer::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_minimise_program_transformer.html#a234974fa308c60c64a8aa43574a8fac6" title="souffle::MinimiseProgram\lTransformer::existsValidPermutation" alt="" coords="1107,49,1365,91"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_minimise_program_transformer.html#a95b530a16b49daee6429c397cbabbc77" title="– Bijective Equivalence Helper Methods – " alt="" coords="1413,100,1644,141"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_minimise_program_transformer.html#ae81d730e2848958be48f2d880d7a3d94" title="Remove redundant literals within a clause. " alt="" coords="491,549,731,591"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_minimise_program_transformer.html#abab3602ce84db09dbbdb127edf14051d" title="– Sub&#45;Transformations – " alt="" coords="477,390,744,446"/>
+<area shape="rect" id="node23" href="$classsouffle_1_1_minimise_program_transformer.html#af0c88072e2805fbb40aa0cc87c38142d" title="Removes redundant singleton relations. " alt="" coords="504,795,717,851"/>
+<area shape="rect" id="node35" href="$classsouffle_1_1_minimise_program_transformer.html#a4044666b16791d5f7ce48e375a2c3738" title="Remove clauses that are only satisfied if they are already satisfied. " alt="" coords="497,681,724,737"/>
+<area shape="rect" id="node36" href="$classsouffle_1_1_minimise_program_transformer.html#ab6a81fc39db5fb47bfd44a45ddc11c4c" title="souffle::MinimiseProgram\lTransformer::transform" alt="" coords="241,611,429,652"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_normalised_clause.html#a0709dcc4979d91469f1954ffbbc9896b" title="souffle::NormalisedClause\l::getElements" alt="" coords="1692,121,1885,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_normalised_clause.html#ad1c4ecac9c108e1dcc33b8e514436f51" title="souffle::NormalisedClause\l::getConstants" alt="" coords="1692,205,1885,247"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_normalised_clause.html#a0cf6ea0cc77a9c945c1ac8815f5b25f5" title="souffle::NormalisedClause\l::getVariables" alt="" coords="1692,47,1885,88"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="1432,839,1625,880"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="871,759,980,786"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="1171,386,1301,413"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="1453,455,1604,496"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="1432,636,1625,677"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="1453,1127,1604,1168"/>
+<area shape="rect" id="node18" href="$namespacesouffle.html#a4d9e53888640a9abfd7ea7c43715152a" title="Returns a vector of clauses in the program describing the relation with the given name..." alt="" coords="852,658,999,685"/>
+<area shape="rect" id="node20" href="$classsouffle_1_1_clause_normalisation_analysis.html#a9d2ec7adf8dd94472f2fa8926b1d85ad" title="souffle::ClauseNormalisation\lAnalysis::getNormalisation" alt="" coords="820,288,1031,329"/>
+<area shape="rect" id="node21" href="$classsouffle_1_1_minimise_program_transformer.html#ac2867160d9eaa059a822d549412ad8a2" title="souffle::MinimiseProgram\lTransformer::areBijectivelyEquivalent" alt="" coords="792,171,1059,212"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="1709,684,1868,725"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="1707,633,1870,659"/>
+<area shape="rect" id="node17" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="1933,963,2080,990"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_ast_program.html#aa04b430e385f40c6fe2bf7ad2ca31bb3" title="Return clauses. " alt="" coords="1713,556,1864,597"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1_normalised_clause.html#ad9ee1de865233ad3d24856b17191319e" title="souffle::NormalisedClause\l::isFullyNormalised" alt="" coords="1139,268,1333,309"/>
+<area shape="rect" id="node24" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="1162,1217,1310,1243"/>
+<area shape="rect" id="node26" href="$namespacesouffle.html#a03f654ab9f36aa754617f4239aea27c0" title="Remove relation and all its clauses from the program. " alt="" coords="837,986,1014,1013"/>
+<area shape="rect" id="node33" href="$classsouffle_1_1_ast_program.html#a0a658e411394dfc93da0ab36e06d0101" title="Apply the mapper to all child nodes. " alt="" coords="850,1268,1001,1309"/>
+<area shape="rect" id="node25" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="1477,1217,1581,1243"/>
+<area shape="rect" id="node27" href="$namespacesouffle.html#ab9292da1654c357225e86d08bb81081c" title="Removes the set of clauses with the given relation name. " alt="" coords="1122,694,1350,721"/>
+<area shape="rect" id="node28" href="$classsouffle_1_1_ast_program.html#a4f826133054d1115c2e3c542d7892829" title="Remove relation. " alt="" coords="1155,1100,1317,1141"/>
+<area shape="rect" id="node29" href="$namespacesouffle.html#ac21a1b9a684c2a726a2b4729c5bf500d" title="Removes the set of IOs with the given relation name. " alt="" coords="1137,998,1335,1025"/>
+<area shape="rect" id="node30" href="$namespacesouffle.html#a31e4c7cc91ccf5433ca701d55c790a6c" title="souffle::getDirectives" alt="" coords="1448,963,1609,990"/>
+<area shape="rect" id="node32" href="$classsouffle_1_1_ast_program.html#a4dd4bfc7c0761e3d05412099256ced4f" title="Remove a directive. " alt="" coords="1453,1015,1604,1056"/>
+<area shape="rect" id="node31" href="$classsouffle_1_1_ast_program.html#ae84a2ab777b8766301dca51b3e999303" title="Return relation directives. " alt="" coords="1713,956,1864,997"/>
+<area shape="rect" id="node34" href="$namespacesouffle.html#a850ddc94302e9b170a98729a22a4c8fa" title="Applies a function to each element of a vector and returns the results. " alt="" coords="1185,1275,1287,1302"/>
+<area shape="rect" id="node37" href="$classsouffle_1_1_ast_translation_unit.html#aa98655ac4e6bdd1a20d0c882c47508c8" title="Destroy all cached analyses of translation unit. " alt="" coords="514,615,707,656"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="souffle::TEST" name="souffle::TEST">
+<area shape="rect" id="node2" href="$structsouffle_1_1range.html#a554c3177b5a922424d53272046d08439" title="souffle::range::begin" alt="" coords="160,5,315,32"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="173,56,302,83"/>
+<area shape="rect" id="node4" href="$structsouffle_1_1range.html#a8adb2ec7dd86cd971d0142fb31212386" title="souffle::range::end" alt="" coords="166,107,309,133"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#acea8a37cc1681f657054f3b30af55003" title="A utility function enabling the construction of ranges without explicitly specifying the iterator typ..." alt="" coords="160,157,315,184"/>
+</map>

@@ -1,0 +1,17 @@
+<map id="souffle::InterpreterNestedOperation" name="souffle::InterpreterNestedOperation">
+<area shape="rect" id="node2" href="$classsouffle_1_1_interpreter_aggregate.html" title="{souffle::InterpreterAggregate\n|# expr\l|+ getExpr()\l+ InterpreterAggregate()\l}" alt="" coords="216,167,427,259"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_interpreter_break.html" title="{souffle::InterpreterBreak\n||+ InterpreterBreak()\l}" alt="" coords="451,175,632,252"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_interpreter_choice.html" title="{souffle::InterpreterChoice\n||+ InterpreterChoice()\l}" alt="" coords="656,175,843,252"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_interpreter_filter.html" title="{souffle::InterpreterFilter\n||+ InterpreterFilter()\l}" alt="" coords="867,175,1042,252"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_interpreter_scan.html" title="{souffle::InterpreterScan\n||+ InterpreterScan()\l}" alt="" coords="1066,175,1241,252"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_interpreter_unpack_record.html" title="{souffle::InterpreterUnpack\lRecord\n|# expr\l|+ getExpr()\l+ InterpreterUnpackRecord()\l}" alt="" coords="1265,160,1474,267"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_index_aggregate.html" title="{souffle::InterpreterIndex\lAggregate\n||+ InterpreterIndexAggregate()\l}" alt="" coords="5,315,224,407"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_interpreter_parallel_aggregate.html" title="{souffle::InterpreterParallel\lAggregate\n||}" alt="" coords="249,315,439,407"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_interpreter_parallel_index_aggregate.html" title="{souffle::InterpreterParallel\lIndexAggregate\n||}" alt="" coords="19,455,210,547"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_interpreter_index_choice.html" title="{souffle::InterpreterIndex\lChoice\n||+ InterpreterIndexChoice()\l}" alt="" coords="549,315,745,407"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_interpreter_parallel_choice.html" title="{souffle::InterpreterParallel\lChoice\n||}" alt="" coords="769,315,959,407"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_interpreter_parallel_index_choice.html" title="{souffle::InterpreterParallel\lIndexChoice\n||}" alt="" coords="551,455,742,547"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_interpreter_index_scan.html" title="{souffle::InterpreterIndexScan\n||+ InterpreterIndexScan()\l}" alt="" coords="1027,322,1237,399"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_interpreter_parallel_scan.html" title="{souffle::InterpreterParallelScan\n||}" alt="" coords="1261,322,1483,399"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_interpreter_parallel_index_scan.html" title="{souffle::InterpreterParallel\lIndexScan\n||}" alt="" coords="1037,455,1227,547"/>
+</map>

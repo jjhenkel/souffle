@@ -1,0 +1,4 @@
+<map id="souffle::TEST" name="souffle::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_sparse_bit_map.html#a12220e5f5229b2320f1e80918268f226" title="Sets the bit addressed by i to 1. " alt="" coords="160,5,351,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_sparse_bit_map.html#a1f45589a8666256a0f2544e151a0eb4d" title="Determines the whether the bit addressed by i is set or not. " alt="" coords="174,57,337,98"/>
+</map>

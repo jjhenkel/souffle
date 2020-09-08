@@ -1,0 +1,12 @@
+<map id="ram/AbstractAggregate.h" name="ram/AbstractAggregate.h">
+<area shape="rect" id="node2" href="$_aggregate_op_8h.html" title="AggregateOp.h" alt="" coords="311,304,429,331"/>
+<area shape="rect" id="node17" href="$_condition_8h.html" title="ram/Condition.h" alt="" coords="1291,80,1417,107"/>
+<area shape="rect" id="node18" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="1305,155,1403,181"/>
+<area shape="rect" id="node21" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="1191,379,1365,420"/>
+<area shape="rect" id="node29" href="$_expression_8h.html" title="ram/Expression.h" alt="" coords="1493,80,1628,107"/>
+<area shape="rect" id="node3" href="$_type_attribute_8h.html" title="souffle/TypeAttribute.h" alt="" coords="105,386,275,413"/>
+<area shape="rect" id="node5" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="735,386,911,413"/>
+<area shape="rect" id="node6" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="799,468,901,495"/>
+<area shape="rect" id="node19" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="1234,229,1431,256"/>
+<area shape="rect" id="node20" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="1139,304,1284,331"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="souffle::test::isNotSubtypeOf" name="souffle::test::isNotSubtypeOf">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a8cc19c66d9d13ce64e65f14dcabb43b3" title="Determines whether type a is a subtype of type b. " alt="" coords="263,56,416,82"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a14b5f9eb9ec09c40e558b242e75de872" title="A generic test checking whether all elements within a container satisfy a certain predicate..." alt="" coords="777,10,888,37"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#a34f8eecb81c090fca9e58d3357b63ed9" title="A generic test checking whether any elements within a container satisfy a certain predicate..." alt="" coords="528,30,647,57"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_type.html#a2bc9172d0ce6390a7960b24b16172c79" title="souffle::Type::getTypeEnvironment" alt="" coords="464,81,711,108"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a56f7e0bb6f22aecf27c01b2365d4316f" title="Determines whether the given type is a sub&#45;type of the given root type. " alt="" coords="508,132,667,158"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_subset_type.html#ac5c52e503cbce42370d6ada3f050773d" title="souffle::SubsetType\l::getBaseType" alt="" coords="759,91,907,132"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_union_type.html#a0175bce933a70c1d3691114860ac17fc" title="souffle::UnionType\l::getElementTypes" alt="" coords="761,156,904,198"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="include/souffle/profile/ProfileDatabase.h" name="include/souffle/profile/ProfileDatabase.h">
+<area shape="rect" id="node2" href="$_event_processor_8h.html" title="include/souffle/profile\l/EventProcessor.h" alt="" coords="344,95,507,136"/>
+<area shape="rect" id="node3" href="$_profile_event_8h.html" title="include/souffle/profile\l/ProfileEvent.h" alt="" coords="307,184,469,225"/>
+<area shape="rect" id="node7" href="$_reader_8h.html" title="include/souffle/profile\l/Reader.h" alt="" coords="581,273,744,315"/>
+<area shape="rect" id="node9" href="$_tui_8h.html" title="include/souffle/profile\l/Tui.h" alt="" coords="472,363,635,404"/>
+<area shape="rect" id="node4" href="$_compiled_souffle_8h.html" title="include/souffle/Compiled\lSouffle.h" alt="" coords="265,363,447,404"/>
+<area shape="rect" id="node5" href="$_logger_8h.html" title="include/souffle/profile\l/Logger.h" alt="" coords="188,273,351,315"/>
+<area shape="rect" id="node6" href="$_interpreter_engine_8cpp.html" title="interpreter/InterpreterEngine.cpp" alt="" coords="5,370,240,397"/>
+<area shape="rect" id="node8" href="$_profile_use_8cpp.html" title="ast/analysis/ProfileUse.cpp" alt="" coords="659,370,856,397"/>
+<area shape="rect" id="node10" href="$_cli_8h.html" title="include/souffle/profile\l/Cli.h" alt="" coords="399,452,561,493"/>
+<area shape="rect" id="node12" href="$main_8cpp.html" title="main.cpp" alt="" coords="585,459,668,486"/>
+<area shape="rect" id="node11" href="$souffle__prof_8cpp.html" title="souffle_prof.cpp" alt="" coords="417,541,543,568"/>
+</map>

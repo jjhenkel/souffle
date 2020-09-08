@@ -1,0 +1,23 @@
+<map id="souffle::AstSemanticCheckerImpl::checkBranchInits" name="souffle::AstSemanticCheckerImpl::checkBranchInits">
+<area shape="rect" id="node2" href="$classsouffle_1_1_error_report.html#a699dc9231cef74ac54573e3c79de7143" title="Adds an error with the given message and location. " alt="" coords="286,5,433,47"/>
+<area shape="rect" id="node4" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="539,71,669,98"/>
+<area shape="rect" id="node5" href="$namespacetinyformat.html#adc3e74768f0e2204f9f9a726fc07ec61" title="tinyformat::format" alt="" coords="288,189,431,215"/>
+<area shape="rect" id="node17" href="$classsouffle_1_1_ast_program.html#aa04b430e385f40c6fe2bf7ad2ca31bb3" title="Return clauses. " alt="" coords="284,259,435,300"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_sum_type_branches_analysis.html#a172d9fbbfb1e21c0891ddb8620a1b95a" title="A type can be nullptr in case of a malformed program. " alt="" coords="263,123,456,164"/>
+<area shape="rect" id="node20" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="275,363,443,390"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_diagnostic_message.html#ad3fd6ab90856d9cdd9bbba3140440362" title="souffle::DiagnosticMessage\l::DiagnosticMessage" alt="" coords="504,5,704,47"/>
+<area shape="rect" id="node6" href="$namespacetinyformat.html#a86ed74eb3ed66a662e96220d877da964" title="Format list of arguments to the stream according to the given format string. " alt="" coords="529,173,679,199"/>
+<area shape="rect" id="node14" href="$namespacetinyformat.html#ab7b10973ec89e6601353675a85f99d61" title="tinyformat::makeFormatList" alt="" coords="752,106,957,133"/>
+<area shape="rect" id="node7" href="$namespacetinyformat_1_1detail.html#a9fe547bc617c38498e58c12cce507bec" title="tinyformat::detail\l::formatImpl" alt="" coords="787,157,923,199"/>
+<area shape="rect" id="node15" href="$namespacetinyformat.html#a970fd8292e14eb74ba55bafb41017016" title="tinyformat::printf" alt="" coords="787,223,922,250"/>
+<area shape="rect" id="node16" href="$namespacetinyformat.html#a97775445fea05ffaaa0690ab3bb1a920" title="tinyformat::printfln" alt="" coords="782,274,927,301"/>
+<area shape="rect" id="node8" href="$namespacetinyformat_1_1detail.html#ad3d636b9f85202b515c8940b7fcb62a6" title="tinyformat::detail\l::printFormatStringLiteral" alt="" coords="1007,92,1192,133"/>
+<area shape="rect" id="node9" href="$namespacetinyformat_1_1detail.html#ab4493739cbfe66bc79867f13f1fdf0db" title="tinyformat::detail\l::streamStateFromFormat" alt="" coords="1005,157,1193,199"/>
+<area shape="rect" id="node13" href="$classtinyformat_1_1detail_1_1_format_arg.html#acbf435711bbe4a4da7fc81758d7108a9" title="tinyformat::detail\l::FormatArg::format" alt="" coords="1024,223,1175,264"/>
+<area shape="rect" id="node10" href="$namespacetinyformat_1_1detail.html#a67285e0adb9f4164f9fc30a3eb11c771" title="tinyformat::detail\l::parseIntAndAdvance" alt="" coords="1468,128,1632,169"/>
+<area shape="rect" id="node11" href="$namespacetinyformat_1_1detail.html#ae1e94cbdd9e7cf26f17856a1792664e1" title="tinyformat::detail\l::parseWidthOrPrecision" alt="" coords="1241,187,1420,228"/>
+<area shape="rect" id="node12" href="$classtinyformat_1_1detail_1_1_format_arg.html#a91b69f66ce9dc8ca2914dce8985d7a1a" title="tinyformat::detail\l::FormatArg::toInt" alt="" coords="1482,193,1618,235"/>
+<area shape="rect" id="node18" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="531,325,677,351"/>
+<area shape="rect" id="node21" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="520,376,688,417"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="759,376,950,417"/>
+</map>

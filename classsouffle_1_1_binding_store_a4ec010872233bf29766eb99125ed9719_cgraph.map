@@ -1,0 +1,5 @@
+<map id="souffle::BindingStore::bindVariableStrongly" name="souffle::BindingStore::bindVariableStrongly">
+<area shape="rect" id="node2" href="$classsouffle_1_1_binding_store.html#a594ec5b176c2869a3c9b3158ba8d1998" title="Reduce the full set of dependencies for all tracked variables, binding whatever needs to be bound..." alt="" coords="219,5,385,47"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="639,13,768,39"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_binding_store.html#abb22bacd553e7fefeacf4bec7f801d22" title="Reduce a conjunctive set of dependencies based on the current bound variable set. ..." alt="" coords="433,35,591,76"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="souffle::AstUserDefinedFunctor::clone" name="souffle::AstUserDefinedFunctor::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_user_defined_functor.html#adb375a6244cc2dc421ec11c3f592012d" title="souffle::AstUserDefinedFunctor\l::AstUserDefinedFunctor" alt="" coords="276,5,499,47"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="333,71,442,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="287,122,487,149"/>
+</map>

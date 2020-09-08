@@ -1,0 +1,18 @@
+<map id="tests/binary_relation_test.cpp" name="tests/binary_relation_test.cpp">
+<area shape="rect" id="node2" href="$test_8h.html" title="tests/test.h" alt="" coords="2082,191,2177,218"/>
+<area shape="rect" id="node6" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="2963,363,3138,404"/>
+<area shape="rect" id="node35" href="$_ram_types_8h.html" title="souffle/RamTypes.h" alt="" coords="3365,370,3515,397"/>
+<area shape="rect" id="node43" href="$_compiled_tuple_8h.html" title="souffle/CompiledTuple.h" alt="" coords="4373,191,4552,218"/>
+<area shape="rect" id="node45" href="$_equivalence_relation_8h.html" title="souffle/datastructure\l/EquivalenceRelation.h" alt="" coords="3648,95,3819,136"/>
+<area shape="rect" id="node3" href="$_cache_util_8h.html" title="souffle/utility/CacheUtil.h" alt="" coords="1880,281,2067,307"/>
+<area shape="rect" id="node16" href="$_file_util_8h.html" title="souffle/utility/FileUtil.h" alt="" coords="482,281,651,307"/>
+<area shape="rect" id="node24" href="$_functional_util_8h.html" title="souffle/utility/Functional\lUtil.h" alt="" coords="1888,363,2067,404"/>
+<area shape="rect" id="node25" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="1381,281,1557,307"/>
+<area shape="rect" id="node30" href="$_parallel_util_8h.html" title="souffle/utility/Parallel\lUtil.h" alt="" coords="4125,363,4285,404"/>
+<area shape="rect" id="node32" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="2528,281,2723,307"/>
+<area shape="rect" id="node34" href="$_string_util_8h.html" title="souffle/utility/StringUtil.h" alt="" coords="1658,281,1843,307"/>
+<area shape="rect" id="node26" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="1315,370,1418,397"/>
+<area shape="rect" id="node46" href="$_lambda_b_tree_8h.html" title="souffle/datastructure\l/LambdaBTree.h" alt="" coords="3437,273,3595,315"/>
+<area shape="rect" id="node47" href="$_piggy_list_8h.html" title="souffle/datastructure\l/PiggyList.h" alt="" coords="4051,273,4208,315"/>
+<area shape="rect" id="node48" href="$_union_find_8h.html" title="souffle/datastructure\l/UnionFind.h" alt="" coords="3821,184,3979,225"/>
+</map>

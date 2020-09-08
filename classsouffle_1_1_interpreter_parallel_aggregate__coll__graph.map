@@ -1,0 +1,8 @@
+<map id="souffle::InterpreterParallelAggregate" name="souffle::InterpreterParallelAggregate">
+<area shape="rect" id="node2" href="$classsouffle_1_1_interpreter_aggregate.html" title="{souffle::InterpreterAggregate\n||+ getExpr()\l+ InterpreterAggregate()\l}" alt="" coords="594,469,805,561"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_node.html" title="This is a shadow node for a RamNode that is enriched for with local information so that the interpret..." alt="" coords="228,263,405,399"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ram_node.html" title="RamNode is a superclass for all RAM IR classes. " alt="" coords="196,5,339,200"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_interpreter_conditional_operation.html" title="Encode a conditional operation for the interpreter node. " alt="" coords="572,277,827,384"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_interpreter_nested_operation.html" title="Encode a nested operation for the interpreter node. " alt="" coords="851,277,1078,384"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_interpreter_abstract_parallel.html" title="Interpreter node that utilizes parallel execution should inherit from this class. ..." alt="" coords="1034,461,1231,568"/>
+</map>

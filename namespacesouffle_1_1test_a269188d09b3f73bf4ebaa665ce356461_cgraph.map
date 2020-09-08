@@ -1,0 +1,13 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_rule_body.html#ad554bfad4d052b10adafdf8aa28c19f2" title="souffle::RuleBody::atom" alt="" coords="192,5,368,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_rule_body.html#a139adc191122303ad6e5bf6ea4838376" title="souffle::RuleBody::\lconjunct" alt="" coords="416,166,559,207"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_rule_body.html#ac1e54bffa94b318ed21412f4b315cce2" title="souffle::RuleBody::\ldisjunct" alt="" coords="416,35,559,77"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_rule_body.html#a02b1cb5f5bfbabba694ed5157db74f54" title="souffle::RuleBody::\lgetFalse" alt="" coords="209,107,351,149"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_rule_body.html#a5273d418619201dddb754307db4c8679" title="souffle::RuleBody::\lgetTrue" alt="" coords="416,283,559,325"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_rule_body.html#a9537e01989ed2174897bff1da32c537e" title="souffle::RuleBody::\lnegated" alt="" coords="209,225,351,266"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="217,341,343,368"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_rule_body.html#ab781d432c15591350939fea720dd7761" title="souffle::RuleBody::\linsert" alt="" coords="607,101,749,142"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_rule_body.html#a2039bceff21c2e0b203b9ee9e111b5e9" title="souffle::RuleBody::\lequal" alt="" coords="797,101,940,142"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_rule_body.html#ad8ccec97cd2842d5e5b71eaac5c46ea1" title="souffle::RuleBody::\lRuleBody" alt="" coords="416,101,559,142"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="433,232,542,259"/>
+</map>

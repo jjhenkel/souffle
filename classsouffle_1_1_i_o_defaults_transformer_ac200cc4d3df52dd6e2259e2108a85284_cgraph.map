@@ -1,0 +1,12 @@
+<map id="souffle::IODefaultsTransformer::setDefaults" name="souffle::IODefaultsTransformer::setDefaults">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_program.html#a86ed983b604a215888bfac31528779da" title="Add relation directive. " alt="" coords="310,5,461,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="304,71,467,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_program.html#ae84a2ab777b8766301dca51b3e999303" title="Return relation directives. " alt="" coords="310,123,461,164"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="289,188,482,229"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_i_o_defaults_transformer.html#acb2988bf9337156d757022fc96b06e8f" title="Get the relation name from the qualified name. " alt="" coords="275,253,496,295"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="567,130,713,157"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_directive.html#ac3b4d30239e2bc5649198c904e40b607" title="Get relation name. " alt="" coords="563,184,717,225"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_ast_qualified_name.html#a4b36798d8506689de4ec2794f4777bfa" title="get qualifiers " alt="" coords="544,249,736,291"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#abe4e3f19879707216a2758b03f4e2deb" title="Creates an object to be forwarded to some output stream for printing sequences of elements interspers..." alt="" coords="591,315,689,342"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="577,366,703,393"/>
+</map>

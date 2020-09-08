@@ -1,0 +1,6 @@
+<map id="souffle::RamAggregate::clone" name="souffle::RamAggregate::clone">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="277,5,386,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_nested_operation.html#afdbbe7da4e005809c1ca1531b06f65f0" title="Get nested operation. " alt="" coords="224,57,439,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_tuple_operation.html#ae121c8c72d4b9dcb56fe2d69b6364720" title="Get identifier. " alt="" coords="230,122,433,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ram_aggregate.html#a77ce8f44c37c927be497073f5d41ffff" title="souffle::RamAggregate\l::RamAggregate" alt="" coords="246,187,417,229"/>
+</map>

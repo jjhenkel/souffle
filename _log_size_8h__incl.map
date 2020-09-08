@@ -1,0 +1,15 @@
+<map id="ram/LogSize.h" name="ram/LogSize.h">
+<area shape="rect" id="node2" href="$ram_2_node_8h.html" title="ram/Node.h" alt="" coords="2351,229,2449,256"/>
+<area shape="rect" id="node15" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="988,461,1164,487"/>
+<area shape="rect" id="node24" href="$ram_2_relation_8h.html" title="ram/Relation.h" alt="" coords="1561,155,1679,181"/>
+<area shape="rect" id="node28" href="$_relation_statement_8h.html" title="ram/RelationStatement.h" alt="" coords="1967,80,2153,107"/>
+<area shape="rect" id="node30" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="1505,379,1700,405"/>
+<area shape="rect" id="node31" href="$_string_util_8h.html" title="souffle/utility/StringUtil.h" alt="" coords="541,461,726,487"/>
+<area shape="rect" id="node3" href="$ram_2_lambda_node_mapper_8h.html" title="ram/LambdaNodeMapper.h" alt="" coords="2332,304,2529,331"/>
+<area shape="rect" id="node4" href="$ram_2_node_mapper_8h.html" title="ram/NodeMapper.h" alt="" coords="1775,379,1921,405"/>
+<area shape="rect" id="node5" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="1797,453,1971,495"/>
+<area shape="rect" id="node16" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="1186,543,1289,569"/>
+<area shape="rect" id="node25" href="$_relation_tag_8h.html" title="RelationTag.h" alt="" coords="1169,379,1279,405"/>
+<area shape="rect" id="node29" href="$_statement_8h.html" title="ram/Statement.h" alt="" coords="2207,155,2339,181"/>
+<area shape="rect" id="node32" href="$_ram_types_8h.html" title="souffle/RamTypes.h" alt="" coords="76,543,225,569"/>
+</map>

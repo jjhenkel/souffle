@@ -1,0 +1,6 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_graph.html#a1430ebe60d2c2377db62448a788cbc00" title="Determines whether the given vertex is present. " alt="" coords="192,5,368,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_graph.html#a8aa22759dcb069b37180e193b67a060c" title="Adds a new edge from the given vertex to the target vertex. " alt="" coords="201,56,359,83"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_graph.html#a98011f8cbf34ce1fe189beadd683bd8e" title="Determines whether there is a directed path between the two vertices. " alt="" coords="194,107,366,133"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="217,157,343,184"/>
+</map>

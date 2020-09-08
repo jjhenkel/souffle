@@ -1,0 +1,5 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_signed_constant.html#abf996dbc52661ca043c8f80b89d9b899" title="Create clone. " alt="" coords="192,39,399,80"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ram_signed_constant.html#a57d8766328603f5285eddbd92336954c" title="Get value of the constant. " alt="" coords="447,5,653,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_signed_constant.html#aab3fa17654fe7bce2fe1c16329802bbc" title="souffle::RamSignedConstant\l::RamSignedConstant" alt="" coords="447,71,653,112"/>
+</map>

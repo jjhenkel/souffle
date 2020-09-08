@@ -1,0 +1,12 @@
+<map id="souffle::FoldAnonymousRecords::transformClause" name="souffle::FoldAnonymousRecords::transformClause">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="613,5,722,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_fold_anonymous_records.html#aa07be477cf83eac3eeee9545b6be3e61" title="Expand constraint on records position&#45;wise. " alt="" coords="283,122,513,163"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_binary_constraint.html#aec8d30b8684b3a2f5f715204999776a0" title="Return binary operator. " alt="" coords="565,57,769,98"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a6befeedfd76433e1bd51a1f6cd42afec" title="souffle::isEqConstraint" alt="" coords="583,188,751,215"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_clause.html#a1b5199df425ba5839383a75c5bb8a254" title="Obtains a copy of the internally maintained body literals. " alt="" coords="329,326,467,367"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_fold_anonymous_records.html#a0cacb8e39397971113abc52f94888a01" title="Determine if binary constraint can be expanded. " alt="" coords="283,239,513,281"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_binary_constraint.html#a72b9e10473e1748d720bbf68a3e7f471" title="Return left&#45;hand side argument. " alt="" coords="565,239,769,281"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_binary_constraint.html#a61055c91c04bcbe4d03873044c6bf4b8" title="Return right&#45;hand side argument. " alt="" coords="565,122,769,163"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="594,356,741,383"/>
+<area shape="rect" id="node11" href="$namespacesouffle.html#a269a51553c86cbb637013907c879f478" title="Negated Constraint Operator Each operator requires a negated operator which is necessary for the expa..." alt="" coords="561,305,773,332"/>
+</map>

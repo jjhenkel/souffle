@@ -1,0 +1,10 @@
+<map id="souffle::InterpreterViewOperation" name="souffle::InterpreterViewOperation">
+<area shape="rect" id="node2" href="$classsouffle_1_1_interpreter_existence_check.html" title="{souffle::InterpreterExistence\lCheck\n|&#45; totalSearch\l|+ InterpreterExistenceCheck()\l+ isTotalSearch()\l}" alt="" coords="5,160,224,267"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_index_aggregate.html" title="{souffle::InterpreterIndex\lAggregate\n||+ InterpreterIndexAggregate()\l}" alt="" coords="248,167,467,259"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_interpreter_index_choice.html" title="{souffle::InterpreterIndex\lChoice\n||+ InterpreterIndexChoice()\l}" alt="" coords="491,167,687,259"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_interpreter_index_scan.html" title="{souffle::InterpreterIndexScan\n||+ InterpreterIndexScan()\l}" alt="" coords="712,175,923,252"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_interpreter_provenance_existence_check.html" title="{souffle::InterpreterProvenance\lExistenceCheck\n||+ InterpreterProvenanceExistence\lCheck()\l}" alt="" coords="947,160,1192,267"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_interpreter_parallel_index_aggregate.html" title="{souffle::InterpreterParallel\lIndexAggregate\n||}" alt="" coords="262,315,453,407"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_interpreter_parallel_index_choice.html" title="{souffle::InterpreterParallel\lIndexChoice\n||}" alt="" coords="494,315,685,407"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_interpreter_parallel_index_scan.html" title="{souffle::InterpreterParallel\lIndexScan\n||}" alt="" coords="722,315,913,407"/>
+</map>

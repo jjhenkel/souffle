@@ -1,0 +1,9 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$namespacesouffle_1_1test.html#a10453085bc4f71f32dcda443d4b3c446" title="souffle::test::count" alt="" coords="200,5,343,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_table.html#a3002e71167f947004d2875031a695115" title="souffle::Table::empty" alt="" coords="192,56,351,83"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_table.html#aad8de2c814f9152f3ec1a1b7c47a973e" title="souffle::Table::insert" alt="" coords="195,107,348,133"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_table.html#a88231c129c15ab846c85d3b493bdb8e3" title="souffle::Table::size" alt="" coords="200,157,343,184"/>
+<area shape="rect" id="node5" href="$structsouffle_1_1_table_1_1_block.html#a290013e3bb34eea65c91a614a5891e6b" title="souffle::Table::Block\l::append" alt="" coords="399,34,551,75"/>
+<area shape="rect" id="node6" href="$structsouffle_1_1_table_1_1_block.html#ada989161270a8a960e5f9ff3d75a7e59" title="souffle::Table::Block\l::Block" alt="" coords="399,99,551,141"/>
+<area shape="rect" id="node7" href="$structsouffle_1_1_table_1_1_block.html#a0241f60234e7eb7bf3a84428052bdf80" title="souffle::Table::Block\l::isFull" alt="" coords="399,165,551,206"/>
+</map>

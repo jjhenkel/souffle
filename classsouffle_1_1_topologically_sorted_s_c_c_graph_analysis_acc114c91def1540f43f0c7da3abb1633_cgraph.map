@@ -1,0 +1,9 @@
+<map id="souffle::TopologicallySortedSCCGraphAnalysis::run" name="souffle::TopologicallySortedSCCGraphAnalysis::run">
+<area shape="rect" id="node2" href="$classsouffle_1_1_topologically_sorted_s_c_c_graph_analysis.html#a815c85be1a0b19ad109138174f228009" title="Recursive component for the forwards algorithm computing the topological ordering of the SCCs..." alt="" coords="255,55,535,111"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_s_c_c_graph_analysis.html#a2726bd0bbfbe280f7bb57bcb6f17b824" title="Get all predecessor SCCs of a given SCC. " alt="" coords="583,5,777,47"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_s_c_c_graph_analysis.html#a06a876176d46f333d02284aa9e0c7677" title="Get all successor SCCs of a given SCC. " alt="" coords="583,85,777,127"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="298,187,491,228"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_s_c_c_graph_analysis.html#a82a01373c5e4da761c1217fc9b4c0b2b" title="Get the number of SCCs in the graph. " alt="" coords="297,252,492,293"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_debug_report.html#ac0feb8780d23c2ca5d7700e4857b10c4" title="souffle::DebugReport\l::addSection" alt="" coords="601,180,759,221"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_global.html#a2dcb257b0f98d0b882862427cc965640" title="souffle::Global::config" alt="" coords="599,246,761,273"/>
+</map>

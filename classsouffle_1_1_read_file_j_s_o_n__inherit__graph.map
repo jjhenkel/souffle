@@ -1,0 +1,5 @@
+<map id="souffle::ReadFileJSON" name="souffle::ReadFileJSON">
+<area shape="rect" id="node2" href="$classsouffle_1_1_read_stream_j_s_o_n.html" title="{souffle::ReadStreamJSON\n|# file\l# isInitialized\l# jsonSource\l# paramIndex\l# params\l# pos\l# useObjects\l|+ ReadStreamJSON()\l# readNextElementList()\l# readNextElementObject()\l# readNextTuple()\l# readNextTupleList()\l# readNextTupleObject()\l}" alt="" coords="5,520,208,759"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_read_stream.html" title="{souffle::ReadStream\n||+ readAll()\l# consumeChar()\l# consumeWhiteSpace()\l# readADT()\l# readAlphanumeric()\l# readNextTuple()\l# readRecord()\l# ReadStream()\l# readUntil()\l}" alt="" coords="15,277,198,472"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_serialisation_stream.html" title="{souffle::SerialisationStream\l\&lt; false \&gt;\n|# arity\l# auxiliaryArity\l# recordTable\l# symbolTable\l# typeAttributes\l# types\l|+ ~SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l# SerialisationStream()\l&#45; setupFromJson()\l}" alt="" coords="5,5,208,229"/>
+</map>

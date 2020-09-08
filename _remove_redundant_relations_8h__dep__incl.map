@@ -1,0 +1,7 @@
+<map id="ast/transform/RemoveRedundantRelations.h" name="ast/transform/RemoveRedundantRelations.h">
+<area shape="rect" id="node2" href="$ast__transformers__test_8cpp.html" title="ast/tests/ast_transformers\l_test.cpp" alt="" coords="5,184,199,225"/>
+<area shape="rect" id="node3" href="$_magic_set_8h.html" title="ast/transform/MagicSet.h" alt="" coords="231,102,416,129"/>
+<area shape="rect" id="node5" href="$main_8cpp.html" title="main.cpp" alt="" coords="447,191,530,218"/>
+<area shape="rect" id="node6" href="$_remove_redundant_relations_8cpp.html" title="ast/transform/RemoveRedundant\lRelations.cpp" alt="" coords="491,95,727,136"/>
+<area shape="rect" id="node4" href="$_magic_set_8cpp.html" title="ast/transform/MagicSet.cpp" alt="" coords="223,191,423,218"/>
+</map>

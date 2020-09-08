@@ -1,0 +1,50 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classsouffle_1_1_ast_transformer.html" title="souffle::AstTransformer" alt="" coords="5,1173,179,1199"/>
+<area shape="rect" id="node2" href="$classsouffle_1_1_add_nullaries_to_atomless_aggregates_transformer.html" title="Transformation pass to add artificial nullary atom (+Tautology()) to aggregate bodies that have no at..." alt="" coords="238,5,470,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_a_d_tto_records_transformer.html" title="souffle::ADTtoRecordsTransformer" alt="" coords="233,71,475,98"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_component_checker.html" title="souffle::AstComponentChecker" alt="" coords="243,122,465,149"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_execution_plan_checker.html" title="souffle::AstExecutionPlan\lChecker" alt="" coords="261,173,447,215"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_pragma_checker.html" title="souffle::AstPragmaChecker" alt="" coords="255,239,453,266"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ast_semantic_checker.html" title="souffle::AstSemanticChecker" alt="" coords="249,290,459,317"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_user_defined_functors_transformer.html" title="Transformation that passes the type information from user functors declaration to functors instances..." alt="" coords="239,341,469,383"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_component_instantiation_transformer.html" title="souffle::ComponentInstantiation\lTransformer" alt="" coords="239,407,469,448"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_fold_anonymous_records.html" title="Transformation pass that removes (binary) constraints on the anonymous records. " alt="" coords="239,473,469,499"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_grounded_terms_checker.html" title="souffle::GroundedTermsChecker" alt="" coords="239,523,469,550"/>
+<area shape="rect" id="node12" href="$classsouffle_1_1_inline_relations_transformer.html" title="Transformation pass to inline marked relations. " alt="" coords="269,575,439,616"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_i_o_attributes_transformer.html" title="Transformation pass to set attribute names and types in IO operations. " alt="" coords="239,641,469,667"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_i_o_defaults_transformer.html" title="Transformation pass to set defaults for IO operations. " alt="" coords="243,691,465,718"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_magic_set_transformer_1_1_adorn_database_transformer.html" title="Database adornment. " alt="" coords="249,743,459,784"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_magic_set_transformer_1_1_label_database_transformer_1_1_negative_labelling_transformer.html" title="Runs the first stage of the labelling algorithm. " alt="" coords="241,809,467,865"/>
+<area shape="rect" id="node17" href="$classsouffle_1_1_magic_set_transformer_1_1_label_database_transformer_1_1_positive_labelling_transformer.html" title="Runs the second stage of the labelling algorithm. " alt="" coords="245,889,463,945"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1_magic_set_transformer_1_1_magic_set_core_transformer.html" title="Core section of the magic set transformer. " alt="" coords="249,969,459,1011"/>
+<area shape="rect" id="node19" href="$classsouffle_1_1_magic_set_transformer_1_1_normalise_database_transformer.html" title="Database normaliser for MST. " alt="" coords="235,1035,473,1076"/>
+<area shape="rect" id="node20" href="$classsouffle_1_1_materialize_aggregation_queries_transformer.html" title="Transformation pass to create artificial relations for bodies of aggregation functions consisting of ..." alt="" coords="241,1100,467,1141"/>
+<area shape="rect" id="node21" href="$classsouffle_1_1_materialize_singleton_aggregation_transformer.html" title="Replaces literals containing single&#45;valued aggregates with a synthesised relation. " alt="" coords="251,1165,457,1207"/>
+<area shape="rect" id="node22" href="$classsouffle_1_1_meta_transformer.html" title="Transformer that coordinates other sub&#45;transformations. " alt="" coords="262,1231,446,1258"/>
+<area shape="rect" id="node31" href="$classsouffle_1_1_minimise_program_transformer.html" title="Transformation pass to remove equivalent rules. " alt="" coords="260,1283,448,1324"/>
+<area shape="rect" id="node32" href="$classsouffle_1_1_name_unnamed_variables_transformer.html" title="Transformation pass to replace unnamed variables with singletons. " alt="" coords="236,1348,472,1389"/>
+<area shape="rect" id="node33" href="$classsouffle_1_1_normalise_constraints_transformer.html" title="Transformation pass to normalise constraints. " alt="" coords="247,1413,461,1455"/>
+<area shape="rect" id="node34" href="$classsouffle_1_1_partition_body_literals_transformer.html" title="Transformation pass to move literals into new clauses if they are independent of remaining literals..." alt="" coords="249,1479,459,1520"/>
+<area shape="rect" id="node35" href="$classsouffle_1_1_polymorphic_objects_transformer.html" title="Transformation pass to determine instances of polymorphic object objects = Functors (plus..." alt="" coords="252,1544,456,1585"/>
+<area shape="rect" id="node36" href="$classsouffle_1_1_provenance_transformer.html" title="Transformation pass to add provenance information. " alt="" coords="240,1610,468,1637"/>
+<area shape="rect" id="node37" href="$classsouffle_1_1_reduce_existentials_transformer.html" title="Transformation pass to reduce unnecessary computation for relations that only appear in the form A(_..." alt="" coords="255,1661,453,1703"/>
+<area shape="rect" id="node38" href="$classsouffle_1_1_remove_boolean_constraints_transformer.html" title="Transformation pass to remove constant boolean constraints Should be called after any transformation ..." alt="" coords="227,1727,481,1768"/>
+<area shape="rect" id="node39" href="$classsouffle_1_1_remove_empty_relations_transformer.html" title="Transformation pass to remove all empty relations and rules that use empty relations. " alt="" coords="239,1792,469,1833"/>
+<area shape="rect" id="node40" href="$classsouffle_1_1_remove_redundant_relations_transformer.html" title="Transformation pass to remove relations which are redundant (do not contribute to output)..." alt="" coords="256,1857,452,1899"/>
+<area shape="rect" id="node41" href="$classsouffle_1_1_remove_redundant_sums_transformer.html" title="Transformation pass to remove expressions of the form sum k : { ... " alt="" coords="256,1923,452,1964"/>
+<area shape="rect" id="node42" href="$classsouffle_1_1_remove_relation_copies_transformer.html" title="Transformation pass to replaces copy of relations by their origin. " alt="" coords="242,1988,466,2029"/>
+<area shape="rect" id="node43" href="$classsouffle_1_1_remove_typecasts_transformer.html" title="Transformation to remove typecasts. " alt="" coords="259,2053,449,2095"/>
+<area shape="rect" id="node44" href="$classsouffle_1_1_reorder_literals_transformer.html" title="Transformation pass to reorder body literals. " alt="" coords="268,2119,440,2160"/>
+<area shape="rect" id="node45" href="$classsouffle_1_1_replace_singleton_variables_transformer.html" title="Transformation pass to replace singleton variables with unnamed variables. " alt="" coords="261,2184,447,2225"/>
+<area shape="rect" id="node46" href="$classsouffle_1_1_resolve_aliases_transformer.html" title="Transformation pass to eliminate grounded aliases. " alt="" coords="229,2250,479,2277"/>
+<area shape="rect" id="node47" href="$classsouffle_1_1_resolve_anonymous_record_aliases.html" title="Transformer resolving aliases for anonymous records. " alt="" coords="253,2301,455,2343"/>
+<area shape="rect" id="node48" href="$classsouffle_1_1_unique_aggregation_variables_transformer.html" title="Transformation pass to rename aggregation variables to make them unique. " alt="" coords="255,2367,453,2408"/>
+<area shape="rect" id="node23" href="$classsouffle_1_1_conditional_transformer.html" title="Transformer that executes a sub&#45;transformer iff a condition holds. " alt="" coords="529,1105,756,1131"/>
+<area shape="rect" id="node24" href="$classsouffle_1_1_debug_reporter.html" title="Transformation pass which wraps another transformation pass and generates a debug report section for ..." alt="" coords="557,1155,728,1182"/>
+<area shape="rect" id="node25" href="$classsouffle_1_1_fixpoint_transformer.html" title="Transformer that repeatedly executes a sub&#45;transformer until no changes are made. ..." alt="" coords="541,1206,744,1233"/>
+<area shape="rect" id="node26" href="$classsouffle_1_1_null_transformer.html" title="Transformer that does absolutely nothing. " alt="" coords="553,1257,732,1283"/>
+<area shape="rect" id="node27" href="$classsouffle_1_1_pipeline_transformer.html" title="Transformer that holds an arbitrary number of sub&#45;transformations. " alt="" coords="541,1307,745,1334"/>
+<area shape="rect" id="node30" href="$classsouffle_1_1_while_transformer.html" title="Transformer that repeatedly executes a sub&#45;transformer while a condition is met. " alt="" coords="548,1358,737,1385"/>
+<area shape="rect" id="node28" href="$classsouffle_1_1_magic_set_transformer.html" title="Magic Set Transformation. " alt="" coords="804,1278,1015,1305"/>
+<area shape="rect" id="node29" href="$classsouffle_1_1_magic_set_transformer_1_1_label_database_transformer.html" title="Database labeller. " alt="" coords="804,1329,1015,1371"/>
+</map>

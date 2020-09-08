@@ -1,0 +1,8 @@
+<map id="souffle::InterpreterAggregate" name="souffle::InterpreterAggregate">
+<area shape="rect" id="node5" href="$classsouffle_1_1_interpreter_index_aggregate.html" title="{souffle::InterpreterIndex\lAggregate\n||+ InterpreterIndexAggregate()\l}" alt="" coords="110,359,329,451"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_interpreter_parallel_aggregate.html" title="{souffle::InterpreterParallel\lAggregate\n||}" alt="" coords="353,359,544,451"/>
+<area shape="rect" id="node2" href="$classsouffle_1_1_interpreter_node.html" title="This is a shadow node for a RamNode that is enriched for with local information so that the interpret..." alt="" coords="5,5,183,171"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_conditional_operation.html" title="Encode a conditional operation for the interpreter node. " alt="" coords="207,35,461,141"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_interpreter_nested_operation.html" title="Encode a nested operation for the interpreter node. " alt="" coords="486,35,713,141"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_interpreter_parallel_index_aggregate.html" title="{souffle::InterpreterParallel\lIndexAggregate\n||}" alt="" coords="124,499,315,591"/>
+</map>

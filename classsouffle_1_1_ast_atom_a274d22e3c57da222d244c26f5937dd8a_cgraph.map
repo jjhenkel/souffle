@@ -1,0 +1,5 @@
+<map id="souffle::AstAtom::clone" name="souffle::AstAtom::clone">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ast_atom.html#aff90a9baa7ef585a9083f11e1fe1ac78" title="souffle::AstAtom::AstAtom" alt="" coords="229,5,424,32"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="272,56,381,83"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="227,107,427,133"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_ram_index_scan.html#af3cd77f3a31b1277f61ea43b6a0e8a2c" title="Create a clone (i.e. " alt="" coords="192,122,363,163"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="463,5,573,32"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ram_nested_operation.html#afdbbe7da4e005809c1ca1531b06f65f0" title="Get nested operation. " alt="" coords="411,57,625,98"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ram_nested_operation.html#a680ef8e965daa0ff12930306cd6a48a5" title="Get profile text. " alt="" coords="411,122,625,163"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ram_tuple_operation.html#ae121c8c72d4b9dcb56fe2d69b6364720" title="Get identifier. " alt="" coords="417,187,619,229"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_ram_index_scan.html#a1a005946a8681773a73fbc7f984f9383" title="souffle::RamIndexScan\l::RamIndexScan" alt="" coords="433,253,603,294"/>
+</map>

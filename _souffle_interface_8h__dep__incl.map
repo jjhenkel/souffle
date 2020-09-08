@@ -1,0 +1,10 @@
+<map id="include/souffle/SouffleInterface.h" name="include/souffle/SouffleInterface.h">
+<area shape="rect" id="node2" href="$_compiled_souffle_8h.html" title="include/souffle/Compiled\lSouffle.h" alt="" coords="5,80,188,121"/>
+<area shape="rect" id="node3" href="$_explain_provenance_8h.html" title="include/souffle/provenance\l/ExplainProvenance.h" alt="" coords="213,80,410,121"/>
+<area shape="rect" id="node6" href="$_explain_provenance_impl_8h.html" title="include/souffle/provenance\l/ExplainProvenanceImpl.h" alt="" coords="349,169,546,211"/>
+<area shape="rect" id="node7" href="$_swig_interface_8h.html" title="include/souffle/swig\l/SwigInterface.h" alt="" coords="485,80,636,121"/>
+<area shape="rect" id="node8" href="$_interpreter_prog_interface_8h.html" title="interpreter/InterpreterProg\lInterface.h" alt="" coords="660,80,853,121"/>
+<area shape="rect" id="node9" href="$interpreter__relation__test_8cpp.html" title="interpreter/tests/interpreter\l_relation_test.cpp" alt="" coords="723,169,923,211"/>
+<area shape="rect" id="node4" href="$_explain_8h.html" title="include/souffle/provenance\l/Explain.h" alt="" coords="349,259,546,300"/>
+<area shape="rect" id="node5" href="$main_8cpp.html" title="main.cpp" alt="" coords="474,348,557,375"/>
+</map>

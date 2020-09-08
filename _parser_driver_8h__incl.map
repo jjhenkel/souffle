@@ -1,0 +1,35 @@
+<map id="parser/ParserDriver.h" name="parser/ParserDriver.h">
+<area shape="rect" id="node2" href="$_relation_tag_8h.html" title="RelationTag.h" alt="" coords="6137,453,6247,480"/>
+<area shape="rect" id="node14" href="$_clause_8h.html" title="ast/Clause.h" alt="" coords="4595,304,4698,331"/>
+<area shape="rect" id="node18" href="$_src_location_8h.html" title="parser/SrcLocation.h" alt="" coords="3076,610,3231,637"/>
+<area shape="rect" id="node20" href="$_qualified_name_8h.html" title="ast/QualifiedName.h" alt="" coords="2692,453,2847,480"/>
+<area shape="rect" id="node28" href="$_component_8h.html" title="ast/Component.h" alt="" coords="3841,229,3975,256"/>
+<area shape="rect" id="node29" href="$_component_init_8h.html" title="ast/ComponentInit.h" alt="" coords="3717,304,3872,331"/>
+<area shape="rect" id="node31" href="$_directive_8h.html" title="ast/Directive.h" alt="" coords="2831,379,2948,405"/>
+<area shape="rect" id="node32" href="$ast_2_relation_8h.html" title="ast/Relation.h" alt="" coords="3531,304,3642,331"/>
+<area shape="rect" id="node34" href="$_type_8h.html" title="ast/Type.h" alt="" coords="2128,379,2216,405"/>
+<area shape="rect" id="node35" href="$_functor_declaration_8h.html" title="ast/FunctorDeclaration.h" alt="" coords="5325,453,5505,480"/>
+<area shape="rect" id="node37" href="$_pragma_8h.html" title="ast/Pragma.h" alt="" coords="2103,453,2211,480"/>
+<area shape="rect" id="node38" href="$_subset_type_8h.html" title="ast/SubsetType.h" alt="" coords="2066,304,2198,331"/>
+<area shape="rect" id="node39" href="$ast_2_translation_unit_8h.html" title="ast/TranslationUnit.h" alt="" coords="498,80,654,107"/>
+<area shape="rect" id="node47" href="$_debug_report_8h.html" title="reports/DebugReport.h" alt="" coords="1515,610,1683,637"/>
+<area shape="rect" id="node3" href="$_misc_util_8h.html" title="souffle/utility/MiscUtil.h" alt="" coords="6276,528,6452,555"/>
+<area shape="rect" id="node4" href="$tinyformat_8h.html" title="tinyformat.h" alt="" coords="5662,610,5765,637"/>
+<area shape="rect" id="node15" href="$_atom_8h.html" title="ast/Atom.h" alt="" coords="4277,379,4371,405"/>
+<area shape="rect" id="node16" href="$_literal_8h.html" title="ast/Literal.h" alt="" coords="3985,453,4084,480"/>
+<area shape="rect" id="node17" href="$ast_2_node_8h.html" title="ast/Node.h" alt="" coords="3058,528,3150,555"/>
+<area shape="rect" id="node21" href="$_stream_util_8h.html" title="souffle/utility/StreamUtil.h" alt="" coords="4191,528,4385,555"/>
+<area shape="rect" id="node24" href="$_container_util_8h.html" title="souffle/utility/Container\lUtil.h" alt="" coords="5221,603,5395,644"/>
+<area shape="rect" id="node25" href="$ast_2utility_2_node_mapper_8h.html" title="ast/utility/NodeMapper.h" alt="" coords="6372,453,6553,480"/>
+<area shape="rect" id="node27" href="$_execution_plan_8h.html" title="ast/ExecutionPlan.h" alt="" coords="4857,379,5007,405"/>
+<area shape="rect" id="node30" href="$_component_type_8h.html" title="ast/ComponentType.h" alt="" coords="3377,379,3540,405"/>
+<area shape="rect" id="node33" href="$_attribute_8h.html" title="ast/Attribute.h" alt="" coords="2445,379,2560,405"/>
+<area shape="rect" id="node36" href="$_type_attribute_8h.html" title="souffle/TypeAttribute.h" alt="" coords="5322,528,5491,555"/>
+<area shape="rect" id="node40" href="$_global_8h.html" title="Global.h" alt="" coords="1758,610,1834,637"/>
+<area shape="rect" id="node41" href="$ast_2_program_8h.html" title="ast/Program.h" alt="" coords="3749,155,3862,181"/>
+<area shape="rect" id="node42" href="$ast_2analysis_2_analysis_8h.html" title="ast/analysis/Analysis.h" alt="" coords="1859,610,2029,637"/>
+<area shape="rect" id="node43" href="$_precedence_graph_8h.html" title="ast/analysis/PrecedenceGraph.h" alt="" coords="601,229,831,256"/>
+<area shape="rect" id="node44" href="$_s_c_c_graph_8h.html" title="ast/analysis/SCCGraph.h" alt="" coords="907,155,1088,181"/>
+<area shape="rect" id="node45" href="$_sum_type_branches_8h.html" title="ast/analysis/SumTypeBranches.h" alt="" coords="600,528,835,555"/>
+<area shape="rect" id="node46" href="$analysis_2_type_8h.html" title="ast/analysis/Type.h" alt="" coords="1329,229,1476,256"/>
+</map>

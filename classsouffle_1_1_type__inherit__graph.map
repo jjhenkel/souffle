@@ -1,0 +1,9 @@
+<map id="souffle::Type" name="souffle::Type">
+<area shape="rect" id="node2" href="$classsouffle_1_1_algebraic_data_type.html" title="Aggregates types using sums and products. " alt="" coords="5,263,201,399"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_constant_type.html" title="Representing the type assigned to a constant. " alt="" coords="226,292,389,369"/>
+<area shape="rect" id="node4" href="$structsouffle_1_1_record_type.html" title="A record type combining a list of fields into a new, aggregated type. " alt="" coords="413,270,561,391"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_subset_type.html" title="A type being a subset of another type. " alt="" coords="585,277,733,384"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_union_type.html" title="A union type combining a list of types into a new, aggregated type. " alt="" coords="757,270,916,391"/>
+<area shape="rect" id="node5" href="$structsouffle_1_1_subset_record_type.html" title="Type representing a subset type derived from the record type. " alt="" coords="391,447,583,539"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_primitive_type.html" title="PrimitiveType = Number/Unsigned/Float/Symbol The class representing pre&#45;built, concrete types..." alt="" coords="607,447,770,539"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="souffle::TypeAnalysis::getTypes" name="souffle::TypeAnalysis::getTypes">
+<area shape="rect" id="node2" href="$classsouffle_1_1_type_analysis.html#a70bd76d1a3aa0875180cfcc4fd49fa24" title="Analyse the given clause and computes for each contained argument a set of potential types..." alt="" coords="212,5,371,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_constraint_analysis.html#af22129c80f7cc902684a64c94887f3dd" title="Runs this constraint analysis on the given clause. " alt="" coords="419,5,636,47"/>
+</map>

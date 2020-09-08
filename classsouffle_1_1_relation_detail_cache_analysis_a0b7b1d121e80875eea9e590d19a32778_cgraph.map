@@ -1,0 +1,5 @@
+<map id="souffle::RelationDetailCacheAnalysis::RelationDetailCacheAnalysis" name="souffle::RelationDetailCacheAnalysis::RelationDetailCacheAnalysis">
+<area shape="rect" id="node2" href="$classsouffle_1_1_relation_detail_cache_analysis.html#a87ef962ae8848a94aa468dd58df9869f" title="print the analysis result in HTML format " alt="" coords="325,5,532,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_relation_detail_cache_analysis.html#a13f73ea6690700fc7c040d5e38db3296" title="run analysis for a Ast translation unit " alt="" coords="325,71,532,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="580,71,773,112"/>
+</map>

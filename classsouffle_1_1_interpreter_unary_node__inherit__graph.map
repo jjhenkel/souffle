@@ -1,0 +1,12 @@
+<map id="souffle::InterpreterUnaryNode" name="souffle::InterpreterUnaryNode">
+<area shape="rect" id="node3" href="$classsouffle_1_1_interpreter_debug_info.html" title="{souffle::InterpreterDebugInfo\n||}" alt="" coords="5,373,216,451"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_interpreter_exit.html" title="{souffle::InterpreterExit\n||}" alt="" coords="240,373,408,451"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_interpreter_log_relation_timer.html" title="{souffle::InterpreterLogRelation\lTimer\n||}" alt="" coords="432,366,651,458"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_interpreter_log_timer.html" title="{souffle::InterpreterLogTimer\n||}" alt="" coords="675,373,879,451"/>
+<area shape="rect" id="node7" href="$classsouffle_1_1_interpreter_loop.html" title="{souffle::InterpreterLoop\n||}" alt="" coords="903,373,1078,451"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_interpreter_negation.html" title="{souffle::InterpreterNegation\n||}" alt="" coords="1103,373,1305,451"/>
+<area shape="rect" id="node9" href="$classsouffle_1_1_interpreter_provenance_existence_check.html" title="{souffle::InterpreterProvenance\lExistenceCheck\n||+ InterpreterProvenanceExistence\lCheck()\l}" alt="" coords="1329,359,1575,465"/>
+<area shape="rect" id="node10" href="$classsouffle_1_1_interpreter_query.html" title="{souffle::InterpreterQuery\n||}" alt="" coords="1599,373,1782,451"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_interpreter_tuple_operation.html" title="{souffle::InterpreterTuple\lOperation\n||}" alt="" coords="1806,366,1983,458"/>
+<area shape="rect" id="node2" href="$classsouffle_1_1_interpreter_node.html" title="This is a shadow node for a RamNode that is enriched for with local information so that the interpret..." alt="" coords="902,5,1079,171"/>
+</map>

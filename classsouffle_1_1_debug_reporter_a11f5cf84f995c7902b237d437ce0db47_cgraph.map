@@ -1,0 +1,7 @@
+<map id="souffle::DebugReporter::generateDebugReport" name="souffle::DebugReporter::generateDebugReport">
+<area shape="rect" id="node2" href="$classsouffle_1_1_debug_report.html#a555b97488e24480a728dd1782eafa9db" title="souffle::DebugReport\l::addCodeSection" alt="" coords="243,5,401,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_ast_translation_unit.html#a2c05c0d93e34800167034b1aa423c4a0" title="Return debug report. " alt="" coords="225,71,419,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="225,136,419,177"/>
+<area shape="rect" id="node5" href="$namespacesouffle.html#a1b4770274a3b870800b48955063d9a17" title="souffle::pprint" alt="" coords="266,202,378,229"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#aecc08c83ad9634fc515b7aa094702949" title="A generic function converting strings into strings (trivial case). " alt="" coords="467,202,592,229"/>
+</map>

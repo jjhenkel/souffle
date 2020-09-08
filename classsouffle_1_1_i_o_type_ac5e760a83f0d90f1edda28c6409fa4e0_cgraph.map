@@ -1,0 +1,17 @@
+<map id="souffle::IOType::IOType" name="souffle::IOType::IOType">
+<area shape="rect" id="node2" href="$classsouffle_1_1_i_o_type.html#a2b4a34d799717705b7cce5b808cac583" title="print the analysis result in HTML format " alt="" coords="224,79,380,105"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_i_o_type.html#a4f8103e251342835ad6851db3a2240dc" title="run analysis for a Ast translation unit " alt="" coords="229,203,375,229"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#abe4e3f19879707216a2758b03f4e2deb" title="Creates an object to be forwarded to some output stream for printing sequences of elements interspers..." alt="" coords="475,5,574,32"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="428,57,621,98"/>
+<area shape="rect" id="node6" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="441,123,609,149"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="451,173,599,200"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_ast_directive.html#ac3b4d30239e2bc5649198c904e40b607" title="Get relation name. " alt="" coords="447,225,602,266"/>
+<area shape="rect" id="node14" href="$classsouffle_1_1_ast_directive.html#a90067ec9dba2dc1bdad820eef5dffba6" title="Get directive type. " alt="" coords="447,290,602,331"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_ast_directive.html#a421eacfc68ef6b8b79bb5083c8af9966" title="Check for a parameter. " alt="" coords="447,355,602,397"/>
+<area shape="rect" id="node16" href="$classsouffle_1_1_ast_directive.html#a257dc72ca30a48af03b7b7d2ec8a5ae5" title="Get parameter. " alt="" coords="447,421,602,462"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#a030c754119d60ea72cff8af5b62710e6" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="669,107,837,149"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_node.html#a07dd728cde93a2b1d72d987cf54cbd8e" title="Obtain a list of all embedded AST child nodes. " alt="" coords="885,107,1076,149"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="701,173,805,200"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="678,225,829,266"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#ad62d4e824a9d74c7462da546a21780fe" title="A utility function enabling the creation of a vector of pointers. " alt="" coords="907,232,1054,259"/>
+</map>

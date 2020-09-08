@@ -1,0 +1,51 @@
+<map id="souffle::getBodyLiterals" name="souffle::getBodyLiterals">
+<area shape="rect" id="node2" href="$namespacesouffle.html#a6aa6d61f4a71ddbb2458d23ce24dbced" title="Returns a clause which contains head of the given clause. " alt="" coords="568,42,711,69"/>
+<area shape="rect" id="node7" href="$namespacesouffle.html#ab18cbb3adc2ab328de0db30a3fddf7e0" title="Returns the relation referenced by the given atom. " alt="" coords="548,1391,731,1418"/>
+<area shape="rect" id="node9" href="$namespacesouffle.html#ada252aa15afbf7d703a11b000dfd4048" title="Returns the relation with the given name in the program. " alt="" coords="857,1413,1005,1439"/>
+<area shape="rect" id="node12" href="$namespacesouffle.html#a598a4ed07c31abae549ab7461fb9b7ee" title="Returns the relations referenced in the body of the given clause. " alt="" coords="259,1259,447,1286"/>
+<area shape="rect" id="node16" href="$namespacesouffle.html#ac4f78efaeb4338f70e2dcab6bd0638d2" title="Returns the index of a clause within its relation, ignoring facts. " alt="" coords="267,1107,438,1134"/>
+<area shape="rect" id="node17" href="$namespacesouffle.html#a4d9e53888640a9abfd7ea7c43715152a" title="Returns a vector of clauses in the program describing the relation with the given name..." alt="" coords="566,1493,713,1519"/>
+<area shape="rect" id="node19" href="$namespacesouffle.html#ae4b6e248ec714e64f38ce032caf5f477" title="Returns whether the given clause is a fact. " alt="" coords="584,935,695,962"/>
+<area shape="rect" id="node22" href="$namespacesouffle.html#ae5266d9360a88847a65d1c581f778d89" title="Returns the relation referenced by the head of the given clause. " alt="" coords="261,1158,444,1185"/>
+<area shape="rect" id="node23" href="$namespacesouffle.html#aae039656df27f6089ef34a0a4455dce5" title="Returns whether the given relation has any clauses which contain an aggregation over of a specific re..." alt="" coords="229,1427,476,1468"/>
+<area shape="rect" id="node24" href="$namespacesouffle.html#ab93b9d78c10c77c6d4ab227d5f9b389a" title="Returns whether the given relation has any clauses which contain a negation of a specific relation..." alt="" coords="239,1361,466,1403"/>
+<area shape="rect" id="node25" href="$namespacesouffle.html#a1c608d44d9d95373b73915fd555eeb60" title="Returns whether the given atom is a propositon. " alt="" coords="273,1543,432,1570"/>
+<area shape="rect" id="node26" href="$namespacesouffle.html#aa32d170d4eebb7da45f9322e8b548aa8" title="Returns whether the given clause is recursive. " alt="" coords="543,1138,735,1165"/>
+<area shape="rect" id="node27" href="$namespacesouffle.html#ad9a7da374b6da781f82cdc09d5fe0d38" title="Returns whether the given clause is a rule. " alt="" coords="296,935,409,962"/>
+<area shape="rect" id="node28" href="$namespacesouffle.html#afac57efdf59d29ab435b0cb1c39fe08c" title="Negate an ast constraint. " alt="" coords="259,456,446,497"/>
+<area shape="rect" id="node30" href="$namespacesouffle.html#a03f654ab9f36aa754617f4239aea27c0" title="Remove relation and all its clauses from the program. " alt="" coords="264,1725,441,1751"/>
+<area shape="rect" id="node32" href="$namespacesouffle.html#ab9292da1654c357225e86d08bb81081c" title="Removes the set of clauses with the given relation name. " alt="" coords="525,1695,753,1722"/>
+<area shape="rect" id="node35" href="$namespacesouffle.html#ac21a1b9a684c2a726a2b4729c5bf500d" title="Removes the set of IOs with the given relation name. " alt="" coords="540,1863,739,1890"/>
+<area shape="rect" id="node39" href="$namespacesouffle.html#a6923ebc66b61b5b1f9042a5192f10cb2" title="Rename all atoms hat appear in a node to a given name. " alt="" coords="269,337,436,363"/>
+<area shape="rect" id="node42" href="$namespacesouffle.html#ae77f3374134c13b638bf7644fcebb5ef" title="Reorders the atoms of a clause to be in the given order. " alt="" coords="271,159,434,186"/>
+<area shape="rect" id="node44" href="$namespacesouffle.html#a8d8368064972aded46eeb6b34e4033fd" title="Pick valid overloads for a functor, sorted by some measure of &quot;preference&quot;. " alt="" coords="267,653,439,679"/>
+<area shape="rect" id="node3" href="$namespacesouffle.html#a1dd578fbaf92e67ee52ebdd8cf364584" title="souffle::clone" alt="" coords="876,159,985,186"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_ast_clause.html#aa943423c45971e70c837da5b88c8fc04" title="Obtains the execution plan associated to this clause or null if there is none. " alt="" coords="859,5,1002,47"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_ast_clause.html#a5a29a4f9ba5d0e4aea869cf71a6efbbf" title="Return the atom that represents the head of the clause. " alt="" coords="861,987,1000,1028"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_ast_node.html#a545cacc1afc26c19044a6822b4ca84ae" title="Return source location of the AstNode. " alt="" coords="831,71,1031,98"/>
+<area shape="rect" id="node8" href="$classsouffle_1_1_ast_atom.html#a2fcd569fa7d8ed8c0c2dfd0d1c362e50" title="Return qualified name. " alt="" coords="803,1189,1059,1215"/>
+<area shape="rect" id="node10" href="$namespacesouffle.html#a62f80c157a6a365d78a43592732a8efa" title="Returns the first element in a container that satisfies a given predicate, nullptr otherwise..." alt="" coords="1130,1383,1234,1410"/>
+<area shape="rect" id="node11" href="$classsouffle_1_1_ast_program.html#a71fb3c28c3a105637c22cbe6a9fb63ef" title="Return relations. " alt="" coords="1107,1435,1257,1476"/>
+<area shape="rect" id="node13" href="$classsouffle_1_1_ast_clause.html#a1b5199df425ba5839383a75c5bb8a254" title="Obtains a copy of the internally maintained body literals. " alt="" coords="861,1059,1000,1100"/>
+<area shape="rect" id="node14" href="$namespacesouffle.html#a307bae61c898715dccb57c9732335000" title="A utility function visiting all nodes within the ast rooted by the given node recursively in a depth&#45;..." alt="" coords="847,1138,1015,1165"/>
+<area shape="rect" id="node15" href="$classsouffle_1_1_ast_atom.html#a9c726c597d7921245dd97dcc72b8aeed" title="Return arguments. " alt="" coords="524,1543,755,1570"/>
+<area shape="rect" id="node21" href="$namespacesouffle.html#a315141918c39611929a694840f046fb5" title="souffle::fatal" alt="" coords="879,514,983,541"/>
+<area shape="rect" id="node18" href="$classsouffle_1_1_ast_program.html#aa04b430e385f40c6fe2bf7ad2ca31bb3" title="Return clauses. " alt="" coords="855,1485,1006,1527"/>
+<area shape="rect" id="node20" href="$classsouffle_1_1_ast_intrinsic_functor.html#a01ba7a7e6289f2b4abb05f37e7eea872" title="Get function information. " alt="" coords="833,921,1028,963"/>
+<area shape="rect" id="node29" href="$namespacesouffle.html#a269a51553c86cbb637013907c879f478" title="Negated Constraint Operator Each operator requires a negated operator which is necessary for the expa..." alt="" coords="533,463,745,490"/>
+<area shape="rect" id="node31" href="$classsouffle_1_1_ast_translation_unit.html#a85862a5fcfecdf63c7367926cdedde23" title="Return the program. " alt="" coords="834,1797,1027,1839"/>
+<area shape="rect" id="node38" href="$classsouffle_1_1_ast_program.html#a4f826133054d1115c2e3c542d7892829" title="Remove relation. " alt="" coords="558,1747,721,1788"/>
+<area shape="rect" id="node33" href="$classsouffle_1_1_ast_translation_unit.html#af396e44c83e5ad410c9ec3e2f6b91758" title="get analysis: analysis is generated on the fly if not present " alt="" coords="834,1709,1027,1751"/>
+<area shape="rect" id="node34" href="$classsouffle_1_1_ast_program.html#a0bde67af569811987d8e21929163d132" title="Remove a clause. " alt="" coords="855,1644,1006,1685"/>
+<area shape="rect" id="node36" href="$namespacesouffle.html#a31e4c7cc91ccf5433ca701d55c790a6c" title="souffle::getDirectives" alt="" coords="850,1863,1011,1890"/>
+<area shape="rect" id="node37" href="$classsouffle_1_1_ast_program.html#a4dd4bfc7c0761e3d05412099256ced4f" title="Remove a directive. " alt="" coords="855,1915,1006,1956"/>
+<area shape="rect" id="node40" href="$namespacesouffle.html#af3295dd83a588d612cf777e600beac4a" title="A utility to check generically whether a given element is contained in a given container. " alt="" coords="575,362,704,389"/>
+<area shape="rect" id="node41" href="$classsouffle_1_1_ast_node.html#ad7c4f8ce0322749e72ed60f543c6fd93" title="Apply the mapper to all child nodes. " alt="" coords="553,311,726,338"/>
+<area shape="rect" id="node43" href="$classsouffle_1_1_ast_clause.html#a633dd9d64dd06d315d44c6d5cba17e1a" title="Add a literal to the body of the clause. " alt="" coords="570,93,709,135"/>
+<area shape="rect" id="node45" href="$classsouffle_1_1_type_analysis.html#ae54c7f752529cbe534c2cc52944c7768" title="Get the computed types for the given argument. " alt="" coords="560,616,719,657"/>
+<area shape="rect" id="node46" href="$namespacesouffle.html#a3ee420750c5fe0cbd927daeafc9c73a2" title="souffle::getTypeAttribute" alt="" coords="548,514,731,541"/>
+<area shape="rect" id="node47" href="$namespacesouffle.html#a850ddc94302e9b170a98729a22a4c8fa" title="Applies a function to each element of a vector and returns the results. " alt="" coords="588,565,691,591"/>
+<area shape="rect" id="node48" href="$classsouffle_1_1_ast_term.html#a5bf9145afa6b327c21e3393123c292c3" title="Get arguments. " alt="" coords="526,682,753,709"/>
+<area shape="rect" id="node49" href="$namespacesouffle.html#a6502e279c40a34078cb9d93a465c7590" title="Filter a vector to exclude certain elements. " alt="" coords="576,733,703,759"/>
+<area shape="rect" id="node50" href="$namespacesouffle.html#a8affaadaa53ee3984b294261de5e0ee4" title="souffle::functorBuiltIn" alt="" coords="558,783,721,810"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="souffle::TEST" name="souffle::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_trie.html#afaf8af82f0a3f3ae1cb99e3a4c90431e" title="Obtains an iterator referencing the first element stored within this trie. " alt="" coords="169,5,310,32"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_trie.html#aaebd63a2231c556ef5a6f3abbd05f939" title="Obtains an iterator referencing the position after the last element stored within this trie..." alt="" coords="175,56,304,83"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_trie.html#ac2aca7acbf15881d6f673e2702a193dd" title="Inserts a new entry. " alt="" coords="168,107,311,133"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_trie.html#a8c08695b078cf8a4b2a91530e0556227" title="Inserts all elements stored within the given trie into this trie. " alt="" coords="160,157,319,184"/>
+<area shape="rect" id="node6" href="$classsouffle_1_1_trie.html#a8f7b41339b2f9ea97df15d0411072d08" title="Determines the number of entries in this trie. " alt="" coords="174,208,305,235"/>
+</map>

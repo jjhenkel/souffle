@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structsouffle_1_1detail_1_1is__printable_3_01_t_00_01typename_01std_1_1conditional_3_01false_00_6524b7834a471e17ac26f0874b83b7af.html" title="A type trait to check whether a given type is printable. " alt="" coords="137,5,328,76"/>
+<area shape="rect" id="node3" href="$structsouffle_1_1_is_ptr_like_3_01_own_3_01_a_01_4_01_4.html" title="souffle::IsPtrLike\l\&lt; Own\&lt; A \&gt; \&gt;" alt="" coords="167,100,298,141"/>
+<area shape="rect" id="node4" href="$structsouffle_1_1_is_ptr_like_3_01std_1_1shared__ptr_3_01_a_01_4_01_4.html" title="souffle::IsPtrLike\l\&lt; std::shared_ptr\&lt; A \&gt; \&gt;" alt="" coords="139,165,327,207"/>
+<area shape="rect" id="node5" href="$structsouffle_1_1_is_ptr_like_3_01std_1_1weak__ptr_3_01_a_01_4_01_4.html" title="souffle::IsPtrLike\l\&lt; std::weak_ptr\&lt; A \&gt; \&gt;" alt="" coords="143,231,322,272"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="souffle::test::TEST" name="souffle::test::TEST">
+<area shape="rect" id="node2" href="$classsouffle_1_1_optimistic_read_write_lock.html#a527393d158960f8d0a2a3ad82936f855" title="souffle::OptimisticReadWrite\lLock::end_read" alt="" coords="192,5,399,47"/>
+<area shape="rect" id="node3" href="$classsouffle_1_1_optimistic_read_write_lock.html#a2ff951dc4720c1fc4a98de26bd3e60e9" title="souffle::OptimisticReadWrite\lLock::end_write" alt="" coords="192,71,399,112"/>
+<area shape="rect" id="node4" href="$classsouffle_1_1_optimistic_read_write_lock.html#a82575d8ef5555ba82a37605bbd960f1b" title="souffle::OptimisticReadWrite\lLock::start_read" alt="" coords="192,136,399,177"/>
+<area shape="rect" id="node5" href="$classsouffle_1_1_optimistic_read_write_lock.html#a9facc4c006439583af520cc0f2539fd1" title="souffle::OptimisticReadWrite\lLock::start_write" alt="" coords="192,201,399,243"/>
+</map>
