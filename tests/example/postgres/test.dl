@@ -1,0 +1,94 @@
+#include "clang-schema.dl"
+
+.decl clang_named_decl (gid:GID, the_name:symbol, qualified_name:symbol)
+.input clang_named_decl (IO=postgres, table="clang_named_decl")
+
+.decl clang_cast_expr (gid:GID, sub_expr_id:GID)
+.input clang_cast_expr (IO=postgres, table="clang_cast_expr")
+
+.decl clang_decl_ref_expr_contextual (gid:GID, the_decl_id:GID)
+.input clang_decl_ref_expr_contextual (IO=postgres, table="clang_decl_ref_expr_contextual")
+
+.decl clang_member_expr (gid:GID, the_member_decl_id:GID)
+.input clang_member_expr (IO=postgres, table="clang_member_expr")
+
+.decl clang_unary_operator (gid:GID, sub_expr_id:GID)
+.input clang_unary_operator (IO=postgres, table="clang_unary_operator")
+
+.decl clang_binary_operator (gid:GID, the_lhs_id:GID, the_rhs_id:GID, opcode_str:symbol)
+.input clang_binary_operator (IO=postgres, table="clang_binary_operator")
+
+.decl clang_call_expr_contextual (gid:GID, callee_decl_id:GID)
+.input clang_call_expr_contextual (IO=postgres, table="clang_call_expr_contextual")
+
+.decl clang_call_expr_argument (gid:GID, argument:GID, idx:number)
+.input clang_call_expr_argument (IO=postgres_array, table="clang_call_expr", array="arguments_ids")
+
+.decl clang_function_decl_parameter (gid:GID, parameter:GID, idx:number)
+.input clang_function_decl_parameter (IO=postgres_array, table="clang_function_decl", array="parameters_ids")
+
+.decl clang_function_decl_contextual (gid:GID, the_definition_id:GID)
+.input clang_function_decl_contextual (IO=postgres, table="clang_function_decl_contextual")
+
+.decl clang_parm_var_decl (gid:GID)
+.input clang_parm_var_decl (IO=postgres, table="clang_parm_var_decl")
+
+.decl clang_full_expr (gid:GID, sub_expr_id:GID)
+.input clang_full_expr (IO=postgres, table="clang_full_expr")
+
+.decl clang_stmt (gid:GID, stmt_kind:symbol)
+.input clang_stmt (IO=postgres, table="clang_stmt")
+
+.decl clang_stmt_child (gid:GID, child:GID, idx:number)
+.input clang_stmt_child (IO=postgres_array, table="clang_stmt", array="children_ids")
+
+.decl Targets (gid:GID)
+Targets(G) :- Clang.VarDecl(G), clang_named_decl(G, N, _), N = "dscname", !clang_parm_var_decl(G).
+
+.decl Flows (src:GID, dst:GID)
+
+Flows(S, D) :-
+  clang_decl_ref_expr_contextual(D, S).
+
+Flows(S, D) :-
+  clang_cast_expr(D, S).
+
+Flows(S, D) :-
+  clang_call_expr_argument(C, S, I),
+  clang_call_expr_contextual(C, FD),
+  clang_function_decl_contextual(FD, RD),
+  clang_function_decl_parameter(RD, D, I).
+
+Flows(A, A) :- clang_stmt(A, _).
+
+Flows(A, C) :- Flows(A, B), Flows(B, C).
+
+.decl CallsThatUseTargets (gid:GID, name:symbol)
+CallsThatUseTargets(G, N) :-
+  Targets(T),
+  Flows(T, A),
+  clang_call_expr_argument(C, A, _),
+  clang_call_expr_contextual(C, G),
+  clang_named_decl(G, _, N).
+
+.decl ParamsThatAreTargets (gid:GID, fname:symbol, pname:symbol)
+ParamsThatAreTargets(PD, F, P) :-
+  Targets(T),
+  Flows(T, A),
+  clang_call_expr_argument(C, A, I),
+  clang_call_expr_contextual(C, FD),
+  clang_named_decl(FD, _, F),
+  clang_function_decl_parameter(FD, PD, I),
+  clang_parm_var_decl(PD),
+  clang_named_decl(PD, _, P).
+
+/* 
+    Interesting: It's actually pretty hard to tell what "Declaration" a 
+    given call expression points to. Both for obvious reasons, like explicit
+    idirection, and for less obvious reasons, like not having the called 
+    function's definition in the current Translation Unit. 
+*/
+.output Targets
+.output CallsThatUseTargets
+.output ParamsThatAreTargets
+.output Flows

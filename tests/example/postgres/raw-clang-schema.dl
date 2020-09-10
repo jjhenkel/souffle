@@ -1,0 +1,7496 @@
+#include "clang-types.dl"
+
+.comp RawClang {
+  /* Auto-generated from schema.sql */
+  .decl do_stmt (
+    gid:GID,
+    cobj_kind:number,
+    the_cond_id:GID,
+    the_body_id:GID,
+    do_loc_id:GID,
+    while_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input do_stmt (
+    IO=postgres,
+    table="clang_do_stmt"
+  )
+  .decl do_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input do_stmt_children (
+    IO=postgres_array,
+    table="clang_do_stmt",
+    array="children_ids"
+  )
+
+  .decl source_location (
+    gid:GID,
+    cobj_kind:number,
+    valid:bool,
+    line_number:number,
+    column_number:number,
+    file_offset:number,
+    is_file_id:bool,
+    is_macro_id:bool,
+    is_in_system_header:bool,
+    the_file_name:symbol,
+    directory_name:symbol,
+    is_named_pipe:bool,
+    sid:SID
+  )
+  .input source_location (
+    IO=postgres,
+    table="clang_source_location"
+  )
+
+  .decl source_range (
+    gid:GID,
+    cobj_kind:number,
+    valid:bool,
+    the_begin_id:GID,
+    the_end_id:GID,
+    as_text:symbol,
+    sid:SID
+  )
+  .input source_range (
+    IO=postgres,
+    table="clang_source_range"
+  )
+
+  .decl using_decl (
+    gid:GID,
+    cobj_kind:number,
+    using_loc_id:GID,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    name_info_id:GID,
+    is_access_declaration:bool,
+    has_typename:bool,
+    shadows_size:number,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input using_decl (
+    IO=postgres,
+    table="clang_using_decl"
+  )
+  .decl using_decl_shadows (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input using_decl_shadows (
+    IO=postgres_array,
+    table="clang_using_decl",
+    array="shadows_ids"
+  )
+
+  .decl using_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input using_decl_contextual (
+    IO=postgres,
+    table="clang_using_decl_contextual"
+  )
+
+  .decl type_loc (
+    gid:GID,
+    cobj_kind:number,
+    is_null:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    source_range_id:GID,
+    local_source_range_id:GID,
+    full_data_size:number,
+    unqualified_loc_id:GID,
+    without_parens_id:GID,
+    explicit_qualifier_loc_id:GID,
+    type_loc_class:number,
+    nullability_loc_id:GID,
+    type_ptr_id:GID,
+    qual_type_id:GID,
+    sid:SID
+  )
+  .input type_loc (
+    IO=postgres,
+    table="clang_type_loc"
+  )
+
+  .decl type_loc_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    next_type_loc_id:GID
+  )
+  .input type_loc_contextual (
+    IO=postgres,
+    table="clang_type_loc_contextual"
+  )
+
+  .decl var_decl (
+    gid:GID,
+    cobj_kind:number,
+    source_range_id:GID,
+    storage_class:number,
+    tsc_spec:number,
+    tls_kind:number,
+    has_local_storage:bool,
+    is_static_local:bool,
+    has_external_storage:bool,
+    has_global_storage:bool,
+    storage_duration:number,
+    language_linkage:number,
+    is_extern_c:bool,
+    is_in_extern_c_context:bool,
+    is_in_extern_cxx_context:bool,
+    is_local_var_decl:bool,
+    is_local_var_decl_or_parm:bool,
+    is_function_or_method_var_decl:bool,
+    is_static_data_member:bool,
+    is_this_declaration_a_definition:number,
+    has_definition:number,
+    is_out_of_line:bool,
+    is_file_var_decl:bool,
+    any_initializer_id:GID,
+    has_init:bool,
+    initializer_id:GID,
+    initializing_declaration_id:GID,
+    might_be_usable_in_constant_expressions:bool,
+    is_usable_in_constant_expressions:bool,
+    is_init_known_ice:bool,
+    is_init_ice:bool,
+    init_style:number,
+    is_direct_init:bool,
+    is_this_declaration_a_demoted_definition:bool,
+    is_exception_variable:bool,
+    is_nrvo_variable:bool,
+    is_cxx_for_range_decl:bool,
+    is_objc_for_decl:bool,
+    is_arc_pseudo_strong:bool,
+    is_inline:bool,
+    is_inline_specified:bool,
+    is_constexpr:bool,
+    is_init_capture:bool,
+    is_parameter_pack:bool,
+    is_escaping_byref:bool,
+    is_non_escaping_byref:bool,
+    template_instantiation_pattern_id:GID,
+    instantiated_from_static_data_member_id:GID,
+    template_specialization_kind:number,
+    template_specialization_kind_for_instantiation:number,
+    member_specialization_info_id:GID,
+    described_var_template_id:GID,
+    is_known_to_be_defined:bool,
+    is_no_destroy:bool,
+    needs_destruction:number,
+    sid:SID
+  )
+  .input var_decl (
+    IO=postgres,
+    table="clang_var_decl"
+  )
+
+  .decl var_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID,
+    acting_definition_id:GID,
+    the_definition_id:GID,
+    point_of_instantiation_id:GID
+  )
+  .input var_decl_contextual (
+    IO=postgres,
+    table="clang_var_decl_contextual"
+  )
+
+  .decl decl_context (
+    gid:GID,
+    cobj_kind:number,
+    decl_kind:number,
+    decl_kind_name:symbol,
+    is_closure:bool,
+    innermost_block_decl_id:GID,
+    is_objc_container:bool,
+    is_function_or_method:bool,
+    is_lookup_context:bool,
+    is_file_context:bool,
+    is_translation_unit:bool,
+    is_record:bool,
+    is_namespace:bool,
+    is_std_namespace:bool,
+    is_inline_namespace:bool,
+    is_dependent_context:bool,
+    is_transparent_context:bool,
+    is_extern_c_context:bool,
+    extern_c_context_id:GID,
+    is_extern_cxx_context:bool,
+    has_external_lexical_storage:bool,
+    has_external_visible_storage:bool,
+    should_use_qualified_lookup:bool,
+    sid:SID
+  )
+  .input decl_context (
+    IO=postgres,
+    table="clang_decl_context"
+  )
+  .decl decl_context_declarations (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input decl_context_declarations (
+    IO=postgres_array,
+    table="clang_decl_context",
+    array="declarations_ids"
+  )
+  .decl decl_context_using_directives (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input decl_context_using_directives (
+    IO=postgres_array,
+    table="clang_decl_context",
+    array="using_directives_ids"
+  )
+
+  .decl decl_context_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    parent_id:GID,
+    lexical_parent_id:GID,
+    lookup_parent_id:GID,
+    non_closure_ancestor_id:GID,
+    primary_context_id:GID,
+    redecl_context_id:GID,
+    enclosing_namespace_context_id:GID,
+    outer_lexical_record_context_id:GID
+  )
+  .input decl_context_contextual (
+    IO=postgres,
+    table="clang_decl_context_contextual"
+  )
+
+  .decl expr (
+    gid:GID,
+    cobj_kind:number,
+    the_type_id:GID,
+    is_value_dependent:bool,
+    is_type_dependent:bool,
+    is_instantiation_dependent:bool,
+    contains_unexpanded_parameter_pack:bool,
+    expr_loc_id:GID,
+    is_l_value:bool,
+    is_r_value:bool,
+    is_x_value:bool,
+    is_gl_value:bool,
+    value_kind:number,
+    object_kind:number,
+    is_ordinary_or_bit_field_object:bool,
+    refers_to_bit_field:bool,
+    source_bit_field_id:GID,
+    objc_property_id:GID,
+    is_objc_self_expr:bool,
+    refers_to_vector_element:bool,
+    refers_to_global_register_var:bool,
+    has_placeholder_type:bool,
+    is_known_to_have_boolean_value:bool,
+    without_imp_casts_id:GID,
+    without_casts_id:GID,
+    without_implicit_id:GID,
+    without_parens_id:GID,
+    without_paren_imp_casts_id:GID,
+    without_paren_casts_id:GID,
+    without_conversion_operator_id:GID,
+    without_paren_l_value_casts_id:GID,
+    without_paren_noop_casts_id:GID,
+    without_paren_base_casts_id:GID,
+    is_default_argument:bool,
+    is_implicit_cxx_this:bool,
+    best_dynamic_class_type_id:GID,
+    skip_r_value_suboject_adjustments_id:GID,
+    classification_id:GID,
+    sid:SID
+  )
+  .input expr (
+    IO=postgres,
+    table="clang_expr"
+  )
+
+  .decl expr_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    referenced_decl_of_callee_id:GID,
+    best_dynamic_class_type_expr_id:GID
+  )
+  .input expr_contextual (
+    IO=postgres,
+    table="clang_expr_contextual"
+  )
+
+  .decl declarator_decl (
+    gid:GID,
+    cobj_kind:number,
+    type_source_info_id:GID,
+    inner_loc_start_id:GID,
+    outer_loc_start_id:GID,
+    source_range_id:GID,
+    begin_loc_id:GID,
+    qualifier_id:GID,
+    qualifier_loc_id:GID,
+    num_template_parameter_lists:number,
+    type_spec_start_loc_id:GID,
+    sid:SID
+  )
+  .input declarator_decl (
+    IO=postgres,
+    table="clang_declarator_decl"
+  )
+
+  .decl value_decl (
+    gid:GID,
+    cobj_kind:number,
+    the_type_id:GID,
+    is_weak:bool,
+    sid:SID
+  )
+  .input value_decl (
+    IO=postgres,
+    table="clang_value_decl"
+  )
+
+  .decl named_decl (
+    gid:GID,
+    cobj_kind:number,
+    identifier_id:GID,
+    the_name:symbol,
+    decl_name_id:GID,
+    qualified_name:symbol,
+    has_linkage:bool,
+    is_cxx_class_member:bool,
+    is_cxx_instance_member:bool,
+    linkage_internal:number,
+    formal_linkage:number,
+    has_external_formal_linkage:bool,
+    is_externally_visible:bool,
+    is_externally_declarable:bool,
+    visibility:number,
+    is_linkage_valid:bool,
+    has_linkage_been_computed:bool,
+    underlying_decl_id:GID,
+    objc_f_string_formatting_family:number,
+    sid:SID
+  )
+  .input named_decl (
+    IO=postgres,
+    table="clang_named_decl"
+  )
+
+  .decl named_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    most_recent_decl_id:GID
+  )
+  .input named_decl_contextual (
+    IO=postgres,
+    table="clang_named_decl_contextual"
+  )
+
+  .decl decl (
+    gid:GID,
+    cobj_kind:number,
+    source_range_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    the_location_id:GID,
+    kind:number,
+    kind_name:symbol,
+    is_in_anonymous_namespace:bool,
+    is_in_std_namespace:bool,
+    access:number,
+    access_unsafe:number,
+    has_attrs:bool,
+    is_invalid_decl:bool,
+    is_implicit:bool,
+    is_top_level_decl_in_objc_container:bool,
+    is_module_private:bool,
+    defining_attr_id:GID,
+    is_deprecated:bool,
+    is_unavailable:bool,
+    is_weak_imported:bool,
+    is_from_ast_file:bool,
+    has_owning_module:bool,
+    is_hidden:bool,
+    module_ownership_kind:number,
+    identifier_namespace:number,
+    has_tag_identifier_namespace:bool,
+    is_out_of_line:bool,
+    is_templated:bool,
+    is_first_decl:bool,
+    is_template_parameter:bool,
+    is_template_parameter_pack:bool,
+    is_parameter_pack:bool,
+    is_template_decl:bool,
+    is_function_or_function_template:bool,
+    described_template_id:GID,
+    as_function_id:GID,
+    is_local_extern_decl:bool,
+    friend_object_kind:number,
+    function_type_id:GID,
+    attached_comment_id:GID,
+    sid:SID
+  )
+  .input decl (
+    IO=postgres,
+    table="clang_decl"
+  )
+  .decl decl_attrs (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input decl_attrs (
+    IO=postgres_array,
+    table="clang_decl",
+    array="attrs_ids"
+  )
+
+  .decl decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    next_decl_in_context_id:GID,
+    decl_context_id:GID,
+    non_closure_context_id:GID,
+    translation_unit_decl_id:GID,
+    imported_owning_module_id:GID,
+    local_owning_module_id:GID,
+    owning_module_id:GID,
+    owning_module_for_linkage_id:GID,
+    lexical_decl_context_id:GID,
+    parent_function_or_method_id:GID,
+    canonical_decl_id:GID,
+    previous_decl_id:GID,
+    most_recent_decl_id:GID,
+    body_id:GID,
+    body_r_brace_id:GID
+  )
+  .input decl_contextual (
+    IO=postgres,
+    table="clang_decl_contextual"
+  )
+  .decl decl_contextual_redecls (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input decl_contextual_redecls (
+    IO=postgres_array,
+    table="clang_decl_contextual",
+    array="redecls_ids"
+  )
+
+  .decl type_decl (
+    gid:GID,
+    cobj_kind:number,
+    type_for_decl_id:GID,
+    begin_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input type_decl (
+    IO=postgres,
+    table="clang_type_decl"
+  )
+
+  .decl addr_label_expr (
+    gid:GID,
+    cobj_kind:number,
+    amp_amp_loc_id:GID,
+    label_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    the_label_id:GID,
+    sid:SID
+  )
+  .input addr_label_expr (
+    IO=postgres,
+    table="clang_addr_label_expr"
+  )
+  .decl addr_label_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input addr_label_expr_children (
+    IO=postgres_array,
+    table="clang_addr_label_expr",
+    array="children_ids"
+  )
+
+  .decl tag_decl (
+    gid:GID,
+    cobj_kind:number,
+    brace_range_id:GID,
+    inner_loc_start_id:GID,
+    outer_loc_start_id:GID,
+    source_range_id:GID,
+    is_this_declaration_a_definition:bool,
+    is_complete_definition:bool,
+    is_complete_definition_required:bool,
+    is_being_defined:bool,
+    is_embedded_in_declarator:bool,
+    is_free_standing:bool,
+    may_have_out_of_date_def:bool,
+    is_dependent_type:bool,
+    tag_kind_name:symbol,
+    tag_kind:number,
+    is_struct:bool,
+    is_interface:bool,
+    is_class:bool,
+    is_union:bool,
+    is_enum:bool,
+    has_name_for_linkage:bool,
+    typedef_name_for_anon_decl_id:GID,
+    qualifier_id:GID,
+    qualifier_loc_id:GID,
+    num_template_parameter_lists:number,
+    sid:SID
+  )
+  .input tag_decl (
+    IO=postgres,
+    table="clang_tag_decl"
+  )
+
+  .decl tag_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID,
+    the_definition_id:GID
+  )
+  .input tag_decl_contextual (
+    IO=postgres,
+    table="clang_tag_decl_contextual"
+  )
+
+  .decl record_decl (
+    gid:GID,
+    cobj_kind:number,
+    has_flexible_array_member:bool,
+    is_anonymous_struct_or_union:bool,
+    has_object_member:bool,
+    has_volatile_member:bool,
+    has_loaded_fields_from_external_storage:bool,
+    is_non_trivial_to_primitive_default_initialize:bool,
+    is_non_trivial_to_primitive_copy:bool,
+    is_non_trivial_to_primitive_destroy:bool,
+    has_non_trivial_to_primitive_default_initialize_c_union:bool,
+    has_non_trivial_to_primitive_destruct_c_union:bool,
+    has_non_trivial_to_primitive_copy_c_union:bool,
+    can_pass_in_registers:bool,
+    arg_passing_restrictions:number,
+    is_param_destroyed_in_callee:bool,
+    is_injected_class_name:bool,
+    is_lambda:bool,
+    is_captured_record:bool,
+    the_definition_id:GID,
+    fields_is_empty:bool,
+    is_ms_struct:bool,
+    may_insert_extra_padding:bool,
+    first_named_data_member_id:GID,
+    sid:SID
+  )
+  .input record_decl (
+    IO=postgres,
+    table="clang_record_decl"
+  )
+  .decl record_decl_fields (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input record_decl_fields (
+    IO=postgres_array,
+    table="clang_record_decl",
+    array="fields_ids"
+  )
+
+  .decl record_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    previous_decl_id:GID,
+    most_recent_decl_id:GID
+  )
+  .input record_decl_contextual (
+    IO=postgres,
+    table="clang_record_decl_contextual"
+  )
+
+  .decl asm_stmt (
+    gid:GID,
+    cobj_kind:number,
+    asm_loc_id:GID,
+    is_simple:bool,
+    is_volatile:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    num_outputs:number,
+    num_plus_operands:number,
+    num_inputs:number,
+    num_clobbers:number,
+    sid:SID
+  )
+  .input asm_stmt (
+    IO=postgres,
+    table="clang_asm_stmt"
+  )
+  .decl asm_stmt_inputs (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input asm_stmt_inputs (
+    IO=postgres_array,
+    table="clang_asm_stmt",
+    array="inputs_ids"
+  )
+  .decl asm_stmt_outputs (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input asm_stmt_outputs (
+    IO=postgres_array,
+    table="clang_asm_stmt",
+    array="outputs_ids"
+  )
+  .decl asm_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input asm_stmt_children (
+    IO=postgres_array,
+    table="clang_asm_stmt",
+    array="children_ids"
+  )
+
+  .decl cxx_record_decl (
+    gid:GID,
+    cobj_kind:number,
+    has_definition:bool,
+    is_dynamic_class:bool,
+    may_be_dynamic_class:bool,
+    may_be_non_dynamic_class:bool,
+    is_parsing_base_specifiers:bool,
+    num_base_classes:number,
+    num_virtual_base_classes:number,
+    has_any_dependent_bases:bool,
+    has_friends:bool,
+    has_simple_copy_constructor:bool,
+    has_simple_move_constructor:bool,
+    has_simple_move_assignment:bool,
+    has_simple_destructor:bool,
+    has_default_constructor:bool,
+    has_user_declared_constructor:bool,
+    has_user_provided_default_constructor:bool,
+    has_user_declared_copy_constructor:bool,
+    implicit_copy_constructor_has_const_param:bool,
+    has_copy_constructor_with_const_param:bool,
+    has_user_declared_move_operation:bool,
+    has_user_declared_move_constructor:bool,
+    has_move_constructor:bool,
+    has_user_declared_copy_assignment:bool,
+    implicit_copy_assignment_has_const_param:bool,
+    has_copy_assignment_with_const_param:bool,
+    has_user_declared_move_assignment:bool,
+    has_move_assignment:bool,
+    has_user_declared_destructor:bool,
+    is_lambda:bool,
+    is_generic_lambda:bool,
+    lambda_is_default_constructible_and_assignable:bool,
+    lambda_call_operator_id:GID,
+    dependent_lambda_call_operator_id:GID,
+    lambda_static_invoker_id:GID,
+    generic_lambda_template_parameter_list_id:GID,
+    lambda_capture_default:number,
+    is_aggregate:bool,
+    has_in_class_initializer:bool,
+    has_uninitialized_reference_member:bool,
+    is_pod:bool,
+    is_c_like:bool,
+    is_empty:bool,
+    has_private_fields:bool,
+    has_protected_fields:bool,
+    has_direct_fields:bool,
+    is_polymorphic:bool,
+    is_abstract:bool,
+    is_standard_layout:bool,
+    is_cxx11_standard_layout:bool,
+    has_mutable_fields:bool,
+    has_variant_members:bool,
+    has_trivial_default_constructor:bool,
+    has_constexpr_non_copy_move_constructor:bool,
+    defaulted_default_constructor_is_constexpr:bool,
+    has_constexpr_default_constructor:bool,
+    has_trivial_copy_constructor:bool,
+    has_trivial_copy_constructor_for_call:bool,
+    has_non_trivial_copy_constructor:bool,
+    has_non_trivial_copy_constructor_for_call:bool,
+    has_trivial_move_constructor:bool,
+    has_trivial_move_constructor_for_call:bool,
+    has_non_trivial_move_constructor:bool,
+    has_non_trivial_move_constructor_for_call:bool,
+    has_trivial_copy_assignment:bool,
+    has_non_trivial_copy_assignment:bool,
+    has_trivial_move_assignment:bool,
+    has_non_trivial_move_assignment:bool,
+    defaulted_destructor_is_constexpr:bool,
+    has_constexpr_destructor:bool,
+    has_trivial_destructor:bool,
+    has_trivial_destructor_for_call:bool,
+    has_non_trivial_destructor:bool,
+    has_non_trivial_destructor_for_call:bool,
+    allow_const_default_init:bool,
+    has_irrelevant_destructor:bool,
+    has_non_literal_type_fields_or_bases:bool,
+    has_inherited_constructor:bool,
+    has_inherited_assignment:bool,
+    is_trivially_copyable:bool,
+    is_trivial:bool,
+    is_literal:bool,
+    instantiated_from_member_class_id:GID,
+    member_specialization_info_id:GID,
+    described_class_template_id:GID,
+    template_specialization_kind:number,
+    template_instantiation_pattern_id:GID,
+    is_any_destructor_no_return:bool,
+    is_local_class_id:GID,
+    may_be_abstract:bool,
+    has_known_lambda_internal_linkage:bool,
+    lambda_context_decl_id:GID,
+    null_field_offset_is_zero:bool,
+    is_dependent_lambda:bool,
+    lambda_type_info_id:GID,
+    is_interface_like:bool,
+    sid:SID
+  )
+  .input cxx_record_decl (
+    IO=postgres,
+    table="clang_cxx_record_decl"
+  )
+  .decl cxx_record_decl_base_classes (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_record_decl_base_classes (
+    IO=postgres_array,
+    table="clang_cxx_record_decl",
+    array="base_classes_ids"
+  )
+  .decl cxx_record_decl_virtual_base_classes (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_record_decl_virtual_base_classes (
+    IO=postgres_array,
+    table="clang_cxx_record_decl",
+    array="virtual_base_classes_ids"
+  )
+  .decl cxx_record_decl_methods (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_record_decl_methods (
+    IO=postgres_array,
+    table="clang_cxx_record_decl",
+    array="methods_ids"
+  )
+  .decl cxx_record_decl_constructors (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_record_decl_constructors (
+    IO=postgres_array,
+    table="clang_cxx_record_decl",
+    array="constructors_ids"
+  )
+  .decl cxx_record_decl_friends (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_record_decl_friends (
+    IO=postgres_array,
+    table="clang_cxx_record_decl",
+    array="friends_ids"
+  )
+  .decl cxx_record_decl_lambda_explicit_template_parameters (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_record_decl_lambda_explicit_template_parameters (
+    IO=postgres_array,
+    table="clang_cxx_record_decl",
+    array="lambda_explicit_template_parameters_ids"
+  )
+  .decl cxx_record_decl_captures (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_record_decl_captures (
+    IO=postgres_array,
+    table="clang_cxx_record_decl",
+    array="captures_ids"
+  )
+
+  .decl cxx_record_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID,
+    previous_decl_id:GID,
+    most_recent_decl_id:GID,
+    most_recent_non_injected_decl_id:GID,
+    the_definition_id:GID,
+    destructor_id:GID
+  )
+  .input cxx_record_decl_contextual (
+    IO=postgres,
+    table="clang_cxx_record_decl_contextual"
+  )
+
+  .decl atomic_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_ptr_id:GID,
+    the_order_id:GID,
+    the_scope_id:GID,
+    the_val_one_id:GID,
+    the_order_fail_id:GID,
+    the_val_two_id:GID,
+    the_weak_id:GID,
+    value_type_id:GID,
+    the_op:number,
+    num_sub_exprs:number,
+    is_volatile:bool,
+    is_cmp_xchg:bool,
+    builtin_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input atomic_expr (
+    IO=postgres,
+    table="clang_atomic_expr"
+  )
+  .decl atomic_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input atomic_expr_children (
+    IO=postgres_array,
+    table="clang_atomic_expr",
+    array="children_ids"
+  )
+
+  .decl type (
+    gid:GID,
+    cobj_kind:number,
+    type_class:number,
+    is_from_ast:bool,
+    contains_unexpanded_parameter_pack:bool,
+    is_canonical_unqualified:bool,
+    is_incomplete_type:bool,
+    is_incomplete_or_object_type:bool,
+    is_object_type:bool,
+    is_literal_type:bool,
+    is_standard_layout_type:bool,
+    is_builtin_type:bool,
+    is_placeholder_type:bool,
+    is_non_overload_placeholder_type:bool,
+    is_integer_type:bool,
+    is_enumeral_type:bool,
+    is_scoped_enumeral_type:bool,
+    is_boolean_type:bool,
+    is_char_type:bool,
+    is_wide_char_type:bool,
+    is_char8_type:bool,
+    is_char16_type:bool,
+    is_char32_type:bool,
+    is_any_character_type:bool,
+    is_integral_type:bool,
+    is_integral_or_enumeration_type:bool,
+    is_integral_or_unscoped_enumeration_type:bool,
+    is_unscoped_enumeration_type:bool,
+    is_real_floating_type:bool,
+    is_complex_type:bool,
+    is_any_complex_type:bool,
+    is_floating_type:bool,
+    is_half_type:bool,
+    is_float16_type:bool,
+    is_float128_type:bool,
+    is_real_type:bool,
+    is_arithmetic_type:bool,
+    is_void_type:bool,
+    is_scalar_type:bool,
+    is_aggregate_type:bool,
+    is_fundamental_type:bool,
+    is_compound_type:bool,
+    is_function_type:bool,
+    is_function_no_proto_type:bool,
+    is_function_proto_type:bool,
+    is_pointer_type:bool,
+    is_any_pointer_type:bool,
+    is_block_pointer_type:bool,
+    is_void_pointer_type:bool,
+    is_reference_type:bool,
+    is_r_value_reference_type:bool,
+    is_object_pointer_type:bool,
+    is_function_pointer_type:bool,
+    is_function_reference_type:bool,
+    is_member_pointer_type:bool,
+    is_member_function_pointer_type:bool,
+    is_member_data_pointer_type:bool,
+    is_array_type:bool,
+    is_constant_array_type:bool,
+    is_incomplete_array_type:bool,
+    is_variable_array_type:bool,
+    is_dependent_sized_array_type:bool,
+    is_record_type:bool,
+    is_class_type:bool,
+    is_structure_type:bool,
+    is_objc_boxable_record_type:bool,
+    is_interface_type:bool,
+    is_structure_or_class_type:bool,
+    is_union_type:bool,
+    is_complex_integer_type:bool,
+    is_vector_type:bool,
+    is_ext_vector_type:bool,
+    is_matrix_type:bool,
+    is_dependent_address_space_type:bool,
+    is_objc_object_pointer_type:bool,
+    is_objc_retainable_type:bool,
+    is_objc_lifetime_type:bool,
+    is_objc_indirect_lifetime_type:bool,
+    is_objc_ns_object_type:bool,
+    is_objc_independent_class_type:bool,
+    is_objc_object_type:bool,
+    is_objc_qualified_interface_type:bool,
+    is_objc_qualified_id_type:bool,
+    is_objc_qualified_class_type:bool,
+    is_objc_object_or_interface_type:bool,
+    is_objc_id_type:bool,
+    is_decltype_type:bool,
+    is_objc_inert_unsafe_unretained_type:bool,
+    is_objc_class_type:bool,
+    is_objc_class_or_class_kind_of_type:bool,
+    is_block_compatible_objc_pointer_type:bool,
+    is_objc_sel_type:bool,
+    is_objc_builtin_type:bool,
+    is_objc_arc_bridgable_type:bool,
+    is_template_type_parm_type:bool,
+    is_null_ptr_type:bool,
+    is_nothrow_t:bool,
+    is_align_val_t:bool,
+    is_std_byte_type:bool,
+    is_atomic_type:bool,
+    is_undeduced_auto_type:bool,
+    is_image_type:bool,
+    is_sampler_t:bool,
+    is_event_t:bool,
+    is_clk_event_t:bool,
+    is_queue_t:bool,
+    is_reserve_idt:bool,
+    is_ocl_ext_opaque_type:bool,
+    is_pipe_type:bool,
+    is_open_cl_specific_type:bool,
+    is_objc_arc_implicitly_unretained_type:bool,
+    objc_arc_implicit_lifetime:number,
+    scalar_type_kind:number,
+    is_dependent_type:bool,
+    is_instantiation_dependent_type:bool,
+    is_undeduced_type:bool,
+    is_variably_modified_type:bool,
+    has_sized_vla_type:bool,
+    has_unnamed_or_local_type:bool,
+    is_overloadable_type:bool,
+    is_elaborated_type_specifier:bool,
+    can_decay_to_pointer_type:bool,
+    has_pointer_representation:bool,
+    has_objc_pointer_representation:bool,
+    has_integer_representation:bool,
+    has_signed_integer_representation:bool,
+    has_unsigned_integer_representation:bool,
+    has_floating_representation:bool,
+    has_auto_for_trailing_return_type:bool,
+    base_element_type_unsafe_id:GID,
+    array_element_type_no_type_qual_id:GID,
+    pointee_or_array_element_type_id:GID,
+    pointee_type_id:GID,
+    is_promotable_integer_type:bool,
+    is_signed_integer_type:bool,
+    is_unsigned_integer_type:bool,
+    is_signed_integer_or_enumeration_type:bool,
+    is_unsigned_integer_or_enumeration_type:bool,
+    is_fixed_point_type:bool,
+    is_fixed_point_or_integer_type:bool,
+    is_saturated_fixed_point_type:bool,
+    is_unsaturated_fixed_point_type:bool,
+    is_signed_fixed_point_type:bool,
+    is_unsigned_fixed_point_type:bool,
+    is_constant_size_type:bool,
+    is_specifier_type:bool,
+    linkage:number,
+    visibility:number,
+    is_visibility_explicit:bool,
+    is_linkage_valid:bool,
+    accepts_objc_type_params:bool,
+    type_class_name:symbol,
+    sid:SID
+  )
+  .input type (
+    IO=postgres,
+    table="clang_type"
+  )
+
+  .decl type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    locall_unqualified_single_step_desugared_type_id:GID,
+    as_placeholder_type_id:GID,
+    as_structure_type_id:GID,
+    as_union_type_id:GID,
+    as_complex_integer_type_id:GID,
+    as_objc_interface_type_id:GID,
+    as_objc_interface_pointer_type_id:GID,
+    as_objc_qualified_id_type_id:GID,
+    as_objc_qualified_class_type_id:GID,
+    as_objc_qualified_interface_type_id:GID,
+    as_cxx_record_decl_id:GID,
+    as_record_decl_id:GID,
+    as_tag_decl_id:GID,
+    pointee_cxx_record_decl_id:GID,
+    contained_deduced_type_id:GID,
+    contained_auto_type_id:GID,
+    as_array_type_unsafe_id:GID,
+    unqualified_desugared_type_id:GID,
+    canonical_type_internal_id:GID,
+    casted_as_array_type_unsafe_id:GID
+  )
+  .input type_contextual (
+    IO=postgres,
+    table="clang_type_contextual"
+  )
+
+  .decl qual_type (
+    gid:GID,
+    cobj_kind:number,
+    local_fast_qualifiers:number,
+    type_ptr_id:GID,
+    base_type_identifier_id:GID,
+    is_canonical:bool,
+    is_canonical_as_param:bool,
+    is_null:bool,
+    is_local_const_qualified:bool,
+    is_const_qualified:bool,
+    is_local_restrict_qualified:bool,
+    is_restrict_qualified:bool,
+    is_local_volatile_qualified:bool,
+    is_volatile_qualified:bool,
+    has_qualifiers:bool,
+    has_local_non_fast_qualifiers:bool,
+    local_qualifiers_id:GID,
+    qualifiers_id:GID,
+    local_cvr_qualifiers:number,
+    cvr_qualifiers:number,
+    is_constant:bool,
+    is_pod_type:bool,
+    is_trivial_type:bool,
+    is_trivially_copyable_type:bool,
+    may_be_dynamic_class:bool,
+    with_const_id:GID,
+    with_volatile_id:GID,
+    with_restrict_id:GID,
+    without_local_fast_qualifiers_id:GID,
+    canonical_type_id:GID,
+    local_unqualified_type_id:GID,
+    unqualified_type_id:GID,
+    non_reference_type_id:GID,
+    non_lvalue_expr_type_id:GID,
+    without_parens_id:GID,
+    as_string:symbol,
+    has_address_space:bool,
+    address_space:number,
+    objc_gc_attr:number,
+    has_non_trivial_objc_lifetime:bool,
+    has_strong_or_weak_objc_lifetime:bool,
+    is_non_trivial_to_primitive_default_initialize:number,
+    is_non_trivial_to_primitive_copy:number,
+    is_non_trivial_to_primitive_destructive_move:number,
+    has_non_trivial_to_primitive_default_initialize_c_union:bool,
+    has_non_trivial_to_primitive_destruct_c_union:bool,
+    has_non_trivial_to_primitive_copy_c_union:bool,
+    is_c_forbidden_lvalue_type:bool,
+    atomic_unqualified_type_id:GID,
+    sid:SID
+  )
+  .input qual_type (
+    IO=postgres,
+    table="clang_qual_type"
+  )
+
+  .decl qual_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_type_id:GID,
+    single_step_desugared_type_id:GID
+  )
+  .input qual_type_contextual (
+    IO=postgres,
+    table="clang_qual_type_contextual"
+  )
+
+  .decl qualifiers (
+    gid:GID,
+    cobj_kind:number,
+    has_const:bool,
+    has_only_const:bool,
+    has_volatile:bool,
+    has_only_volatile:bool,
+    has_restrict:bool,
+    has_only_restrict:bool,
+    has_cvr_qualifiers:bool,
+    cvr_qualifiers:number,
+    cvru_qualifiers:number,
+    has_unaligned:bool,
+    has_objc_gc_attr:bool,
+    objc_gc_attr:number,
+    has_objc_lifetime:bool,
+    objc_lifetime:number,
+    has_non_trivial_objc_lifetime:bool,
+    has_strong_or_weak_objc_lifetime:bool,
+    has_address_space:bool,
+    address_space:number,
+    address_space_attribute_print_value:number,
+    has_fast_qualifiers:bool,
+    fast_qualifiers:number,
+    has_non_fast_qualifiers:bool,
+    non_fast_qualifiers_id:GID,
+    has_qualifiers:bool,
+    as_string:symbol,
+    without_address_space_id:GID,
+    without_objc_gc_attr_id:GID,
+    without_objc_lifetime_id:GID,
+    sid:SID
+  )
+  .input qualifiers (
+    IO=postgres,
+    table="clang_qualifiers"
+  )
+
+  .decl identifier_info (
+    gid:GID,
+    cobj_kind:number,
+    the_length:number,
+    the_name:symbol,
+    has_macro_definition:bool,
+    had_macro_definition:bool,
+    token_kind:number,
+    has_reverted_token_id_to_identifier:bool,
+    pp_keyword_kind:number,
+    objc_keyword_kind:number,
+    has_reverted_builtin:bool,
+    is_extension_token:bool,
+    is_future_compat_keyword:bool,
+    is_poisoned:bool,
+    is_c_plus_plus_operator_keyword:bool,
+    is_keyword:bool,
+    is_c_plus_plus_keyword:bool,
+    is_handle_identifier_case:bool,
+    is_from_ast:bool,
+    has_changed_since_deserialization:bool,
+    has_fe_token_info_changed_since_deserialization:bool,
+    is_out_of_date:bool,
+    is_modules_import:bool,
+    is_editor_placeholder:bool,
+    is_reserved_name_double_underscore:bool,
+    is_reserved_name:bool,
+    sid:SID
+  )
+  .input identifier_info (
+    IO=postgres,
+    table="clang_identifier_info"
+  )
+
+  .decl stmt (
+    gid:GID,
+    cobj_kind:number,
+    stmt_kind:symbol,
+    source_range_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    without_containers_id:GID,
+    without_label_like_statements_id:GID,
+    sid:SID
+  )
+  .input stmt (
+    IO=postgres,
+    table="clang_stmt"
+  )
+  .decl stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input stmt_children (
+    IO=postgres_array,
+    table="clang_stmt",
+    array="children_ids"
+  )
+
+  .decl declaration_name (
+    gid:GID,
+    cobj_kind:number,
+    is_empty:bool,
+    is_identifier:bool,
+    is_objc_zero_arg_selector:bool,
+    is_objc_one_arg_selector:bool,
+    name_kind:number,
+    is_dependent_name:bool,
+    as_string:symbol,
+    as_identifier_info_id:GID,
+    cxx_name_type_id:GID,
+    cxx_deduction_guide_template_id:GID,
+    cxx_overloaded_operator:number,
+    cxx_literal_identifier_id:GID,
+    objc_selector_id:GID,
+    sid:SID
+  )
+  .input declaration_name (
+    IO=postgres,
+    table="clang_declaration_name"
+  )
+
+  .decl declaration_name_info (
+    gid:GID,
+    cobj_kind:number,
+    the_name_id:GID,
+    location_id:GID,
+    named_type_info_id:GID,
+    cxx_operator_name_range_id:GID,
+    cxx_literal_operator_name_loc_id:GID,
+    is_instantiation_dependent:bool,
+    contains_unexpanded_parameter_pack:bool,
+    as_string:symbol,
+    begin_loc_id:GID,
+    source_range_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input declaration_name_info (
+    IO=postgres,
+    table="clang_declaration_name_info"
+  )
+
+  .decl translation_unit_decl (
+    gid:GID,
+    cobj_kind:number,
+    anonymous_namespace_id:GID,
+    sid:SID
+  )
+  .input translation_unit_decl (
+    IO=postgres,
+    table="clang_translation_unit_decl"
+  )
+
+  .decl unqual_type_loc (
+    gid:GID,
+    cobj_kind:number,
+    type_ptr_id:GID,
+    type_loc_class:number,
+    sid:SID
+  )
+  .input unqual_type_loc (
+    IO=postgres,
+    table="clang_unqual_type_loc"
+  )
+
+  .decl type_source_info (
+    gid:GID,
+    cobj_kind:number,
+    the_type_id:GID,
+    sid:SID
+  )
+  .input type_source_info (
+    IO=postgres,
+    table="clang_type_source_info"
+  )
+
+  .decl type_source_info_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    the_type_loc_id:GID
+  )
+  .input type_source_info_contextual (
+    IO=postgres,
+    table="clang_type_source_info_contextual"
+  )
+
+  .decl parm_var_decl (
+    gid:GID,
+    cobj_kind:number,
+    source_range_id:GID,
+    is_ojbc_method_parameter:bool,
+    function_scope_depth:number,
+    function_scope_index:number,
+    objc_decl_qualifier:number,
+    is_knr_promoted:bool,
+    default_arg_id:GID,
+    default_arg_range_id:GID,
+    uninstantiated_default_arg_id:GID,
+    has_default_arg:bool,
+    has_unparsed_default_arg:bool,
+    has_uninstantiated_default_arg:bool,
+    has_inherited_default_arg:bool,
+    original_type_id:GID,
+    sid:SID
+  )
+  .input parm_var_decl (
+    IO=postgres,
+    table="clang_parm_var_decl"
+  )
+
+  .decl using_shadow_decl (
+    gid:GID,
+    cobj_kind:number,
+    target_decl_id:GID,
+    using_decl_id:GID,
+    sid:SID
+  )
+  .input using_shadow_decl (
+    IO=postgres,
+    table="clang_using_shadow_decl"
+  )
+
+  .decl using_shadow_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID,
+    next_using_shadow_decl_id:GID
+  )
+  .input using_shadow_decl_contextual (
+    IO=postgres,
+    table="clang_using_shadow_decl_contextual"
+  )
+
+  .decl nested_name_specifier_loc (
+    gid:GID,
+    cobj_kind:number,
+    has_qualifier:bool,
+    nested_name_specifier_id:GID,
+    source_range_id:GID,
+    local_source_range_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    local_begin_loc_id:GID,
+    local_end_loc_id:GID,
+    prefix_id:GID,
+    type_loc_id:GID,
+    data_length:number,
+    sid:SID
+  )
+  .input nested_name_specifier_loc (
+    IO=postgres,
+    table="clang_nested_name_specifier_loc"
+  )
+
+  .decl using_directive_decl (
+    gid:GID,
+    cobj_kind:number,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    nominated_namespace_as_written_id:GID,
+    nominated_namespace_id:GID,
+    common_ancestor_id:GID,
+    using_loc_id:GID,
+    namespace_key_location_id:GID,
+    ident_location_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input using_directive_decl (
+    IO=postgres,
+    table="clang_using_directive_decl"
+  )
+
+  .decl nested_name_specifier (
+    gid:GID,
+    cobj_kind:number,
+    prefix_id:GID,
+    kind:number,
+    is_dependent:bool,
+    is_instantiation_dependent:bool,
+    contians_unexpanded_parameter_pack:bool,
+    sid:SID
+  )
+  .input nested_name_specifier (
+    IO=postgres,
+    table="clang_nested_name_specifier"
+  )
+
+  .decl nested_name_specifier_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    as_identifier_id:GID,
+    as_namespace_id:GID,
+    as_namespace_alias_id:GID,
+    as_record_decl_id:GID,
+    as_type_id:GID
+  )
+  .input nested_name_specifier_contextual (
+    IO=postgres,
+    table="clang_nested_name_specifier_contextual"
+  )
+
+  .decl function_decl (
+    gid:GID,
+    cobj_kind:number,
+    name_info_id:GID,
+    ellipsis_loc_id:GID,
+    source_range_id:GID,
+    is_variadic:bool,
+    is_virtual_as_written:bool,
+    is_pure:bool,
+    is_late_template_parsed:bool,
+    is_trivial:bool,
+    is_trivial_for_call:bool,
+    is_defaulted:bool,
+    is_explicitly_defaulted:bool,
+    is_user_provided:bool,
+    has_implicit_return_zero:bool,
+    has_prototype:bool,
+    has_written_prototype:bool,
+    has_inherited_prototype:bool,
+    is_constexpr:bool,
+    constexpr_kind:number,
+    is_constexpr_specified:bool,
+    is_consteval:bool,
+    instantiation_is_pending:bool,
+    uses_seh_try:bool,
+    uses_fp_intrin:bool,
+    is_deleted:bool,
+    is_deleted_as_written:bool,
+    is_main:bool,
+    is_msvcrt_entry_point:bool,
+    is_reserved_global_placement_operator:bool,
+    is_inline_builtin_declaration:bool,
+    is_destroying_operator_delete:bool,
+    language_linkage:number,
+    is_extern_c:bool,
+    is_in_extern_c_context:bool,
+    is_in_extern_cxx_context:bool,
+    is_global:bool,
+    is_no_return:bool,
+    is_multi_version:bool,
+    is_cpu_dispatch_multi_version:bool,
+    is_cpu_specific_multi_version:bool,
+    is_target_multi_version:bool,
+    num_parameters:number,
+    minrequired_arguments:number,
+    return_type_id:GID,
+    return_type_source_range_id:GID,
+    parameters_source_range_id:GID,
+    declared_return_type_id:GID,
+    exception_spec_source_Range_id:GID,
+    call_result_type_id:GID,
+    storage_class:number,
+    is_inline_specified:bool,
+    is_inline_definition_externally_visible:bool,
+    is_ms_extern_inline:bool,
+    does_declaration_force_externally_visible_definition:bool,
+    is_static:bool,
+    is_overloaded_operator:bool,
+    overloaded_operator:number,
+    literal_identifier_id:GID,
+    instantiated_from_member_function_id:GID,
+    templated_kind:number,
+    member_specialization_info_id:GID,
+    described_function_template_id:GID,
+    is_function_template_specialization:bool,
+    template_specialization_info_id:GID,
+    is_implicitly_instantiable:bool,
+    is_template_instantiation:bool,
+    template_instantiation_pattern_id:GID,
+    primary_template_id:GID,
+    template_specialization_args_id:GID,
+    template_specialization_args_as_written_id:GID,
+    dependent_specialization_info_id:GID,
+    template_specialization_kind:number,
+    template_specialization_kind_for_instantiation:number,
+    is_out_of_line:bool,
+    memory_function_kind:number,
+    sid:SID
+  )
+  .input function_decl (
+    IO=postgres,
+    table="clang_function_decl"
+  )
+  .decl function_decl_parameters (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input function_decl_parameters (
+    IO=postgres_array,
+    table="clang_function_decl",
+    array="parameters_ids"
+  )
+
+  .decl function_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    the_definition_id:GID,
+    the_body_id:GID,
+    canonical_decl_id:GID,
+    function_type_loc_id:GID,
+    point_of_instantiation_id:GID
+  )
+  .input function_decl_contextual (
+    IO=postgres,
+    table="clang_function_decl_contextual"
+  )
+
+  .decl selector (
+    gid:GID,
+    cobj_kind:number,
+    is_null:bool,
+    is_keyword_selector:bool,
+    is_unary_selector:bool,
+    num_args:number,
+    as_string:symbol,
+    method_family:number,
+    string_format_family:number,
+    sid:SID
+  )
+  .input selector (
+    IO=postgres,
+    table="clang_selector"
+  )
+
+  .decl subst_template_template_parm_pack_storage (
+    gid:GID,
+    cobj_kind:number,
+    parameter_pack_id:GID,
+    argument_pack_id:GID,
+    sid:SID
+  )
+  .input subst_template_template_parm_pack_storage (
+    IO=postgres,
+    table="clang_subst_template_template_parm_pack_storage"
+  )
+
+  .decl ast_template_argument_list_info (
+    gid:GID,
+    cobj_kind:number,
+    left_angle_loc_id:GID,
+    right_angle_loc_id:GID,
+    num_template_args:number,
+    sid:SID
+  )
+  .input ast_template_argument_list_info (
+    IO=postgres,
+    table="clang_ast_template_argument_list_info"
+  )
+  .decl ast_template_argument_list_info_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input ast_template_argument_list_info_arguments (
+    IO=postgres_array,
+    table="clang_ast_template_argument_list_info",
+    array="arguments_ids"
+  )
+
+  .decl access_spec_decl (
+    gid:GID,
+    cobj_kind:number,
+    access_specifier_loc_id:GID,
+    colon_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input access_spec_decl (
+    IO=postgres,
+    table="clang_access_spec_decl"
+  )
+
+  .decl for_stmt (
+    gid:GID,
+    cobj_kind:number,
+    the_init_id:GID,
+    the_condition_variable_id:GID,
+    the_cond_id:GID,
+    the_increment_id:GID,
+    the_body_id:GID,
+    for_loc_id:GID,
+    left_paren_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input for_stmt (
+    IO=postgres,
+    table="clang_for_stmt"
+  )
+  .decl for_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input for_stmt_children (
+    IO=postgres_array,
+    table="clang_for_stmt",
+    array="children_ids"
+  )
+
+  .decl array_type (
+    gid:GID,
+    cobj_kind:number,
+    element_type_id:GID,
+    size_modifier:number,
+    index_type_qualifiers_id:GID,
+    index_type_cvr_qualifiers:number,
+    sid:SID
+  )
+  .input array_type (
+    IO=postgres,
+    table="clang_array_type"
+  )
+
+  .decl assumed_template_storage (
+    gid:GID,
+    cobj_kind:number,
+    decl_name_id:GID,
+    sid:SID
+  )
+  .input assumed_template_storage (
+    IO=postgres,
+    table="clang_assumed_template_storage"
+  )
+
+  .decl attr (
+    gid:GID,
+    cobj_kind:number,
+    kind:number,
+    spelling_list_index:number,
+    spelling:symbol,
+    the_location_id:GID,
+    is_inherited:bool,
+    is_implicit:bool,
+    is_pack_expansion:bool,
+    sid:SID
+  )
+  .input attr (
+    IO=postgres,
+    table="clang_attr"
+  )
+
+  .decl attribute_common_info (
+    gid:GID,
+    cobj_kind:number,
+    parsed_kind:number,
+    syntax:number,
+    attr_name_id:GID,
+    the_location_id:GID,
+    source_range_id:GID,
+    has_scope:bool,
+    scope_name_id:GID,
+    scope_location_id:GID,
+    normalized_full_name:symbol,
+    is_declspec_attribute:bool,
+    is_microsoft_attribute:bool,
+    is_gnu_scope:bool,
+    is_alignas_attribute:bool,
+    is_cxx11_attribute:bool,
+    is_c2x_attribute:bool,
+    is_keyword_attribute:bool,
+    is_context_sensitive_keyword_attribute:bool,
+    attribute_spelling_list_index:number,
+    sid:SID
+  )
+  .input attribute_common_info (
+    IO=postgres,
+    table="clang_attribute_common_info"
+  )
+
+  .decl auto_type (
+    gid:GID,
+    cobj_kind:number,
+    num_args:number,
+    type_constraint_arguments_id:GID,
+    type_constraint_concept_id:GID,
+    is_constrained:bool,
+    is_decltype_auto:bool,
+    keyword:number,
+    sid:SID
+  )
+  .input auto_type (
+    IO=postgres,
+    table="clang_auto_type"
+  )
+  .decl auto_type_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input auto_type_args (
+    IO=postgres_array,
+    table="clang_auto_type",
+    array="args_ids"
+  )
+
+  .decl builtin_template_decl (
+    gid:GID,
+    cobj_kind:number,
+    source_range_id:GID,
+    builtin_template_kind:number,
+    sid:SID
+  )
+  .input builtin_template_decl (
+    IO=postgres,
+    table="clang_builtin_template_decl"
+  )
+
+  .decl cxx_base_specifier (
+    gid:GID,
+    cobj_kind:number,
+    source_range_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    base_type_loc_id:GID,
+    is_virtual:bool,
+    is_base_of_class:bool,
+    is_pack_expansion:bool,
+    inherit_constructors:bool,
+    ellipsis_loc_id:GID,
+    access_specifier:number,
+    access_specifier_as_written:number,
+    the_type_id:GID,
+    type_source_info_id:GID,
+    sid:SID
+  )
+  .input cxx_base_specifier (
+    IO=postgres,
+    table="clang_cxx_base_specifier"
+  )
+
+  .decl cxx_constructor_decl (
+    gid:GID,
+    cobj_kind:number,
+    explicit_specifier_id:GID,
+    is_explicit:bool,
+    is_delegating_constructor:bool,
+    target_constructor_id:GID,
+    is_default_constructor:bool,
+    is_copy_constructor:bool,
+    is_move_constructor:bool,
+    is_copy_or_move_constructor:bool,
+    is_converting_constructor_no_explicit:bool,
+    is_converting_constructor_allow_explicit:bool,
+    is_specialization_copying_object:bool,
+    is_inheriting_constructor:bool,
+    inherited_constructor_decl_id:GID,
+    inherited_constructor_shadow_decl_id:GID,
+    sid:SID
+  )
+  .input cxx_constructor_decl (
+    IO=postgres,
+    table="clang_cxx_constructor_decl"
+  )
+
+  .decl cxx_constructor_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input cxx_constructor_decl_contextual (
+    IO=postgres,
+    table="clang_cxx_constructor_decl_contextual"
+  )
+  .decl cxx_constructor_decl_contextual_initializers (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_constructor_decl_contextual_initializers (
+    IO=postgres_array,
+    table="clang_cxx_constructor_decl_contextual",
+    array="initializers_ids"
+  )
+
+  .decl cxx_conversion_decl (
+    gid:GID,
+    cobj_kind:number,
+    explicit_specifier_id:GID,
+    is_explicit:bool,
+    conversion_type_id:GID,
+    is_lambda_to_block_pointer_conversion:bool,
+    sid:SID
+  )
+  .input cxx_conversion_decl (
+    IO=postgres,
+    table="clang_cxx_conversion_decl"
+  )
+
+  .decl cxx_conversion_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input cxx_conversion_decl_contextual (
+    IO=postgres,
+    table="clang_cxx_conversion_decl_contextual"
+  )
+
+  .decl cxx_ctor_initializer (
+    gid:GID,
+    cobj_kind:number,
+    is_base_initializer:bool,
+    is_member_initializer:bool,
+    is_any_member_initializer:bool,
+    is_indirect_member_initializer:bool,
+    is_in_class_member_initializer:bool,
+    is_delegating_initializer:bool,
+    is_pack_expansion:bool,
+    ellipsis_loc_id:GID,
+    base_class_loc_id:GID,
+    base_class_id:GID,
+    is_base_virtual:bool,
+    type_source_info_id:GID,
+    member_id:GID,
+    any_member_id:GID,
+    indirect_member_id:GID,
+    member_location_id:GID,
+    source_location_id:GID,
+    source_range_id:GID,
+    is_written:bool,
+    source_order:number,
+    left_paren_loc_id:GID,
+    right_paren_loc_id:GID,
+    initializer_id:GID,
+    sid:SID
+  )
+  .input cxx_ctor_initializer (
+    IO=postgres,
+    table="clang_cxx_ctor_initializer"
+  )
+
+  .decl cxx_destructor_decl (
+    gid:GID,
+    cobj_kind:number,
+    operator_delete_id:GID,
+    operator_delete_this_arg_id:GID,
+    sid:SID
+  )
+  .input cxx_destructor_decl (
+    IO=postgres,
+    table="clang_cxx_destructor_decl"
+  )
+
+  .decl cxx_destructor_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input cxx_destructor_decl_contextual (
+    IO=postgres,
+    table="clang_cxx_destructor_decl_contextual"
+  )
+
+  .decl cxx_method_decl (
+    gid:GID,
+    cobj_kind:number,
+    is_static:bool,
+    is_instance:bool,
+    is_const:bool,
+    is_volatile:bool,
+    is_virtual:bool,
+    is_copy_assignment_operator:bool,
+    is_move_assignment_operator:bool,
+    this_type_id:GID,
+    this_object_type_id:GID,
+    method_qualifiers_id:GID,
+    ref_qualifiers_id:GID,
+    is_lambda_static_invoker:bool,
+    sid:SID
+  )
+  .input cxx_method_decl (
+    IO=postgres,
+    table="clang_cxx_method_decl"
+  )
+
+  .decl cxx_method_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID,
+    most_recent_decl_id:GID,
+    parent_id:GID
+  )
+  .input cxx_method_decl_contextual (
+    IO=postgres,
+    table="clang_cxx_method_decl_contextual"
+  )
+  .decl cxx_method_decl_contextual_overriden_methods (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_method_decl_contextual_overriden_methods (
+    IO=postgres_array,
+    table="clang_cxx_method_decl_contextual",
+    array="overriden_methods_ids"
+  )
+
+  .decl class_template_decl (
+    gid:GID,
+    cobj_kind:number,
+    templated_decl_id:GID,
+    is_this_declaration_a_definition:bool,
+    instantiated_from_member_template_id:GID,
+    injected_class_name_specialization_id:GID,
+    sid:SID
+  )
+  .input class_template_decl (
+    IO=postgres,
+    table="clang_class_template_decl"
+  )
+
+  .decl class_template_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID,
+    previous_decl_id:GID,
+    most_recent_decl_id:GID
+  )
+  .input class_template_decl_contextual (
+    IO=postgres,
+    table="clang_class_template_decl_contextual"
+  )
+  .decl class_template_decl_contextual_specializations (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input class_template_decl_contextual_specializations (
+    IO=postgres_array,
+    table="clang_class_template_decl_contextual",
+    array="specializations_ids"
+  )
+
+  .decl class_template_partial_specialization_decl (
+    gid:GID,
+    cobj_kind:number,
+    template_parameters_id:GID,
+    has_associated_constraints:bool,
+    template_args_as_written_id:GID,
+    instantiated_from_member_id:GID,
+    instantiated_from_member_template_id:GID,
+    is_member_specialization:bool,
+    sid:SID
+  )
+  .input class_template_partial_specialization_decl (
+    IO=postgres,
+    table="clang_class_template_partial_specialization_decl"
+  )
+
+  .decl class_template_partial_specialization_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    most_recent_decl_id:GID,
+    injected_specialization_type_id:GID
+  )
+  .input class_template_partial_specialization_decl_contextual (
+    IO=postgres,
+    table="clang_class_template_partial_specialization_decl_contextual"
+  )
+
+  .decl class_template_specialization_decl (
+    gid:GID,
+    cobj_kind:number,
+    specialization_kind:number,
+    is_explicit_specialization:bool,
+    is_class_scope_explicit_specialization:bool,
+    is_explicit_instantiation_or_specialization:bool,
+    type_as_written_id:GID,
+    extern_loc_id:GID,
+    template_keyword_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input class_template_specialization_decl (
+    IO=postgres,
+    table="clang_class_template_specialization_decl"
+  )
+  .decl class_template_specialization_decl_template_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input class_template_specialization_decl_template_args (
+    IO=postgres_array,
+    table="clang_class_template_specialization_decl",
+    array="template_args_ids"
+  )
+  .decl class_template_specialization_decl_template_instantiation_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input class_template_specialization_decl_template_instantiation_args (
+    IO=postgres_array,
+    table="clang_class_template_specialization_decl",
+    array="template_instantiation_args_ids"
+  )
+
+  .decl class_template_specialization_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    most_recent_decl_id:GID,
+    specialized_template_id:GID,
+    point_of_instantiation_id:GID
+  )
+  .input class_template_specialization_decl_contextual (
+    IO=postgres,
+    table="clang_class_template_specialization_decl_contextual"
+  )
+
+  .decl deduced_template_specialization_type (
+    gid:GID,
+    cobj_kind:number,
+    template_name_id:GID,
+    sid:SID
+  )
+  .input deduced_template_specialization_type (
+    IO=postgres,
+    table="clang_deduced_template_specialization_type"
+  )
+
+  .decl deduced_type (
+    gid:GID,
+    cobj_kind:number,
+    is_sugared:bool,
+    is_deduced:bool,
+    sid:SID
+  )
+  .input deduced_type (
+    IO=postgres,
+    table="clang_deduced_type"
+  )
+
+  .decl deduced_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugar_id:GID,
+    deduced_type_id:GID
+  )
+  .input deduced_type_contextual (
+    IO=postgres,
+    table="clang_deduced_type_contextual"
+  )
+
+  .decl dependent_function_template_specialization_info (
+    gid:GID,
+    cobj_kind:number,
+    num_templates:number,
+    num_template_args:number,
+    left_angle_loc_id:GID,
+    right_angle_loc_id:GID,
+    sid:SID
+  )
+  .input dependent_function_template_specialization_info (
+    IO=postgres,
+    table="clang_dependent_function_template_specialization_info"
+  )
+  .decl dependent_function_template_specialization_info_the_template (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input dependent_function_template_specialization_info_the_template (
+    IO=postgres_array,
+    table="clang_dependent_function_template_specialization_info",
+    array="the_template_ids"
+  )
+  .decl dependent_function_template_specialization_info_template_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input dependent_function_template_specialization_info_template_args (
+    IO=postgres_array,
+    table="clang_dependent_function_template_specialization_info",
+    array="template_args_ids"
+  )
+
+  .decl enum_constant_decl (
+    gid:GID,
+    cobj_kind:number,
+    init_expr_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input enum_constant_decl (
+    IO=postgres,
+    table="clang_enum_constant_decl"
+  )
+
+  .decl enum_constant_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input enum_constant_decl_contextual (
+    IO=postgres,
+    table="clang_enum_constant_decl_contextual"
+  )
+
+  .decl enum_decl (
+    gid:GID,
+    cobj_kind:number,
+    canoncial_decl_id:GID,
+    promotion_type_id:GID,
+    integer_type_id:GID,
+    integer_type_source_info_id:GID,
+    integer_type_range_id:GID,
+    num_positive_bits:number,
+    num_negative_bits:number,
+    is_scoped:bool,
+    is_scoped_using_class_tag:bool,
+    is_fixed:bool,
+    is_complete:bool,
+    is_closed:bool,
+    is_closed_flag:bool,
+    is_closed_non_flag:bool,
+    template_instantiation_pattern_id:GID,
+    instantiated_from_member_enum_id:GID,
+    template_specialization_kind:number,
+    member_specialization_info_id:GID,
+    sid:SID
+  )
+  .input enum_decl (
+    IO=postgres,
+    table="clang_enum_decl"
+  )
+  .decl enum_decl_enumerators (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input enum_decl_enumerators (
+    IO=postgres_array,
+    table="clang_enum_decl",
+    array="enumerators_ids"
+  )
+
+  .decl enum_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    previous_decl_id:GID,
+    most_recent_decl_id:GID,
+    definition_id:GID
+  )
+  .input enum_decl_contextual (
+    IO=postgres,
+    table="clang_enum_decl_contextual"
+  )
+
+  .decl explicit_specifier (
+    gid:GID,
+    cobj_kind:number,
+    kind:number,
+    expr_id:GID,
+    is_specified:bool,
+    is_explicit:bool,
+    is_invalid:bool,
+    sid:SID
+  )
+  .input explicit_specifier (
+    IO=postgres,
+    table="clang_explicit_specifier"
+  )
+
+  .decl expr_classification (
+    gid:GID,
+    cobj_kind:number,
+    kind:number,
+    modifiable:number,
+    is_l_value:bool,
+    is_x_value:bool,
+    is_gl_value:bool,
+    is_pr_value:bool,
+    is_r_value:bool,
+    is_modifiable:bool,
+    sid:SID
+  )
+  .input expr_classification (
+    IO=postgres,
+    table="clang_expr_classification"
+  )
+
+  .decl field_decl (
+    gid:GID,
+    cobj_kind:number,
+    field_index:number,
+    is_mutable:bool,
+    is_bit_field:bool,
+    is_unnamed_bit_field:bool,
+    is_anonymous_struct_or_union:bool,
+    bit_width_id:GID,
+    bit_width_value:number,
+    is_zero_length_bit_field:bool,
+    is_zero_size:bool,
+    in_class_init_style:number,
+    has_in_class_initializer:bool,
+    in_class_initializer_id:GID,
+    has_captured_vla_type:bool,
+    captured_vla_type_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input field_decl (
+    IO=postgres,
+    table="clang_field_decl"
+  )
+
+  .decl field_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    parent_id:GID,
+    canonical_decl_id:GID
+  )
+  .input field_decl_contextual (
+    IO=postgres,
+    table="clang_field_decl_contextual"
+  )
+
+  .decl friend_decl (
+    gid:GID,
+    cobj_kind:number,
+    friend_type_id:GID,
+    friend_type_num_template_parameter_lists:number,
+    friend_decl_id:GID,
+    friend_loc_id:GID,
+    source_range_id:GID,
+    is_unsupported_friend:bool,
+    sid:SID
+  )
+  .input friend_decl (
+    IO=postgres,
+    table="clang_friend_decl"
+  )
+
+  .decl function_template_decl (
+    gid:GID,
+    cobj_kind:number,
+    templated_decl_id:GID,
+    is_this_declaration_a_definition:bool,
+    instantiated_from_member_template_id:GID,
+    is_abbreviated:bool,
+    sid:SID
+  )
+  .input function_template_decl (
+    IO=postgres,
+    table="clang_function_template_decl"
+  )
+
+  .decl function_template_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID,
+    previous_decl_id:GID,
+    most_recent_decl_id:GID
+  )
+  .input function_template_decl_contextual (
+    IO=postgres,
+    table="clang_function_template_decl_contextual"
+  )
+  .decl function_template_decl_contextual_specializations (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input function_template_decl_contextual_specializations (
+    IO=postgres_array,
+    table="clang_function_template_decl_contextual",
+    array="specializations_ids"
+  )
+
+  .decl function_template_specialization_info (
+    gid:GID,
+    cobj_kind:number,
+    the_function_id:GID,
+    the_template_id:GID,
+    template_specialization_kind:number,
+    is_explicit_specialization:bool,
+    is_explicit_instantiation_or_specialization:bool,
+    member_specialization_info_id:GID,
+    sid:SID
+  )
+  .input function_template_specialization_info (
+    IO=postgres,
+    table="clang_function_template_specialization_info"
+  )
+
+  .decl function_template_specialization_info_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    point_of_instantiation_id:GID
+  )
+  .input function_template_specialization_info_contextual (
+    IO=postgres,
+    table="clang_function_template_specialization_info_contextual"
+  )
+
+  .decl function_type (
+    gid:GID,
+    cobj_kind:number,
+    return_type_id:GID,
+    has_reg_parm:bool,
+    reg_parm_type:number,
+    no_return_attr:bool,
+    calling_convention:number,
+    ext_info_id:GID,
+    is_const:bool,
+    is_volatile:bool,
+    is_restrict:bool,
+    call_result_type_id:GID,
+    sid:SID
+  )
+  .input function_type (
+    IO=postgres,
+    table="clang_function_type"
+  )
+
+  .decl function_type_ext_info (
+    gid:GID,
+    cobj_kind:number,
+    no_return:bool,
+    produces_result:bool,
+    no_caller_saved_regs:bool,
+    no_cf_check:bool,
+    has_reg_parm:bool,
+    reg_parm:number,
+    calling_convention:number,
+    sid:SID
+  )
+  .input function_type_ext_info (
+    IO=postgres,
+    table="clang_function_type_ext_info"
+  )
+
+  .decl indirect_field_decl (
+    gid:GID,
+    cobj_kind:number,
+    chaining_size:number,
+    anon_field_id:GID,
+    var_decl_id:GID,
+    sid:SID
+  )
+  .input indirect_field_decl (
+    IO=postgres,
+    table="clang_indirect_field_decl"
+  )
+  .decl indirect_field_decl_chain (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input indirect_field_decl_chain (
+    IO=postgres_array,
+    table="clang_indirect_field_decl",
+    array="chain_ids"
+  )
+
+  .decl indirect_field_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input indirect_field_decl_contextual (
+    IO=postgres,
+    table="clang_indirect_field_decl_contextual"
+  )
+
+  .decl inherited_constructor (
+    gid:GID,
+    cobj_kind:number,
+    shadow_decl_id:GID,
+    constructor_id:GID,
+    sid:SID
+  )
+  .input inherited_constructor (
+    IO=postgres,
+    table="clang_inherited_constructor"
+  )
+
+  .decl label_decl (
+    gid:GID,
+    cobj_kind:number,
+    stmt_id:GID,
+    is_gnu_local:bool,
+    source_range_id:GID,
+    is_ms_asm_label:bool,
+    is_resolved_ms_asm_label:bool,
+    ms_asm_label:symbol,
+    sid:SID
+  )
+  .input label_decl (
+    IO=postgres,
+    table="clang_label_decl"
+  )
+
+  .decl lambda_capture (
+    gid:GID,
+    cobj_kind:number,
+    capture_kind:number,
+    captures_this:bool,
+    captures_variable:bool,
+    captures_vla_type:bool,
+    captured_var_id:GID,
+    is_implicit:bool,
+    is_explicit:bool,
+    location_id:GID,
+    is_pack_expansion:bool,
+    ellipsis_loc_id:GID,
+    sid:SID
+  )
+  .input lambda_capture (
+    IO=postgres,
+    table="clang_lambda_capture"
+  )
+
+  .decl lifetime_extended_temporary_decl (
+    gid:GID,
+    cobj_kind:number,
+    extending_decl_id:GID,
+    storage_duration:number,
+    temporary_expr_id:GID,
+    sid:SID
+  )
+  .input lifetime_extended_temporary_decl (
+    IO=postgres,
+    table="clang_lifetime_extended_temporary_decl"
+  )
+  .decl lifetime_extended_temporary_decl_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input lifetime_extended_temporary_decl_children (
+    IO=postgres_array,
+    table="clang_lifetime_extended_temporary_decl",
+    array="children_ids"
+  )
+
+  .decl linkage_info (
+    gid:GID,
+    cobj_kind:number,
+    linakge:number,
+    visibility:number,
+    is_visibility_explicit:bool,
+    sid:SID
+  )
+  .input linkage_info (
+    IO=postgres,
+    table="clang_linkage_info"
+  )
+
+  .decl linkage_spec_decl (
+    gid:GID,
+    cobj_kind:number,
+    language:number,
+    has_braces:bool,
+    extern_loc_id:GID,
+    right_brace_loc_id:GID,
+    end_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input linkage_spec_decl (
+    IO=postgres,
+    table="clang_linkage_spec_decl"
+  )
+
+  .decl member_specialization_info (
+    gid:GID,
+    cobj_kind:number,
+    template_specialization_kind:number,
+    instantiated_from_id:GID,
+    is_explicit_specialization:bool,
+    sid:SID
+  )
+  .input member_specialization_info (
+    IO=postgres,
+    table="clang_member_specialization_info"
+  )
+
+  .decl member_specialization_info_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    point_of_instantiation_id:GID
+  )
+  .input member_specialization_info_contextual (
+    IO=postgres,
+    table="clang_member_specialization_info_contextual"
+  )
+
+  .decl namespace_alias_decl (
+    gid:GID,
+    cobj_kind:number,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    the_namespace_id:GID,
+    alias_loc_id:GID,
+    namespace_loc_id:GID,
+    target_name_loc_id:GID,
+    aliased_namespace_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input namespace_alias_decl (
+    IO=postgres,
+    table="clang_namespace_alias_decl"
+  )
+
+  .decl namespace_alias_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input namespace_alias_decl_contextual (
+    IO=postgres,
+    table="clang_namespace_alias_decl_contextual"
+  )
+
+  .decl namespace_decl (
+    gid:GID,
+    cobj_kind:number,
+    is_anonymous_namespace:bool,
+    is_inline:bool,
+    original_namespace_id:GID,
+    is_original_namespace:bool,
+    anonymous_namespace_id:GID,
+    source_range_id:GID,
+    begin_loc_id:GID,
+    right_brace_loc_id:GID,
+    sid:SID
+  )
+  .input namespace_decl (
+    IO=postgres,
+    table="clang_namespace_decl"
+  )
+
+  .decl namespace_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input namespace_decl_contextual (
+    IO=postgres,
+    table="clang_namespace_decl_contextual"
+  )
+
+  .decl non_type_template_parm_decl (
+    gid:GID,
+    cobj_kind:number,
+    source_range_id:GID,
+    default_arg_storage_id:GID,
+    has_default_argument:bool,
+    default_argument_id:GID,
+    default_argument_loc_id:GID,
+    default_argument_was_inherited:bool,
+    is_parameter_pack:bool,
+    is_pack_expansion:bool,
+    is_expanded_parameter_pack:bool,
+    num_expansion_types:number,
+    placeholder_type_constraint_id:GID,
+    has_placeholder_type_constraint:bool,
+    sid:SID
+  )
+  .input non_type_template_parm_decl (
+    IO=postgres,
+    table="clang_non_type_template_parm_decl"
+  )
+  .decl non_type_template_parm_decl_expansion_types (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input non_type_template_parm_decl_expansion_types (
+    IO=postgres_array,
+    table="clang_non_type_template_parm_decl",
+    array="expansion_types_ids"
+  )
+  .decl non_type_template_parm_decl_expansion_types_source_infos (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input non_type_template_parm_decl_expansion_types_source_infos (
+    IO=postgres_array,
+    table="clang_non_type_template_parm_decl",
+    array="expansion_types_source_infos_ids"
+  )
+
+  .decl objc_property_ref_expr (
+    gid:GID,
+    cobj_kind:number,
+    is_implicit_property:bool,
+    is_explicit_property:bool,
+    explicit_property_id:GID,
+    implicit_property_setter_id:GID,
+    explicit_property_setter_id:GID,
+    getter_selector_id:GID,
+    setter_selector_id:GID,
+    is_messaging_getter:bool,
+    is_messaging_setter:bool,
+    the_base_id:GID,
+    the_location_id:GID,
+    receiver_location_id:GID,
+    super_receiver_type_id:GID,
+    class_receiver_id:GID,
+    is_object_receiver:bool,
+    is_super_receiver:bool,
+    is_class_receiver:bool,
+    receiver_type_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input objc_property_ref_expr (
+    IO=postgres,
+    table="clang_objc_property_ref_expr"
+  )
+  .decl objc_property_ref_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input objc_property_ref_expr_children (
+    IO=postgres_array,
+    table="clang_objc_property_ref_expr",
+    array="children_ids"
+  )
+
+  .decl overloaded_template_storage (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input overloaded_template_storage (
+    IO=postgres,
+    table="clang_overloaded_template_storage"
+  )
+  .decl overloaded_template_storage_declarations (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input overloaded_template_storage_declarations (
+    IO=postgres_array,
+    table="clang_overloaded_template_storage",
+    array="declarations_ids"
+  )
+
+  .decl qualified_type_loc (
+    gid:GID,
+    cobj_kind:number,
+    local_source_range_id:GID,
+    unqualified_loc_id:GID,
+    local_data_size:number,
+    local_data_alignment:number,
+    sid:SID
+  )
+  .input qualified_type_loc (
+    IO=postgres,
+    table="clang_qualified_type_loc"
+  )
+
+  .decl qualified_type_loc_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    next_type_loc_id:GID
+  )
+  .input qualified_type_loc_contextual (
+    IO=postgres,
+    table="clang_qualified_type_loc_contextual"
+  )
+
+  .decl record_type (
+    gid:GID,
+    cobj_kind:number,
+    decl_id:GID,
+    has_const_fields:bool,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input record_type (
+    IO=postgres,
+    table="clang_record_type"
+  )
+
+  .decl record_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugar_id:GID
+  )
+  .input record_type_contextual (
+    IO=postgres,
+    table="clang_record_type_contextual"
+  )
+
+  .decl redeclarable (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input redeclarable (
+    IO=postgres,
+    table="clang_redeclarable"
+  )
+
+  .decl redeclarable_template_decl (
+    gid:GID,
+    cobj_kind:number,
+    is_member_specialization:bool,
+    instantiated_from_member_template_id:GID,
+    sid:SID
+  )
+  .input redeclarable_template_decl (
+    IO=postgres,
+    table="clang_redeclarable_template_decl"
+  )
+
+  .decl redeclarable_template_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input redeclarable_template_decl_contextual (
+    IO=postgres,
+    table="clang_redeclarable_template_decl_contextual"
+  )
+
+  .decl static_assert_decl (
+    gid:GID,
+    cobj_kind:number,
+    assert_expr_id:GID,
+    message_id:GID,
+    is_failed:bool,
+    right_paren_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input static_assert_decl (
+    IO=postgres,
+    table="clang_static_assert_decl"
+  )
+
+  .decl subst_template_template_parm_storage (
+    gid:GID,
+    cobj_kind:number,
+    parameter_id:GID,
+    replacement_id:GID,
+    sid:SID
+  )
+  .input subst_template_template_parm_storage (
+    IO=postgres,
+    table="clang_subst_template_template_parm_storage"
+  )
+
+  .decl tag_type (
+    gid:GID,
+    cobj_kind:number,
+    decl_id:GID,
+    is_being_defined:bool,
+    sid:SID
+  )
+  .input tag_type (
+    IO=postgres,
+    table="clang_tag_type"
+  )
+
+  .decl template_argument (
+    gid:GID,
+    cobj_kind:number,
+    kind:number,
+    is_null:bool,
+    is_dependent:bool,
+    contains_unexpanded_parameter_pack:bool,
+    is_pack_expansion:bool,
+    as_type_id:GID,
+    as_decl_id:GID,
+    param_type_for_decl_id:GID,
+    null_ptr_type_id:GID,
+    as_template_id:GID,
+    as_template_or_template_pattern_id:GID,
+    integral_type_id:GID,
+    non_type_template_argument_type_id:GID,
+    as_expr_id:GID,
+    pack_size:number,
+    pack_expansion_pattern_id:GID,
+    sid:SID
+  )
+  .input template_argument (
+    IO=postgres,
+    table="clang_template_argument"
+  )
+  .decl template_argument_pack_elements (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input template_argument_pack_elements (
+    IO=postgres_array,
+    table="clang_template_argument",
+    array="pack_elements_ids"
+  )
+
+  .decl template_argument_list (
+    gid:GID,
+    cobj_kind:number,
+    the_size:number,
+    sid:SID
+  )
+  .input template_argument_list (
+    IO=postgres,
+    table="clang_template_argument_list"
+  )
+  .decl template_argument_list_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input template_argument_list_arguments (
+    IO=postgres_array,
+    table="clang_template_argument_list",
+    array="arguments_ids"
+  )
+
+  .decl template_argument_loc (
+    gid:GID,
+    cobj_kind:number,
+    the_location_id:GID,
+    source_range_id:GID,
+    argument_id:GID,
+    loc_info_id:GID,
+    type_source_info_id:GID,
+    source_expression_id:GID,
+    source_decl_expression_id:GID,
+    source_null_ptr_expression_id:GID,
+    source_integral_expression_id:GID,
+    template_qualifier_loc_id:GID,
+    template_name_loc_id:GID,
+    template_ellipsis_loc_id:GID,
+    sid:SID
+  )
+  .input template_argument_loc (
+    IO=postgres,
+    table="clang_template_argument_loc"
+  )
+
+  .decl template_argument_loc_info (
+    gid:GID,
+    cobj_kind:number,
+    as_type_source_info_id:GID,
+    as_expr_id:GID,
+    template_qualifier_loc_id:GID,
+    tempalte_name_loc_id:GID,
+    template_ellipsis_loc_id:GID,
+    sid:SID
+  )
+  .input template_argument_loc_info (
+    IO=postgres,
+    table="clang_template_argument_loc_info"
+  )
+
+  .decl template_decl (
+    gid:GID,
+    cobj_kind:number,
+    template_parameter_list_id:GID,
+    has_associated_constraints:bool,
+    templated_decl_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input template_decl (
+    IO=postgres,
+    table="clang_template_decl"
+  )
+
+  .decl template_name (
+    gid:GID,
+    cobj_kind:number,
+    is_null:bool,
+    name_kind:number,
+    as_template_decl_id:GID,
+    as_overloaded_template_id:GID,
+    as_assumed_template_name_id:GID,
+    as_subst_template_template_parm_id:GID,
+    as_subst_template_template_parm_pack_id:GID,
+    as_qualified_template_name_id:GID,
+    as_dependent_template_name_id:GID,
+    underlying_id:GID,
+    name_to_substitute_id:GID,
+    is_dependent:bool,
+    is_instantiation_dependent:bool,
+    contains_unexpanded_parameter_pack:bool,
+    sid:SID
+  )
+  .input template_name (
+    IO=postgres,
+    table="clang_template_name"
+  )
+
+  .decl template_parameter_list (
+    gid:GID,
+    cobj_kind:number,
+    the_size:number,
+    min_required_arguments:number,
+    the_depth:number,
+    contains_unexpanded_parameter_pack:bool,
+    has_parameter_pack:bool,
+    requires_clause_id:GID,
+    template_loc_id:GID,
+    left_angle_loc_id:GID,
+    right_angle_loc_id:GID,
+    source_range_id:GID,
+    has_associated_constraints:bool,
+    sid:SID
+  )
+  .input template_parameter_list (
+    IO=postgres,
+    table="clang_template_parameter_list"
+  )
+  .decl template_parameter_list_parameters (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input template_parameter_list_parameters (
+    IO=postgres_array,
+    table="clang_template_parameter_list",
+    array="parameters_ids"
+  )
+
+  .decl template_template_parm_decl (
+    gid:GID,
+    cobj_kind:number,
+    is_parameter_pack:bool,
+    is_pack_expansion:bool,
+    is_expanded_parameter_pack:bool,
+    num_expansion_template_parameters:number,
+    has_default_argument:bool,
+    default_argument_id:GID,
+    default_argument_loc_id:GID,
+    default_argument_was_inherited:bool,
+    source_range_id:GID,
+    default_arg_storage_id:GID,
+    sid:SID
+  )
+  .input template_template_parm_decl (
+    IO=postgres,
+    table="clang_template_template_parm_decl"
+  )
+  .decl template_template_parm_decl_expansion_template_parameters (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input template_template_parm_decl_expansion_template_parameters (
+    IO=postgres_array,
+    table="clang_template_template_parm_decl",
+    array="expansion_template_parameters_ids"
+  )
+
+  .decl template_type_parm_decl (
+    gid:GID,
+    cobj_kind:number,
+    was_declared_with_typename:bool,
+    default_arg_storage_id:GID,
+    has_default_argument:bool,
+    default_argument_id:GID,
+    default_argument_info_id:GID,
+    default_argument_loc_id:GID,
+    default_argument_was_inherited:bool,
+    the_depth:number,
+    the_index:number,
+    is_parameter_pack:bool,
+    is_pack_expansion:bool,
+    is_expanded_parameter_pack:bool,
+    num_expansion_parameters:number,
+    type_constraint_id:GID,
+    has_type_constraint:bool,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input template_type_parm_decl (
+    IO=postgres,
+    table="clang_template_type_parm_decl"
+  )
+
+  .decl type_alias_decl (
+    gid:GID,
+    cobj_kind:number,
+    source_range_id:GID,
+    described_alias_template_id:GID,
+    sid:SID
+  )
+  .input type_alias_decl (
+    IO=postgres,
+    table="clang_type_alias_decl"
+  )
+
+  .decl type_alias_template_decl (
+    gid:GID,
+    cobj_kind:number,
+    templated_decl_id:GID,
+    instantiated_from_member_template_id:GID,
+    sid:SID
+  )
+  .input type_alias_template_decl (
+    IO=postgres,
+    table="clang_type_alias_template_decl"
+  )
+
+  .decl type_alias_template_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID,
+    previous_decl_id:GID
+  )
+  .input type_alias_template_decl_contextual (
+    IO=postgres,
+    table="clang_type_alias_template_decl_contextual"
+  )
+
+  .decl typedef_decl (
+    gid:GID,
+    cobj_kind:number,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input typedef_decl (
+    IO=postgres,
+    table="clang_typedef_decl"
+  )
+
+  .decl typedef_name_decl (
+    gid:GID,
+    cobj_kind:number,
+    is_moded:bool,
+    type_source_info_id:GID,
+    underlying_type_id:GID,
+    anon_decl_with_typedef_name_id:GID,
+    is_transparent_tag:bool,
+    sid:SID
+  )
+  .input typedef_name_decl (
+    IO=postgres,
+    table="clang_typedef_name_decl"
+  )
+
+  .decl typedef_name_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input typedef_name_decl_contextual (
+    IO=postgres,
+    table="clang_typedef_name_decl_contextual"
+  )
+
+  .decl uncommon_template_name_storage (
+    gid:GID,
+    cobj_kind:number,
+    the_size:number,
+    as_overloaded_storage_id:GID,
+    as_assumed_template_name_id:GID,
+    as_subst_template_template_parm_id:GID,
+    as_subst_template_template_parm_pack_id:GID,
+    sid:SID
+  )
+  .input uncommon_template_name_storage (
+    IO=postgres,
+    table="clang_uncommon_template_name_storage"
+  )
+
+  .decl unresolved_using_typename_decl (
+    gid:GID,
+    cobj_kind:number,
+    using_loc_id:GID,
+    typename_loc_id:GID,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    name_info_id:GID,
+    is_pack_expansion:bool,
+    ellipsis_loc_id:GID,
+    sid:SID
+  )
+  .input unresolved_using_typename_decl (
+    IO=postgres,
+    table="clang_unresolved_using_typename_decl"
+  )
+
+  .decl unresolved_using_typename_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input unresolved_using_typename_decl_contextual (
+    IO=postgres,
+    table="clang_unresolved_using_typename_decl_contextual"
+  )
+
+  .decl value_stmt (
+    gid:GID,
+    cobj_kind:number,
+    expr_stmt_id:GID,
+    sid:SID
+  )
+  .input value_stmt (
+    IO=postgres,
+    table="clang_value_stmt"
+  )
+
+  .decl function_proto_type (
+    gid:GID,
+    cobj_kind:number,
+    num_params:number,
+    has_exception_spec:bool,
+    has_dynamic_exception_spec:bool,
+    has_noexcept_exception_spec:bool,
+    has_dependent_exception_spec:bool,
+    has_instantiation_dependent_exception_spec:bool,
+    num_exceptions:number,
+    noexcept_expr_id:GID,
+    exception_spec_decl_id:GID,
+    exception_spec_template_id:GID,
+    is_nothrow:bool,
+    is_variadic:bool,
+    ellipsis_loc_id:GID,
+    is_template_variadic:bool,
+    has_trailing_return:bool,
+    method_qualifiers_id:GID,
+    has_ext_parameter_infos:bool,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input function_proto_type (
+    IO=postgres,
+    table="clang_function_proto_type"
+  )
+  .decl function_proto_type_param_types (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input function_proto_type_param_types (
+    IO=postgres_array,
+    table="clang_function_proto_type",
+    array="param_types_ids"
+  )
+
+  .decl function_proto_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input function_proto_type_contextual (
+    IO=postgres,
+    table="clang_function_proto_type_contextual"
+  )
+
+  .decl array_subscript_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_lhs_id:GID,
+    the_rhs_id:GID,
+    the_base_id:GID,
+    the_idx_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    right_bracket_loc_id:GID,
+    expr_loc_id:GID,
+    sid:SID
+  )
+  .input array_subscript_expr (
+    IO=postgres,
+    table="clang_array_subscript_expr"
+  )
+  .decl array_subscript_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input array_subscript_expr_children (
+    IO=postgres_array,
+    table="clang_array_subscript_expr",
+    array="children_ids"
+  )
+
+  .decl atomic_type (
+    gid:GID,
+    cobj_kind:number,
+    value_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input atomic_type (
+    IO=postgres,
+    table="clang_atomic_type"
+  )
+
+  .decl atomic_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input atomic_type_contextual (
+    IO=postgres,
+    table="clang_atomic_type_contextual"
+  )
+
+  .decl binary_conditional_operator (
+    gid:GID,
+    cobj_kind:number,
+    common_id:GID,
+    the_cond_id:GID,
+    true_expr_id:GID,
+    false_expr_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input binary_conditional_operator (
+    IO=postgres,
+    table="clang_binary_conditional_operator"
+  )
+  .decl binary_conditional_operator_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input binary_conditional_operator_children (
+    IO=postgres_array,
+    table="clang_binary_conditional_operator",
+    array="children_ids"
+  )
+
+  .decl binary_operator (
+    gid:GID,
+    cobj_kind:number,
+    expr_loc_id:GID,
+    operator_loc_id:GID,
+    the_lhs_id:GID,
+    the_rhs_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    opcode_str:symbol,
+    is_ptr_mem_op:bool,
+    is_multiplicative_op:bool,
+    is_additive_op:bool,
+    is_shift_op:bool,
+    is_bitwise_op:bool,
+    is_relational_op:bool,
+    is_equality_op:bool,
+    is_comparison_op:bool,
+    is_comma_op:bool,
+    is_logical_op:bool,
+    is_assignment_op:bool,
+    is_compound_assignment_op:bool,
+    is_shift_assign_op:bool,
+    sid:SID
+  )
+  .input binary_operator (
+    IO=postgres,
+    table="clang_binary_operator"
+  )
+  .decl binary_operator_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input binary_operator_children (
+    IO=postgres_array,
+    table="clang_binary_operator",
+    array="children_ids"
+  )
+
+  .decl block_decl (
+    gid:GID,
+    cobj_kind:number,
+    caret_location_id:GID,
+    is_variadic:bool,
+    compound_body_id:GID,
+    the_body_id:GID,
+    signature_as_written_id:GID,
+    num_params:number,
+    has_captures:bool,
+    num_captures:number,
+    captures_cxx_this:bool,
+    block_missing_return_type:bool,
+    is_conversion_from_lambda:bool,
+    does_not_escape:bool,
+    can_avoid_copy_to_heap:bool,
+    source_range_id:GID,
+    context_id:GID,
+    sid:SID
+  )
+  .input block_decl (
+    IO=postgres,
+    table="clang_block_decl"
+  )
+  .decl block_decl_parameters (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input block_decl_parameters (
+    IO=postgres_array,
+    table="clang_block_decl",
+    array="parameters_ids"
+  )
+  .decl block_decl_captures (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input block_decl_captures (
+    IO=postgres_array,
+    table="clang_block_decl",
+    array="captures_ids"
+  )
+
+  .decl block_expr (
+    gid:GID,
+    cobj_kind:number,
+    block_decl_id:GID,
+    caret_location_id:GID,
+    the_body_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    function_type_id:GID,
+    sid:SID
+  )
+  .input block_expr (
+    IO=postgres,
+    table="clang_block_expr"
+  )
+  .decl block_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input block_expr_children (
+    IO=postgres_array,
+    table="clang_block_expr",
+    array="children_ids"
+  )
+
+  .decl block_pointer_type (
+    gid:GID,
+    cobj_kind:number,
+    pointee_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input block_pointer_type (
+    IO=postgres,
+    table="clang_block_pointer_type"
+  )
+
+  .decl block_pointer_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input block_pointer_type_contextual (
+    IO=postgres,
+    table="clang_block_pointer_type_contextual"
+  )
+
+  .decl break_stmt (
+    gid:GID,
+    cobj_kind:number,
+    break_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input break_stmt (
+    IO=postgres,
+    table="clang_break_stmt"
+  )
+  .decl break_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input break_stmt_children (
+    IO=postgres_array,
+    table="clang_break_stmt",
+    array="children_ids"
+  )
+
+  .decl builtin_type (
+    gid:GID,
+    cobj_kind:number,
+    name:symbol,
+    is_sugared:bool,
+    is_integer:bool,
+    is_signed_integer:bool,
+    is_unsigned_integer:bool,
+    is_floating_point:bool,
+    is_placeholder_type:bool,
+    is_non_overload_placeholder_type:bool,
+    sid:SID
+  )
+  .input builtin_type (
+    IO=postgres,
+    table="clang_builtin_type"
+  )
+
+  .decl builtin_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input builtin_type_contextual (
+    IO=postgres,
+    table="clang_builtin_type_contextual"
+  )
+
+  .decl call_expr (
+    gid:GID,
+    cobj_kind:number,
+    callee_id:GID,
+    uses_adl:bool,
+    direct_callee_id:GID,
+    num_args:number,
+    num_commas:number,
+    builtin_callee:number,
+    call_return_type_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    is_call_to_std_move:bool,
+    sid:SID
+  )
+  .input call_expr (
+    IO=postgres,
+    table="clang_call_expr"
+  )
+  .decl call_expr_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input call_expr_arguments (
+    IO=postgres_array,
+    table="clang_call_expr",
+    array="arguments_ids"
+  )
+  .decl call_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input call_expr_children (
+    IO=postgres_array,
+    table="clang_call_expr",
+    array="children_ids"
+  )
+
+  .decl call_expr_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    callee_decl_id:GID
+  )
+  .input call_expr_contextual (
+    IO=postgres,
+    table="clang_call_expr_contextual"
+  )
+
+  .decl case_stmt (
+    gid:GID,
+    cobj_kind:number,
+    case_stmt_is_gnu_range:bool,
+    case_loc_id:GID,
+    ellipsis_loc_id:GID,
+    the_lhs_id:GID,
+    the_rhs_id:GID,
+    the_sub_stmt_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input case_stmt (
+    IO=postgres,
+    table="clang_case_stmt"
+  )
+  .decl case_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input case_stmt_children (
+    IO=postgres_array,
+    table="clang_case_stmt",
+    array="children_ids"
+  )
+
+  .decl cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    cast_kind_name:symbol,
+    sub_expr_id:GID,
+    sub_expr_as_written_id:GID,
+    conversion_function_id:GID,
+    num_path_items:number,
+    target_union_field_id:GID,
+    sid:SID
+  )
+  .input cast_expr (
+    IO=postgres,
+    table="clang_cast_expr"
+  )
+  .decl cast_expr_path_items (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cast_expr_path_items (
+    IO=postgres_array,
+    table="clang_cast_expr",
+    array="path_items_ids"
+  )
+  .decl cast_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cast_expr_children (
+    IO=postgres_array,
+    table="clang_cast_expr",
+    array="children_ids"
+  )
+
+  .decl character_literal (
+    gid:GID,
+    cobj_kind:number,
+    the_location_id:GID,
+    the_kind:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    the_value:number,
+    sid:SID
+  )
+  .input character_literal (
+    IO=postgres,
+    table="clang_character_literal"
+  )
+  .decl character_literal_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input character_literal_children (
+    IO=postgres_array,
+    table="clang_character_literal",
+    array="children_ids"
+  )
+
+  .decl choose_expr (
+    gid:GID,
+    cobj_kind:number,
+    is_condition_true:bool,
+    is_condition_dependent:bool,
+    chosen_sub_expr_id:GID,
+    the_cond_id:GID,
+    the_lhs_id:GID,
+    the_rhs_id:GID,
+    builtin_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input choose_expr (
+    IO=postgres,
+    table="clang_choose_expr"
+  )
+  .decl choose_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input choose_expr_children (
+    IO=postgres_array,
+    table="clang_choose_expr",
+    array="children_ids"
+  )
+
+  .decl complex_type (
+    gid:GID,
+    cobj_kind:number,
+    element_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input complex_type (
+    IO=postgres,
+    table="clang_complex_type"
+  )
+
+  .decl complex_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input complex_type_contextual (
+    IO=postgres,
+    table="clang_complex_type_contextual"
+  )
+
+  .decl compound_literal_expr (
+    gid:GID,
+    cobj_kind:number,
+    initializer_id:GID,
+    is_file_scope:bool,
+    left_paren_loc_id:GID,
+    type_source_info_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input compound_literal_expr (
+    IO=postgres,
+    table="clang_compound_literal_expr"
+  )
+  .decl compound_literal_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input compound_literal_expr_children (
+    IO=postgres_array,
+    table="clang_compound_literal_expr",
+    array="children_ids"
+  )
+
+  .decl conditional_operator (
+    gid:GID,
+    cobj_kind:number,
+    the_cond_id:GID,
+    the_true_expr_id:GID,
+    the_false_expr_id:GID,
+    the_lhs_id:GID,
+    the_rhs_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input conditional_operator (
+    IO=postgres,
+    table="clang_conditional_operator"
+  )
+  .decl conditional_operator_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input conditional_operator_children (
+    IO=postgres_array,
+    table="clang_conditional_operator",
+    array="children_ids"
+  )
+
+  .decl constant_array_type (
+    gid:GID,
+    cobj_kind:number,
+    size_expr_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input constant_array_type (
+    IO=postgres,
+    table="clang_constant_array_type"
+  )
+
+  .decl constant_array_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input constant_array_type_contextual (
+    IO=postgres,
+    table="clang_constant_array_type_contextual"
+  )
+
+  .decl constant_expr (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    result_ap_value_kind:number,
+    sid:SID
+  )
+  .input constant_expr (
+    IO=postgres,
+    table="clang_constant_expr"
+  )
+  .decl constant_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input constant_expr_children (
+    IO=postgres_array,
+    table="clang_constant_expr",
+    array="children_ids"
+  )
+
+  .decl continue_stmt (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    continue_loc_id:GID,
+    sid:SID
+  )
+  .input continue_stmt (
+    IO=postgres,
+    table="clang_continue_stmt"
+  )
+  .decl continue_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input continue_stmt_children (
+    IO=postgres_array,
+    table="clang_continue_stmt",
+    array="children_ids"
+  )
+
+  .decl c_style_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    right_paren_loc_id:GID,
+    left_paren_loc_id:GID,
+    sid:SID
+  )
+  .input c_style_cast_expr (
+    IO=postgres,
+    table="clang_c_style_cast_expr"
+  )
+
+  .decl cuda_kernel_call_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_config_id:GID,
+    sid:SID
+  )
+  .input cuda_kernel_call_expr (
+    IO=postgres,
+    table="clang_cuda_kernel_call_expr"
+  )
+
+  .decl cxx_bind_temporary_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_temporary_id:GID,
+    the_sub_expr_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_bind_temporary_expr (
+    IO=postgres,
+    table="clang_cxx_bind_temporary_expr"
+  )
+  .decl cxx_bind_temporary_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_bind_temporary_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_bind_temporary_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_bool_literal_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_value:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_bool_literal_expr (
+    IO=postgres,
+    table="clang_cxx_bool_literal_expr"
+  )
+  .decl cxx_bool_literal_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_bool_literal_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_bool_literal_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_catch_stmt (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    catch_log_id:GID,
+    exception_decl_id:GID,
+    caught_type_id:GID,
+    handler_block_id:GID,
+    sid:SID
+  )
+  .input cxx_catch_stmt (
+    IO=postgres,
+    table="clang_cxx_catch_stmt"
+  )
+  .decl cxx_catch_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_catch_stmt_children (
+    IO=postgres_array,
+    table="clang_cxx_catch_stmt",
+    array="children_ids"
+  )
+
+  .decl cxx_const_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input cxx_const_cast_expr (
+    IO=postgres,
+    table="clang_cxx_const_cast_expr"
+  )
+
+  .decl cxx_construct_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_constructor_id:GID,
+    the_location_id:GID,
+    is_elidable:bool,
+    has_multiple_candidates:bool,
+    is_list_initialization:bool,
+    is_std_init_list_initialization:bool,
+    requires_zero_initialization:bool,
+    construction_kind:number,
+    num_arguments:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    paren_or_brace_range_id:GID,
+    sid:SID
+  )
+  .input cxx_construct_expr (
+    IO=postgres,
+    table="clang_cxx_construct_expr"
+  )
+  .decl cxx_construct_expr_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_construct_expr_arguments (
+    IO=postgres_array,
+    table="clang_cxx_construct_expr",
+    array="arguments_ids"
+  )
+  .decl cxx_construct_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_construct_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_construct_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_deduction_guide_decl (
+    gid:GID,
+    cobj_kind:number,
+    explicit_specifier_id:GID,
+    is_explicit:bool,
+    deduced_template_id:GID,
+    is_copy_deduction_candidate:bool,
+    sid:SID
+  )
+  .input cxx_deduction_guide_decl (
+    IO=postgres,
+    table="clang_cxx_deduction_guide_decl"
+  )
+
+  .decl cxx_default_arg_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_param_id:GID,
+    the_expr_id:GID,
+    the_used_context_id:GID,
+    used_location_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    expr_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_default_arg_expr (
+    IO=postgres,
+    table="clang_cxx_default_arg_expr"
+  )
+  .decl cxx_default_arg_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_default_arg_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_default_arg_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_delete_expr (
+    gid:GID,
+    cobj_kind:number,
+    is_global_delete:bool,
+    is_array_form:bool,
+    is_array_form_as_written:bool,
+    does_usual_array_delete_want_size:bool,
+    operator_delete_id:GID,
+    the_argument_id:GID,
+    destroyed_type_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_delete_expr (
+    IO=postgres,
+    table="clang_cxx_delete_expr"
+  )
+  .decl cxx_delete_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_delete_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_delete_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_dependent_scope_member_expr (
+    gid:GID,
+    cobj_kind:number,
+    is_implicit_access:bool,
+    the_base_id:GID,
+    the_base_type_id:GID,
+    is_arrow:bool,
+    operator_loc_id:GID,
+    qualifier_id:GID,
+    qualifier_loc_id:GID,
+    first_qualifier_found_in_scope_id:GID,
+    member_name_info_id:GID,
+    the_member_id:GID,
+    the_member_loc_id:GID,
+    template_keyword_loc_id:GID,
+    left_angle_loc_id:GID,
+    right_angle_loc_id:GID,
+    has_template_keyword:bool,
+    has_explicit_template_args:bool,
+    num_template_args:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_dependent_scope_member_expr (
+    IO=postgres,
+    table="clang_cxx_dependent_scope_member_expr"
+  )
+  .decl cxx_dependent_scope_member_expr_template_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_dependent_scope_member_expr_template_args (
+    IO=postgres_array,
+    table="clang_cxx_dependent_scope_member_expr",
+    array="template_args_ids"
+  )
+  .decl cxx_dependent_scope_member_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_dependent_scope_member_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_dependent_scope_member_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_dynamic_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    is_always_null:bool,
+    sid:SID
+  )
+  .input cxx_dynamic_cast_expr (
+    IO=postgres,
+    table="clang_cxx_dynamic_cast_expr"
+  )
+
+  .decl cxx_for_range_stmt (
+    gid:GID,
+    cobj_kind:number,
+    the_init_id:GID,
+    the_loop_variable_id:GID,
+    the_range_init_id:GID,
+    the_range_stmt_id:GID,
+    the_begin_stmt_id:GID,
+    the_end_stmt_id:GID,
+    the_condition_id:GID,
+    the_increment_id:GID,
+    the_loop_var_stmt_id:GID,
+    the_body_id:GID,
+    for_loc_id:GID,
+    coawait_loc_id:GID,
+    colon_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_for_range_stmt (
+    IO=postgres,
+    table="clang_cxx_for_range_stmt"
+  )
+  .decl cxx_for_range_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_for_range_stmt_children (
+    IO=postgres_array,
+    table="clang_cxx_for_range_stmt",
+    array="children_ids"
+  )
+
+  .decl cxx_functional_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    left_paren_loc_id:GID,
+    right_paren_loc_id:GID,
+    is_list_initialization:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_functional_cast_expr (
+    IO=postgres,
+    table="clang_cxx_functional_cast_expr"
+  )
+
+  .decl cxx_member_call_expr (
+    gid:GID,
+    cobj_kind:number,
+    implicit_object_argument_id:GID,
+    object_type_id:GID,
+    method_decl_id:GID,
+    expr_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_member_call_expr (
+    IO=postgres,
+    table="clang_cxx_member_call_expr"
+  )
+
+  .decl cxx_member_call_expr_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    record_decl_id:GID
+  )
+  .input cxx_member_call_expr_contextual (
+    IO=postgres,
+    table="clang_cxx_member_call_expr_contextual"
+  )
+
+  .decl cxx_new_expr (
+    gid:GID,
+    cobj_kind:number,
+    allocated_type_id:GID,
+    allocated_type_source_info_id:GID,
+    operator_new_id:GID,
+    operator_delete_id:GID,
+    is_array:bool,
+    array_size_id:GID,
+    num_placement_args:number,
+    is_paren_type_id:bool,
+    type_id_parens_id:GID,
+    is_global_new:bool,
+    has_initializer:bool,
+    initialization_style:number,
+    initializer_id:GID,
+    construct_expr_id:GID,
+    pass_alignment:bool,
+    does_usual_array_delete_want_size:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    direct_init_range_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input cxx_new_expr (
+    IO=postgres,
+    table="clang_cxx_new_expr"
+  )
+  .decl cxx_new_expr_placement_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_new_expr_placement_arguments (
+    IO=postgres_array,
+    table="clang_cxx_new_expr",
+    array="placement_arguments_ids"
+  )
+  .decl cxx_new_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_new_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_new_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_noexcept_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_operand_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    source_range_id:GID,
+    the_value:bool,
+    sid:SID
+  )
+  .input cxx_noexcept_expr (
+    IO=postgres,
+    table="clang_cxx_noexcept_expr"
+  )
+  .decl cxx_noexcept_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_noexcept_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_noexcept_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_null_ptr_literal_expr (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    the_location_id:GID,
+    sid:SID
+  )
+  .input cxx_null_ptr_literal_expr (
+    IO=postgres,
+    table="clang_cxx_null_ptr_literal_expr"
+  )
+  .decl cxx_null_ptr_literal_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_null_ptr_literal_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_null_ptr_literal_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_operator_call_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_operator:number,
+    is_assignment_op:bool,
+    is_infix_binary_op:bool,
+    operator_loc_id:GID,
+    expr_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input cxx_operator_call_expr (
+    IO=postgres,
+    table="clang_cxx_operator_call_expr"
+  )
+
+  .decl cxx_reinterpret_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input cxx_reinterpret_cast_expr (
+    IO=postgres,
+    table="clang_cxx_reinterpret_cast_expr"
+  )
+
+  .decl cxx_static_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input cxx_static_cast_expr (
+    IO=postgres,
+    table="clang_cxx_static_cast_expr"
+  )
+
+  .decl cxx_std_initializer_list_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_sub_expr_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input cxx_std_initializer_list_expr (
+    IO=postgres,
+    table="clang_cxx_std_initializer_list_expr"
+  )
+  .decl cxx_std_initializer_list_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_std_initializer_list_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_std_initializer_list_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_temporary_object_expr (
+    gid:GID,
+    cobj_kind:number,
+    type_source_info_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_temporary_object_expr (
+    IO=postgres,
+    table="clang_cxx_temporary_object_expr"
+  )
+
+  .decl cxx_this_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_location_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    is_implicit:bool,
+    sid:SID
+  )
+  .input cxx_this_expr (
+    IO=postgres,
+    table="clang_cxx_this_expr"
+  )
+  .decl cxx_this_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_this_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_this_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_throw_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_sub_expr_id:GID,
+    throw_loc_id:GID,
+    is_thrown_variable_in_scope:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_throw_expr (
+    IO=postgres,
+    table="clang_cxx_throw_expr"
+  )
+  .decl cxx_throw_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_throw_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_throw_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_try_stmt (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    try_loc_id:GID,
+    end_loc_id:GID,
+    try_block_id:GID,
+    num_handlers:number,
+    sid:SID
+  )
+  .input cxx_try_stmt (
+    IO=postgres,
+    table="clang_cxx_try_stmt"
+  )
+  .decl cxx_try_stmt_handlers (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_try_stmt_handlers (
+    IO=postgres_array,
+    table="clang_cxx_try_stmt",
+    array="handlers_ids"
+  )
+  .decl cxx_try_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_try_stmt_children (
+    IO=postgres_array,
+    table="clang_cxx_try_stmt",
+    array="children_ids"
+  )
+
+  .decl cxx_unresolved_construct_expr (
+    gid:GID,
+    cobj_kind:number,
+    type_as_written_id:GID,
+    type_source_info_id:GID,
+    left_paren_loc_id:GID,
+    right_paren_loc_id:GID,
+    is_list_initialization:bool,
+    num_arguments:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_unresolved_construct_expr (
+    IO=postgres,
+    table="clang_cxx_unresolved_construct_expr"
+  )
+  .decl cxx_unresolved_construct_expr_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_unresolved_construct_expr_arguments (
+    IO=postgres_array,
+    table="clang_cxx_unresolved_construct_expr",
+    array="arguments_ids"
+  )
+  .decl cxx_unresolved_construct_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_unresolved_construct_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_unresolved_construct_expr",
+    array="children_ids"
+  )
+
+  .decl decayed_type (
+    gid:GID,
+    cobj_kind:number,
+    decayed_type_id:GID,
+    pointee_type_id:GID,
+    sid:SID
+  )
+  .input decayed_type (
+    IO=postgres,
+    table="clang_decayed_type"
+  )
+
+  .decl decl_ref_expr (
+    gid:GID,
+    cobj_kind:number,
+    name_info_id:GID,
+    the_location_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    has_qualifier:bool,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    has_template_kw_and_args_info:bool,
+    template_keyword_loc_id:GID,
+    left_angle_loc_id:GID,
+    right_angle_loc_id:GID,
+    has_template_keyword:bool,
+    has_explicit_template_args:bool,
+    template_arguments_id:GID,
+    num_template_arguments:number,
+    had_multiple_candidates:bool,
+    refers_to_enclosing_variable_or_capture:bool,
+    sid:SID
+  )
+  .input decl_ref_expr (
+    IO=postgres,
+    table="clang_decl_ref_expr"
+  )
+  .decl decl_ref_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input decl_ref_expr_children (
+    IO=postgres_array,
+    table="clang_decl_ref_expr",
+    array="children_ids"
+  )
+
+  .decl decl_ref_expr_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    the_decl_id:GID,
+    found_decl_id:GID
+  )
+  .input decl_ref_expr_contextual (
+    IO=postgres,
+    table="clang_decl_ref_expr_contextual"
+  )
+
+  .decl decl_stmt (
+    gid:GID,
+    cobj_kind:number,
+    is_single_decl:bool,
+    single_decl_id:GID,
+    end_loc_id:GID,
+    begin_loc_id:GID,
+    sid:SID
+  )
+  .input decl_stmt (
+    IO=postgres,
+    table="clang_decl_stmt"
+  )
+  .decl decl_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input decl_stmt_children (
+    IO=postgres_array,
+    table="clang_decl_stmt",
+    array="children_ids"
+  )
+  .decl decl_stmt_decls (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input decl_stmt_decls (
+    IO=postgres_array,
+    table="clang_decl_stmt",
+    array="decls_ids"
+  )
+
+  .decl decltype_type (
+    gid:GID,
+    cobj_kind:number,
+    underlying_expr_id:GID,
+    underlying_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input decltype_type (
+    IO=postgres,
+    table="clang_decltype_type"
+  )
+
+  .decl decltype_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input decltype_type_contextual (
+    IO=postgres,
+    table="clang_decltype_type_contextual"
+  )
+
+  .decl default_stmt (
+    gid:GID,
+    cobj_kind:number,
+    the_sub_stmt_id:GID,
+    default_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input default_stmt (
+    IO=postgres,
+    table="clang_default_stmt"
+  )
+  .decl default_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input default_stmt_children (
+    IO=postgres_array,
+    table="clang_default_stmt",
+    array="children_ids"
+  )
+
+  .decl dependent_sized_array_type (
+    gid:GID,
+    cobj_kind:number,
+    size_expr_id:GID,
+    brackets_range_id:GID,
+    left_bracket_loc_id:GID,
+    right_bracket_loc_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input dependent_sized_array_type (
+    IO=postgres,
+    table="clang_dependent_sized_array_type"
+  )
+
+  .decl dependent_sized_array_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input dependent_sized_array_type_contextual (
+    IO=postgres,
+    table="clang_dependent_sized_array_type_contextual"
+  )
+
+  .decl designated_init_expr (
+    gid:GID,
+    cobj_kind:number,
+    equal_or_colon_loc_id:GID,
+    is_direct_init:bool,
+    uses_gnu_syntax:bool,
+    the_init_id:GID,
+    num_sub_exprs:number,
+    designators_source_range_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input designated_init_expr (
+    IO=postgres,
+    table="clang_designated_init_expr"
+  )
+  .decl designated_init_expr_designators (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input designated_init_expr_designators (
+    IO=postgres_array,
+    table="clang_designated_init_expr",
+    array="designators_ids"
+  )
+  .decl designated_init_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input designated_init_expr_children (
+    IO=postgres_array,
+    table="clang_designated_init_expr",
+    array="children_ids"
+  )
+
+  .decl elaborated_type (
+    gid:GID,
+    cobj_kind:number,
+    qualifier_id:GID,
+    named_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input elaborated_type (
+    IO=postgres,
+    table="clang_elaborated_type"
+  )
+
+  .decl elaborated_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID,
+    owned_tag_decl_id:GID
+  )
+  .input elaborated_type_contextual (
+    IO=postgres,
+    table="clang_elaborated_type_contextual"
+  )
+
+  .decl enum_type (
+    gid:GID,
+    cobj_kind:number,
+    the_decl_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input enum_type (
+    IO=postgres,
+    table="clang_enum_type"
+  )
+
+  .decl enum_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input enum_type_contextual (
+    IO=postgres,
+    table="clang_enum_type_contextual"
+  )
+
+  .decl explicit_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    type_info_as_written_id:GID,
+    type_as_written_id:GID,
+    sid:SID
+  )
+  .input explicit_cast_expr (
+    IO=postgres,
+    table="clang_explicit_cast_expr"
+  )
+
+  .decl expr_with_cleanups (
+    gid:GID,
+    cobj_kind:number,
+    num_objects:number,
+    cleanups_have_side_effects:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input expr_with_cleanups (
+    IO=postgres,
+    table="clang_expr_with_cleanups"
+  )
+  .decl expr_with_cleanups_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input expr_with_cleanups_children (
+    IO=postgres_array,
+    table="clang_expr_with_cleanups",
+    array="children_ids"
+  )
+  .decl expr_with_cleanups_cleanup_objects (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input expr_with_cleanups_cleanup_objects (
+    IO=postgres_array,
+    table="clang_expr_with_cleanups",
+    array="cleanup_objects_ids"
+  )
+
+  .decl floating_literal (
+    gid:GID,
+    cobj_kind:number,
+    is_exact:bool,
+    value_as_approximate_double:float,
+    the_location_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    is_zero:bool,
+    is_infinity:bool,
+    is_nan:bool,
+    is_negative:bool,
+    is_denormal:bool,
+    is_signaling:bool,
+    is_normal:bool,
+    is_finite:bool,
+    is_non_zero:bool,
+    is_finite_non_zero:bool,
+    is_pos_zero:bool,
+    is_neg_zero:bool,
+    is_smallest:bool,
+    is_largest:bool,
+    is_integer:bool,
+    precision:number,
+    size_in_bits:number,
+    max_exponent:number,
+    min_exponent:number,
+    sid:SID
+  )
+  .input floating_literal (
+    IO=postgres,
+    table="clang_floating_literal"
+  )
+  .decl floating_literal_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input floating_literal_children (
+    IO=postgres_array,
+    table="clang_floating_literal",
+    array="children_ids"
+  )
+
+  .decl gnu_null_expr (
+    gid:GID,
+    cobj_kind:number,
+    token_location_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input gnu_null_expr (
+    IO=postgres,
+    table="clang_gnu_null_expr"
+  )
+  .decl gnu_null_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gnu_null_expr_children (
+    IO=postgres_array,
+    table="clang_gnu_null_expr",
+    array="children_ids"
+  )
+
+  .decl goto_stmt (
+    gid:GID,
+    cobj_kind:number,
+    the_label_id:GID,
+    goto_loc_id:GID,
+    label_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input goto_stmt (
+    IO=postgres,
+    table="clang_goto_stmt"
+  )
+  .decl goto_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input goto_stmt_children (
+    IO=postgres_array,
+    table="clang_goto_stmt",
+    array="children_ids"
+  )
+
+  .decl if_stmt (
+    gid:GID,
+    cobj_kind:number,
+    has_init_storage:bool,
+    has_var_storage:bool,
+    has_else_storage:bool,
+    the_cond_id:GID,
+    the_then_id:GID,
+    the_else_id:GID,
+    the_condition_variable_id:GID,
+    the_init_id:GID,
+    if_loc_id:GID,
+    else_loc_id:GID,
+    is_constexpr:bool,
+    is_objc_availability_check:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input if_stmt (
+    IO=postgres,
+    table="clang_if_stmt"
+  )
+  .decl if_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input if_stmt_children (
+    IO=postgres_array,
+    table="clang_if_stmt",
+    array="children_ids"
+  )
+
+  .decl imaginary_literal (
+    gid:GID,
+    cobj_kind:number,
+    sub_expr_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input imaginary_literal (
+    IO=postgres,
+    table="clang_imaginary_literal"
+  )
+  .decl imaginary_literal_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input imaginary_literal_children (
+    IO=postgres_array,
+    table="clang_imaginary_literal",
+    array="children_ids"
+  )
+
+  .decl implicit_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    is_part_of_explicit_cast:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input implicit_cast_expr (
+    IO=postgres,
+    table="clang_implicit_cast_expr"
+  )
+
+  .decl implicit_value_init_expr (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input implicit_value_init_expr (
+    IO=postgres,
+    table="clang_implicit_value_init_expr"
+  )
+  .decl implicit_value_init_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input implicit_value_init_expr_children (
+    IO=postgres_array,
+    table="clang_implicit_value_init_expr",
+    array="children_ids"
+  )
+
+  .decl incomplete_array_type (
+    gid:GID,
+    cobj_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input incomplete_array_type (
+    IO=postgres,
+    table="clang_incomplete_array_type"
+  )
+
+  .decl incomplete_array_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input incomplete_array_type_contextual (
+    IO=postgres,
+    table="clang_incomplete_array_type_contextual"
+  )
+
+  .decl init_list_expr (
+    gid:GID,
+    cobj_kind:number,
+    num_inits:number,
+    array_filler_id:GID,
+    has_array_filler:bool,
+    initialized_field_in_union_id:GID,
+    is_explicit:bool,
+    is_string_literal_init:bool,
+    is_transparent:bool,
+    is_idiomatic_zero_initializer:bool,
+    left_brace_loc_id:GID,
+    right_brace_loc_id:GID,
+    is_semantic_form:bool,
+    semantic_form_id:GID,
+    is_syntactic_form:bool,
+    syntactic_form_id:GID,
+    had_array_range_designator:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input init_list_expr (
+    IO=postgres,
+    table="clang_init_list_expr"
+  )
+  .decl init_list_expr_inits (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input init_list_expr_inits (
+    IO=postgres_array,
+    table="clang_init_list_expr",
+    array="inits_ids"
+  )
+  .decl init_list_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input init_list_expr_children (
+    IO=postgres_array,
+    table="clang_init_list_expr",
+    array="children_ids"
+  )
+
+  .decl injected_class_name_type (
+    gid:GID,
+    cobj_kind:number,
+    template_name_id:GID,
+    the_decl_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input injected_class_name_type (
+    IO=postgres,
+    table="clang_injected_class_name_type"
+  )
+
+  .decl injected_class_name_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    injected_specialization_type_id:GID,
+    injected_tst_id:GID,
+    desugared_id:GID
+  )
+  .input injected_class_name_type_contextual (
+    IO=postgres,
+    table="clang_injected_class_name_type_contextual"
+  )
+
+  .decl integer_literal (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    the_location_id:GID,
+    end_loc_id:GID,
+    bit_width:number,
+    num_words:number,
+    active_bits:number,
+    active_words:number,
+    signed_extended_value:number,
+    count_leading_zeros:number,
+    count_leading_ones:number,
+    count_trailing_zeros:number,
+    count_trailing_ones:number,
+    as_signed_string:symbol,
+    as_unsigned_string:symbol,
+    as_signed_bit_string:symbol,
+    as_unsigned_bit_string:symbol,
+    as_signed_hex_string:symbol,
+    as_unsigned_hex_string:symbol,
+    is_negative:bool,
+    is_non_negative:bool,
+    is_sign_bit_set:bool,
+    is_sign_bit_clear:bool,
+    is_strictly_positive:bool,
+    is_non_positive:bool,
+    is_all_ones_value:bool,
+    is_null_value:bool,
+    is_max_value:bool,
+    is_max_signed_value:bool,
+    is_power_of_two:bool,
+    is_sign_mask:bool,
+    bool_value:bool,
+    is_mask:bool,
+    is_shifted_mask:bool,
+    sid:SID
+  )
+  .input integer_literal (
+    IO=postgres,
+    table="clang_integer_literal"
+  )
+  .decl integer_literal_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input integer_literal_children (
+    IO=postgres_array,
+    table="clang_integer_literal",
+    array="children_ids"
+  )
+
+  .decl label_stmt (
+    gid:GID,
+    cobj_kind:number,
+    ident_loc_id:GID,
+    the_decl_id:GID,
+    name:symbol,
+    sub_stmt_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input label_stmt (
+    IO=postgres,
+    table="clang_label_stmt"
+  )
+  .decl label_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input label_stmt_children (
+    IO=postgres_array,
+    table="clang_label_stmt",
+    array="children_ids"
+  )
+
+  .decl lambda_expr (
+    gid:GID,
+    cobj_kind:number,
+    capture_default:number,
+    capture_default_loc_id:GID,
+    num_captures:number,
+    introducer_range_id:GID,
+    lambda_class_id:GID,
+    call_operator_id:GID,
+    dependent_call_operator_id:GID,
+    template_parameter_list_id:GID,
+    is_generic_lambda:bool,
+    the_body_id:GID,
+    compound_stmt_body_id:GID,
+    is_mutable:bool,
+    has_explicit_parameters:bool,
+    has_explicit_result_type:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input lambda_expr (
+    IO=postgres,
+    table="clang_lambda_expr"
+  )
+  .decl lambda_expr_captures (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input lambda_expr_captures (
+    IO=postgres_array,
+    table="clang_lambda_expr",
+    array="captures_ids"
+  )
+  .decl lambda_expr_explicit_captures (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input lambda_expr_explicit_captures (
+    IO=postgres_array,
+    table="clang_lambda_expr",
+    array="explicit_captures_ids"
+  )
+  .decl lambda_expr_implicit_captures (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input lambda_expr_implicit_captures (
+    IO=postgres_array,
+    table="clang_lambda_expr",
+    array="implicit_captures_ids"
+  )
+  .decl lambda_expr_capture_inits (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input lambda_expr_capture_inits (
+    IO=postgres_array,
+    table="clang_lambda_expr",
+    array="capture_inits_ids"
+  )
+  .decl lambda_expr_explicit_template_parameters (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input lambda_expr_explicit_template_parameters (
+    IO=postgres_array,
+    table="clang_lambda_expr",
+    array="explicit_template_parameters_ids"
+  )
+  .decl lambda_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input lambda_expr_children (
+    IO=postgres_array,
+    table="clang_lambda_expr",
+    array="children_ids"
+  )
+
+  .decl l_value_reference_type (
+    gid:GID,
+    cobj_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input l_value_reference_type (
+    IO=postgres,
+    table="clang_l_value_reference_type"
+  )
+
+  .decl l_value_reference_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input l_value_reference_type_contextual (
+    IO=postgres,
+    table="clang_l_value_reference_type_contextual"
+  )
+
+  .decl materialize_temporary_expr (
+    gid:GID,
+    cobj_kind:number,
+    sub_expr_id:GID,
+    storage_duration:number,
+    lifetime_extended_temporary_decl_id:GID,
+    extending_decl_id:GID,
+    is_bound_to_lvalue_reference:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input materialize_temporary_expr (
+    IO=postgres,
+    table="clang_materialize_temporary_expr"
+  )
+  .decl materialize_temporary_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input materialize_temporary_expr_children (
+    IO=postgres_array,
+    table="clang_materialize_temporary_expr",
+    array="children_ids"
+  )
+
+  .decl member_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_member_decl_id:GID,
+    has_qualifier:bool,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    template_keyword_loc_id:GID,
+    left_angle_loc_id:GID,
+    right_angle_loc_id:GID,
+    has_template_keword:bool,
+    has_explicit_template_args:bool,
+    num_template_args:number,
+    member_name_info_id:GID,
+    operator_loc_id:GID,
+    is_arrow:bool,
+    member_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    expr_loc_id:GID,
+    is_implicit_access:bool,
+    had_multiple_candidate:bool,
+    sid:SID
+  )
+  .input member_expr (
+    IO=postgres,
+    table="clang_member_expr"
+  )
+  .decl member_expr_template_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input member_expr_template_args (
+    IO=postgres_array,
+    table="clang_member_expr",
+    array="template_args_ids"
+  )
+  .decl member_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input member_expr_children (
+    IO=postgres_array,
+    table="clang_member_expr",
+    array="children_ids"
+  )
+
+  .decl member_expr_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    the_base_id:GID
+  )
+  .input member_expr_contextual (
+    IO=postgres,
+    table="clang_member_expr_contextual"
+  )
+
+  .decl member_pointer_type (
+    gid:GID,
+    cobj_kind:number,
+    pointee_type_id:GID,
+    is_member_function_pointer:bool,
+    is_member_data_pointer:bool,
+    the_class_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input member_pointer_type (
+    IO=postgres,
+    table="clang_member_pointer_type"
+  )
+
+  .decl member_pointer_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    most_recent_cxx_record_decl_id:GID,
+    desugared_id:GID
+  )
+  .input member_pointer_type_contextual (
+    IO=postgres,
+    table="clang_member_pointer_type_contextual"
+  )
+
+  .decl null_stmt (
+    gid:GID,
+    cobj_kind:number,
+    semi_loc_id:GID,
+    has_leading_empty_macro:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input null_stmt (
+    IO=postgres,
+    table="clang_null_stmt"
+  )
+  .decl null_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input null_stmt_children (
+    IO=postgres_array,
+    table="clang_null_stmt",
+    array="children_ids"
+  )
+
+  .decl objc_at_catch_stmt (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_at_catch_stmt (
+    IO=postgres,
+    table="clang_objc_at_catch_stmt"
+  )
+
+  .decl objc_at_finally_stmt (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_at_finally_stmt (
+    IO=postgres,
+    table="clang_objc_at_finally_stmt"
+  )
+
+  .decl objc_at_throw_stmt (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_at_throw_stmt (
+    IO=postgres,
+    table="clang_objc_at_throw_stmt"
+  )
+
+  .decl objc_at_try_stmt (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_at_try_stmt (
+    IO=postgres,
+    table="clang_objc_at_try_stmt"
+  )
+
+  .decl objc_autorelease_pool_stmt (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_autorelease_pool_stmt (
+    IO=postgres,
+    table="clang_objc_autorelease_pool_stmt"
+  )
+
+  .decl objc_category_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_category_decl (
+    IO=postgres,
+    table="clang_objc_category_decl"
+  )
+
+  .decl objc_category_impl_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_category_impl_decl (
+    IO=postgres,
+    table="clang_objc_category_impl_decl"
+  )
+
+  .decl objc_implementation_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_implementation_decl (
+    IO=postgres,
+    table="clang_objc_implementation_decl"
+  )
+
+  .decl objc_interface_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_interface_decl (
+    IO=postgres,
+    table="clang_objc_interface_decl"
+  )
+
+  .decl objc_ivar_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_ivar_decl (
+    IO=postgres,
+    table="clang_objc_ivar_decl"
+  )
+
+  .decl objc_ivar_ref_expr (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_ivar_ref_expr (
+    IO=postgres,
+    table="clang_objc_ivar_ref_expr"
+  )
+
+  .decl objc_message_expr (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_message_expr (
+    IO=postgres,
+    table="clang_objc_message_expr"
+  )
+
+  .decl objc_method_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_method_decl (
+    IO=postgres,
+    table="clang_objc_method_decl"
+  )
+
+  .decl objc_object_pointer_type (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_object_pointer_type (
+    IO=postgres,
+    table="clang_objc_object_pointer_type"
+  )
+
+  .decl objc_property_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_property_decl (
+    IO=postgres,
+    table="clang_objc_property_decl"
+  )
+
+  .decl objc_protocol_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_protocol_decl (
+    IO=postgres,
+    table="clang_objc_protocol_decl"
+  )
+
+  .decl omp_default_clause (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input omp_default_clause (
+    IO=postgres,
+    table="clang_omp_default_clause"
+  )
+
+  .decl omp_executable_directive (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input omp_executable_directive (
+    IO=postgres,
+    table="clang_omp_executable_directive"
+  )
+
+  .decl opaque_value_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_location_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    expr_loc_id:GID,
+    source_expr_id:GID,
+    is_unqiue:bool,
+    sid:SID
+  )
+  .input opaque_value_expr (
+    IO=postgres,
+    table="clang_opaque_value_expr"
+  )
+  .decl opaque_value_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input opaque_value_expr_children (
+    IO=postgres_array,
+    table="clang_opaque_value_expr",
+    array="children_ids"
+  )
+
+  .decl paren_expr (
+    gid:GID,
+    cobj_kind:number,
+    sub_expr_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    left_paren_id:GID,
+    right_paren_id:GID,
+    sid:SID
+  )
+  .input paren_expr (
+    IO=postgres,
+    table="clang_paren_expr"
+  )
+  .decl paren_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input paren_expr_children (
+    IO=postgres_array,
+    table="clang_paren_expr",
+    array="children_ids"
+  )
+
+  .decl paren_list_expr (
+    gid:GID,
+    cobj_kind:number,
+    num_exprs:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    left_paren_loc_id:GID,
+    right_paren_loc_id:GID,
+    sid:SID
+  )
+  .input paren_list_expr (
+    IO=postgres,
+    table="clang_paren_list_expr"
+  )
+  .decl paren_list_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input paren_list_expr_children (
+    IO=postgres_array,
+    table="clang_paren_list_expr",
+    array="children_ids"
+  )
+  .decl paren_list_expr_expressions (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input paren_list_expr_expressions (
+    IO=postgres_array,
+    table="clang_paren_list_expr",
+    array="expressions_ids"
+  )
+
+  .decl paren_type (
+    gid:GID,
+    cobj_kind:number,
+    inner_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input paren_type (
+    IO=postgres,
+    table="clang_paren_type"
+  )
+
+  .decl paren_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input paren_type_contextual (
+    IO=postgres,
+    table="clang_paren_type_contextual"
+  )
+
+  .decl pointer_type (
+    gid:GID,
+    cobj_kind:number,
+    pointee_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input pointer_type (
+    IO=postgres,
+    table="clang_pointer_type"
+  )
+
+  .decl pointer_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input pointer_type_contextual (
+    IO=postgres,
+    table="clang_pointer_type_contextual"
+  )
+
+  .decl predefined_expr (
+    gid:GID,
+    cobj_kind:number,
+    ident_kind:number,
+    the_location_id:GID,
+    function_name_id:GID,
+    type_source_info_id:GID,
+    the_expr_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input predefined_expr (
+    IO=postgres,
+    table="clang_predefined_expr"
+  )
+  .decl predefined_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input predefined_expr_children (
+    IO=postgres_array,
+    table="clang_predefined_expr",
+    array="children_ids"
+  )
+
+  .decl reference_type (
+    gid:GID,
+    cobj_kind:number,
+    is_spelled_as_lvalue:bool,
+    is_inner_ref:bool,
+    pointee_type_as_written_id:GID,
+    pointee_type_id:GID,
+    sid:SID
+  )
+  .input reference_type (
+    IO=postgres,
+    table="clang_reference_type"
+  )
+
+  .decl return_stmt (
+    gid:GID,
+    cobj_kind:number,
+    the_ret_value_id:GID,
+    nrvo_candidate_id:GID,
+    return_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input return_stmt (
+    IO=postgres,
+    table="clang_return_stmt"
+  )
+  .decl return_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input return_stmt_children (
+    IO=postgres_array,
+    table="clang_return_stmt",
+    array="children_ids"
+  )
+
+  .decl r_value_reference_type (
+    gid:GID,
+    cobj_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input r_value_reference_type (
+    IO=postgres,
+    table="clang_r_value_reference_type"
+  )
+
+  .decl r_value_reference_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input r_value_reference_type_contextual (
+    IO=postgres,
+    table="clang_r_value_reference_type_contextual"
+  )
+
+  .decl stmt_expr (
+    gid:GID,
+    cobj_kind:number,
+    sub_stmt_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    left_paren_loc_id:GID,
+    right_paren_loc_id:GID,
+    template_depth:number,
+    sid:SID
+  )
+  .input stmt_expr (
+    IO=postgres,
+    table="clang_stmt_expr"
+  )
+  .decl stmt_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input stmt_expr_children (
+    IO=postgres_array,
+    table="clang_stmt_expr",
+    array="children_ids"
+  )
+
+  .decl string_literal (
+    gid:GID,
+    cobj_kind:number,
+    as_string:symbol,
+    as_bytes:symbol,
+    byte_length:number,
+    the_length:number,
+    char_byte_width:number,
+    kind:number,
+    is_ascii:bool,
+    is_wide:bool,
+    is_utf8:bool,
+    is_utf16:bool,
+    is_utf32:bool,
+    is_pascal:bool,
+    contains_non_ascii:bool,
+    contains_non_ascii_or_null:bool,
+    num_concatenated:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input string_literal (
+    IO=postgres,
+    table="clang_string_literal"
+  )
+  .decl string_literal_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input string_literal_children (
+    IO=postgres_array,
+    table="clang_string_literal",
+    array="children_ids"
+  )
+
+  .decl subst_non_type_template_parm_expr (
+    gid:GID,
+    cobj_kind:number,
+    replacement_id:GID,
+    parameter_id:GID,
+    name_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input subst_non_type_template_parm_expr (
+    IO=postgres,
+    table="clang_subst_non_type_template_parm_expr"
+  )
+  .decl subst_non_type_template_parm_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input subst_non_type_template_parm_expr_children (
+    IO=postgres_array,
+    table="clang_subst_non_type_template_parm_expr",
+    array="children_ids"
+  )
+
+  .decl subst_template_type_parm_type (
+    gid:GID,
+    cobj_kind:number,
+    replaced_parameter_id:GID,
+    replacement_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input subst_template_type_parm_type (
+    IO=postgres,
+    table="clang_subst_template_type_parm_type"
+  )
+
+  .decl subst_template_type_parm_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input subst_template_type_parm_type_contextual (
+    IO=postgres,
+    table="clang_subst_template_type_parm_type_contextual"
+  )
+
+  .decl switch_case (
+    gid:GID,
+    cobj_kind:number,
+    next_switch_case_id:GID,
+    keyword_loc_id:GID,
+    colon_loc_id:GID,
+    sub_stmt_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input switch_case (
+    IO=postgres,
+    table="clang_switch_case"
+  )
+
+  .decl switch_stmt (
+    gid:GID,
+    cobj_kind:number,
+    has_init_storage:bool,
+    has_var_storage:bool,
+    the_cond_id:GID,
+    the_body_id:GID,
+    the_init_id:GID,
+    the_condition_variable_id:GID,
+    switch_case_list_id:GID,
+    switch_loc_id:GID,
+    is_all_enum_cases_covered:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input switch_stmt (
+    IO=postgres,
+    table="clang_switch_stmt"
+  )
+  .decl switch_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input switch_stmt_children (
+    IO=postgres_array,
+    table="clang_switch_stmt",
+    array="children_ids"
+  )
+
+  .decl typedef_type (
+    gid:GID,
+    cobj_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input typedef_type (
+    IO=postgres,
+    table="clang_typedef_type"
+  )
+
+  .decl typedef_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    the_decl_id:GID,
+    desugared_id:GID
+  )
+  .input typedef_type_contextual (
+    IO=postgres,
+    table="clang_typedef_type_contextual"
+  )
+
+  .decl unary_expr_or_type_trait_expr (
+    gid:GID,
+    cobj_kind:number,
+    kind:number,
+    is_argument_type:bool,
+    argument_type_id:GID,
+    argument_type_info_id:GID,
+    argument_expr_id:GID,
+    type_of_argument_id:GID,
+    operator_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input unary_expr_or_type_trait_expr (
+    IO=postgres,
+    table="clang_unary_expr_or_type_trait_expr"
+  )
+  .decl unary_expr_or_type_trait_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input unary_expr_or_type_trait_expr_children (
+    IO=postgres_array,
+    table="clang_unary_expr_or_type_trait_expr",
+    array="children_ids"
+  )
+
+  .decl unary_operator (
+    gid:GID,
+    cobj_kind:number,
+    opcode:number,
+    sub_expr_id:GID,
+    operator_loc_id:GID,
+    can_overflow:bool,
+    is_prefix:bool,
+    is_postfix:bool,
+    is_increment_op:bool,
+    is_decrement_op:bool,
+    is_increment_decrement_op:bool,
+    is_arithmetic_op:bool,
+    begin_loc_id:GID,
+    expr_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input unary_operator (
+    IO=postgres,
+    table="clang_unary_operator"
+  )
+  .decl unary_operator_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input unary_operator_children (
+    IO=postgres_array,
+    table="clang_unary_operator",
+    array="children_ids"
+  )
+
+  .decl unary_transform_type (
+    gid:GID,
+    cobj_kind:number,
+    underlying_type_id:GID,
+    base_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input unary_transform_type (
+    IO=postgres,
+    table="clang_unary_transform_type"
+  )
+
+  .decl unary_transform_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input unary_transform_type_contextual (
+    IO=postgres,
+    table="clang_unary_transform_type_contextual"
+  )
+
+  .decl unresolved_lookup_expr (
+    gid:GID,
+    cobj_kind:number,
+    requires_adl:bool,
+    is_overloaded:bool,
+    naming_class_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input unresolved_lookup_expr (
+    IO=postgres,
+    table="clang_unresolved_lookup_expr"
+  )
+  .decl unresolved_lookup_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input unresolved_lookup_expr_children (
+    IO=postgres_array,
+    table="clang_unresolved_lookup_expr",
+    array="children_ids"
+  )
+
+  .decl unresolved_member_expr (
+    gid:GID,
+    cobj_kind:number,
+    is_implicit_access:bool,
+    the_base_id:GID,
+    the_base_type_id:GID,
+    has_unresolved_using:bool,
+    is_arrow:bool,
+    operator_loc_id:GID,
+    naming_class_id:GID,
+    member_name_info_id:GID,
+    member_name_id:GID,
+    member_loc_id:GID,
+    expr_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input unresolved_member_expr (
+    IO=postgres,
+    table="clang_unresolved_member_expr"
+  )
+  .decl unresolved_member_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input unresolved_member_expr_children (
+    IO=postgres_array,
+    table="clang_unresolved_member_expr",
+    array="children_ids"
+  )
+
+  .decl unresolved_using_value_decl (
+    gid:GID,
+    cobj_kind:number,
+    using_loc_id:GID,
+    is_access_declaration:bool,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    name_info_id:GID,
+    is_pack_expansion:bool,
+    ellipsis_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input unresolved_using_value_decl (
+    IO=postgres,
+    table="clang_unresolved_using_value_decl"
+  )
+
+  .decl unresolved_using_value_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    canonical_decl_id:GID
+  )
+  .input unresolved_using_value_decl_contextual (
+    IO=postgres,
+    table="clang_unresolved_using_value_decl_contextual"
+  )
+
+  .decl user_defined_literal (
+    gid:GID,
+    cobj_kind:number,
+    literal_operator_kind:number,
+    cooked_literal_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    ud_suffix_loc_id:GID,
+    ud_suffix_id:GID,
+    sid:SID
+  )
+  .input user_defined_literal (
+    IO=postgres,
+    table="clang_user_defined_literal"
+  )
+
+  .decl variable_array_type (
+    gid:GID,
+    cobj_kind:number,
+    size_expr_id:GID,
+    brackets_range_id:GID,
+    left_bracket_loc_id:GID,
+    right_bracket_loc_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input variable_array_type (
+    IO=postgres,
+    table="clang_variable_array_type"
+  )
+
+  .decl variable_array_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input variable_array_type_contextual (
+    IO=postgres,
+    table="clang_variable_array_type_contextual"
+  )
+
+  .decl while_stmt (
+    gid:GID,
+    cobj_kind:number,
+    has_var_storage:bool,
+    the_cond_id:GID,
+    the_body_id:GID,
+    the_condition_variable_id:GID,
+    while_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input while_stmt (
+    IO=postgres,
+    table="clang_while_stmt"
+  )
+  .decl while_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input while_stmt_children (
+    IO=postgres_array,
+    table="clang_while_stmt",
+    array="children_ids"
+  )
+
+  .decl full_expr (
+    gid:GID,
+    cobj_kind:number,
+    sub_expr_id:GID,
+    sid:SID
+  )
+  .input full_expr (
+    IO=postgres,
+    table="clang_full_expr"
+  )
+
+  .decl abstract_conditional_operator (
+    gid:GID,
+    cobj_kind:number,
+    condition_expr_id:GID,
+    true_expr_id:GID,
+    false_expr_id:GID,
+    question_loc_id:GID,
+    colon_loc_id:GID,
+    sid:SID
+  )
+  .input abstract_conditional_operator (
+    IO=postgres,
+    table="clang_abstract_conditional_operator"
+  )
+
+  .decl overload_expr (
+    gid:GID,
+    cobj_kind:number,
+    naming_class_id:GID,
+    num_decls:number,
+    name_id:GID,
+    name_info_id:GID,
+    name_loc_id:GID,
+    qualifier_id:GID,
+    qualifier_loc_id:GID,
+    template_keyword_loc_id:GID,
+    left_angle_loc_id:GID,
+    right_angle_loc_id:GID,
+    has_template_keyword:bool,
+    has_explicit_template_args:bool,
+    num_template_args:number,
+    sid:SID
+  )
+  .input overload_expr (
+    IO=postgres,
+    table="clang_overload_expr"
+  )
+  .decl overload_expr_decls (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input overload_expr_decls (
+    IO=postgres_array,
+    table="clang_overload_expr",
+    array="decls_ids"
+  )
+  .decl overload_expr_template_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input overload_expr_template_args (
+    IO=postgres_array,
+    table="clang_overload_expr",
+    array="template_args_ids"
+  )
+
+  .decl objc_container_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_container_decl (
+    IO=postgres,
+    table="clang_objc_container_decl"
+  )
+
+  .decl objc_impl_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input objc_impl_decl (
+    IO=postgres,
+    table="clang_objc_impl_decl"
+  )
+
+  .decl type_with_keyword (
+    gid:GID,
+    cobj_kind:number,
+    the_keyword:number,
+    sid:SID
+  )
+  .input type_with_keyword (
+    IO=postgres,
+    table="clang_type_with_keyword"
+  )
+
+  .decl cxx_named_cast_expr (
+    gid:GID,
+    cobj_kind:number,
+    cast_name:symbol,
+    operator_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    angle_brackets_id:GID,
+    sid:SID
+  )
+  .input cxx_named_cast_expr (
+    IO=postgres,
+    table="clang_cxx_named_cast_expr"
+  )
+
+  .decl adjusted_type (
+    gid:GID,
+    cobj_kind:number,
+    original_type_id:GID,
+    adjusted_type_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input adjusted_type (
+    IO=postgres,
+    table="clang_adjusted_type"
+  )
+
+  .decl adjusted_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input adjusted_type_contextual (
+    IO=postgres,
+    table="clang_adjusted_type_contextual"
+  )
+
+  .decl omp_clause (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input omp_clause (
+    IO=postgres,
+    table="clang_omp_clause"
+  )
+
+  .decl dependent_template_name (
+    gid:GID,
+    cobj_kind:number,
+    qualifier_id:GID,
+    is_identifier:bool,
+    the_identifier_id:GID,
+    is_overloaded_operator:bool,
+    the_operator:number,
+    sid:SID
+  )
+  .input dependent_template_name (
+    IO=postgres,
+    table="clang_dependent_template_name"
+  )
+
+  .decl template_specialization_type (
+    gid:GID,
+    cobj_kind:number,
+    is_current_instantiation:bool,
+    is_type_alias:bool,
+    aliased_type_id:GID,
+    template_name_id:GID,
+    numArguments:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input template_specialization_type (
+    IO=postgres,
+    table="clang_template_specialization_type"
+  )
+  .decl template_specialization_type_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input template_specialization_type_arguments (
+    IO=postgres_array,
+    table="clang_template_specialization_type",
+    array="arguments_ids"
+  )
+
+  .decl template_specialization_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input template_specialization_type_contextual (
+    IO=postgres,
+    table="clang_template_specialization_type_contextual"
+  )
+
+  .decl compound_stmt (
+    gid:GID,
+    cobj_kind:number,
+    body_size:number,
+    stmt_expr_result_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    left_brace_loc_id:GID,
+    right_brace_loc_id:GID,
+    sid:SID
+  )
+  .input compound_stmt (
+    IO=postgres,
+    table="clang_compound_stmt"
+  )
+  .decl compound_stmt_body (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input compound_stmt_body (
+    IO=postgres_array,
+    table="clang_compound_stmt",
+    array="body_ids"
+  )
+  .decl compound_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input compound_stmt_children (
+    IO=postgres_array,
+    table="clang_compound_stmt",
+    array="children_ids"
+  )
+
+  .decl template_type_parm_type (
+    gid:GID,
+    cobj_kind:number,
+    the_depth:number,
+    the_index:number,
+    is_parameter_pack:bool,
+    the_decl_id:GID,
+    the_identifier_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input template_type_parm_type (
+    IO=postgres,
+    table="clang_template_type_parm_type"
+  )
+
+  .decl template_type_parm_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input template_type_parm_type_contextual (
+    IO=postgres,
+    table="clang_template_type_parm_type_contextual"
+  )
+
+  .decl attributed_stmt (
+    gid:GID,
+    cobj_kind:number,
+    attr_loc_id:GID,
+    sub_stmt_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input attributed_stmt (
+    IO=postgres,
+    table="clang_attributed_stmt"
+  )
+  .decl attributed_stmt_attributes (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input attributed_stmt_attributes (
+    IO=postgres_array,
+    table="clang_attributed_stmt",
+    array="attributes_ids"
+  )
+  .decl attributed_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input attributed_stmt_children (
+    IO=postgres_array,
+    table="clang_attributed_stmt",
+    array="children_ids"
+  )
+
+  .decl compound_assign_operator (
+    gid:GID,
+    cobj_kind:number,
+    computation_lhs_type_id:GID,
+    computation_rhs_type_id:GID,
+    sid:SID
+  )
+  .input compound_assign_operator (
+    IO=postgres,
+    table="clang_compound_assign_operator"
+  )
+
+  .decl cxx_pseudo_destructor_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_base_id:GID,
+    has_qualifier:bool,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    is_arrow:bool,
+    operator_loc_id:GID,
+    scope_type_info_id:GID,
+    colon_colon_loc_id:GID,
+    tilde_loc_id:GID,
+    destroyed_type_info_id:GID,
+    destroyed_type_identifier_id:GID,
+    destroyed_type_id:GID,
+    destroyed_type_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input cxx_pseudo_destructor_expr (
+    IO=postgres,
+    table="clang_cxx_pseudo_destructor_expr"
+  )
+
+  .decl cxx_scalar_value_init_expr (
+    gid:GID,
+    cobj_kind:number,
+    type_source_info_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_scalar_value_init_expr (
+    IO=postgres,
+    table="clang_cxx_scalar_value_init_expr"
+  )
+  .decl cxx_scalar_value_init_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_scalar_value_init_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_scalar_value_init_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_typeid_expr (
+    gid:GID,
+    cobj_kind:number,
+    is_potentially_evaluated:bool,
+    is_type_operand:bool,
+    type_operand_id:GID,
+    type_operand_and_source_info_id:GID,
+    expr_operand_id:GID,
+    end_loc_id:GID,
+    begin_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input cxx_typeid_expr (
+    IO=postgres,
+    table="clang_cxx_typeid_expr"
+  )
+  .decl cxx_typeid_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_typeid_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_typeid_expr",
+    array="children_ids"
+  )
+
+  .decl dependent_name_type (
+    gid:GID,
+    cobj_kind:number,
+    qualifier_id:GID,
+    identifier_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input dependent_name_type (
+    IO=postgres,
+    table="clang_dependent_name_type"
+  )
+
+  .decl dependent_name_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input dependent_name_type_contextual (
+    IO=postgres,
+    table="clang_dependent_name_type_contextual"
+  )
+
+  .decl dependent_scope_decl_ref_expr (
+    gid:GID,
+    cobj_kind:number,
+    name_info_id:GID,
+    decl_name_id:GID,
+    the_location_id:GID,
+    qualifier_loc_id:GID,
+    qualifier_id:GID,
+    template_keyword_loc_id:GID,
+    left_angle_loc_id:GID,
+    right_angle_loc_id:GID,
+    has_template_keword:bool,
+    has_explicit_template_args:bool,
+    num_template_args:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input dependent_scope_decl_ref_expr (
+    IO=postgres,
+    table="clang_dependent_scope_decl_ref_expr"
+  )
+  .decl dependent_scope_decl_ref_expr_template_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input dependent_scope_decl_ref_expr_template_args (
+    IO=postgres_array,
+    table="clang_dependent_scope_decl_ref_expr",
+    array="template_args_ids"
+  )
+  .decl dependent_scope_decl_ref_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input dependent_scope_decl_ref_expr_children (
+    IO=postgres_array,
+    table="clang_dependent_scope_decl_ref_expr",
+    array="children_ids"
+  )
+
+  .decl dependent_template_specialization_type (
+    gid:GID,
+    cobj_kind:number,
+    qualifier_id:GID,
+    identifier_id:GID,
+    num_template_args:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input dependent_template_specialization_type (
+    IO=postgres,
+    table="clang_dependent_template_specialization_type"
+  )
+  .decl dependent_template_specialization_type_template_args (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input dependent_template_specialization_type_template_args (
+    IO=postgres_array,
+    table="clang_dependent_template_specialization_type",
+    array="template_args_ids"
+  )
+
+  .decl dependent_template_specialization_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input dependent_template_specialization_type_contextual (
+    IO=postgres,
+    table="clang_dependent_template_specialization_type_contextual"
+  )
+
+  .decl pack_expansion_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_pattern_id:GID,
+    ellipsis_loc_id:GID,
+    num_expansions:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input pack_expansion_expr (
+    IO=postgres,
+    table="clang_pack_expansion_expr"
+  )
+  .decl pack_expansion_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input pack_expansion_expr_children (
+    IO=postgres_array,
+    table="clang_pack_expansion_expr",
+    array="children_ids"
+  )
+
+  .decl pack_expansion_type (
+    gid:GID,
+    cobj_kind:number,
+    the_pattern_id:GID,
+    num_expansions:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input pack_expansion_type (
+    IO=postgres,
+    table="clang_pack_expansion_type"
+  )
+
+  .decl pack_expansion_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input pack_expansion_type_contextual (
+    IO=postgres,
+    table="clang_pack_expansion_type_contextual"
+  )
+
+  .decl size_of_pack_expr (
+    gid:GID,
+    cobj_kind:number,
+    operator_loc_id:GID,
+    pack_loc_id:GID,
+    right_paren_loc_id:GID,
+    the_pack_id:GID,
+    the_pack_length:number,
+    is_partially_substituted:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    is_value_dependent:bool,
+    sid:SID
+  )
+  .input size_of_pack_expr (
+    IO=postgres,
+    table="clang_size_of_pack_expr"
+  )
+  .decl size_of_pack_expr_partial_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input size_of_pack_expr_partial_arguments (
+    IO=postgres_array,
+    table="clang_size_of_pack_expr",
+    array="partial_arguments_ids"
+  )
+  .decl size_of_pack_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input size_of_pack_expr_children (
+    IO=postgres_array,
+    table="clang_size_of_pack_expr",
+    array="children_ids"
+  )
+
+  .decl type_trait_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_keyword:number,
+    the_value:bool,
+    num_arguments:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input type_trait_expr (
+    IO=postgres,
+    table="clang_type_trait_expr"
+  )
+  .decl type_trait_expr_arguments (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input type_trait_expr_arguments (
+    IO=postgres_array,
+    table="clang_type_trait_expr",
+    array="arguments_ids"
+  )
+  .decl type_trait_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input type_trait_expr_children (
+    IO=postgres_array,
+    table="clang_type_trait_expr",
+    array="children_ids"
+  )
+
+  .decl array_init_loop_expr (
+    gid:GID,
+    cobj_kind:number,
+    common_expr_id:GID,
+    sub_expr_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input array_init_loop_expr (
+    IO=postgres,
+    table="clang_array_init_loop_expr"
+  )
+  .decl array_init_loop_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input array_init_loop_expr_children (
+    IO=postgres_array,
+    table="clang_array_init_loop_expr",
+    array="children_ids"
+  )
+
+  .decl array_init_index_expr (
+    gid:GID,
+    cobj_kind:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input array_init_index_expr (
+    IO=postgres,
+    table="clang_array_init_index_expr"
+  )
+  .decl array_init_index_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input array_init_index_expr_children (
+    IO=postgres_array,
+    table="clang_array_init_index_expr",
+    array="children_ids"
+  )
+
+  .decl cxx_temporary (
+    gid:GID,
+    cobj_kind:number,
+    destructor_id:GID,
+    sid:SID
+  )
+  .input cxx_temporary (
+    IO=postgres,
+    table="clang_cxx_temporary"
+  )
+
+  .decl qualified_template_name (
+    gid:GID,
+    cobj_kind:number,
+    qualifier_id:GID,
+    has_template_keyword:bool,
+    the_decl_id:GID,
+    template_decl_id:GID,
+    sid:SID
+  )
+  .input qualified_template_name (
+    IO=postgres,
+    table="clang_qualified_template_name"
+  )
+
+  .decl var_template_decl (
+    gid:GID,
+    cobj_kind:number,
+    templated_decl_id:GID,
+    is_this_declaration_a_definition:bool,
+    instantiated_from_member_template_id:GID,
+    sid:SID
+  )
+  .input var_template_decl (
+    IO=postgres,
+    table="clang_var_template_decl"
+  )
+
+  .decl var_template_decl_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    the_definition_id:GID,
+    canonical_decl_id:GID,
+    most_recent_decl_id:GID,
+    previous_decl_id:GID
+  )
+  .input var_template_decl_contextual (
+    IO=postgres,
+    table="clang_var_template_decl_contextual"
+  )
+  .decl var_template_decl_contextual_specializations (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input var_template_decl_contextual_specializations (
+    IO=postgres_array,
+    table="clang_var_template_decl_contextual",
+    array="specializations_ids"
+  )
+
+  .decl type_of_expr_type (
+    gid:GID,
+    cobj_kind:number,
+    underlying_expr_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input type_of_expr_type (
+    IO=postgres,
+    table="clang_type_of_expr_type"
+  )
+
+  .decl type_of_expr_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input type_of_expr_type_contextual (
+    IO=postgres,
+    table="clang_type_of_expr_type_contextual"
+  )
+
+  .decl cxx_default_init_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_field_id:GID,
+    the_expr_id:GID,
+    the_used_context_id:GID,
+    used_location_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input cxx_default_init_expr (
+    IO=postgres,
+    table="clang_cxx_default_init_expr"
+  )
+  .decl cxx_default_init_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input cxx_default_init_expr_children (
+    IO=postgres_array,
+    table="clang_cxx_default_init_expr",
+    array="children_ids"
+  )
+
+  .decl unresolved_using_type (
+    gid:GID,
+    cobj_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input unresolved_using_type (
+    IO=postgres,
+    table="clang_unresolved_using_type"
+  )
+
+  .decl unresolved_using_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    the_decl_id:GID,
+    desugared_id:GID
+  )
+  .input unresolved_using_type_contextual (
+    IO=postgres,
+    table="clang_unresolved_using_type_contextual"
+  )
+
+  .decl gcc_asm_stmt (
+    gid:GID,
+    cobj_kind:number,
+    right_paren_loc_id:GID,
+    asm_string_id:GID,
+    is_asm_goto:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    num_labels:number,
+    num_outputs:number,
+    num_inputs:number,
+    num_clobbers:number,
+    sid:SID
+  )
+  .input gcc_asm_stmt (
+    IO=postgres,
+    table="clang_gcc_asm_stmt"
+  )
+  .decl gcc_asm_stmt_label_exprs (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_label_exprs (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="label_exprs_ids"
+  )
+  .decl gcc_asm_stmt_label_identifiers (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_label_identifiers (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="label_identifiers_ids"
+  )
+  .decl gcc_asm_stmt_output_exprs (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_output_exprs (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="output_exprs_ids"
+  )
+  .decl gcc_asm_stmt_output_identifiers (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_output_identifiers (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="output_identifiers_ids"
+  )
+  .decl gcc_asm_stmt_output_constraints (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_output_constraints (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="output_constraints_ids"
+  )
+  .decl gcc_asm_stmt_input_exprs (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_input_exprs (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="input_exprs_ids"
+  )
+  .decl gcc_asm_stmt_input_identifiers (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_input_identifiers (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="input_identifiers_ids"
+  )
+  .decl gcc_asm_stmt_input_constraints (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_input_constraints (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="input_constraints_ids"
+  )
+  .decl gcc_asm_stmt_clobbers (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input gcc_asm_stmt_clobbers (
+    IO=postgres_array,
+    table="clang_gcc_asm_stmt",
+    array="clobbers_ids"
+  )
+
+  .decl va_arg_expr (
+    gid:GID,
+    cobj_kind:number,
+    sub_expr_id:GID,
+    is_microsoft_abi:bool,
+    written_type_info_id:GID,
+    builtin_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input va_arg_expr (
+    IO=postgres,
+    table="clang_va_arg_expr"
+  )
+  .decl va_arg_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input va_arg_expr_children (
+    IO=postgres_array,
+    table="clang_va_arg_expr",
+    array="children_ids"
+  )
+
+  .decl function_no_proto_type (
+    gid:GID,
+    cobj_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input function_no_proto_type (
+    IO=postgres,
+    table="clang_function_no_proto_type"
+  )
+
+  .decl function_no_proto_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input function_no_proto_type_contextual (
+    IO=postgres,
+    table="clang_function_no_proto_type_contextual"
+  )
+
+  .decl offset_of_expr (
+    gid:GID,
+    cobj_kind:number,
+    operator_loc_id:GID,
+    right_paren_loc_id:GID,
+    type_source_info_id:GID,
+    num_components:number,
+    num_expressions:number,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input offset_of_expr (
+    IO=postgres,
+    table="clang_offset_of_expr"
+  )
+  .decl offset_of_expr_index_expressions (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input offset_of_expr_index_expressions (
+    IO=postgres_array,
+    table="clang_offset_of_expr",
+    array="index_expressions_ids"
+  )
+  .decl offset_of_expr_components (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input offset_of_expr_components (
+    IO=postgres_array,
+    table="clang_offset_of_expr",
+    array="components_ids"
+  )
+  .decl offset_of_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input offset_of_expr_children (
+    IO=postgres_array,
+    table="clang_offset_of_expr",
+    array="children_ids"
+  )
+
+  .decl offset_of_node (
+    gid:GID,
+    cobj_kind:number,
+    kind:number,
+    array_expr_index:number,
+    field_id:GID,
+    field_name_id:GID,
+    the_base_id:GID,
+    source_range_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input offset_of_node (
+    IO=postgres,
+    table="clang_offset_of_node"
+  )
+
+  .decl empty_decl (
+    gid:GID,
+    cobj_kind:number,
+    sid:SID
+  )
+  .input empty_decl (
+    IO=postgres,
+    table="clang_empty_decl"
+  )
+
+  .decl convert_vector_expr (
+    gid:GID,
+    cobj_kind:number,
+    src_expr_id:GID,
+    type_source_info_id:GID,
+    builtin_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input convert_vector_expr (
+    IO=postgres,
+    table="clang_convert_vector_expr"
+  )
+  .decl convert_vector_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input convert_vector_expr_children (
+    IO=postgres_array,
+    table="clang_convert_vector_expr",
+    array="children_ids"
+  )
+
+  .decl ext_vector_element_expr (
+    gid:GID,
+    cobj_kind:number,
+    the_base_id:GID,
+    accessor_id:GID,
+    accessor_loc_id:GID,
+    num_elements:number,
+    contains_duplicate_elements:bool,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    is_arrow:bool,
+    sid:SID
+  )
+  .input ext_vector_element_expr (
+    IO=postgres,
+    table="clang_ext_vector_element_expr"
+  )
+  .decl ext_vector_element_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input ext_vector_element_expr_children (
+    IO=postgres_array,
+    table="clang_ext_vector_element_expr",
+    array="children_ids"
+  )
+
+  .decl shuffle_vector_expr (
+    gid:GID,
+    cobj_kind:number,
+    num_sub_exprs:number,
+    builtin_loc_id:GID,
+    right_paren_loc_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input shuffle_vector_expr (
+    IO=postgres,
+    table="clang_shuffle_vector_expr"
+  )
+  .decl shuffle_vector_expr_sub_exprs (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input shuffle_vector_expr_sub_exprs (
+    IO=postgres_array,
+    table="clang_shuffle_vector_expr",
+    array="sub_exprs_ids"
+  )
+  .decl shuffle_vector_expr_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input shuffle_vector_expr_children (
+    IO=postgres_array,
+    table="clang_shuffle_vector_expr",
+    array="children_ids"
+  )
+
+  .decl dependent_sized_ext_vector_type (
+    gid:GID,
+    cobj_kind:number,
+    size_expr_id:GID,
+    element_type_id:GID,
+    attribute_loc_id:GID,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input dependent_sized_ext_vector_type (
+    IO=postgres,
+    table="clang_dependent_sized_ext_vector_type"
+  )
+
+  .decl dependent_sized_ext_vector_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input dependent_sized_ext_vector_type_contextual (
+    IO=postgres,
+    table="clang_dependent_sized_ext_vector_type_contextual"
+  )
+
+  .decl vector_type (
+    gid:GID,
+    cobj_kind:number,
+    element_type_id:GID,
+    num_elements:number,
+    vector_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input vector_type (
+    IO=postgres,
+    table="clang_vector_type"
+  )
+
+  .decl vector_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input vector_type_contextual (
+    IO=postgres,
+    table="clang_vector_type_contextual"
+  )
+
+  .decl dependent_vector_type (
+    gid:GID,
+    cobj_kind:number,
+    size_expr_id:GID,
+    element_type_id:GID,
+    attribute_loc_id:GID,
+    vector_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input dependent_vector_type (
+    IO=postgres,
+    table="clang_dependent_vector_type"
+  )
+
+  .decl dependent_vector_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input dependent_vector_type_contextual (
+    IO=postgres,
+    table="clang_dependent_vector_type_contextual"
+  )
+
+  .decl ext_vector_type (
+    gid:GID,
+    cobj_kind:number,
+    is_sugared:bool,
+    sid:SID
+  )
+  .input ext_vector_type (
+    IO=postgres,
+    table="clang_ext_vector_type"
+  )
+
+  .decl ext_vector_type_contextual (
+    gid:GID,
+    tid:number,
+    cobj_kind:number,
+    desugared_id:GID
+  )
+  .input ext_vector_type_contextual (
+    IO=postgres,
+    table="clang_ext_vector_type_contextual"
+  )
+
+  .decl raw_comment (
+    gid:GID,
+    cobj_kind:number,
+    comment_kind:number,
+    is_invalid:bool,
+    is_merged:bool,
+    is_attached:bool,
+    is_trailing_comment:bool,
+    is_almost_trailing_comment:bool,
+    is_ordinary:bool,
+    is_documentation:bool,
+    raw_text:symbol,
+    brief_text:symbol,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    source_range_id:GID,
+    sid:SID
+  )
+  .input raw_comment (
+    IO=postgres,
+    table="clang_raw_comment"
+  )
+
+  .decl indirect_goto_stmt (
+    gid:GID,
+    cobj_kind:number,
+    goto_loc_id:GID,
+    star_loc_id:GID,
+    target_id:GID,
+    constant_Target_id:GID,
+    begin_loc_id:GID,
+    end_loc_id:GID,
+    sid:SID
+  )
+  .input indirect_goto_stmt (
+    IO=postgres,
+    table="clang_indirect_goto_stmt"
+  )
+  .decl indirect_goto_stmt_children (
+    gid:GID,
+    element:GID,
+    index:number
+  )
+  .input indirect_goto_stmt_children (
+    IO=postgres_array,
+    table="clang_indirect_goto_stmt",
+    array="children_ids"
+  )
+
+}
+
+.init RClang = RawClang
+

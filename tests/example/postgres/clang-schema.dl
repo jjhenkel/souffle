@@ -1,0 +1,12 @@
+#include "raw-clang-schema.dl"
+
+.comp AbsClang {
+    .decl VarDecl (gid:GID)
+    .output VarDecl
+    VarDecl(G) :- RClang.var_decl (
+        G,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+    ).
+}
+
+.init Clang = AbsClang
+

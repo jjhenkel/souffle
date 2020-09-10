@@ -1,0 +1,4 @@
+
+.type GID <: number
+.type SID <: number
+.type bool <: number
