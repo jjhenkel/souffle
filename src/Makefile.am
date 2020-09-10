@@ -395,6 +395,7 @@ souffleio_HEADERS = \
         include/souffle/io/ReadStreamCSV.h                 \
         include/souffle/io/ReadStreamJSON.h                \
         include/souffle/io/ReadStreamSQLite.h              \
+        include/souffle/io/ReadStreamPostgres.h            \
         include/souffle/io/SerialisationStream.h           \
         include/souffle/io/WriteStreamSQLite.h             \
         include/souffle/io/WriteStream.h                   \

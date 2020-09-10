@@ -152,6 +152,19 @@ AS_IF([test "x$enable_libz" != "xno"], [
 ])
 AM_CONDITIONAL([LIBZ], [test "x$enable_libz" != "xno"])
 
+
+# Disable postgres
+AC_ARG_ENABLE(
+  [postgres],
+  AS_HELP_STRING([--disable-postgres], [Disable use of postgres IO])
+)
+AS_IF([test "x$enable_postgres" != "xno"], [
+    AC_CHECK_LIB([pq], [main],,[AC_MSG_ERROR([required library pq missing. Use --disable-postgres to remove support for Postgres-based IO.])])
+    AC_CHECK_LIB([pqxx], [main],,[AC_MSG_ERROR([required library pqxx missing. Use --disable-postgres to remove support for Postgres-based IO.])])
+    AS_VAR_APPEND(CXXFLAGS, [" -DUSE_POSTGRES "])
+])
+AM_CONDITIONAL([POSTGRES], [test "x$enable_postgres" != "xno"])
+
 # Disable sqlite3
 AC_ARG_ENABLE(
   [sqlite],

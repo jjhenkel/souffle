@@ -28,6 +28,10 @@
 #include "souffle/io/WriteStreamSQLite.h"
 #endif
 
+#ifdef USE_POSTGRES
+#include "souffle/io/ReadStreamPostgres.h"
+#endif
+
 #include <map>
 #include <memory>
 #include <stdexcept>
@@ -89,6 +93,10 @@ private:
 #ifdef USE_SQLITE
         registerReadStreamFactory(std::make_shared<ReadSQLiteFactory>());
         registerWriteStreamFactory(std::make_shared<WriteSQLiteFactory>());
+#endif
+#ifdef USE_POSTGRES
+        registerReadStreamFactory(std::make_shared<ReadPostgresFactory>());
+        registerReadStreamFactory(std::make_shared<ReadPostgresArrayFactory>());
 #endif
     };
     std::map<std::string, std::shared_ptr<WriteStreamFactory>> outputFactories;
