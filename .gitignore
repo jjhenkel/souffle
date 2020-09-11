@@ -1,6 +1,9 @@
 Makefile
 Makefile.in
 
+test.sh
+outputs/
+
 aclocal.m4
 lt*.m4
 autom4te.cache

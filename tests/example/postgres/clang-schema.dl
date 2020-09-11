@@ -2,11 +2,153 @@
 
 .comp AbsClang {
     .decl VarDecl (gid:GID)
-    .output VarDecl
     VarDecl(G) :- RClang.var_decl (
         G,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_
     ).
+
+    .decl FunctionDecl (gid:GID)
+    FunctionDecl(G) :- RClang.function_decl (
+        G,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+    ).
+
+    .decl FunctionDeclNumParams (gid:GID, nparams:number)
+    FunctionDeclNumParams(G, P) :- RClang.function_decl (
+        G,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,P,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+    ).
+
+    .decl FunctionDeclParam (gid:GID, pid:GID, index:number)
+    FunctionDeclParam(G, P, I) :- RClang.function_decl_parameters (
+        G, P, I
+    ).
+
+    .decl FunctionDeclName (gid:GID, name:symbol, qualname:symbol)
+    FunctionDeclName(D, N, QN) :- 
+        RClang.function_decl (
+            D,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ),
+        RClang.named_decl (
+            D,_,_,N,_,QN,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ).
+
+    .decl FunctionDeclParamType (gid:GID, index:number, type:symbol) 
+    FunctionDeclParamType(G, I, T) :- 
+        RClang.function_decl_parameters (
+            G, P, I
+        ),
+        RClang.parm_var_decl (
+            P,_,_,_,_,_,_,_,_,_,_,_,_,_,_,Q,_
+        ),
+        RClang.qual_type (
+            Q,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,T,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ).
+
+    .decl FunctionDeclsThatDontMatchParam (target:GID, unmatched:GID)
+    FunctionDeclsThatDontMatchParam(T, U) :-
+        RClang.function_decl (
+            T,_,NM,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,NP,NR,RT,_,_,DRT,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ),
+        RClang.function_decl (
+            U,_,NM,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,NP,NR,RT,_,_,DRT,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ),
+        T != U,
+        Clang.FunctionDeclParamType(T, I, P),
+        !Clang.FunctionDeclParamType(U, I, P).
+
+    .decl FunctionDeclRawText (gid:GID, text:symbol)
+    FunctionDeclRawText(G, T) :-
+        FunctionDecl (G),
+        RClang.cdecl (
+            G,_,R,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ),
+        RClang.source_range (
+            R,_,1,_,_,T,_
+        ).
+
+    .decl FunctionDeclHasText (gid:GID)
+    FunctionDeclHasText(G) :-
+        FunctionDeclRawText(G, T),
+        T != "".
+
+    .decl FunctionDef (gid:GID, def:GID) 
+    FunctionDef(G, D) :- RClang.function_decl_contextual (
+        G,_,_,D,_,_,_,_
+    ).
+
+    .decl CallExpr (gid:GID, callee:GID, num_args:number, return_type:GID)
+    CallExpr(G, C, N, R) :- RClang.call_expr (
+        G,_,C,_,_,N,_,_,R,_,_,_,_,_
+    ).
+
+    .decl CallExprArg (gid:GID, arg:GID, index:number)
+    CallExprArg(G,A,I) :- RClang.call_expr_arguments (
+        G,A,I
+    ).
+
+    .decl CallExprDecl (gid:GID, tid:number, decl:GID)
+    CallExprDecl(G,T,D) :- RClang.call_expr_contextual (
+        G,T,_,D
+    ).
+
+    .decl CallExprName (gid:GID, name:symbol, qualname:symbol)
+    CallExprName(G, N, QN) :- 
+        RClang.call_expr (
+            G,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ),
+        RClang.call_expr_contextual (
+            G,_,_,D
+        ),
+        RClang.named_decl (
+            D,_,_,N,_,QN,_,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ).
+
+    .decl CallExprRawText (gid:GID, text:symbol)
+    CallExprRawText(G, T) :-
+        RClang.call_expr (
+            G,_,_,_,_,_,_,_,_,_,_,_,_,_
+        ),
+        RClang.stmt (
+            G,_,_,R,_,_,_,_,_
+        ),
+        RClang.source_range (
+            R,_,1,_,_,T,_
+        ).
+
+    .decl CallExprToDefDirect (gid:GID, def:GID)
+    /* In the best case, we have the def in our translation unit */
+    CallExprToDefDirect(G, D) :- 
+        CallExprDecl(G, _, DL),
+        D = min DF : { /* If we have multiple, let's just take min */
+            FunctionDef(DL,DF), /* ^^ Likely just an artifact of our hashing choices */
+            FunctionDeclHasText(DF),
+            DF != 0
+        }.
+
+    .decl CallExprToDefByNameAndType (gid:GID, def:GID)
+    /* If it's not in the translation unit, we can try simple 
+       type-based resolution (but only match if we are certain)
+    */
+    CallExprToDefByNameAndType(G, A) :-
+        CallExprName(G, _, QN),         /* Looking at calls */
+        !CallExprToDefDirect(G, _),     /* With no direct def in our DB */
+        D = min C : {                   /* Just take any decl to get type */
+            RClang.call_expr_contextual (G,_,_,C) 
+        },
+        FunctionDeclName(A, _, QN),     /* Alternate has matching name */
+        FunctionDef(A, A),              /* Alternate is DEF not just decl */
+        !FunctionDeclsThatDontMatchParam(D, A). /* Alternate's type matches */
+
+    .decl CallExprToDef (gid:GID, def:GID, type:symbol)
+    /* Use either direct defs */
+    CallExprToDef(G, D, "direct") :- CallExprToDefDirect(G, D).
+    /* Or use NameAndType defs as long as there's only one to pick */
+    CallExprToDef(G, D, "name-and-type") :- 
+      CallExprName(G, _, _),
+      1 = count : { CallExprToDefByNameAndType(G, _) },
+      CallExprToDefByNameAndType(G, D).
+
+    .output CallExprToDef
 }
 
 .init Clang = AbsClang
+
 

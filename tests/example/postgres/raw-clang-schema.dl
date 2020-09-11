@@ -409,7 +409,7 @@
     table="clang_named_decl_contextual"
   )
 
-  .decl decl (
+  .decl cdecl (
     gid:GID,
     cobj_kind:number,
     source_range_id:GID,
@@ -453,7 +453,7 @@
     attached_comment_id:GID,
     sid:SID
   )
-  .input decl (
+  .input cdecl (
     IO=postgres,
     table="clang_decl"
   )
