@@ -400,6 +400,7 @@ souffleio_HEADERS = \
         include/souffle/io/WriteStreamSQLite.h             \
         include/souffle/io/WriteStream.h                   \
         include/souffle/io/WriteStreamCSV.h                \
+        include/souffle/io/WriteStreamPostgres.h           \
         include/souffle/io/WriteStreamJSON.h
 
 souffleprofiledir = $(soufflepublicdir)/profile

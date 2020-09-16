@@ -30,6 +30,7 @@
 
 #ifdef USE_POSTGRES
 #include "souffle/io/ReadStreamPostgres.h"
+#include "souffle/io/WriteStreamPostgres.h"
 #endif
 
 #include <map>
@@ -96,6 +97,7 @@ private:
 #endif
 #ifdef USE_POSTGRES
         registerReadStreamFactory(std::make_shared<ReadPostgresFactory>());
+        registerWriteStreamFactory(std::make_shared<WritePostgresFactory>());
         registerReadStreamFactory(std::make_shared<ReadPostgresArrayFactory>());
 #endif
     };
