@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -16,14 +16,14 @@
 
 #pragma once
 
-#include "ram/Constant.h"
+#include "ram/NumericConstant.h"
 #include "souffle/RamTypes.h"
 #include <ostream>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamUnsignedConstant
+ * @class UnsignedConstant
  * @brief Represents a unsigned constant
  *
  * For example:
@@ -31,24 +31,24 @@ namespace souffle {
  * unsigned(5)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamUnsignedConstant : public RamConstant {
+class UnsignedConstant : public NumericConstant {
 public:
-    explicit RamUnsignedConstant(RamUnsigned val) : RamConstant(ramBitCast(val)) {}
+    explicit UnsignedConstant(RamUnsigned val) : NumericConstant(ramBitCast(val)) {}
 
     /** @brief Get value of the constant. */
     RamUnsigned getValue() const {
         return ramBitCast<RamUnsigned>(constant);
     }
 
-    /** Create clone */
-    RamUnsignedConstant* clone() const override {
-        return new RamUnsignedConstant(getValue());
+    /** Create cloning */
+    UnsignedConstant* cloning() const override {
+        return new UnsignedConstant(getValue());
     }
 
 protected:
     void print(std::ostream& os) const override {
-        os << "unsigned(" << getValue() << ")";
+        os << "UNSIGNED(" << getValue() << ")";
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

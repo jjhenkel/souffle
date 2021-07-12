@@ -23,10 +23,10 @@
 #include <string>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
- * @Class RamTransformerSequence
+ * @Class TransformerSequence
  * @Brief Composite sequence transformer
  *
  * A sequence of transformations is applied to a translation unit
@@ -34,11 +34,11 @@ namespace souffle {
  * the code has been changed.
  *
  */
-class RamTransformerSequence : public RamMetaTransformer {
+class TransformerSequence : public MetaTransformer {
 public:
     template <typename... Tfs>
-    RamTransformerSequence(Own<Tfs>&&... tf) : RamTransformerSequence() {
-        Own<RamTransformer> tmp[] = {std::move(tf)...};
+    TransformerSequence(Own<Tfs>&&... tf) : TransformerSequence() {
+        Own<Transformer> tmp[] = {std::move(tf)...};
         for (auto& cur : tmp) {
             transformers.emplace_back(std::move(cur));
         }
@@ -47,11 +47,11 @@ public:
             assert(cur);
         }
     }
-    RamTransformerSequence() = default;
+    TransformerSequence() = default;
     std::string getName() const override {
-        return "RamTransformerSequence";
+        return "TransformerSequence";
     }
-    bool transform(RamTranslationUnit& tU) override {
+    bool transform(TranslationUnit& tU) override {
         bool changed = false;
         // The last transformer decides the status
         // of the change flag.
@@ -65,7 +65,7 @@ public:
 
 protected:
     /** sequence of transformers */
-    VecOwn<RamTransformer> transformers;
+    VecOwn<Transformer> transformers;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

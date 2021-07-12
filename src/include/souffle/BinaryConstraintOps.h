@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -124,33 +124,25 @@ inline bool isEqConstraint(const BinaryConstraintOp constraintOp) {
     return false;
 }
 
-// need to distinguish which inequalities are indexable and thus introduce isIneqConstraint
-inline bool isIneqSigned(const BinaryConstraintOp constraintOp) {
+inline bool isStrictIneqConstraint(const BinaryConstraintOp constraintOp) {
     switch (constraintOp) {
         case BinaryConstraintOp::LT:
         case BinaryConstraintOp::GT:
-        case BinaryConstraintOp::LE:
-        case BinaryConstraintOp::GE: return true;
-        default: break;
-    }
-    return false;
-}
-
-inline bool isIneqUnsigned(const BinaryConstraintOp constraintOp) {
-    switch (constraintOp) {
         case BinaryConstraintOp::ULT:
         case BinaryConstraintOp::UGT:
-        case BinaryConstraintOp::ULE:
-        case BinaryConstraintOp::UGE: return true;
+        case BinaryConstraintOp::FLT:
+        case BinaryConstraintOp::FGT: return true;
         default: break;
     }
     return false;
 }
 
-inline bool isIneqFloat(const BinaryConstraintOp constraintOp) {
+inline bool isWeakIneqConstraint(const BinaryConstraintOp constraintOp) {
     switch (constraintOp) {
-        case BinaryConstraintOp::FLT:
-        case BinaryConstraintOp::FGT:
+        case BinaryConstraintOp::LE:
+        case BinaryConstraintOp::GE:
+        case BinaryConstraintOp::ULE:
+        case BinaryConstraintOp::UGE:
         case BinaryConstraintOp::FLE:
         case BinaryConstraintOp::FGE: return true;
         default: break;
@@ -158,53 +150,93 @@ inline bool isIneqFloat(const BinaryConstraintOp constraintOp) {
     return false;
 }
 
-inline bool isLessThanSigned(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::LT;
+inline bool isIneqConstraint(const BinaryConstraintOp constraintOp) {
+    return isStrictIneqConstraint(constraintOp) || isWeakIneqConstraint(constraintOp);
 }
 
-inline bool isGreaterThanSigned(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::GT;
+inline bool isIndexableConstraint(const BinaryConstraintOp constraintOp) {
+    return isIneqConstraint(constraintOp) || isEqConstraint(constraintOp);
 }
 
-inline bool isLessEqualSigned(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::LE;
+inline bool isSignedInequalityConstraint(const BinaryConstraintOp constraintOp) {
+    switch (constraintOp) {
+        case BinaryConstraintOp::LE:
+        case BinaryConstraintOp::GE:
+        case BinaryConstraintOp::LT:
+        case BinaryConstraintOp::GT: return true;
+        default: break;
+    }
+    return false;
 }
 
-inline bool isGreaterEqualSigned(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::GE;
+inline BinaryConstraintOp convertStrictToWeakIneqConstraint(const BinaryConstraintOp constraintOp) {
+    assert(isStrictIneqConstraint(constraintOp));
+    switch (constraintOp) {
+        case BinaryConstraintOp::LT: return BinaryConstraintOp::LE;
+        case BinaryConstraintOp::GT: return BinaryConstraintOp::GE;
+        case BinaryConstraintOp::ULT: return BinaryConstraintOp::ULE;
+        case BinaryConstraintOp::UGT: return BinaryConstraintOp::UGE;
+        case BinaryConstraintOp::FLT: return BinaryConstraintOp::FLE;
+        case BinaryConstraintOp::FGT: return BinaryConstraintOp::FGE;
+        default: break;
+    }
+    return constraintOp;
 }
 
-inline bool isLessThanUnsigned(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::ULT;
+inline BinaryConstraintOp convertStrictToNotEqualConstraint(const BinaryConstraintOp constraintOp) {
+    assert(isStrictIneqConstraint(constraintOp));
+    switch (constraintOp) {
+        case BinaryConstraintOp::LT: return BinaryConstraintOp::NE;
+        case BinaryConstraintOp::GT: return BinaryConstraintOp::NE;
+        case BinaryConstraintOp::ULT: return BinaryConstraintOp::NE;
+        case BinaryConstraintOp::UGT: return BinaryConstraintOp::NE;
+        case BinaryConstraintOp::FLT: return BinaryConstraintOp::FNE;
+        case BinaryConstraintOp::FGT: return BinaryConstraintOp::FNE;
+        default: break;
+    }
+    return constraintOp;
 }
 
-inline bool isGreaterThanUnsigned(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::UGT;
+inline bool isLessThan(const BinaryConstraintOp constraintOp) {
+    switch (constraintOp) {
+        case BinaryConstraintOp::LT:
+        case BinaryConstraintOp::ULT:
+        case BinaryConstraintOp::FLT: return true;
+        default: break;
+    }
+    return false;
 }
 
-inline bool isLessEqualUnsigned(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::ULE;
+inline bool isGreaterThan(const BinaryConstraintOp constraintOp) {
+    switch (constraintOp) {
+        case BinaryConstraintOp::GT:
+        case BinaryConstraintOp::UGT:
+        case BinaryConstraintOp::FGT: return true;
+        default: break;
+    }
+    return false;
 }
 
-inline bool isGreaterEqualUnsigned(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::UGE;
+inline bool isLessEqual(const BinaryConstraintOp constraintOp) {
+    switch (constraintOp) {
+        case BinaryConstraintOp::LE:
+        case BinaryConstraintOp::ULE:
+        case BinaryConstraintOp::FLE: return true;
+        default: break;
+    }
+    return false;
 }
 
-inline bool isLessThanFloat(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::FLT;
+inline bool isGreaterEqual(const BinaryConstraintOp constraintOp) {
+    switch (constraintOp) {
+        case BinaryConstraintOp::GE:
+        case BinaryConstraintOp::UGE:
+        case BinaryConstraintOp::FGE: return true;
+        default: break;
+    }
+    return false;
 }
 
-inline bool isGreaterThanFloat(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::FGT;
-}
-
-inline bool isLessEqualFloat(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::FLE;
-}
-
-inline bool isGreaterEqualFloat(const BinaryConstraintOp constraintOp) {
-    return constraintOp == BinaryConstraintOp::FGE;
-}
 /**
  * Utility function, informing whether constraint is overloaded.
  * Only the signed version's are treated as overloaded (as they are returned by the parser).
@@ -397,6 +429,21 @@ inline bool isOrderedBinaryConstraintOp(const BinaryConstraintOp op) {
     }
 
     UNREACHABLE_BAD_CASE_ANALYSIS
+}
+
+/**
+ * Determines whether a functor should be written using infix notation (e.g. `a + b + c`)
+ * or prefix notation (e.g. `+(a,b,c)`)
+ */
+inline bool isInfixFunctorOp(const BinaryConstraintOp op) {
+    switch (op) {
+        case BinaryConstraintOp::MATCH:
+        case BinaryConstraintOp::NOT_MATCH:
+        case BinaryConstraintOp::CONTAINS:
+        case BinaryConstraintOp::NOT_CONTAINS: return false;
+
+        default: return true;
+    }
 }
 
 /**

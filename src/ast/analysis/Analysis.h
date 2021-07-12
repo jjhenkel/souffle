@@ -20,20 +20,22 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ast {
 
-class AstTranslationUnit;
+class TranslationUnit;
+
+namespace analysis {
 
 /**
  * Abstract class for a AST Analysis.
  */
-class AstAnalysis {
+class Analysis {
 public:
-    AstAnalysis(std::string identifier) : identifier(std::move(identifier)) {}
-    virtual ~AstAnalysis() = default;
+    Analysis(std::string identifier) : identifier(std::move(identifier)) {}
+    virtual ~Analysis() = default;
 
     /** run analysis for a Ast translation unit */
-    virtual void run(const AstTranslationUnit& /*translationUnit*/) = 0;
+    virtual void run(const TranslationUnit& /*translationUnit*/) = 0;
 
     /** print the analysis result in HTML format */
     virtual void print(std::ostream&) const {}
@@ -44,7 +46,7 @@ public:
     }
 
     /** define output stream operator */
-    friend std::ostream& operator<<(std::ostream& out, const AstAnalysis& other) {
+    friend std::ostream& operator<<(std::ostream& out, const Analysis& other) {
         other.print(out);
         return out;
     }
@@ -53,4 +55,5 @@ protected:
     const std::string identifier;
 };
 
-}  // end of namespace souffle
+}  // namespace analysis
+}  // namespace souffle::ast

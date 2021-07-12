@@ -32,10 +32,10 @@
 #include <memory>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool FoldAnonymousRecords::isValidRecordConstraint(const AstLiteral* literal) {
-    auto constraint = dynamic_cast<const AstBinaryConstraint*>(literal);
+bool FoldAnonymousRecords::isValidRecordConstraint(const Literal* literal) {
+    auto constraint = as<BinaryConstraint>(literal);
 
     if (constraint == nullptr) {
         return false;
@@ -44,8 +44,8 @@ bool FoldAnonymousRecords::isValidRecordConstraint(const AstLiteral* literal) {
     const auto* left = constraint->getLHS();
     const auto* right = constraint->getRHS();
 
-    const auto* leftRecord = dynamic_cast<const AstRecordInit*>(left);
-    const auto* rightRecord = dynamic_cast<const AstRecordInit*>(right);
+    const auto* leftRecord = as<RecordInit>(left);
+    const auto* rightRecord = as<RecordInit>(right);
 
     // Check if arguments are records records.
     if ((leftRecord == nullptr) || (rightRecord == nullptr)) {
@@ -58,24 +58,24 @@ bool FoldAnonymousRecords::isValidRecordConstraint(const AstLiteral* literal) {
     }
 
     // Check if operator is "=" or "!="
-    auto op = constraint->getOperator();
+    auto op = constraint->getBaseOperator();
 
     return isEqConstraint(op) || isEqConstraint(negatedConstraintOp(op));
 }
 
-bool FoldAnonymousRecords::containsValidRecordConstraint(const AstClause& clause) {
+bool FoldAnonymousRecords::containsValidRecordConstraint(const Clause& clause) {
     bool contains = false;
-    visitDepthFirst(clause, [&](const AstBinaryConstraint& binary) {
+    visit(clause, [&](const BinaryConstraint& binary) {
         contains = (contains || isValidRecordConstraint(&binary));
     });
     return contains;
 }
 
-VecOwn<AstLiteral> FoldAnonymousRecords::expandRecordBinaryConstraint(const AstBinaryConstraint& constraint) {
-    VecOwn<AstLiteral> replacedContraint;
+VecOwn<Literal> FoldAnonymousRecords::expandRecordBinaryConstraint(const BinaryConstraint& constraint) {
+    VecOwn<Literal> replacedContraint;
 
-    const auto* left = dynamic_cast<AstRecordInit*>(constraint.getLHS());
-    const auto* right = dynamic_cast<AstRecordInit*>(constraint.getRHS());
+    const auto* left = as<RecordInit>(constraint.getLHS());
+    const auto* right = as<RecordInit>(constraint.getRHS());
     assert(left != nullptr && "Non-record passed to record method");
     assert(right != nullptr && "Non-record passed to record method");
 
@@ -85,36 +85,36 @@ VecOwn<AstLiteral> FoldAnonymousRecords::expandRecordBinaryConstraint(const AstB
     assert(leftChildren.size() == rightChildren.size());
 
     // [a, b..] = [c, d...] → a = c, b = d ...
-    for (size_t i = 0; i < leftChildren.size(); ++i) {
-        auto newConstraint = mk<AstBinaryConstraint>(
-                constraint.getOperator(), souffle::clone(leftChildren[i]), souffle::clone(rightChildren[i]));
+    for (std::size_t i = 0; i < leftChildren.size(); ++i) {
+        auto newConstraint = mk<BinaryConstraint>(
+                constraint.getBaseOperator(), clone(leftChildren[i]), clone(rightChildren[i]));
         replacedContraint.push_back(std::move(newConstraint));
     }
 
     // Handle edge case. Empty records.
     if (leftChildren.size() == 0) {
-        if (isEqConstraint(constraint.getOperator())) {
-            replacedContraint.emplace_back(new AstBooleanConstraint(true));
+        if (isEqConstraint(constraint.getBaseOperator())) {
+            replacedContraint.emplace_back(new BooleanConstraint(true));
         } else {
-            replacedContraint.emplace_back(new AstBooleanConstraint(false));
+            replacedContraint.emplace_back(new BooleanConstraint(false));
         }
     }
 
     return replacedContraint;
 }
 
-void FoldAnonymousRecords::transformClause(const AstClause& clause, VecOwn<AstClause>& newClauses) {
+void FoldAnonymousRecords::transformClause(const Clause& clause, VecOwn<Clause>& newClauses) {
     // If we have an inequality constraint, we need to create new clauses
     // At most one inequality constraint will be expanded in a single pass.
-    AstBinaryConstraint* neqConstraint = nullptr;
+    BinaryConstraint* neqConstraint = nullptr;
 
-    VecOwn<AstLiteral> newBody;
+    VecOwn<Literal> newBody;
     for (auto* literal : clause.getBodyLiterals()) {
         if (isValidRecordConstraint(literal)) {
-            const AstBinaryConstraint& constraint = dynamic_cast<AstBinaryConstraint&>(*literal);
+            auto& constraint = asAssert<BinaryConstraint>(literal);
 
             // Simple case, [a_0, ..., a_n] = [b_0, ..., b_n]
-            if (isEqConstraint(constraint.getOperator())) {
+            if (isEqConstraint(constraint.getBaseOperator())) {
                 auto transformedLiterals = expandRecordBinaryConstraint(constraint);
                 std::move(std::begin(transformedLiterals), std::end(transformedLiterals),
                         std::back_inserter(newBody));
@@ -122,22 +122,22 @@ void FoldAnonymousRecords::transformClause(const AstClause& clause, VecOwn<AstCl
                 // else if: Case [a_0, ..., a_n] != [b_0, ..., b_n].
                 // track single such case, it will be expanded in the end.
             } else if (neqConstraint == nullptr) {
-                neqConstraint = dynamic_cast<AstBinaryConstraint*>(literal);
+                neqConstraint = as<BinaryConstraint>(literal);
 
                 // Else: repeated inequality.
             } else {
-                newBody.push_back(souffle::clone(literal));
+                newBody.push_back(clone(literal));
             }
 
             // else, we simply copy the literal.
         } else {
-            newBody.push_back(souffle::clone(literal));
+            newBody.push_back(clone(literal));
         }
     }
 
     // If no inequality: create a single modified clause.
     if (neqConstraint == nullptr) {
-        auto newClause = souffle::clone(&clause);
+        auto newClause = clone(clause);
         newClause->setBodyLiterals(std::move(newBody));
         newClauses.emplace_back(std::move(newClause));
 
@@ -146,8 +146,8 @@ void FoldAnonymousRecords::transformClause(const AstClause& clause, VecOwn<AstCl
         auto transformedLiterals = expandRecordBinaryConstraint(*neqConstraint);
 
         for (auto it = begin(transformedLiterals); it != end(transformedLiterals); ++it) {
-            auto newClause = souffle::clone(&clause);
-            auto copyBody = souffle::clone(newBody);
+            auto newClause = clone(clause);
+            auto copyBody = clone(newBody);
             copyBody.push_back(std::move(*it));
 
             newClause->setBodyLiterals(std::move(copyBody));
@@ -157,26 +157,26 @@ void FoldAnonymousRecords::transformClause(const AstClause& clause, VecOwn<AstCl
     }
 }
 
-bool FoldAnonymousRecords::transform(AstTranslationUnit& translationUnit) {
+bool FoldAnonymousRecords::transform(TranslationUnit& translationUnit) {
     bool changed = false;
-    AstProgram& program = *translationUnit.getProgram();
+    Program& program = translationUnit.getProgram();
 
-    VecOwn<AstClause> newClauses;
+    VecOwn<Clause> newClauses;
 
     for (const auto* clause : program.getClauses()) {
         if (containsValidRecordConstraint(*clause)) {
             changed = true;
             transformClause(*clause, newClauses);
         } else {
-            newClauses.emplace_back(clause->clone());
+            newClauses.emplace_back(clone(clause));
         }
     }
 
-    // Update AstProgram.
+    // Update Program.
     if (changed) {
         program.setClauses(std::move(newClauses));
     }
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

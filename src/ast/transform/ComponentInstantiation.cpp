@@ -43,7 +43,9 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
+
+using namespace analysis;
 
 namespace {
 
@@ -53,14 +55,14 @@ static const unsigned int MAX_INSTANTIATION_DEPTH = 1000;
  * A container type for the (instantiated) content of a component.
  */
 struct ComponentContent {
-    std::vector<Own<AstType>> types;
-    std::vector<Own<AstRelation>> relations;
-    std::vector<Own<AstDirective>> directives;
-    std::vector<Own<AstClause>> clauses;
+    VecOwn<ast::Type> types;
+    VecOwn<Relation> relations;
+    VecOwn<Directive> directives;
+    VecOwn<Clause> clauses;
 
-    void add(Own<AstType>& type, ErrorReport& report) {
+    void add(Own<ast::Type>& type, ErrorReport& report) {
         // add to result content (check existence first)
-        auto foundItem = std::find_if(types.begin(), types.end(), [&](const Own<AstType>& element) {
+        auto foundItem = std::find_if(types.begin(), types.end(), [&](const Own<ast::Type>& element) {
             return (element->getQualifiedName() == type->getQualifiedName());
         });
         if (foundItem != types.end()) {
@@ -73,12 +75,11 @@ struct ComponentContent {
         types.push_back(std::move(type));
     }
 
-    void add(Own<AstRelation>& rel, ErrorReport& report) {
+    void add(Own<Relation>& rel, ErrorReport& report) {
         // add to result content (check existence first)
-        auto foundItem =
-                std::find_if(relations.begin(), relations.end(), [&](const Own<AstRelation>& element) {
-                    return (element->getQualifiedName() == rel->getQualifiedName());
-                });
+        auto foundItem = std::find_if(relations.begin(), relations.end(), [&](const Own<Relation>& element) {
+            return (element->getQualifiedName() == rel->getQualifiedName());
+        });
         if (foundItem != relations.end()) {
             Diagnostic err(Diagnostic::Type::ERROR,
                     DiagnosticMessage("Redefinition of relation " + toString(rel->getQualifiedName()),
@@ -89,20 +90,20 @@ struct ComponentContent {
         relations.push_back(std::move(rel));
     }
 
-    void add(Own<AstClause>& clause, ErrorReport& /* report */) {
+    void add(Own<Clause>& clause, ErrorReport& /* report */) {
         clauses.push_back(std::move(clause));
     }
 
-    void add(Own<AstDirective>& newDirective, ErrorReport& report) {
+    void add(Own<Directive>& newDirective, ErrorReport& report) {
         // Check if directive already exists
         auto foundItem =
-                std::find_if(directives.begin(), directives.end(), [&](const Own<AstDirective>& directive) {
+                std::find_if(directives.begin(), directives.end(), [&](const Own<Directive>& directive) {
                     return directive->getQualifiedName() == newDirective->getQualifiedName();
                 });
         // if yes, add error
         if (foundItem != directives.end()) {
             auto type = (*foundItem)->getType();
-            if (type == newDirective->getType() && newDirective->getType() != AstDirectiveType::output) {
+            if (type == newDirective->getType() && newDirective->getType() != ast::DirectiveType::output) {
                 Diagnostic err(Diagnostic::Type::ERROR,
                         DiagnosticMessage(
                                 "Redefinition I/O operation " + toString(newDirective->getQualifiedName()),
@@ -120,21 +121,21 @@ struct ComponentContent {
  * Recursively computes the set of relations (and included clauses) introduced
  * by this init statement enclosed within the given scope.
  */
-ComponentContent getInstantiatedContent(AstProgram& program, const AstComponentInit& componentInit,
-        const AstComponent* enclosingComponent, const ComponentLookup& componentLookup,
-        std::vector<Own<AstClause>>& orphans, ErrorReport& report, const TypeBinding& binding = TypeBinding(),
+ComponentContent getInstantiatedContent(Program& program, const ComponentInit& componentInit,
+        const Component* enclosingComponent, const ComponentLookupAnalysis& componentLookup,
+        VecOwn<Clause>& orphans, ErrorReport& report, const TypeBinding& binding = analysis::TypeBinding(),
         unsigned int maxDepth = MAX_INSTANTIATION_DEPTH);
 
 /**
  * Collects clones of all the content in the given component and its base components.
  */
-void collectContent(AstProgram& program, const AstComponent& component, const TypeBinding& binding,
-        const AstComponent* enclosingComponent, const ComponentLookup& componentLookup, ComponentContent& res,
-        std::vector<Own<AstClause>>& orphans, const std::set<std::string>& overridden, ErrorReport& report,
-        unsigned int maxInstantiationDepth) {
+void collectContent(Program& program, const Component& component, const TypeBinding& binding,
+        const Component* enclosingComponent, const ComponentLookupAnalysis& componentLookup,
+        ComponentContent& res, VecOwn<Clause>& orphans, const std::set<std::string>& overridden,
+        ErrorReport& report, unsigned int maxInstantiationDepth) {
     // start with relations and clauses of the base components
     for (const auto& base : component.getBaseComponents()) {
-        const AstComponent* comp = componentLookup.getComponent(enclosingComponent, base->getName(), binding);
+        const Component* comp = componentLookup.getComponent(enclosingComponent, base->getName(), binding);
         if (comp != nullptr) {
             // link formal with actual type parameters
             const auto& formalParams = comp->getComponentType()->getTypeParameters();
@@ -181,24 +182,24 @@ void collectContent(AstProgram& program, const AstComponent& component, const Ty
     // and continue with the local types
     for (const auto& cur : component.getTypes()) {
         // create a clone
-        Own<AstType> type(cur->clone());
+        Own<ast::Type> type(clone(cur));
 
         // instantiate elements of union types
-        visitDepthFirst(*type, [&](const AstUnionType& type) {
-            for (const auto& name : type.getTypes()) {
-                AstQualifiedName newName = binding.find(name);
+        visit(*type, [&](ast::UnionType& type) {
+            for (auto& name : type.getTypes()) {
+                QualifiedName newName = binding.find(name);
                 if (!newName.empty()) {
-                    const_cast<AstQualifiedName&>(name) = newName;
+                    name = std::move(newName);
                 }
             }
         });
 
         // instantiate elements of record types
-        visitDepthFirst(*type, [&](const AstRecordType& type) {
-            for (const auto& field : type.getFields()) {
+        visit(*type, [&](const ast::RecordType& type) {
+            for (auto& field : type.getFields()) {
                 auto&& newName = binding.find(field->getTypeName());
                 if (!newName.empty()) {
-                    const_cast<AstAttribute&>(*field).setTypeName(newName);
+                    field->setTypeName(newName);
                 }
             }
         });
@@ -210,11 +211,11 @@ void collectContent(AstProgram& program, const AstComponent& component, const Ty
     // and the local relations
     for (const auto& cur : component.getRelations()) {
         // create a clone
-        Own<AstRelation> rel(cur->clone());
+        Own<Relation> rel(clone(cur));
 
         // update attribute types
-        for (AstAttribute* attr : rel->getAttributes()) {
-            AstQualifiedName forward = binding.find(attr->getTypeName());
+        for (Attribute* attr : rel->getAttributes()) {
+            QualifiedName forward = binding.find(attr->getTypeName());
             if (!forward.empty()) {
                 attr->setTypeName(forward);
             }
@@ -227,13 +228,13 @@ void collectContent(AstProgram& program, const AstComponent& component, const Ty
     // and the local directive directives
     for (const auto& directive : component.getDirectives()) {
         // create a clone
-        Own<AstDirective> instantiatedIO(directive->clone());
+        Own<Directive> instantiatedIO(clone(directive));
 
         res.add(instantiatedIO, report);
     }
 
     // index the available relations
-    std::map<AstQualifiedName, AstRelation*> index;
+    std::map<QualifiedName, Relation*> index;
     for (const auto& cur : res.relations) {
         index[cur->getQualifiedName()] = cur.get();
     }
@@ -242,12 +243,12 @@ void collectContent(AstProgram& program, const AstComponent& component, const Ty
     // TODO: check orphans
     for (const auto& cur : component.getClauses()) {
         if (overridden.count(cur->getHead()->getQualifiedName().getQualifiers()[0]) == 0) {
-            AstRelation* rel = index[cur->getHead()->getQualifiedName()];
+            Relation* rel = index[cur->getHead()->getQualifiedName()];
             if (rel != nullptr) {
-                Own<AstClause> instantiatedClause(cur->clone());
+                Own<Clause> instantiatedClause(clone(cur));
                 res.add(instantiatedClause, report);
             } else {
-                orphans.emplace_back(cur->clone());
+                orphans.emplace_back(clone(cur));
             }
         }
     }
@@ -255,10 +256,10 @@ void collectContent(AstProgram& program, const AstComponent& component, const Ty
     // add orphan clauses at the current level if they can be resolved
     for (auto iter = orphans.begin(); iter != orphans.end();) {
         auto& cur = *iter;
-        AstRelation* rel = index[cur->getHead()->getQualifiedName()];
+        Relation* rel = index[cur->getHead()->getQualifiedName()];
         if (rel != nullptr) {
             // add orphan to current instance and delete from orphan list
-            Own<AstClause> instantiatedClause(cur->clone());
+            Own<Clause> instantiatedClause(clone(cur));
             res.add(instantiatedClause, report);
             iter = orphans.erase(iter);
         } else {
@@ -267,10 +268,9 @@ void collectContent(AstProgram& program, const AstComponent& component, const Ty
     }
 }
 
-ComponentContent getInstantiatedContent(AstProgram& program, const AstComponentInit& componentInit,
-        const AstComponent* enclosingComponent, const ComponentLookup& componentLookup,
-        std::vector<Own<AstClause>>& orphans, ErrorReport& report, const TypeBinding& binding,
-        unsigned int maxDepth) {
+ComponentContent getInstantiatedContent(Program& program, const ComponentInit& componentInit,
+        const Component* enclosingComponent, const ComponentLookupAnalysis& componentLookup,
+        VecOwn<Clause>& orphans, ErrorReport& report, const TypeBinding& binding, unsigned int maxDepth) {
     // start with an empty list
     ComponentContent res;
 
@@ -280,7 +280,7 @@ ComponentContent getInstantiatedContent(AstProgram& program, const AstComponentI
     }
 
     // get referenced component
-    const AstComponent* component = componentLookup.getComponent(
+    const Component* component = componentLookup.getComponent(
             enclosingComponent, componentInit.getComponentType()->getName(), binding);
     if (component == nullptr) {
         // this component is not defined => will trigger a semantic error
@@ -325,7 +325,7 @@ ComponentContent getInstantiatedContent(AstProgram& program, const AstComponentI
             overridden, report, maxDepth);
 
     // update type names
-    std::map<AstQualifiedName, AstQualifiedName> typeNameMapping;
+    std::map<QualifiedName, QualifiedName> typeNameMapping;
     for (const auto& cur : res.types) {
         auto newName = componentInit.getInstanceName() + cur->getQualifiedName();
         typeNameMapping[cur->getQualifiedName()] = newName;
@@ -333,7 +333,7 @@ ComponentContent getInstantiatedContent(AstProgram& program, const AstComponentI
     }
 
     // update relation names
-    std::map<AstQualifiedName, AstQualifiedName> relationNameMapping;
+    std::map<QualifiedName, QualifiedName> relationNameMapping;
     for (const auto& cur : res.relations) {
         auto newName = componentInit.getInstanceName() + cur->getQualifiedName();
         relationNameMapping[cur->getQualifiedName()] = newName;
@@ -341,59 +341,59 @@ ComponentContent getInstantiatedContent(AstProgram& program, const AstComponentI
     }
 
     // create a helper function fixing type and relation references
-    auto fixNames = [&](const AstNode& node) {
+    auto fixNames = [&](Node& node) {
         // rename attribute types in headers
-        visitDepthFirst(node, [&](const AstAttribute& attr) {
+        visit(node, [&](Attribute& attr) {
             auto pos = typeNameMapping.find(attr.getTypeName());
             if (pos != typeNameMapping.end()) {
-                const_cast<AstAttribute&>(attr).setTypeName(pos->second);
+                attr.setTypeName(pos->second);
             }
         });
 
         // rename atoms in clauses
-        visitDepthFirst(node, [&](const AstAtom& atom) {
+        visit(node, [&](Atom& atom) {
             auto pos = relationNameMapping.find(atom.getQualifiedName());
             if (pos != relationNameMapping.end()) {
-                const_cast<AstAtom&>(atom).setQualifiedName(pos->second);
+                atom.setQualifiedName(pos->second);
             }
         });
 
         // rename directives
-        visitDepthFirst(node, [&](const AstDirective& directive) {
+        visit(node, [&](Directive& directive) {
             auto pos = relationNameMapping.find(directive.getQualifiedName());
             if (pos != relationNameMapping.end()) {
-                const_cast<AstDirective&>(directive).setQualifiedName(pos->second);
+                directive.setQualifiedName(pos->second);
             }
         });
 
         // rename field types in records
-        visitDepthFirst(node, [&](const AstRecordType& recordType) {
+        visit(node, [&](ast::RecordType& recordType) {
             auto&& fields = recordType.getFields();
-            for (size_t i = 0; i < fields.size(); i++) {
+            for (std::size_t i = 0; i < fields.size(); i++) {
                 auto& field = fields[i];
                 auto pos = typeNameMapping.find(field->getTypeName());
                 if (pos != typeNameMapping.end()) {
-                    const_cast<AstRecordType&>(recordType).setFieldType(i, pos->second);
+                    recordType.setFieldType(i, pos->second);
                 }
             }
         });
 
         // rename variant types in unions
-        visitDepthFirst(node, [&](const AstUnionType& unionType) {
+        visit(node, [&](ast::UnionType& unionType) {
             auto& variants = unionType.getTypes();
-            for (size_t i = 0; i < variants.size(); i++) {
+            for (std::size_t i = 0; i < variants.size(); i++) {
                 auto pos = typeNameMapping.find(variants[i]);
                 if (pos != typeNameMapping.end()) {
-                    const_cast<AstUnionType&>(unionType).setType(i, pos->second);
+                    unionType.setType(i, pos->second);
                 }
             }
         });
 
         // rename type information in typecast
-        visitDepthFirst(node, [&](const AstTypeCast& cast) {
+        visit(node, [&](ast::TypeCast& cast) {
             auto pos = typeNameMapping.find(cast.getType());
             if (pos != typeNameMapping.end()) {
-                const_cast<AstTypeCast&>(cast).setType(pos->second);
+                cast.setType(pos->second);
             }
         });
     };
@@ -423,45 +423,43 @@ ComponentContent getInstantiatedContent(AstProgram& program, const AstComponentI
         fixNames(*cur);
     }
 
-    // done
     return res;
 }
 }  // namespace
 
-bool ComponentInstantiationTransformer::transform(AstTranslationUnit& translationUnit) {
-    // TODO: Do this without being a friend class of AstProgram
+bool ComponentInstantiationTransformer::transform(TranslationUnit& translationUnit) {
+    Program& program = translationUnit.getProgram();
+    auto& report = translationUnit.getErrorReport();
 
-    AstProgram& program = *translationUnit.getProgram();
+    auto* componentLookup = translationUnit.getAnalysis<ComponentLookupAnalysis>();
 
-    auto* componentLookup = translationUnit.getAnalysis<ComponentLookup>();
+    for (const auto* cur : program.getComponentInstantiations()) {
+        VecOwn<Clause> orphans;
 
-    for (const auto& cur : program.instantiations) {
-        std::vector<Own<AstClause>> orphans;
+        auto content = getInstantiatedContent(program, *cur, nullptr, *componentLookup, orphans, report);
+        if (report.getNumErrors() != 0) continue;
 
-        ComponentContent content = getInstantiatedContent(
-                program, *cur, nullptr, *componentLookup, orphans, translationUnit.getErrorReport());
         for (auto& type : content.types) {
-            program.types.push_back(std::move(type));
+            program.addType(std::move(type));
         }
         for (auto& rel : content.relations) {
-            program.relations.push_back(std::move(rel));
+            program.addRelation(std::move(rel));
         }
         for (auto& clause : content.clauses) {
-            program.clauses.push_back(std::move(clause));
+            program.addClause(std::move(clause));
         }
         for (auto& orphan : orphans) {
-            program.clauses.push_back(std::move(orphan));
+            program.addClause(std::move(orphan));
         }
         for (auto& directive : content.directives) {
-            program.directives.push_back(std::move(directive));
+            program.addDirective(std::move(directive));
         }
     }
 
     // delete components and instantiations
-    program.instantiations.clear();
-    program.components.clear();
+    program.clearComponents();
 
     return true;
 }
 
-}  // end namespace souffle
+}  // namespace souffle::ast::transform

@@ -29,15 +29,15 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool AddNullariesToAtomlessAggregatesTransformer::transform(AstTranslationUnit& translationUnit) {
+bool AddNullariesToAtomlessAggregatesTransformer::transform(TranslationUnit& translationUnit) {
     bool changed{false};
-    AstProgram& program = *translationUnit.getProgram();
-    visitDepthFirst(program, [&](const AstAggregator& agg) {
+    Program& program = translationUnit.getProgram();
+    visit(program, [&](Aggregator& agg) {
         bool seenAtom{false};
         for (const auto& literal : agg.getBodyLiterals()) {
-            if (isA<AstAtom>(literal)) {
+            if (isA<Atom>(literal)) {
                 seenAtom = true;
             }
         }
@@ -47,27 +47,23 @@ bool AddNullariesToAtomlessAggregatesTransformer::transform(AstTranslationUnit& 
         // We will add in the Tautology atom to the body of this aggregate now
         changed = true;
         // +Tautology()
-        auto nullaryAtom = mk<AstAtom>();
-        std::string relName = "+Tautology";
-        nullaryAtom->setQualifiedName(relName);
+        std::string const relName = "+Tautology";
 
         if (getRelation(program, relName) == nullptr) {
             // +Tautology().
-            auto fact = mk<AstClause>();
-            fact->setHead(souffle::clone(nullaryAtom));
+            auto fact = mk<Clause>(relName);
             // .decl +Tautology()
-            auto tautologyRel = mk<AstRelation>();
-            tautologyRel->setQualifiedName(relName);
+            auto tautologyRel = mk<Relation>(relName);
             program.addRelation(std::move(tautologyRel));
             program.addClause(std::move(fact));
         }
-        VecOwn<AstLiteral> newBody;
+        VecOwn<Literal> newBody;
         for (const auto& lit : agg.getBodyLiterals()) {
-            newBody.push_back(souffle::clone(lit));
+            newBody.push_back(clone(lit));
         }
-        newBody.push_back(souffle::clone(nullaryAtom));
-        const_cast<AstAggregator&>(agg).setBody(std::move(newBody));
+        newBody.push_back(mk<Atom>(relName));
+        agg.setBody(std::move(newBody));
     });
     return changed;
 }
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

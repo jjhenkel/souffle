@@ -71,12 +71,11 @@ public:
         const std::string& clause = directory.getKey();
 
         for (auto& key : directory.getKeys()) {
-            auto* level = dynamic_cast<SizeEntry*>(directory.readDirectoryEntry(key)->readEntry("level"));
-            auto* frequency =
-                    dynamic_cast<SizeEntry*>(directory.readDirectoryEntry(key)->readEntry("num-tuples"));
+            auto* level = as<SizeEntry>(directory.readDirectoryEntry(key)->readEntry("level"));
+            auto* frequency = as<SizeEntry>(directory.readDirectoryEntry(key)->readEntry("num-tuples"));
             // Handle older logs
-            size_t intFreq = frequency == nullptr ? 0 : frequency->getSize();
-            size_t intLevel = level == nullptr ? 0 : level->getSize();
+            std::size_t intFreq = frequency == nullptr ? 0 : frequency->getSize();
+            std::size_t intLevel = level == nullptr ? 0 : level->getSize();
             rule.addAtomFrequency(clause, key, intLevel, intFreq);
         }
     }
@@ -189,8 +188,8 @@ public:
             }
         }
         if (directory.getKey() == "maxRSS") {
-            auto* preMaxRSS = dynamic_cast<SizeEntry*>(directory.readEntry("pre"));
-            auto* postMaxRSS = dynamic_cast<SizeEntry*>(directory.readEntry("post"));
+            auto* preMaxRSS = as<SizeEntry>(directory.readEntry("pre"));
+            auto* postMaxRSS = as<SizeEntry>(directory.readEntry("post"));
             relation.setPreMaxRSS(preMaxRSS->getSize());
             relation.setPostMaxRSS(postMaxRSS->getSize());
         }
@@ -249,8 +248,8 @@ public:
                 directory.readEntry(key)->accept(rulesVisitor);
             }
         } else if (directory.getKey() == "maxRSS") {
-            auto* preMaxRSS = dynamic_cast<SizeEntry*>(directory.readEntry("pre"));
-            auto* postMaxRSS = dynamic_cast<SizeEntry*>(directory.readEntry("post"));
+            auto* preMaxRSS = as<SizeEntry>(directory.readEntry("pre"));
+            auto* postMaxRSS = as<SizeEntry>(directory.readEntry("post"));
             base.setPreMaxRSS(preMaxRSS->getSize());
             base.setPostMaxRSS(postMaxRSS->getSize());
         }
@@ -298,12 +297,13 @@ public:
     void processFile() {
         rel_id = 0;
         relationMap.clear();
-        auto programDuration = dynamic_cast<DurationEntry*>(db.lookupEntry({"program", "runtime"}));
+        auto programDuration = as<DurationEntry>(db.lookupEntry({"program", "runtime"}));
         if (programDuration == nullptr) {
-            auto startTimeEntry = dynamic_cast<TimeEntry*>(db.lookupEntry({"program", "starttime"}));
+            auto startTimeEntry = as<TimeEntry>(db.lookupEntry({"program", "starttime"}));
             if (startTimeEntry != nullptr) {
                 run->setStarttime(startTimeEntry->getTime());
                 run->setEndtime(std::chrono::duration_cast<microseconds>(now().time_since_epoch()));
+                loaded = true;
             }
         } else {
             run->setStarttime(programDuration->getStart());
@@ -311,13 +311,14 @@ public:
             online = false;
         }
 
-        auto relations = dynamic_cast<DirectoryEntry*>(db.lookupEntry({"program", "relation"}));
+        auto relations = as<DirectoryEntry>(db.lookupEntry({"program", "relation"}));
         if (relations == nullptr) {
-            // Souffle hasn't generated any profiling information yet.
+            // Souffle hasn't generated any profiling information yet
+            // or program is empty.
             return;
         }
         for (const auto& cur : relations->getKeys()) {
-            auto relation = dynamic_cast<DirectoryEntry*>(db.lookupEntry({"program", "relation", cur}));
+            auto relation = as<DirectoryEntry>(db.lookupEntry({"program", "relation", cur}));
             if (relation != nullptr) {
                 addRelation(*relation);
             }

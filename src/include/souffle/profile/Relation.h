@@ -34,13 +34,13 @@ private:
     std::chrono::microseconds loadtime{};
     std::chrono::microseconds savetime{};
     long nonRecTuples = 0;
-    size_t preMaxRSS = 0;
-    size_t postMaxRSS = 0;
+    std::size_t preMaxRSS = 0;
+    std::size_t postMaxRSS = 0;
     const std::string id;
     std::string locator;
     int ruleId = 0;
     int recursiveId = 0;
-    size_t tuplesRead = 0;
+    std::size_t tuplesRead = 0;
 
     std::vector<std::shared_ptr<Iteration>> iterations;
 
@@ -105,20 +105,20 @@ public:
         return result;
     }
 
-    size_t size() const {
-        size_t result = 0;
+    std::size_t size() const {
+        std::size_t result = 0;
         for (auto& iter : iterations) {
             result += iter->size();
         }
         return nonRecTuples + result;
     }
 
-    size_t getMaxRSSDiff() const {
+    std::size_t getMaxRSSDiff() const {
         return postMaxRSS - preMaxRSS;
     }
 
-    size_t getTotalRecursiveRuleSize() const {
-        size_t result = 0;
+    std::size_t getTotalRecursiveRuleSize() const {
+        std::size_t result = 0;
         for (auto& iter : iterations) {
             for (auto& rul : iter->getRules()) {
                 result += rul.second->size();
@@ -147,11 +147,11 @@ public:
         nonRecTuples = numTuples;
     }
 
-    void setPostMaxRSS(size_t maxRSS) {
+    void setPostMaxRSS(std::size_t maxRSS) {
         postMaxRSS = std::max(maxRSS, postMaxRSS);
     }
 
-    void setPreMaxRSS(size_t maxRSS) {
+    void setPreMaxRSS(std::size_t maxRSS) {
         if (preMaxRSS == 0) {
             preMaxRSS = maxRSS;
             return;
@@ -241,11 +241,11 @@ public:
         this->ready = ready;
     }
 
-    size_t getReads() const {
+    std::size_t getReads() const {
         return tuplesRead;
     }
 
-    void addReads(size_t tuplesRead) {
+    void addReads(std::size_t tuplesRead) {
         this->tuplesRead += tuplesRead;
     }
 };

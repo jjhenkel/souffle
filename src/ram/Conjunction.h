@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,7 +19,7 @@
 
 #include "ram/Condition.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include <cassert>
@@ -28,10 +28,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamConjunction
+ * @class Conjunction
  * @brief A conjunction of conditions
  *
  * Condition of the form "LHS and RHS", where LHS
@@ -41,35 +41,35 @@ namespace souffle {
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * C1 AND C2 AND C3
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * Is a RamConjunction, which may have LHS "C1"
+ * Is a Conjunction, which may have LHS "C1"
  * and RHS "C2 AND C3"
  */
-class RamConjunction : public RamCondition {
+class Conjunction : public Condition {
 public:
-    RamConjunction(Own<RamCondition> l, Own<RamCondition> r) : lhs(std::move(l)), rhs(std::move(r)) {
+    Conjunction(Own<Condition> l, Own<Condition> r) : lhs(std::move(l)), rhs(std::move(r)) {
         assert(lhs != nullptr && "left-hand side of conjunction is a nullptr");
         assert(rhs != nullptr && "right-hand side of conjunction is a nullptr");
     }
 
     /** @brief Get left-hand side of conjunction */
-    const RamCondition& getLHS() const {
+    const Condition& getLHS() const {
         return *lhs;
     }
 
     /** @brief Get right-hand side of conjunction */
-    const RamCondition& getRHS() const {
+    const Condition& getRHS() const {
         return *rhs;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
+    std::vector<const Node*> getChildNodes() const override {
         return {lhs.get(), rhs.get()};
     }
 
-    RamConjunction* clone() const override {
-        return new RamConjunction(souffle::clone(lhs), souffle::clone(rhs));
+    Conjunction* cloning() const override {
+        return new Conjunction(clone(lhs), clone(rhs));
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         lhs = map(std::move(lhs));
         rhs = map(std::move(rhs));
     }
@@ -79,16 +79,16 @@ protected:
         os << "(" << *lhs << " AND " << *rhs << ")";
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamConjunction&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<Conjunction>(node);
         return equal_ptr(lhs, other.lhs) && equal_ptr(rhs, other.rhs);
     }
 
     /** Left-hand side of conjunction */
-    Own<RamCondition> lhs;
+    Own<Condition> lhs;
 
     /** Right-hand side of conjunction */
-    Own<RamCondition> rhs;
+    Own<Condition> rhs;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

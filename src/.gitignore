@@ -9,7 +9,6 @@ stack.hh
 parser.hh
 parser.cc
 scanner.cc
-libsouffle*
 *.output
 
 test-suite.log

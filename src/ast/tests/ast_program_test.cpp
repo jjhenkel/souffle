@@ -39,33 +39,32 @@
 #include <utility>
 #include <vector>
 
-namespace souffle::test {
+namespace souffle::ast::test {
 
-inline Own<AstTranslationUnit> makeATU(std::string program) {
+inline Own<TranslationUnit> makeATU(std::string program) {
     ErrorReport e;
     DebugReport d;
     return ParserDriver::parseTranslationUnit(program, e, d);
 }
 
-inline Own<AstClause> makeClause(std::string name, Own<AstArgument> headArgument) {
-    auto headAtom = mk<AstAtom>(name);
+inline Own<Clause> makeClause(std::string name, Own<Argument> headArgument) {
+    auto clause = mk<Clause>(name);
+    auto headAtom = clause->getHead();
     headAtom->addArgument(std::move(headArgument));
-    auto clause = mk<AstClause>();
-    clause->setHead(std::move(headAtom));
     return clause;
 }
 
-TEST(AstProgram, Parse) {
+TEST(Program, Parse) {
     ErrorReport e;
     DebugReport d;
     // check the empty program
-    Own<AstTranslationUnit> empty = ParserDriver::parseTranslationUnit("", e, d);
+    Own<TranslationUnit> empty = ParserDriver::parseTranslationUnit("", e, d);
 
-    EXPECT_TRUE(empty->getProgram()->getTypes().empty());
-    EXPECT_TRUE(empty->getProgram()->getRelations().empty());
+    EXPECT_TRUE(empty->getProgram().getTypes().empty());
+    EXPECT_TRUE(empty->getProgram().getRelations().empty());
 
     // check something simple
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                    .type Node <: symbol
                    .decl e ( a : Node , b : Node )
@@ -76,27 +75,27 @@ TEST(AstProgram, Parse) {
             )",
             e, d);
 
-    auto* prog = tu->getProgram();
-    std::cout << *prog << "\n";
+    auto& prog = tu->getProgram();
+    std::cout << prog << "\n";
 
-    EXPECT_EQ(1, prog->getTypes().size());
-    EXPECT_EQ(2, prog->getRelations().size());
+    EXPECT_EQ(1, prog.getTypes().size());
+    EXPECT_EQ(2, prog.getRelations().size());
 
-    EXPECT_TRUE(getRelation(*prog, "e"));
-    EXPECT_TRUE(getRelation(*prog, "r"));
-    EXPECT_FALSE(getRelation(*prog, "n"));
+    EXPECT_TRUE(getRelation(prog, "e"));
+    EXPECT_TRUE(getRelation(prog, "r"));
+    EXPECT_FALSE(getRelation(prog, "n"));
 }
 
-#define TESTASTCLONEANDEQUAL(SUBTYPE, DL)                                          \
-    TEST(Ast, CloneAndEqual##SUBTYPE) {                                            \
-        ErrorReport e;                                                             \
-        DebugReport d;                                                             \
-        Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(DL, e, d); \
-        AstProgram& program = *tu->getProgram();                                   \
-        EXPECT_EQ(program, program);                                               \
-        Own<AstProgram> clone(program.clone());                                    \
-        EXPECT_NE(clone.get(), &program);                                          \
-        EXPECT_EQ(*clone, program);                                                \
+#define TESTASTCLONEANDEQUAL(SUBTYPE, DL)                                       \
+    TEST(Ast, CloneAndEqual##SUBTYPE) {                                         \
+        ErrorReport e;                                                          \
+        DebugReport d;                                                          \
+        Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(DL, e, d); \
+        Program& program = tu->getProgram();                                    \
+        EXPECT_EQ(program, program);                                            \
+        Own<Program> cl(clone(program));                                        \
+        EXPECT_NE(cl.get(), &program);                                          \
+        EXPECT_EQ(*cl, program);                                                \
     }
 
 TESTASTCLONEANDEQUAL(Program,
@@ -195,38 +194,38 @@ TESTASTCLONEANDEQUAL(RelationCopies,
             )");
 
 /** test removeClause, addRelation and removeRelation */
-TEST(AstProgram, RemoveClause) {
-    auto atom = mk<AstAtom>("B");
-    atom->addArgument(mk<AstVariable>("x"));
-    auto sum = mk<AstAggregator>(AggregateOp::SUM, mk<AstVariable>("x"));
-    VecOwn<AstLiteral> body;
+TEST(Program, RemoveClause) {
+    auto atom = mk<Atom>("B");
+    atom->addArgument(mk<Variable>("x"));
+    auto sum = mk<Aggregator>(AggregateOp::SUM, mk<Variable>("x"));
+    VecOwn<Literal> body;
     body.push_back(std::move(atom));
     sum->setBody(std::move(body));
 
     auto tu1 = makeATU(".decl A,B(x:number) \n A(sum x : B(x)).");
     auto clause = makeClause("A", std::move(sum));
 
-    tu1->getProgram()->removeClause(clause.get());
+    tu1->getProgram().removeClause(clause.get());
     auto tu2 = makeATU(".decl A,B(x:number)");
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
-TEST(AstProgram, AppendAstRelation) {
+TEST(Program, AppendRelation) {
     auto tu1 = makeATU(".decl A,B,C(x:number)");
-    auto* prog1 = tu1->getProgram();
-    auto rel = mk<AstRelation>();
+    auto& prog1 = tu1->getProgram();
+    auto rel = mk<Relation>();
     rel->setQualifiedName("D");
-    rel->addAttribute(mk<AstAttribute>("x", "number"));
-    prog1->addRelation(std::move(rel));
+    rel->addAttribute(mk<Attribute>("x", "number"));
+    prog1.addRelation(std::move(rel));
     auto tu2 = makeATU(".decl A,B,C,D(x:number)");
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
-TEST(AstProgram, RemoveAstRelation) {
+TEST(Program, RemoveRelation) {
     auto tu1 = makeATU(".decl A,B,C(x:number)");
     removeRelation(*tu1, "B");
     auto tu2 = makeATU(".decl A,C(x:number)");
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
-}  // end namespace souffle::test
+}  // namespace souffle::ast::test

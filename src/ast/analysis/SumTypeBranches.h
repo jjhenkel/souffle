@@ -21,15 +21,17 @@
 #include <map>
 #include <string>
 
-namespace souffle {
+namespace souffle::ast {
 
-class SumTypeBranchesAnalysis : public AstAnalysis {
+namespace analysis {
+
+class SumTypeBranchesAnalysis : public Analysis {
 public:
     static constexpr const char* name = "sum-type-branches";
 
-    SumTypeBranchesAnalysis() : AstAnalysis(name) {}
+    SumTypeBranchesAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     /**
      * A type can be nullptr in case of a malformed program.
@@ -42,12 +44,13 @@ public:
         }
     }
 
-    const Type& unsafeGetType(const std::string& branch) const {
-        return *branchToType.at(branch);
+    const AlgebraicDataType& unsafeGetType(const std::string& branch) const {
+        return *as<AlgebraicDataType>(branchToType.at(branch));
     }
 
 private:
     std::map<std::string, const Type*> branchToType;
 };
 
-}  // namespace souffle
+}  // namespace analysis
+}  // namespace souffle::ast

@@ -24,7 +24,7 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
 /**
  * Class that encapsulates std::map of types binding that comes from .init c = Comp<MyType>
@@ -35,8 +35,8 @@ public:
     /**
      * Returns binding for given name or empty string if such binding does not exist.
      */
-    const AstQualifiedName& find(const AstQualifiedName& name) const {
-        const static AstQualifiedName unknown;
+    const QualifiedName& find(const QualifiedName& name) const {
+        const static QualifiedName unknown;
         auto pos = binding.find(name);
         if (pos == binding.end()) {
             return unknown;
@@ -44,8 +44,8 @@ public:
         return pos->second;
     }
 
-    TypeBinding extend(const std::vector<AstQualifiedName>& formalParams,
-            const std::vector<AstQualifiedName>& actualParams) const {
+    TypeBinding extend(const std::vector<QualifiedName>& formalParams,
+            const std::vector<QualifiedName>& actualParams) const {
         TypeBinding result;
         if (formalParams.size() != actualParams.size()) {
             return *this;  // invalid init => will trigger a semantic error
@@ -68,16 +68,16 @@ private:
      * Key value pair. Keys are names that should be forwarded to value,
      * which is the actual name. Example T->MyImplementation.
      */
-    std::map<AstQualifiedName, AstQualifiedName> binding;
+    std::map<QualifiedName, QualifiedName> binding;
 };
 
-class ComponentLookup : public AstAnalysis {
+class ComponentLookupAnalysis : public Analysis {
 public:
     static constexpr const char* name = "component-lookup";
 
-    ComponentLookup() : AstAnalysis(name) {}
+    ComponentLookupAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     /**
      * Performs a lookup operation for a component with the given name within the addressed scope.
@@ -86,16 +86,16 @@ public:
      * @param name the name of the component to be looking for
      * @return a pointer to the obtained component or null if there is no such component.
      */
-    const AstComponent* getComponent(
-            const AstComponent* scope, const std::string& name, const TypeBinding& activeBinding) const;
+    const Component* getComponent(
+            const Component* scope, const std::string& name, const TypeBinding& activeBinding) const;
 
 private:
     // components defined outside of any components
-    std::set<const AstComponent*> globalScopeComponents;
+    std::set<const Component*> globalScopeComponents;
     // components defined inside a component
-    std::map<const AstComponent*, std::set<const AstComponent*>> nestedComponents;
+    std::map<const Component*, std::set<const Component*>> nestedComponents;
     // component definition enclosing a component definition
-    std::map<const AstComponent*, const AstComponent*> enclosingComponent;
+    std::map<const Component*, const Component*> enclosingComponent;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

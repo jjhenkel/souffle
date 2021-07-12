@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -18,8 +18,9 @@
 
 #include "ram/Expression.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
+#include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
 #include <cassert>
 #include <memory>
@@ -27,42 +28,42 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamPackRecord
+ * @class PackRecord
  * @brief Packs a record's arguments into a reference
  */
-class RamPackRecord : public RamExpression {
+class PackRecord : public Expression {
 public:
-    RamPackRecord(VecOwn<RamExpression> args) : arguments(std::move(args)) {
+    PackRecord(VecOwn<Expression> args) : arguments(std::move(args)) {
         for (const auto& arg : arguments) {
             assert(arg != nullptr && "argument is a null-pointer");
         }
     }
 
     /** @brief Get record arguments */
-    std::vector<RamExpression*> getArguments() const {
+    std::vector<Expression*> getArguments() const {
         return toPtrVector(arguments);
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        std::vector<const RamNode*> res;
+    std::vector<const Node*> getChildNodes() const override {
+        std::vector<const Node*> res;
         for (const auto& cur : arguments) {
             res.push_back(cur.get());
         }
         return res;
     }
 
-    RamPackRecord* clone() const override {
-        auto* res = new RamPackRecord({});
+    PackRecord* cloning() const override {
+        auto* res = new PackRecord({});
         for (auto& cur : arguments) {
-            res->arguments.emplace_back(cur->clone());
+            res->arguments.emplace_back(cur->cloning());
         }
         return res;
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         for (auto& arg : arguments) {
             arg = map(std::move(arg));
         }
@@ -70,18 +71,17 @@ public:
 
 protected:
     void print(std::ostream& os) const override {
-        os << "["
-           << join(arguments, ",", [](std::ostream& out, const Own<RamExpression>& arg) { out << *arg; })
-           << "]";
+        os << "PACK("
+           << join(arguments, ",", [](std::ostream& out, const Own<Expression>& arg) { out << *arg; }) << ")";
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamPackRecord&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<PackRecord>(node);
         return equal_targets(arguments, other.arguments);
     }
 
     /** Arguments */
-    VecOwn<RamExpression> arguments;
+    VecOwn<Expression> arguments;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

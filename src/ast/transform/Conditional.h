@@ -29,25 +29,25 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformer that executes a sub-transformer iff a condition holds
  */
 class ConditionalTransformer : public MetaTransformer {
 public:
-    ConditionalTransformer(std::function<bool()> cond, Own<AstTransformer> transformer)
+    ConditionalTransformer(std::function<bool()> cond, Own<Transformer> transformer)
             : condition(std::move(cond)), transformer(std::move(transformer)) {}
 
-    ConditionalTransformer(bool cond, Own<AstTransformer> transformer)
+    ConditionalTransformer(bool cond, Own<Transformer> transformer)
             : condition([=]() { return cond; }), transformer(std::move(transformer)) {}
 
-    std::vector<AstTransformer*> getSubtransformers() const override {
+    std::vector<Transformer*> getSubtransformers() const override {
         return {transformer.get()};
     }
 
     void setDebugReport() override {
-        if (auto* mt = dynamic_cast<MetaTransformer*>(transformer.get())) {
+        if (auto* mt = as<MetaTransformer>(transformer)) {
             mt->setDebugReport();
         } else {
             transformer = mk<DebugReporter>(std::move(transformer));
@@ -56,13 +56,13 @@ public:
 
     void setVerbosity(bool verbose) override {
         this->verbose = verbose;
-        if (auto* mt = dynamic_cast<MetaTransformer*>(transformer.get())) {
+        if (auto* mt = as<MetaTransformer>(transformer)) {
             mt->setVerbosity(verbose);
         }
     }
 
     void disableTransformers(const std::set<std::string>& transforms) override {
-        if (auto* mt = dynamic_cast<MetaTransformer*>(transformer.get())) {
+        if (auto* mt = as<MetaTransformer>(transformer)) {
             mt->disableTransformers(transforms);
         } else if (transforms.find(transformer->getName()) != transforms.end()) {
             transformer = mk<NullTransformer>();
@@ -73,17 +73,18 @@ public:
         return "ConditionalTransformer";
     }
 
-    ConditionalTransformer* clone() const override {
-        return new ConditionalTransformer(condition, souffle::clone(transformer));
+private:
+    ConditionalTransformer* cloning() const override {
+        return new ConditionalTransformer(condition, clone(transformer));
+    }
+
+    bool transform(TranslationUnit& translationUnit) override {
+        return condition() ? applySubtransformer(translationUnit, transformer.get()) : false;
     }
 
 private:
     std::function<bool()> condition;
-    Own<AstTransformer> transformer;
-
-    bool transform(AstTranslationUnit& translationUnit) override {
-        return condition() ? applySubtransformer(translationUnit, transformer.get()) : false;
-    }
+    Own<Transformer> transformer;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

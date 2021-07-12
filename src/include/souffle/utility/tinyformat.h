@@ -50,7 +50,7 @@
 //
 //   std::string weekday = "Wednesday";
 //   const char* month = "July";
-//   size_t day = 27;
+//   std::size_t day = 27;
 //   long hour = 14;
 //   int min = 44;
 //
@@ -66,7 +66,7 @@
 //
 // The strange types here emphasize the type safety of the interface; it is
 // possible to print a std::string using the "%s" conversion, and a
-// size_t using the "%d" conversion.  A similar result could be achieved
+// std::size_t using the "%d" conversion.  A similar result could be achieved
 // using either of the tfm::format() functions.  One prints on a user provided
 // stream:
 //
@@ -178,6 +178,10 @@ namespace tfm = tinyformat;
 #else
 #   define TINYFORMAT_HIDDEN
 #endif
+
+#ifdef _MSC_VER
+#pragma warning(disable : 4127)
+#endif  // _MSC_VER
 
 namespace tinyformat {
 
@@ -1141,6 +1145,10 @@ TINYFORMAT_FOREACH_ARGNUM(TINYFORMAT_MAKE_FORMAT_FUNCS)
 
 
 } // namespace tinyformat
+
+#ifdef _MSC_VER
+#pragma warning(default : 4127)
+#endif  // _MSC_VER
 
 #endif // TINYFORMAT_H_INCLUDED
 

@@ -1,0 +1,128 @@
+name: CI-Tests
+
+on: 
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+
+jobs:
+  Code-Style:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
+    - name: clang-format
+      run: sh/run_test_format.sh
+      
+  Ubuntu:
+    needs: Code-Style
+
+    strategy: 
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        domain: [32bit, 64bit]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    
+    - name: install-deps
+      run: sudo sh/setup/install_ubuntu_deps.sh
+
+    - name: setup-32bit-domain
+      if: ${{ matrix.domain == '32bit' }}
+      run: ./bootstrap && ./configure
+
+    - name: setup-64bit-domain
+      if: ${{ matrix.domain == '64bit' }}
+      run: ./bootstrap && ./configure --enable-64bit-domain
+      
+    - name: make
+      run: make -j6
+      
+    - name: check
+      run: TESTSUITEFLAGS=-j6 make check -j6 || (sh/after_failure.sh && false)
+
+  Ubuntu-CMake:
+    needs: Code-Style
+
+    strategy: 
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        domain: [32bit, 64bit]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    
+    - name: install-deps
+      run: sudo sh/setup/install_ubuntu_deps.sh
+
+    - name: setup-32bit-domain
+      if: ${{ matrix.domain == '32bit' }}
+      run: cmake -S . -B build
+
+    - name: setup-64bit-domain
+      if: ${{ matrix.domain == '64bit' }}
+      run: cmake -S . -B build -DSOUFFLE_DOMAIN_64BIT=ON
+      
+    - name: make
+      run: cmake --build build -j6
+      
+    - name: check
+      run: cd build && ctest --output-on-failure --progress -j6
+
+  OSX:
+    needs: Code-Style
+
+    runs-on: macos-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    
+    - name: install-deps
+      run: sh/setup/install_macos_deps.sh
+
+    - name: setup-32bit-domain
+      run: ./bootstrap && ./configure
+
+    - name: make
+      run: make -j6
+      
+    - name: check
+      run: TESTSUITEFLAGS=-j6 make check -j6 || (sh/after_failure.sh && false)
+
+  Memory-Check:
+    needs: Code-Style
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+   
+    - name: install-deps
+      run: sudo sh/setup/install_ubuntu_deps.sh
+
+    - name: setup-with-memory-sanitizer
+      run: ./bootstrap && ./configure --enable-sanitise-memory
+
+    - name: make
+      run: make -j6
+      
+    - name: check
+      run: >
+        TESTSUITEFLAGS=-j4 
+        SOUFFLE_CATEGORY=Syntactic,Semantic,FastEvaluation,Profile,Interface,Provenance 
+        make check -j4 || (sh/after_failure.sh && false)

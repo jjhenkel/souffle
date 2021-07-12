@@ -19,15 +19,15 @@
 
 #include "ram/Node.h"
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamCondition
+ * @class Condition
  * @brief Abstract class for conditions and boolean values in RAM
  */
-class RamCondition : public RamNode {
+class Condition : public Node {
 public:
-    RamCondition* clone() const override = 0;
+    Condition* cloning() const override = 0;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

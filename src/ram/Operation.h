@@ -19,15 +19,15 @@
 #include "ram/Node.h"
 #include <iosfwd>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamOperation
+ * @class Operation
  * @brief Abstract class for a relational algebra operation
  */
-class RamOperation : public RamNode {
+class Operation : public Node {
 public:
-    RamOperation* clone() const override = 0;
+    Operation* cloning() const override = 0;
 
 protected:
     void print(std::ostream& os) const override {
@@ -37,11 +37,11 @@ protected:
     virtual void print(std::ostream& os, int tabpos) const = 0;
 
     /** @brief Pretty print jump-bed */
-    static void print(const RamOperation* operation, std::ostream& os, int tabpos) {
+    static void print(const Operation* operation, std::ostream& os, int tabpos) {
         operation->print(os, tabpos);
     }
 
-    friend class RamQuery;
+    friend class Query;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

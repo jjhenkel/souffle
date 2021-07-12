@@ -16,9 +16,10 @@
 
 #include "ram/Expression.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Operation.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
+#include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
 #include <cassert>
 #include <iosfwd>
@@ -27,10 +28,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamSubroutineReturn
+ * @class SubroutineReturn
  * @brief A statement for returning from a ram subroutine
  *
  * For example:
@@ -39,36 +40,36 @@ namespace souffle {
  *     RETURN (t0.0, t0.1)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamSubroutineReturn : public RamOperation {
+class SubroutineReturn : public Operation {
 public:
-    RamSubroutineReturn(VecOwn<RamExpression> vals) : expressions(std::move(vals)) {
+    SubroutineReturn(VecOwn<Expression> vals) : expressions(std::move(vals)) {
         for (const auto& expr : expressions) {
             assert(expr != nullptr && "Expression is a null-pointer");
         }
     }
 
     /** @brief Getter for expressions */
-    std::vector<RamExpression*> getValues() const {
+    std::vector<Expression*> getValues() const {
         return toPtrVector(expressions);
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        std::vector<const RamNode*> res;
+    std::vector<const Node*> getChildNodes() const override {
+        std::vector<const Node*> res;
         for (const auto& expr : expressions) {
             res.push_back(expr.get());
         }
         return res;
     }
 
-    RamSubroutineReturn* clone() const override {
-        VecOwn<RamExpression> newValues;
+    SubroutineReturn* cloning() const override {
+        VecOwn<Expression> newValues;
         for (auto& expr : expressions) {
-            newValues.emplace_back(expr->clone());
+            newValues.emplace_back(expr->cloning());
         }
-        return new RamSubroutineReturn(std::move(newValues));
+        return new SubroutineReturn(std::move(newValues));
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         for (auto& expr : expressions) {
             expr = map(std::move(expr));
         }
@@ -87,13 +88,13 @@ protected:
         os << ")" << std::endl;
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamSubroutineReturn&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<SubroutineReturn>(node);
         return equal_targets(expressions, other.expressions);
     }
 
     /** Return expressions */
-    VecOwn<RamExpression> expressions;
+    VecOwn<Expression> expressions;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

@@ -1,24 +1,12 @@
-<s:first_name,s:last_name,s:gender,i:number,i:number>
+<s:first_name,s:last_name,s:gender,i:number,f:float>
 
-SymbolTable: {
-	F	 => 9
-	Hunter	 => 8
-	Marry	 => 7
-	Armstrong	 => 6
-	Fong	 => 1
-	Tom	 => 3
-	Kelvin	 => 0
-	M	 => 2
-	Chan	 => 4
-	Jack	 => 5
-}
-
----------------
-people
-Surname	name	gender	age	height
-===============
-Kelvin	Fong	M	23	2
-Tom	Chan	M	21	1
-Jack	Armstrong	M	19	1
-Marry	Hunter	F	20	1
-===============
+Kelvin	=> 0
+Fong	=> 1
+M	=> 2
+Tom	=> 3
+Chan	=> 4
+Jack	=> 5
+Armstrong	=> 6
+Marry	=> 7
+Hunter	=> 8
+F	=> 9

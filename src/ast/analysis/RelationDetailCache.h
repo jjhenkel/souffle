@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -21,51 +21,55 @@
 #include "ast/QualifiedName.h"
 #include "ast/Relation.h"
 #include "ast/analysis/Analysis.h"
+#include "souffle/utility/ContainerUtil.h"
 #include <cassert>
 #include <map>
-#include <set>
 #include <string>
+#include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
-class AstClause;
-class AstTranslationUnit;
+class Clause;
+class TranslationUnit;
+
+namespace analysis {
 
 /**
  * Analysis pass mapping identifiers with relations and clauses.
  */
-class RelationDetailCacheAnalysis : public AstAnalysis {
+class RelationDetailCacheAnalysis : public Analysis {
 public:
     static constexpr const char* name = "relation-detail";
 
-    RelationDetailCacheAnalysis() : AstAnalysis(name) {}
+    RelationDetailCacheAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     void print(std::ostream& os) const override;
 
-    AstRelation* getRelation(const AstQualifiedName& name) const {
-        if (nameToRelation.find(name) != nameToRelation.end()) {
+    Relation* getRelation(const QualifiedName& name) const {
+        if (contains(nameToRelation, name)) {
             return nameToRelation.at(name);
         }
         return nullptr;
     }
 
-    std::set<AstClause*> getClauses(const AstRelation* rel) const {
+    std::vector<Clause*> getClauses(const Relation* rel) const {
         assert(rel != nullptr && "invalid relation");
         return getClauses(rel->getQualifiedName());
     }
 
-    std::set<AstClause*> getClauses(const AstQualifiedName& name) const {
-        if (nameToClauses.find(name) != nameToClauses.end()) {
+    std::vector<Clause*> getClauses(const QualifiedName& name) const {
+        if (contains(nameToClauses, name)) {
             return nameToClauses.at(name);
         }
-        return std::set<AstClause*>();
+        return std::vector<Clause*>();
     }
 
 private:
-    std::map<AstQualifiedName, AstRelation*> nameToRelation;
-    std::map<AstQualifiedName, std::set<AstClause*>> nameToClauses;
+    std::map<QualifiedName, Relation*> nameToRelation;
+    std::map<QualifiedName, std::vector<Clause*>> nameToClauses;
 };
 
-}  // end of namespace souffle
+}  // namespace analysis
+}  // namespace souffle::ast

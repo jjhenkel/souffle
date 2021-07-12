@@ -18,44 +18,44 @@
 #include "ram/Operation.h"
 #include "ram/Program.h"
 #include "ram/Statement.h"
-#include "ram/Visitor.h"
+#include "ram/utility/Visitor.h"
 #include <functional>
 #include <map>
 #include <memory>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
-bool TupleIdTransformer::reorderOperations(RamProgram& program) {
+bool TupleIdTransformer::reorderOperations(Program& program) {
     bool changed = false;
-    visitDepthFirst(program, [&](const RamQuery& query) {
+    visit(program, [&](const Query& query) {
         // Maps old tupleIds to new tupleIds
         std::map<int, int> reorder;
         int ctr = 0;
 
-        visitDepthFirst(query, [&](const RamTupleOperation& search) {
+        visit(query, [&](const TupleOperation& search) {
             if (ctr != search.getTupleId()) {
                 changed = true;
             }
             reorder[search.getTupleId()] = ctr;
-            const_cast<RamTupleOperation*>(&search)->setTupleId(ctr);
+            const_cast<TupleOperation*>(&search)->setTupleId(ctr);
             ctr++;
         });
 
-        std::function<Own<RamNode>(Own<RamNode>)> elementRewriter = [&](Own<RamNode> node) -> Own<RamNode> {
-            if (auto* element = dynamic_cast<RamTupleElement*>(node.get())) {
+        std::function<Own<Node>(Own<Node>)> elementRewriter = [&](Own<Node> node) -> Own<Node> {
+            if (auto* element = as<TupleElement>(node)) {
                 if (reorder[element->getTupleId()] != element->getTupleId()) {
                     changed = true;
-                    node = mk<RamTupleElement>(reorder[element->getTupleId()], element->getElement());
+                    node = mk<TupleElement>(reorder[element->getTupleId()], element->getElement());
                 }
             }
             node->apply(makeLambdaRamMapper(elementRewriter));
             return node;
         };
-        const_cast<RamQuery*>(&query)->apply(makeLambdaRamMapper(elementRewriter));
+        const_cast<Query*>(&query)->apply(makeLambdaRamMapper(elementRewriter));
     });
 
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

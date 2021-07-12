@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -28,20 +28,20 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
-void RelationDetailCacheAnalysis::run(const AstTranslationUnit& translationUnit) {
-    const auto& program = *translationUnit.getProgram();
+void RelationDetailCacheAnalysis::run(const TranslationUnit& translationUnit) {
+    const auto& program = translationUnit.getProgram();
     for (auto* rel : program.getRelations()) {
         nameToRelation[rel->getQualifiedName()] = rel;
-        nameToClauses[rel->getQualifiedName()] = std::set<AstClause*>();
+        nameToClauses[rel->getQualifiedName()] = std::vector<Clause*>();
     }
     for (auto* clause : program.getClauses()) {
         const auto& relationName = clause->getHead()->getQualifiedName();
-        if (nameToClauses.find(relationName) == nameToClauses.end()) {
-            nameToClauses[relationName] = std::set<AstClause*>();
+        if (!contains(nameToClauses, relationName)) {
+            nameToClauses[relationName] = std::vector<Clause*>();
         }
-        nameToClauses.at(relationName).insert(clause);
+        nameToClauses.at(relationName).push_back(clause);
     }
 }
 
@@ -56,4 +56,4 @@ void RelationDetailCacheAnalysis::print(std::ostream& os) const {
     }
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

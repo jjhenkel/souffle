@@ -32,11 +32,11 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool PartitionBodyLiteralsTransformer::transform(AstTranslationUnit& translationUnit) {
+bool PartitionBodyLiteralsTransformer::transform(TranslationUnit& translationUnit) {
     bool changed = false;
-    AstProgram& program = *translationUnit.getProgram();
+    Program& program = translationUnit.getProgram();
 
     /* Process:
      * Go through each clause and construct a variable dependency graph G.
@@ -61,18 +61,18 @@ bool PartitionBodyLiteralsTransformer::transform(AstTranslationUnit& translation
      */
 
     // Store clauses to add and remove after analysing the program
-    std::vector<AstClause*> clausesToAdd;
-    std::vector<const AstClause*> clausesToRemove;
+    std::vector<Clause*> clausesToAdd;
+    std::vector<const Clause*> clausesToRemove;
 
     // The transformation is local to each rule, so can visit each independently
-    visitDepthFirst(program, [&](const AstClause& clause) {
+    visit(program, [&](const Clause& clause) {
         // Create the variable dependency graph G
         Graph<std::string> variableGraph = Graph<std::string>();
         std::set<std::string> ruleVariables;
 
         // Add in the nodes
         // The nodes of G are the variables in the rule
-        visitDepthFirst(clause, [&](const AstVariable& var) {
+        visit(clause, [&](const ast::Variable& var) {
             variableGraph.insert(var.getName());
             ruleVariables.insert(var.getName());
         });
@@ -81,15 +81,14 @@ bool PartitionBodyLiteralsTransformer::transform(AstTranslationUnit& translation
         // Since we are only looking at reachability in the final graph, it is
         // enough to just add in an (undirected) edge from the first variable
         // in the literal to each of the other variables.
-        std::vector<AstLiteral*> literalsToConsider = clause.getBodyLiterals();
+        std::vector<Literal*> literalsToConsider = clause.getBodyLiterals();
         literalsToConsider.push_back(clause.getHead());
 
-        for (AstLiteral* clauseLiteral : literalsToConsider) {
+        for (Literal* clauseLiteral : literalsToConsider) {
             std::set<std::string> literalVariables;
 
             // Store all variables in the literal
-            visitDepthFirst(
-                    *clauseLiteral, [&](const AstVariable& var) { literalVariables.insert(var.getName()); });
+            visit(*clauseLiteral, [&](const ast::Variable& var) { literalVariables.insert(var.getName()); });
 
             // No new edges if only one variable is present
             if (literalVariables.size() > 1) {
@@ -109,11 +108,10 @@ bool PartitionBodyLiteralsTransformer::transform(AstTranslationUnit& translation
 
         // Find the connected component associated with the head
         std::set<std::string> headComponent;
-        visitDepthFirst(
-                *clause.getHead(), [&](const AstVariable& var) { headComponent.insert(var.getName()); });
+        visit(*clause.getHead(), [&](const ast::Variable& var) { headComponent.insert(var.getName()); });
 
         if (!headComponent.empty()) {
-            variableGraph.visitDepthFirst(*headComponent.begin(), [&](const std::string& var) {
+            variableGraph.visit(*headComponent.begin(), [&](const std::string& var) {
                 headComponent.insert(var);
                 seenNodes.insert(var);
             });
@@ -130,7 +128,7 @@ bool PartitionBodyLiteralsTransformer::transform(AstTranslationUnit& translation
 
             // Construct the connected component
             std::set<std::string> component;
-            variableGraph.visitDepthFirst(var, [&](const std::string& child) {
+            variableGraph.visit(var, [&](const std::string& child) {
                 component.insert(child);
                 seenNodes.insert(child);
             });
@@ -144,7 +142,7 @@ bool PartitionBodyLiteralsTransformer::transform(AstTranslationUnit& translation
 
         // Need to extract some disconnected lits!
         changed = true;
-        std::vector<AstAtom*> replacementAtoms;
+        std::vector<Atom*> replacementAtoms;
 
         // Construct the new rules
         for (const std::set<std::string>& component : connectedComponents) {
@@ -152,81 +150,75 @@ bool PartitionBodyLiteralsTransformer::transform(AstTranslationUnit& translation
             static int disconnectedCount = 0;
             std::stringstream nextName;
             nextName << "+disconnected" << disconnectedCount;
-            AstQualifiedName newRelationName = nextName.str();
+            QualifiedName newRelationName = nextName.str();
             disconnectedCount++;
 
             // Create the extracted relation and clause for the component
             // newrelX() <- disconnectedLiterals(x).
-            auto newRelation = mk<AstRelation>();
-            newRelation->setQualifiedName(newRelationName);
+            auto newRelation = mk<Relation>(newRelationName);
             program.addRelation(std::move(newRelation));
 
-            auto* disconnectedClause = new AstClause();
-            disconnectedClause->setSrcLoc(clause.getSrcLoc());
-            disconnectedClause->setHead(mk<AstAtom>(newRelationName));
+            auto disconnectedClause = mk<Clause>(newRelationName, clause.getSrcLoc());
 
             // Find the body literals for this connected component
-            std::vector<AstLiteral*> associatedLiterals;
-            for (AstLiteral* bodyLiteral : clause.getBodyLiterals()) {
+            std::vector<Literal*> associatedLiterals;
+            for (Literal* bodyLiteral : clause.getBodyLiterals()) {
                 bool associated = false;
-                visitDepthFirst(*bodyLiteral, [&](const AstVariable& var) {
+                visit(*bodyLiteral, [&](const ast::Variable& var) {
                     if (component.find(var.getName()) != component.end()) {
                         associated = true;
                     }
                 });
                 if (associated) {
-                    disconnectedClause->addToBody(souffle::clone(bodyLiteral));
+                    disconnectedClause->addToBody(clone(bodyLiteral));
                 }
             }
 
             // Create the atom to replace all these literals
-            replacementAtoms.push_back(new AstAtom(newRelationName));
+            replacementAtoms.push_back(new Atom(newRelationName));
 
             // Add the clause to the program
-            clausesToAdd.push_back(disconnectedClause);
+            // FIXME: tomp - this should be managed
+            clausesToAdd.push_back(disconnectedClause.release());
         }
 
         // Create the replacement clause
         // a(x) <- b(x), c(y), d(z). --> a(x) <- newrel0(), newrel1(), b(x).
-        auto* replacementClause = new AstClause();
-        replacementClause->setSrcLoc(clause.getSrcLoc());
-        replacementClause->setHead(souffle::clone(clause.getHead()));
-
-        // Add the new propositions to the clause first
-        for (AstAtom* newAtom : replacementAtoms) {
-            replacementClause->addToBody(Own<AstLiteral>(newAtom));
-        }
+        auto replacementClause = mk<Clause>(clone(clause.getHead()),
+                VecOwn<Literal>(replacementAtoms.begin(), replacementAtoms.end()), nullptr,
+                clause.getSrcLoc());
 
         // Add the remaining body literals to the clause
-        for (AstLiteral* bodyLiteral : clause.getBodyLiterals()) {
+        for (Literal* bodyLiteral : clause.getBodyLiterals()) {
             bool associated = false;
             bool hasVariables = false;
-            visitDepthFirst(*bodyLiteral, [&](const AstVariable& var) {
+            visit(*bodyLiteral, [&](const ast::Variable& var) {
                 hasVariables = true;
                 if (headComponent.find(var.getName()) != headComponent.end()) {
                     associated = true;
                 }
             });
             if (associated || !hasVariables) {
-                replacementClause->addToBody(souffle::clone(bodyLiteral));
+                replacementClause->addToBody(clone(bodyLiteral));
             }
         }
 
         // Replace the old clause with the new one
         clausesToRemove.push_back(&clause);
-        clausesToAdd.push_back(replacementClause);
+        // FIXME: tomp - this should be managed
+        clausesToAdd.push_back(replacementClause.release());
     });
 
     // Adjust the program
-    for (AstClause* newClause : clausesToAdd) {
-        program.addClause(Own<AstClause>(newClause));
+    for (Clause* newClause : clausesToAdd) {
+        program.addClause(Own<Clause>(newClause));
     }
 
-    for (const AstClause* oldClause : clausesToRemove) {
+    for (const Clause* oldClause : clausesToRemove) {
         program.removeClause(oldClause);
     }
 
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

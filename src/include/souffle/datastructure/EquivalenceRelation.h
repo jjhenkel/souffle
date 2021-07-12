@@ -117,8 +117,8 @@ public:
             for (auto& p : it) {
                 value_type rep = p.first;
                 StatesList& pl = *p.second;
-                const size_t ksize = pl.size();
-                for (size_t i = 0; i < ksize; ++i) {
+                const std::size_t ksize = pl.size();
+                for (std::size_t i = 0; i < ksize; ++i) {
                     this->sds.unionNodes(rep, pl.get(i));
                 }
             }
@@ -192,6 +192,10 @@ public:
         return contains(tuple[0], tuple[1]);
     };
 
+    bool contains(const TupleType& tuple) const {
+        return contains(tuple[0], tuple[1]);
+    };
+
     void emptyPartition() const {
         // delete the beautiful values inside (they're raw ptrs, so they need to be.)
         for (auto& pair : equivalencePartition) {
@@ -219,14 +223,14 @@ public:
      * Size of relation
      * @return the sum of the number of pairs per disjoint set
      */
-    size_t size() const {
+    std::size_t size() const {
         genAllDisjointSetLists();
 
         statesLock.lock_shared();
 
-        size_t retVal = 0;
+        std::size_t retVal = 0;
         for (auto& e : this->equivalencePartition) {
-            const size_t s = e.second->size();
+            const std::size_t s = e.second->size();
             retVal += s * s;
         }
 
@@ -238,8 +242,14 @@ public:
     // Unfortunately, subclassing isn't an option with souffle
     //   - we don't deal with pointers (so no virtual)
     //   - and a single iter type is expected (see Relation::iterator e.g.) (i think)
-    class iterator : public std::iterator<std::forward_iterator_tag, TupleType> {
+    class iterator {
     public:
+        typedef std::forward_iterator_tag iterator_category;
+        using value_type = TupleType;
+        using difference_type = ptrdiff_t;
+        using pointer = value_type*;
+        using reference = value_type&;
+
         // one iterator for signalling the end (simplifies)
         explicit iterator(const EquivalenceRelation* br, bool /* signalIsEndIterator */)
                 : br(br), isEndVal(true){};
@@ -273,7 +283,8 @@ public:
         }
 
         // ANTERIOR: iterator that yields all (former, _) \in djset(former) (djset(former) === within)
-        explicit iterator(const EquivalenceRelation* br, const value_type former, const StatesBucket within)
+        explicit iterator(const EquivalenceRelation* br, const typename TupleType::value_type former,
+                const StatesBucket within)
                 : br(br), ityp(IterType::ANTERIOR), djSetList(within) {
             if (djSetList->size() == 0) {
                 isEndVal = true;
@@ -285,8 +296,8 @@ public:
 
         // ANTPOST: iterator that yields all (former, latter) \in djset(former), (djset(former) ==
         // djset(latter) == within)
-        explicit iterator(const EquivalenceRelation* br, const value_type former, value_type latter,
-                const StatesBucket within)
+        explicit iterator(const EquivalenceRelation* br, const typename TupleType::value_type former,
+                typename TupleType::value_type latter, const StatesBucket within)
                 : br(br), ityp(IterType::ANTPOST), djSetList(within) {
             if (djSetList->size() == 0) {
                 isEndVal = true;
@@ -297,7 +308,7 @@ public:
         }
 
         /** explicit set first half of cPair */
-        inline void setAnterior(const value_type a) {
+        inline void setAnterior(const typename TupleType::value_type a) {
             this->cPair[0] = a;
         }
 
@@ -307,7 +318,7 @@ public:
         }
 
         /** explicit set second half of cPair */
-        inline void setPosterior(const value_type b) {
+        inline void setPosterior(const typename TupleType::value_type b) {
             this->cPair[1] = b;
         }
 
@@ -440,9 +451,9 @@ public:
         typename StatesMap::iterator djSetMapListEnd;
 
         // used for ALL, and POSTERIOR (just a current index in the cList)
-        size_t cAnteriorIndex = 0;
+        std::size_t cAnteriorIndex = 0;
         // used for ALL, and ANTERIOR (just a current index in the cList)
-        size_t cPosteriorIndex = 0;
+        std::size_t cPosteriorIndex = 0;
     };
 
 public:
@@ -554,6 +565,11 @@ public:
         return end();
     }
 
+    iterator lower_bound(const TupleType& entry) const {
+        operation_hints hints;
+        return lower_bound(entry, hints);
+    }
+
     /**
      * This function is only here in order to unify interfaces in InterpreterIndex.
      * Unlike the name suggestes, it omit the arguments and simply return the end
@@ -564,6 +580,11 @@ public:
      */
     iterator upper_bound(const TupleType&, operation_hints&) const {
         return end();
+    }
+
+    iterator upper_bound(const TupleType& entry) const {
+        operation_hints hints;
+        return upper_bound(entry, hints);
     }
 
     /**
@@ -586,7 +607,8 @@ public:
         auto found = equivalencePartition.find({sds.findNode(anteriorVal), nullptr});
         assert(found != equivalencePartition.end() && "iterator called on partition that doesn't exist");
 
-        return iterator(this, anteriorVal, (*found).second);
+        return iterator(static_cast<const EquivalenceRelation*>(this),
+                static_cast<const value_type>(anteriorVal), static_cast<const StatesBucket>((*found).second));
     }
 
     /**
@@ -631,11 +653,11 @@ public:
      * @param chunks the number of requested partitions
      * @return a list of the iterators as ranges
      */
-    std::vector<souffle::range<iterator>> partition(size_t chunks) const {
+    std::vector<souffle::range<iterator>> partition(std::size_t chunks) const {
         // generate all reps
         genAllDisjointSetLists();
 
-        size_t numPairs = this->size();
+        std::size_t numPairs = this->size();
         if (numPairs == 0) return {};
         if (numPairs == 1 || chunks <= 1) return {souffle::make_range(begin(), end())};
 
@@ -651,9 +673,9 @@ public:
         // keep it simple stupid
         // just go through and if the size of the binrel is > numpairs/chunks, then generate an anteriorIt for
         // each
-        const size_t perchunk = numPairs / chunks;
+        const std::size_t perchunk = numPairs / chunks;
         for (const auto& itp : equivalencePartition) {
-            const size_t s = itp.second->size();
+            const std::size_t s = itp.second->size();
             if (s * s > perchunk) {
                 for (const auto& i : *itp.second) {
                     ret.push_back(souffle::make_range(anteriorIt(i), end()));
@@ -709,12 +731,12 @@ private:
         // btree version
         emptyPartition();
 
-        size_t dSetSize = this->sds.ds.a_blocks.size();
-        for (size_t i = 0; i < dSetSize; ++i) {
+        std::size_t dSetSize = this->sds.ds.a_blocks.size();
+        for (std::size_t i = 0; i < dSetSize; ++i) {
             typename TupleType::value_type sparseVal = this->sds.toSparse(i);
             parent_t rep = this->sds.findNode(sparseVal);
 
-            StorePair p = {rep, nullptr};
+            StorePair p = {static_cast<value_type>(rep), nullptr};
             StatesList* mapList = equivalencePartition.insert(p, [&](StorePair& sp) {
                 auto* r = new StatesList(1);
                 sp.second = r;

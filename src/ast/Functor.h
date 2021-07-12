@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -17,28 +17,17 @@
 #pragma once
 
 #include "ast/Term.h"
-#include "souffle/TypeAttribute.h"
-#include <cstddef>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstFunctor
+ * @class Functor
  * @brief Abstract functor class
  */
 
-class AstFunctor : public AstTerm {
-public:
-    /** Return return type of functor */
-    virtual TypeAttribute getReturnType() const = 0;
-
-    /** Return argument type of functor */
-    virtual TypeAttribute getArgType(const size_t arg) const = 0;
-
-    AstFunctor* clone() const override = 0;
-
+class Functor : public Term {
 protected:
-    using AstTerm::AstTerm;
+    using Term::Term;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

@@ -19,18 +19,15 @@
 #include "ast/Attribute.h"
 #include "ast/Node.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/StreamUtil.h"
-#include "souffle/utility/tinyformat.h"
+#include "souffle/utility/Types.h"
 #include <iosfwd>
 #include <string>
-#include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstBranchDeclaration
+ * @class BranchDeclaration
  * @brief Wrapper for the single branch declaration (product type) inside ADT declaration.
  *
  * @param constructor An entity used to create a variant type. Can be though of as a name of the branch.
@@ -39,31 +36,25 @@ namespace souffle {
  * A branch declaration corresponds to a product type and forms a part of ADT declaration.
  * Currently it's required for all the branches to have unique names.
  */
-class AstBranchDeclaration : public AstNode {
+class BranchDeclaration : public Node {
 public:
-    AstBranchDeclaration(std::string constructor, VecOwn<AstAttribute> fields, SrcLocation loc = {})
-            : AstNode(std::move(loc)), constructor(std::move(constructor)), fields(std::move(fields)){};
+    BranchDeclaration(std::string constructor, VecOwn<Attribute> fields, SrcLocation loc = {});
 
     const std::string& getConstructor() const {
         return constructor;
     }
 
-    std::vector<AstAttribute*> getFields() {
-        return toPtrVector(fields);
-    }
-
-    AstBranchDeclaration* clone() const override {
-        return new AstBranchDeclaration(constructor, souffle::clone(fields), getSrcLoc());
-    }
+    std::vector<Attribute*> getFields();
 
 protected:
-    void print(std::ostream& os) const override {
-        os << tfm::format("%s {%s}", constructor, join(fields, ", "));
-    }
+    void print(std::ostream& os) const override;
+
+private:
+    BranchDeclaration* cloning() const override;
 
 private:
     std::string constructor;
-    VecOwn<AstAttribute> fields;
+    VecOwn<Attribute> fields;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ast

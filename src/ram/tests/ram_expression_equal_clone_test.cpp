@@ -8,9 +8,9 @@
 
 /************************************************************************
  *
- * @file ram_expression_equal_clone_test.cpp
+ * @file ram_expression_equal_cloning_test.cpp
  *
- * Tests equal and clone function of RamExpression classes.
+ * Tests equal and cloning function of Expression classes.
  *
  ***********************************************************************/
 
@@ -32,181 +32,181 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 namespace test {
 
-TEST(RamIntrinsicOperator, CloneAndEquals) {
+TEST(IntrinsicOperator, CloneAndEquals) {
     // ADD(number(1), number(2))
-    VecOwn<RamExpression> a_args;
-    a_args.emplace_back(new RamSignedConstant(1));
-    a_args.emplace_back(new RamSignedConstant(2));
-    RamIntrinsicOperator a(FunctorOp::ADD, std::move(a_args));
+    VecOwn<Expression> a_args;
+    a_args.emplace_back(new SignedConstant(1));
+    a_args.emplace_back(new SignedConstant(2));
+    IntrinsicOperator a(FunctorOp::ADD, std::move(a_args));
 
-    VecOwn<RamExpression> b_args;
-    b_args.emplace_back(new RamSignedConstant(1));
-    b_args.emplace_back(new RamSignedConstant(2));
-    RamIntrinsicOperator b(FunctorOp::ADD, std::move(b_args));
+    VecOwn<Expression> b_args;
+    b_args.emplace_back(new SignedConstant(1));
+    b_args.emplace_back(new SignedConstant(2));
+    IntrinsicOperator b(FunctorOp::ADD, std::move(b_args));
     EXPECT_EQ(a, b);
     EXPECT_NE(&a, &b);
 
-    RamIntrinsicOperator* aClone = a.clone();
+    IntrinsicOperator* aClone = a.cloning();
     EXPECT_EQ(a, *aClone);
     EXPECT_NE(&a, aClone);
     delete aClone;
 
     // NEG(number(1))
-    VecOwn<RamExpression> d_args;
-    d_args.emplace_back(new RamSignedConstant(1));
-    RamIntrinsicOperator d(FunctorOp::NEG, std::move(d_args));
+    VecOwn<Expression> d_args;
+    d_args.emplace_back(new SignedConstant(1));
+    IntrinsicOperator d(FunctorOp::NEG, std::move(d_args));
 
-    VecOwn<RamExpression> e_args;
-    e_args.emplace_back(new RamSignedConstant(1));
-    RamIntrinsicOperator e(FunctorOp::NEG, std::move(e_args));
+    VecOwn<Expression> e_args;
+    e_args.emplace_back(new SignedConstant(1));
+    IntrinsicOperator e(FunctorOp::NEG, std::move(e_args));
     EXPECT_EQ(d, e);
     EXPECT_NE(&d, &e);
 
-    RamIntrinsicOperator* dClone = d.clone();
+    IntrinsicOperator* dClone = d.cloning();
     EXPECT_EQ(d, *dClone);
     EXPECT_NE(&d, dClone);
     delete dClone;
 }
 
-TEST(RamUserDefinedOperator, CloneAndEquals) {
-    // define binary functor NE check if two RamExpressions are not equal
+TEST(UserDefinedOperator, CloneAndEquals) {
+    // define binary functor NE check if two Expressions are not equal
     // NE(number(1), number(10))
-    VecOwn<RamExpression> a_args;
-    a_args.emplace_back(new RamSignedConstant(1));
-    a_args.emplace_back(new RamSignedConstant(10));
-    RamUserDefinedOperator a("NE", {TypeAttribute::Signed, TypeAttribute::Signed}, TypeAttribute::Signed,
-            false, std::move(a_args));
+    VecOwn<Expression> a_args;
+    a_args.emplace_back(new SignedConstant(1));
+    a_args.emplace_back(new SignedConstant(10));
+    UserDefinedOperator a("NE", {TypeAttribute::Signed, TypeAttribute::Signed}, TypeAttribute::Signed, false,
+            std::move(a_args));
 
-    VecOwn<RamExpression> b_args;
-    b_args.emplace_back(new RamSignedConstant(1));
-    b_args.emplace_back(new RamSignedConstant(10));
-    RamUserDefinedOperator b("NE", {TypeAttribute::Signed, TypeAttribute::Signed}, TypeAttribute::Signed,
-            false, std::move(b_args));
+    VecOwn<Expression> b_args;
+    b_args.emplace_back(new SignedConstant(1));
+    b_args.emplace_back(new SignedConstant(10));
+    UserDefinedOperator b("NE", {TypeAttribute::Signed, TypeAttribute::Signed}, TypeAttribute::Signed, false,
+            std::move(b_args));
     EXPECT_EQ(a, b);
     EXPECT_NE(&a, &b);
 
-    RamUserDefinedOperator* aClone = a.clone();
+    UserDefinedOperator* aClone = a.cloning();
     EXPECT_EQ(a, *aClone);
     EXPECT_NE(&a, aClone);
     delete aClone;
 }
 
-TEST(RamTupleElement, CloneAndEquals) {
+TEST(TupleElement, CloneAndEquals) {
     // t0.1
-    RamTupleElement a(0, 1);
-    RamTupleElement b(0, 1);
+    TupleElement a(0, 1);
+    TupleElement b(0, 1);
     EXPECT_EQ(a, b);
     EXPECT_NE(&a, &b);
 
-    RamTupleElement* aClone = a.clone();
+    TupleElement* aClone = a.cloning();
     EXPECT_EQ(a, *aClone);
     EXPECT_NE(&a, aClone);
     delete aClone;
 }
 
-TEST(RamSignedConstant, CloneAndEquals) {
+TEST(SignedConstant, CloneAndEquals) {
     // number(5)
-    RamSignedConstant a(5);
-    RamSignedConstant b(5);
+    SignedConstant a(5);
+    SignedConstant b(5);
     EXPECT_EQ(a, b);
     EXPECT_NE(&a, &b);
 
-    RamSignedConstant* aClone = a.clone();
+    SignedConstant* aClone = a.cloning();
     EXPECT_EQ(a, *aClone);
     EXPECT_NE(&a, aClone);
     delete aClone;
 }
 
-TEST(RamAutoIncrement, CloneAndEquals) {
-    RamAutoIncrement a;
-    RamAutoIncrement b;
+TEST(AutoIncrement, CloneAndEquals) {
+    AutoIncrement a;
+    AutoIncrement b;
     EXPECT_EQ(a, b);
     EXPECT_NE(&a, &b);
 
-    RamAutoIncrement* aClone = a.clone();
+    AutoIncrement* aClone = a.cloning();
     EXPECT_EQ(a, *aClone);
     EXPECT_NE(&a, aClone);
     delete aClone;
 }
 
-TEST(RamUndefValue, CloneAndEquals) {
-    RamUndefValue a;
-    RamUndefValue b;
+TEST(UndefValue, CloneAndEquals) {
+    UndefValue a;
+    UndefValue b;
     EXPECT_EQ(a, b);
     EXPECT_NE(&a, &b);
 
-    RamUndefValue* aClone = a.clone();
+    UndefValue* aClone = a.cloning();
     EXPECT_EQ(a, *aClone);
     EXPECT_NE(&a, aClone);
     delete aClone;
 }
 
-TEST(RamPackRecord, CloneAndEquals) {
+TEST(PackRecord, CloneAndEquals) {
     // {number{10), number(5), ⊥, ⊥}
-    VecOwn<RamExpression> a_args;
-    a_args.emplace_back(new RamSignedConstant(10));
-    a_args.emplace_back(new RamSignedConstant(5));
-    a_args.emplace_back(new RamUndefValue);
-    a_args.emplace_back(new RamUndefValue);
-    RamPackRecord a(std::move(a_args));
+    VecOwn<Expression> a_args;
+    a_args.emplace_back(new SignedConstant(10));
+    a_args.emplace_back(new SignedConstant(5));
+    a_args.emplace_back(new UndefValue);
+    a_args.emplace_back(new UndefValue);
+    PackRecord a(std::move(a_args));
 
-    VecOwn<RamExpression> b_args;
-    b_args.emplace_back(new RamSignedConstant(10));
-    b_args.emplace_back(new RamSignedConstant(5));
-    b_args.emplace_back(new RamUndefValue);
-    b_args.emplace_back(new RamUndefValue);
-    RamPackRecord b(std::move(b_args));
+    VecOwn<Expression> b_args;
+    b_args.emplace_back(new SignedConstant(10));
+    b_args.emplace_back(new SignedConstant(5));
+    b_args.emplace_back(new UndefValue);
+    b_args.emplace_back(new UndefValue);
+    PackRecord b(std::move(b_args));
 
     EXPECT_EQ(a, b);
     EXPECT_NE(&a, &b);
 
-    RamPackRecord* aClone = a.clone();
+    PackRecord* aClone = a.cloning();
     EXPECT_EQ(a, *aClone);
     EXPECT_NE(&a, aClone);
     delete aClone;
 
     // {⊥, {argument(1), number(0)}, t1.3}
-    VecOwn<RamExpression> d_args;
-    d_args.emplace_back(new RamUndefValue);
-    VecOwn<RamExpression> d_record;
-    d_record.emplace_back(new RamSubroutineArgument(1));
-    d_record.emplace_back(new RamSignedConstant(5));
-    d_args.emplace_back(new RamPackRecord(std::move(d_record)));
-    d_args.emplace_back(new RamTupleElement(1, 3));
-    RamPackRecord d(std::move(d_args));
+    VecOwn<Expression> d_args;
+    d_args.emplace_back(new UndefValue);
+    VecOwn<Expression> d_record;
+    d_record.emplace_back(new SubroutineArgument(1));
+    d_record.emplace_back(new SignedConstant(5));
+    d_args.emplace_back(new PackRecord(std::move(d_record)));
+    d_args.emplace_back(new TupleElement(1, 3));
+    PackRecord d(std::move(d_args));
 
-    VecOwn<RamExpression> e_args;
-    e_args.emplace_back(new RamUndefValue);
-    VecOwn<RamExpression> e_record;
-    e_record.emplace_back(new RamSubroutineArgument(1));
-    e_record.emplace_back(new RamSignedConstant(5));
-    e_args.emplace_back(new RamPackRecord(std::move(e_record)));
-    e_args.emplace_back(new RamTupleElement(1, 3));
-    RamPackRecord e(std::move(e_args));
+    VecOwn<Expression> e_args;
+    e_args.emplace_back(new UndefValue);
+    VecOwn<Expression> e_record;
+    e_record.emplace_back(new SubroutineArgument(1));
+    e_record.emplace_back(new SignedConstant(5));
+    e_args.emplace_back(new PackRecord(std::move(e_record)));
+    e_args.emplace_back(new TupleElement(1, 3));
+    PackRecord e(std::move(e_args));
 
     EXPECT_EQ(d, e);
     EXPECT_NE(&d, &e);
 
-    RamPackRecord* dClone = d.clone();
+    PackRecord* dClone = d.cloning();
     EXPECT_EQ(d, *dClone);
     EXPECT_NE(&d, dClone);
     delete dClone;
 }
 
 TEST(RamSubrountineArgument, CloneAndEquals) {
-    RamSubroutineArgument a(2);
-    RamSubroutineArgument b(2);
+    SubroutineArgument a(2);
+    SubroutineArgument b(2);
     EXPECT_EQ(a, b);
     EXPECT_NE(&a, &b);
 
-    RamSubroutineArgument* aClone = a.clone();
+    SubroutineArgument* aClone = a.cloning();
     EXPECT_EQ(a, *aClone);
     EXPECT_NE(&a, aClone);
     delete aClone;
 }
 }  // end namespace test
-}  // end namespace souffle
+}  // namespace souffle::ram

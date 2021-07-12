@@ -19,18 +19,20 @@
 #include <ostream>
 #include <string>
 
-namespace souffle {
+namespace souffle::ram {
 
-class RamTranslationUnit;
+class TranslationUnit;
+
+namespace analysis {
 
 /**
- * @class RamAnalysis
+ * @class Analysis
  * @brief Abstract class for a RAM Analysis.
  */
-class RamAnalysis {
+class Analysis {
 public:
-    RamAnalysis(const char* id) : identifier(id) {}
-    virtual ~RamAnalysis() = default;
+    Analysis(const char* id) : identifier(id) {}
+    virtual ~Analysis() = default;
 
     /** @brief get name of the analysis */
     virtual const std::string& getName() const {
@@ -38,13 +40,13 @@ public:
     }
 
     /** @brief Run analysis for a RAM translation unit */
-    virtual void run(const RamTranslationUnit& translationUnit) = 0;
+    virtual void run(const TranslationUnit& translationUnit) = 0;
 
     /** @brief Print the analysis result in HTML format */
     virtual void print(std::ostream& /* os */) const {}
 
     /** @brief define output stream operator */
-    friend std::ostream& operator<<(std::ostream& out, const RamAnalysis& other) {
+    friend std::ostream& operator<<(std::ostream& out, const Analysis& other) {
         other.print(out);
         return out;
     }
@@ -54,4 +56,5 @@ protected:
     std::string identifier;
 };
 
-}  // end of namespace souffle
+}  // namespace analysis
+}  // namespace souffle::ram

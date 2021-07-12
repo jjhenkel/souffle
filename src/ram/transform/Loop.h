@@ -22,22 +22,22 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
- * @Class RamLoopTransformer
+ * @Class LoopTransformer
  * @Brief Composite loop transformer
  *
  * A transformation is invoked iteratively until no further change
  * is made.
  */
-class RamLoopTransformer : public RamMetaTransformer {
+class LoopTransformer : public MetaTransformer {
 public:
-    RamLoopTransformer(Own<RamTransformer> tLoop) : loop(std::move(tLoop)) {}
+    LoopTransformer(Own<Transformer> tLoop) : loop(std::move(tLoop)) {}
     std::string getName() const override {
-        return "RamLoopTransformer";
+        return "LoopTransformer";
     }
-    bool transform(RamTranslationUnit& tU) override {
+    bool transform(TranslationUnit& tU) override {
         int ctr = 0;
         while (loop->apply(tU)) {
             ctr++;
@@ -47,7 +47,7 @@ public:
 
 protected:
     /** transformer of the loop */
-    Own<RamTransformer> loop;
+    Own<Transformer> loop;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

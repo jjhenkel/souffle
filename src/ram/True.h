@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -20,24 +20,24 @@
 #include "ram/Condition.h"
 #include <ostream>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamTrue
+ * @class True
  * @brief True value condition
  *
  * Output is "true"
  */
-class RamTrue : public RamCondition {
+class True : public Condition {
 public:
-    RamTrue* clone() const override {
-        return new RamTrue();
+    True* cloning() const override {
+        return new True();
     }
 
 protected:
     void print(std::ostream& os) const override {
-        os << "true";
+        os << "TRUE";
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

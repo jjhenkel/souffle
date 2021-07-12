@@ -25,22 +25,22 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
- * @Class RamConditionalTransformer
+ * @Class ConditionalTransformer
  * @Brief Composite conditional transformer
  *
  * A transformation is invoked if a condition holds.
  */
-class RamConditionalTransformer : public RamMetaTransformer {
+class ConditionalTransformer : public MetaTransformer {
 public:
-    RamConditionalTransformer(std::function<bool()> fn, Own<RamTransformer> tb)
+    ConditionalTransformer(std::function<bool()> fn, Own<Transformer> tb)
             : func(std::move(fn)), body(std::move(tb)) {}
     std::string getName() const override {
-        return "RamConditionalTransformer";
+        return "ConditionalTransformer";
     }
-    bool transform(RamTranslationUnit& tU) override {
+    bool transform(TranslationUnit& tU) override {
         if (func()) {
             return body->apply(tU);
         } else {
@@ -50,7 +50,7 @@ public:
 
 protected:
     std::function<bool()> func;
-    Own<RamTransformer> body;
+    Own<Transformer> body;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

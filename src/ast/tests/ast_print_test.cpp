@@ -41,149 +41,148 @@
 #include <utility>
 #include <vector>
 
-namespace souffle::test {
+namespace souffle::ast::test {
 
-inline Own<AstTranslationUnit> makeATU(std::string program = ".decl A,B,C(x:number)") {
+inline Own<TranslationUnit> makeATU(std::string program = ".decl A,B,C(x:number)") {
     ErrorReport e;
     DebugReport d;
     return ParserDriver::parseTranslationUnit(program, e, d);
 }
 
-inline Own<AstTranslationUnit> makePrintedATU(Own<AstTranslationUnit>& tu) {
+inline Own<TranslationUnit> makePrintedATU(Own<TranslationUnit>& tu) {
     std::stringstream ss;
-    ss << *tu->getProgram();
+    ss << tu->getProgram();
     return makeATU(ss.str());
 }
 
-inline Own<AstClause> makeClauseA(Own<AstArgument> headArgument) {
-    auto headAtom = mk<AstAtom>("A");
+inline Own<Clause> makeClauseA(Own<Argument> headArgument) {
+    auto clause = mk<Clause>("A");
+    auto headAtom = clause->getHead();
     headAtom->addArgument(std::move(headArgument));
-    auto clause = mk<AstClause>();
-    clause->setHead(std::move(headAtom));
     return clause;
 }
 
 TEST(AstPrint, NilConstant) {
-    auto testArgument = mk<AstNilConstant>();
+    auto testArgument = mk<NilConstant>();
 
     auto tu1 = makeATU();
-    tu1->getProgram()->addClause(makeClauseA(std::move(testArgument)));
+    tu1->getProgram().addClause(makeClauseA(std::move(testArgument)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, NumberConstant) {
-    auto testArgument = mk<AstNumericConstant>("2");
+    auto testArgument = mk<NumericConstant>("2");
 
     EXPECT_EQ(testArgument, testArgument);
 
     auto tu1 = makeATU();
-    tu1->getProgram()->addClause(makeClauseA(std::move(testArgument)));
+    tu1->getProgram().addClause(makeClauseA(std::move(testArgument)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, StringConstant) {
     ErrorReport e;
     DebugReport d;
-    auto testArgument = mk<AstStringConstant>("test string");
+    auto testArgument = mk<StringConstant>("test string");
 
     auto tu1 = ParserDriver::parseTranslationUnit(".decl A,B,C(x:number)", e, d);
-    tu1->getProgram()->addClause(makeClauseA(std::move(testArgument)));
+    tu1->getProgram().addClause(makeClauseA(std::move(testArgument)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, Variable) {
-    auto testArgument = mk<AstVariable>("testVar");
+    auto testArgument = mk<Variable>("testVar");
 
     auto tu1 = makeATU();
-    tu1->getProgram()->addClause(makeClauseA(std::move(testArgument)));
+    tu1->getProgram().addClause(makeClauseA(std::move(testArgument)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, UnnamedVariable) {
-    auto testArgument = mk<AstUnnamedVariable>();
+    auto testArgument = mk<UnnamedVariable>();
 
     auto tu1 = makeATU();
-    tu1->getProgram()->addClause(makeClauseA(std::move(testArgument)));
+    tu1->getProgram().addClause(makeClauseA(std::move(testArgument)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, Counter) {
-    auto testArgument = mk<AstCounter>();
+    auto testArgument = mk<Counter>();
 
     auto tu1 = makeATU();
-    tu1->getProgram()->addClause(makeClauseA(std::move(testArgument)));
+    tu1->getProgram().addClause(makeClauseA(std::move(testArgument)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, AggregatorMin) {
-    auto atom = mk<AstAtom>("B");
-    atom->addArgument(mk<AstVariable>("x"));
-    auto min = mk<AstAggregator>(AggregateOp::MIN, mk<AstVariable>("x"));
+    auto atom = mk<Atom>("B");
+    atom->addArgument(mk<Variable>("x"));
+    auto min = mk<Aggregator>(AggregateOp::MIN, mk<Variable>("x"));
 
-    VecOwn<AstLiteral> body;
-    body.push_back(mk<AstAtom>("B"));
+    VecOwn<Literal> body;
+    body.push_back(mk<Atom>("B"));
 
     min->setBody(std::move(body));
 
     auto tu1 = makeATU();
-    auto* prog1 = tu1->getProgram();
-    prog1->addClause(makeClauseA(std::move(min)));
+    auto& prog1 = tu1->getProgram();
+    prog1.addClause(makeClauseA(std::move(min)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, AggregatorMax) {
-    auto atom = mk<AstAtom>("B");
-    atom->addArgument(mk<AstVariable>("x"));
-    auto max = mk<AstAggregator>(AggregateOp::MAX, mk<AstVariable>("x"));
+    auto atom = mk<Atom>("B");
+    atom->addArgument(mk<Variable>("x"));
+    auto max = mk<Aggregator>(AggregateOp::MAX, mk<Variable>("x"));
 
-    VecOwn<AstLiteral> body;
+    VecOwn<Literal> body;
     body.push_back(std::move(atom));
     max->setBody(std::move(body));
 
     auto tu1 = makeATU();
-    auto* prog1 = tu1->getProgram();
-    prog1->addClause(makeClauseA(std::move(max)));
+    auto& prog1 = tu1->getProgram();
+    prog1.addClause(makeClauseA(std::move(max)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, AggregatorCount) {
-    auto atom = mk<AstAtom>("B");
-    atom->addArgument(mk<AstVariable>("x"));
-    auto count = mk<AstAggregator>(AggregateOp::COUNT);
+    auto atom = mk<Atom>("B");
+    atom->addArgument(mk<Variable>("x"));
+    auto count = mk<Aggregator>(AggregateOp::COUNT);
 
-    VecOwn<AstLiteral> body;
+    VecOwn<Literal> body;
     body.push_back(std::move(atom));
     count->setBody(std::move(body));
 
     auto tu1 = makeATU();
-    auto* prog1 = tu1->getProgram();
-    prog1->addClause(makeClauseA(std::move(count)));
+    auto& prog1 = tu1->getProgram();
+    prog1.addClause(makeClauseA(std::move(count)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
 TEST(AstPrint, AggregatorSum) {
-    auto atom = mk<AstAtom>("B");
-    atom->addArgument(mk<AstVariable>("x"));
-    auto sum = mk<AstAggregator>(AggregateOp::SUM, mk<AstVariable>("x"));
+    auto atom = mk<Atom>("B");
+    atom->addArgument(mk<Variable>("x"));
+    auto sum = mk<Aggregator>(AggregateOp::SUM, mk<Variable>("x"));
 
-    VecOwn<AstLiteral> body;
+    VecOwn<Literal> body;
     body.push_back(std::move(atom));
     sum->setBody(std::move(body));
 
     auto tu1 = makeATU();
-    auto* prog1 = tu1->getProgram();
-    prog1->addClause(makeClauseA(std::move(sum)));
+    auto& prog1 = tu1->getProgram();
+    prog1.addClause(makeClauseA(std::move(sum)));
     auto tu2 = makePrintedATU(tu1);
-    EXPECT_EQ(*tu1->getProgram(), *tu2->getProgram());
+    EXPECT_EQ(tu1->getProgram(), tu2->getProgram());
 }
 
-}  // end namespace souffle::test
+}  // namespace souffle::ast::test

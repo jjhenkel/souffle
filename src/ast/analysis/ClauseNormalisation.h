@@ -30,18 +30,22 @@
 #include <string>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
+
+class TranslationUnit;
+
+namespace analysis {
 
 class NormalisedClause {
 public:
     struct NormalisedClauseElement {
-        AstQualifiedName name;
+        QualifiedName name;
         std::vector<std::string> params;
     };
 
     NormalisedClause() = default;
 
-    NormalisedClause(const AstClause* clause);
+    NormalisedClause(const Clause* clause);
 
     bool isFullyNormalised() const {
         return fullyNormalised;
@@ -61,7 +65,7 @@ public:
 
 private:
     bool fullyNormalised{true};
-    size_t aggrScopeCount{0};
+    std::size_t aggrScopeCount{0};
     std::set<std::string> variables{};
     std::set<std::string> constants{};
     std::vector<NormalisedClauseElement> clauseElements{};
@@ -69,33 +73,34 @@ private:
     /**
      * Parse an atom with a preset name qualifier into the element list.
      */
-    void addClauseAtom(const std::string& qualifier, const std::string& scopeID, const AstAtom* atom);
+    void addClauseAtom(const std::string& qualifier, const std::string& scopeID, const Atom* atom);
 
     /**
      * Parse a body literal into the element list.
      */
-    void addClauseBodyLiteral(const std::string& scopeID, const AstLiteral* lit);
+    void addClauseBodyLiteral(const std::string& scopeID, const Literal* lit);
 
     /**
      * Return a normalised string repr of an argument.
      */
-    std::string normaliseArgument(const AstArgument* arg);
+    std::string normaliseArgument(const Argument* arg);
 };
 
-class ClauseNormalisationAnalysis : public AstAnalysis {
+class ClauseNormalisationAnalysis : public Analysis {
 public:
     static constexpr const char* name = "clause-normalisation";
 
-    ClauseNormalisationAnalysis() : AstAnalysis(name) {}
+    ClauseNormalisationAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     void print(std::ostream& os) const override;
 
-    const NormalisedClause& getNormalisation(const AstClause* clause) const;
+    const NormalisedClause& getNormalisation(const Clause* clause) const;
 
 private:
-    std::map<const AstClause*, NormalisedClause> normalisations;
+    std::map<const Clause*, NormalisedClause> normalisations;
 };
 
-}  // namespace souffle
+}  // namespace analysis
+}  // namespace souffle::ast

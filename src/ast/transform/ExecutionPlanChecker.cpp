@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -31,17 +31,18 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool AstExecutionPlanChecker::transform(AstTranslationUnit& translationUnit) {
-    auto* relationSchedule = translationUnit.getAnalysis<RelationScheduleAnalysis>();
-    auto* recursiveClauses = translationUnit.getAnalysis<RecursiveClausesAnalysis>();
+bool ExecutionPlanChecker::transform(TranslationUnit& translationUnit) {
+    auto* relationSchedule = translationUnit.getAnalysis<analysis::RelationScheduleAnalysis>();
+    auto* recursiveClauses = translationUnit.getAnalysis<analysis::RecursiveClausesAnalysis>();
     auto&& report = translationUnit.getErrorReport();
 
-    for (const RelationScheduleAnalysisStep& step : relationSchedule->schedule()) {
-        const std::set<const AstRelation*>& scc = step.computed();
-        for (const AstRelation* rel : scc) {
-            for (const AstClause* clause : getClauses(*translationUnit.getProgram(), *rel)) {
+    Program& program = translationUnit.getProgram();
+    for (const analysis::RelationScheduleAnalysisStep& step : relationSchedule->schedule()) {
+        const std::set<const Relation*>& scc = step.computed();
+        for (const Relation* rel : scc) {
+            for (const Clause* clause : getClauses(program, *rel)) {
                 if (!recursiveClauses->recursive(clause)) {
                     continue;
                 }
@@ -49,8 +50,8 @@ bool AstExecutionPlanChecker::transform(AstTranslationUnit& translationUnit) {
                     continue;
                 }
                 int version = 0;
-                for (const auto* atom : getBodyLiterals<AstAtom>(*clause)) {
-                    if (scc.count(getAtomRelation(atom, translationUnit.getProgram())) != 0u) {
+                for (const auto* atom : getBodyLiterals<Atom>(*clause)) {
+                    if (scc.count(getAtomRelation(atom, &program)) != 0u) {
                         version++;
                     }
                 }
@@ -77,4 +78,4 @@ bool AstExecutionPlanChecker::transform(AstTranslationUnit& translationUnit) {
     return false;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

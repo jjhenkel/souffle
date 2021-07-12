@@ -25,10 +25,10 @@ class Atom {
 public:
     const std::string identifier;
     const std::string rule;
-    const size_t level;
-    const size_t frequency;
+    const std::size_t level;
+    const std::size_t frequency;
 
-    Atom(std::string identifier, std::string rule, size_t level, size_t frequency)
+    Atom(std::string identifier, std::string rule, std::size_t level, std::size_t frequency)
             : identifier(std::move(identifier)), rule(std::move(rule)), level(level), frequency(frequency) {}
 
     bool operator<(const Atom& other) const {
@@ -96,7 +96,8 @@ public:
         this->numTuples = numTuples;
     }
 
-    void addAtomFrequency(const std::string& subruleName, std::string atom, size_t level, size_t frequency) {
+    void addAtomFrequency(
+            const std::string& subruleName, std::string atom, std::size_t level, std::size_t frequency) {
         atoms.emplace(atom, subruleName, level, frequency);
     }
 

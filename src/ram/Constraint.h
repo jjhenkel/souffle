@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -20,7 +20,7 @@
 #include "ram/Condition.h"
 #include "ram/Expression.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/BinaryConstraintOps.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
@@ -30,11 +30,11 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamConstraint
- * @brief Evaluates a binary constraint with respect to two RamExpressions
+ * @class Constraint
+ * @brief Evaluates a binary constraint with respect to two Expressions
  *
  * Condition is true if the constraint (a logical operator
  * such as "<") holds between the two operands
@@ -45,21 +45,21 @@ namespace souffle {
  * t0.1 = t1.0
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamConstraint : public RamCondition {
+class Constraint : public Condition {
 public:
-    RamConstraint(BinaryConstraintOp op, Own<RamExpression> l, Own<RamExpression> r)
+    Constraint(BinaryConstraintOp op, Own<Expression> l, Own<Expression> r)
             : op(op), lhs(std::move(l)), rhs(std::move(r)) {
         assert(lhs != nullptr && "left-hand side of constraint is a null-pointer");
         assert(rhs != nullptr && "right-hand side of constraint is a null-pointer");
     }
 
     /** @brief Get left-hand side */
-    const RamExpression& getLHS() const {
+    const Expression& getLHS() const {
         return *lhs;
     }
 
     /** @brief Get right-hand side */
-    const RamExpression& getRHS() const {
+    const Expression& getRHS() const {
         return *rhs;
     }
 
@@ -68,15 +68,15 @@ public:
         return op;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
+    std::vector<const Node*> getChildNodes() const override {
         return {lhs.get(), rhs.get()};
     }
 
-    RamConstraint* clone() const override {
-        return new RamConstraint(op, souffle::clone(lhs), souffle::clone(rhs));
+    Constraint* cloning() const override {
+        return new Constraint(op, clone(lhs), clone(rhs));
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         lhs = map(std::move(lhs));
         rhs = map(std::move(rhs));
     }
@@ -88,19 +88,19 @@ protected:
         os << " " << *rhs << ")";
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamConstraint&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<Constraint>(node);
         return op == other.op && equal_ptr(lhs, other.lhs) && equal_ptr(rhs, other.rhs);
     }
 
     /** Operator */
-    BinaryConstraintOp op;
+    const BinaryConstraintOp op;
 
     /** Left-hand side of constraint*/
-    Own<RamExpression> lhs;
+    Own<Expression> lhs;
 
     /** Right-hand side of constraint */
-    Own<RamExpression> rhs;
+    Own<Expression> rhs;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

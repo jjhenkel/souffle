@@ -24,49 +24,56 @@
 #include "ram/Node.h"
 #include "ram/ProvenanceExistenceCheck.h"
 #include "ram/Relation.h"
-#include "ram/Visitor.h"
+#include "ram/utility/Visitor.h"
 #include <cassert>
 
-namespace souffle {
+namespace souffle::ram::analysis {
 
-int RamComplexityAnalysis::getComplexity(const RamNode* node) const {
+int ComplexityAnalysis::getComplexity(const Node* node) const {
     // visitor
-    class ValueComplexityVisitor : public RamVisitor<int> {
+    class ValueComplexityVisitor : public Visitor<int> {
+        using Visitor<int>::visit_;
+
     public:
+        ValueComplexityVisitor(RelationAnalysis* relAnalysis) : ra(relAnalysis) {}
+
         // conjunction
-        int visitConjunction(const RamConjunction& conj) override {
-            return visit(conj.getLHS()) + visit(conj.getRHS());
+        int visit_(type_identity<Conjunction>, const Conjunction& conj) override {
+            return dispatch(conj.getLHS()) + dispatch(conj.getRHS());
         }
 
         // negation
-        int visitNegation(const RamNegation& neg) override {
-            return visit(neg.getOperand());
+        int visit_(type_identity<Negation>, const Negation& neg) override {
+            return dispatch(neg.getOperand());
         }
 
         // existence check
-        int visitExistenceCheck(const RamExistenceCheck&) override {
+        int visit_(type_identity<ExistenceCheck>, const ExistenceCheck&) override {
             return 2;
         }
 
         // provenance existence check
-        int visitProvenanceExistenceCheck(const RamProvenanceExistenceCheck&) override {
+        int visit_(type_identity<ProvenanceExistenceCheck>, const ProvenanceExistenceCheck&) override {
             return 2;
         }
 
         // emptiness check
-        int visitEmptinessCheck(const RamEmptinessCheck& emptiness) override {
+        int visit_(type_identity<EmptinessCheck>, const EmptinessCheck& emptiness) override {
             // emptiness check for nullary relations is for free; others have weight one
-            return (emptiness.getRelation().getArity() > 0) ? 1 : 0;
+            return (ra->lookup(emptiness.getRelation()).getArity() > 0) ? 1 : 0;
         }
 
         // default rule
-        int visitNode(const RamNode&) override {
+        int visit_(type_identity<Node>, const Node&) override {
             return 0;
         }
+
+    protected:
+        RelationAnalysis* ra{nullptr};
     };
 
-    assert((isA<RamExpression>(node) || isA<RamCondition>(node)) && "not an expression/condition/operation");
-    return ValueComplexityVisitor().visit(node);
+    assert((isA<Expression>(node) || isA<Condition>(node)) && "not an expression/condition/operation");
+    return ValueComplexityVisitor(ra).dispatch(*node);
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::analysis

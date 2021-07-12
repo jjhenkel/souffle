@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -23,33 +23,36 @@
 #include <set>
 #include <string>
 
-namespace souffle {
+namespace souffle::ast {
 
-class AstClause;
-class AstTranslationUnit;
+class Clause;
+class TranslationUnit;
+
+namespace analysis {
 
 /**
  * Analysis pass identifying clauses which are recursive.
  */
-class RecursiveClausesAnalysis : public AstAnalysis {
+class RecursiveClausesAnalysis : public Analysis {
 public:
     static constexpr const char* name = "recursive-clauses";
 
-    RecursiveClausesAnalysis() : AstAnalysis(name) {}
+    RecursiveClausesAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     void print(std::ostream& os) const override;
 
-    bool recursive(const AstClause* clause) const {
+    bool recursive(const Clause* clause) const {
         return recursiveClauses.count(clause) != 0u;
     }
 
 private:
-    std::set<const AstClause*> recursiveClauses;
+    std::set<const Clause*> recursiveClauses;
 
     /** Determines whether the given clause is recursive within the given program */
-    bool computeIsRecursive(const AstClause& clause, const AstTranslationUnit& translationUnit) const;
+    bool computeIsRecursive(const Clause& clause, const TranslationUnit& translationUnit) const;
 };
 
-}  // end of namespace souffle
+}  // namespace analysis
+}  // namespace souffle::ast

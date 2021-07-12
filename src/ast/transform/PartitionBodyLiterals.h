@@ -25,7 +25,7 @@
 #include "ast/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformation pass to move literals into new clauses
@@ -35,18 +35,18 @@ namespace souffle {
  *      - newrel1() :- c(y), d(y).
  *      - newrel2() :- e(z).
  */
-class PartitionBodyLiteralsTransformer : public AstTransformer {
+class PartitionBodyLiteralsTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "PartitionBodyLiteralsTransformer";
     }
 
-    PartitionBodyLiteralsTransformer* clone() const override {
+private:
+    PartitionBodyLiteralsTransformer* cloning() const override {
         return new PartitionBodyLiteralsTransformer();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

@@ -18,20 +18,18 @@
 
 #include "ast/Node.h"
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstLiteral
+ * @class Literal
  * @brief Defines an abstract class for literals in a horn clause.
  *
  * Literals can be atoms, binary relations, and negated atoms
  * in the body and head of a clause.
  */
-class AstLiteral : public AstNode {
+class Literal : public Node {
 public:
-    using AstNode::AstNode;
-
-    AstLiteral* clone() const override = 0;
+    using Node::Node;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

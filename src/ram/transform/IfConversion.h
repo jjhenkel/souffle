@@ -22,7 +22,7 @@
 #include <memory>
 #include <string>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
  * @class IfConversionTransformer
@@ -51,7 +51,7 @@ namespace souffle {
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
  */
-class IfConversionTransformer : public RamTransformer {
+class IfConversionTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "IfConversionTransformer";
@@ -65,7 +65,7 @@ public:
      * Rewrites IndexScan operations to a filter/existence check if the IndexScan's tuple
      * is not used in a consecutive RAM operation
      */
-    Own<RamOperation> rewriteIndexScan(const RamIndexScan* indexScan);
+    Own<Operation> rewriteIndexScan(const IndexScan* indexScan);
 
     /**
      * @brief Apply if-conversion to the whole program
@@ -74,12 +74,12 @@ public:
      *
      * Search for queries and rewrite their IndexScan operations if possible.
      */
-    bool convertIndexScans(RamProgram& program);
+    bool convertIndexScans(Program& program);
 
 protected:
-    bool transform(RamTranslationUnit& translationUnit) override {
+    bool transform(TranslationUnit& translationUnit) override {
         return convertIndexScans(translationUnit.getProgram());
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

@@ -28,6 +28,7 @@
 #include "ast/Relation.h"
 #include "ast/TranslationUnit.h"
 #include "ast/Variable.h"
+#include "ast/analysis/Functor.h"
 #include "ast/utility/NodeMapper.h"
 #include "ast/utility/Utils.h"
 #include "ast/utility/Visitor.h"
@@ -48,19 +49,19 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 namespace {
 
 /**
  * A utility class for the unification process required to eliminate aliases.
  * A substitution maps variables to terms and can be applied as a transformation
- * to AstArguments.
+ * to Arguments.
  */
 class Substitution {
     // map type used for internally storing var->term mappings
     //      - note: variables are identified by their names
-    using map_t = std::map<std::string, Own<AstArgument>>;
+    using map_t = std::map<std::string, Own<Argument>>;
 
     // the mapping of variables to terms
     map_t varToTerm;
@@ -70,8 +71,8 @@ public:
 
     Substitution() = default;
 
-    Substitution(const std::string& var, const AstArgument* arg) {
-        varToTerm.insert(std::make_pair(var, souffle::clone(arg)));
+    Substitution(const std::string& var, const Argument* arg) {
+        varToTerm.insert(std::make_pair(var, clone(arg)));
     }
 
     ~Substitution() = default;
@@ -83,21 +84,21 @@ public:
      * @param node the node to be transformed
      * @return a pointer to the modified or replaced node
      */
-    Own<AstNode> operator()(Own<AstNode> node) const {
+    Own<Node> operator()(Own<Node> node) const {
         // create a substitution mapper
-        struct M : public AstNodeMapper {
+        struct M : public NodeMapper {
             const map_t& map;
 
             M(const map_t& map) : map(map) {}
 
-            using AstNodeMapper::operator();
+            using NodeMapper::operator();
 
-            Own<AstNode> operator()(Own<AstNode> node) const override {
+            Own<Node> operator()(Own<Node> node) const override {
                 // see whether it is a variable to be substituted
-                if (auto var = dynamic_cast<AstVariable*>(node.get())) {
+                if (auto var = as<ast::Variable>(node)) {
                     auto pos = map.find(var->getName());
                     if (pos != map.end()) {
-                        return souffle::clone(pos->second);
+                        return clone(pos->second);
                     }
                 }
 
@@ -116,9 +117,9 @@ public:
      */
     template <typename T>
     Own<T> operator()(Own<T> node) const {
-        Own<AstNode> resPtr = (*this)(Own<AstNode>(node.release()));
-        assert(isA<T>(resPtr.get()) && "Invalid node type mapping.");
-        return Own<T>(dynamic_cast<T*>(resPtr.release()));
+        Own<Node> resPtr = (*this)(Own<Node>(node.release()));
+        assert(isA<T>(resPtr) && "Invalid node type mapping.");
+        return Own<T>(as<T>(resPtr.release()));
     }
 
     /**
@@ -138,7 +139,7 @@ public:
         for (const auto& pair : sub.varToTerm) {
             if (varToTerm.find(pair.first) == varToTerm.end()) {
                 // not seen yet, add it in
-                varToTerm.insert(std::make_pair(pair.first, souffle::clone(pair.second)));
+                varToTerm.insert(std::make_pair(pair.first, clone(pair.second)));
             }
         }
     }
@@ -147,7 +148,7 @@ public:
     void print(std::ostream& out) const {
         out << "{"
             << join(varToTerm, ",",
-                       [](std::ostream& out, const std::pair<const std::string, Own<AstArgument>>& cur) {
+                       [](std::ostream& out, const std::pair<const std::string, Own<Argument>>& cur) {
                            out << cur.first << " -> " << *cur.second;
                        })
             << "}";
@@ -160,22 +161,20 @@ public:
 };
 
 /**
- * An equality constraint between two AstArguments utilised by the unification
+ * An equality constraint between two Arguments utilised by the unification
  * algorithm required by the alias resolution.
  */
 class Equation {
 public:
     // the two terms to be equivalent
-    Own<AstArgument> lhs;
-    Own<AstArgument> rhs;
+    Own<Argument> lhs;
+    Own<Argument> rhs;
 
-    Equation(const AstArgument& lhs, const AstArgument& rhs)
-            : lhs(souffle::clone(&lhs)), rhs(souffle::clone(&rhs)) {}
+    Equation(const Argument& lhs, const Argument& rhs) : lhs(clone(lhs)), rhs(clone(rhs)) {}
 
-    Equation(const AstArgument* lhs, const AstArgument* rhs)
-            : lhs(souffle::clone(lhs)), rhs(souffle::clone(rhs)) {}
+    Equation(const Argument* lhs, const Argument* rhs) : lhs(clone(lhs)), rhs(clone(rhs)) {}
 
-    Equation(const Equation& other) : lhs(souffle::clone(other.lhs)), rhs(souffle::clone(other.rhs)) {}
+    Equation(const Equation& other) : lhs(clone(other.lhs)), rhs(clone(other.rhs)) {}
 
     Equation(Equation&& other) = default;
 
@@ -204,34 +203,55 @@ public:
 
 }  // namespace
 
-Own<AstClause> ResolveAliasesTransformer::resolveAliases(const AstClause& clause) {
+Own<Clause> ResolveAliasesTransformer::resolveAliases(const Clause& clause) {
     // -- utilities --
 
     // tests whether something is a variable
-    auto isVar = [&](const AstArgument& arg) { return isA<AstVariable>(&arg); };
+    auto isVar = [&](const Argument& arg) { return isA<ast::Variable>(&arg); };
 
     // tests whether something is a record
-    auto isRec = [&](const AstArgument& arg) { return isA<AstRecordInit>(&arg); };
+    auto isRec = [&](const Argument& arg) { return isA<RecordInit>(&arg); };
+
+    // tests whether something is a ADT
+    auto isAdt = [&](const Argument& arg) { return isA<BranchInit>(&arg); };
+
+    // tests whether something is a generator
+    auto isGenerator = [&](const Argument& arg) {
+        // aggregators
+        if (isA<Aggregator>(&arg)) return true;
+
+        // or multi-result functors
+        const auto* inf = as<IntrinsicFunctor>(arg);
+        if (inf == nullptr) return false;
+        return analysis::FunctorAnalysis::isMultiResult(*inf);
+    };
 
     // tests whether a value `a` occurs in a term `b`
-    auto occurs = [](const AstArgument& a, const AstArgument& b) {
+    auto occurs = [](const Argument& a, const Argument& b) {
         bool res = false;
-        visitDepthFirst(b, [&](const AstArgument& arg) { res = (res || (arg == a)); });
+        visit(b, [&](const Argument& arg) { res = (res || (arg == a)); });
         return res;
     };
 
     // variables appearing as functorless arguments in atoms or records should not
     // be resolved
     std::set<std::string> baseGroundedVariables;
-    for (const auto* atom : getBodyLiterals<AstAtom>(clause)) {
-        for (const AstArgument* arg : atom->getArguments()) {
-            if (const auto* var = dynamic_cast<const AstVariable*>(arg)) {
+    for (const auto* atom : getBodyLiterals<Atom>(clause)) {
+        for (const Argument* arg : atom->getArguments()) {
+            if (const auto* var = as<ast::Variable>(arg)) {
                 baseGroundedVariables.insert(var->getName());
             }
         }
-        visitDepthFirst(*atom, [&](const AstRecordInit& rec) {
-            for (const AstArgument* arg : rec.getArguments()) {
-                if (const auto* var = dynamic_cast<const AstVariable*>(arg)) {
+        visit(*atom, [&](const RecordInit& rec) {
+            for (const Argument* arg : rec.getArguments()) {
+                if (const auto* var = as<ast::Variable>(arg)) {
+                    baseGroundedVariables.insert(var->getName());
+                }
+            }
+        });
+        visit(*atom, [&](const BranchInit& adt) {
+            for (const Argument* arg : adt.getArguments()) {
+                if (const auto* var = as<ast::Variable>(arg)) {
                     baseGroundedVariables.insert(var->getName());
                 }
             }
@@ -240,8 +260,8 @@ Own<AstClause> ResolveAliasesTransformer::resolveAliases(const AstClause& clause
 
     // I) extract equations
     std::vector<Equation> equations;
-    visitDepthFirst(clause, [&](const AstBinaryConstraint& constraint) {
-        if (isEqConstraint(constraint.getOperator())) {
+    visit(clause, [&](const BinaryConstraint& constraint) {
+        if (isEqConstraint(constraint.getBaseOperator())) {
             equations.push_back(Equation(constraint.getLHS(), constraint.getRHS()));
         }
     });
@@ -250,7 +270,7 @@ Own<AstClause> ResolveAliasesTransformer::resolveAliases(const AstClause& clause
     Substitution substitution;
 
     // a utility for processing newly identified mappings
-    auto newMapping = [&](const std::string& var, const AstArgument* term) {
+    auto newMapping = [&](const std::string& var, const Argument* term) {
         // found a new substitution
         Substitution newMapping(var, term);
 
@@ -269,8 +289,8 @@ Own<AstClause> ResolveAliasesTransformer::resolveAliases(const AstClause& clause
         equations.pop_back();
 
         // shortcuts for left/right
-        const AstArgument& lhs = *equation.lhs;
-        const AstArgument& rhs = *equation.rhs;
+        const Argument& lhs = *equation.lhs;
+        const Argument& rhs = *equation.rhs;
 
         // #1:  t = t   => skip
         if (lhs == rhs) {
@@ -280,14 +300,14 @@ Own<AstClause> ResolveAliasesTransformer::resolveAliases(const AstClause& clause
         // #2:  [..] = [..]  => decompose
         if (isRec(lhs) && isRec(rhs)) {
             // get arguments
-            const auto& lhs_args = static_cast<const AstRecordInit&>(lhs).getArguments();
-            const auto& rhs_args = static_cast<const AstRecordInit&>(rhs).getArguments();
+            const auto& lhs_args = static_cast<const RecordInit&>(lhs).getArguments();
+            const auto& rhs_args = static_cast<const RecordInit&>(rhs).getArguments();
 
             // make sure sizes are identical
             assert(lhs_args.size() == rhs_args.size() && "Record lengths not equal");
 
             // create new equalities
-            for (size_t i = 0; i < lhs_args.size(); i++) {
+            for (std::size_t i = 0; i < lhs_args.size(); i++) {
                 equations.push_back(Equation(lhs_args[i], rhs_args[i]));
             }
 
@@ -301,7 +321,7 @@ Own<AstClause> ResolveAliasesTransformer::resolveAliases(const AstClause& clause
 
         // #4:  v = w    => add mapping
         if (isVar(lhs) && isVar(rhs)) {
-            auto& var = static_cast<const AstVariable&>(lhs);
+            auto& var = static_cast<const ast::Variable&>(lhs);
             newMapping(var.getName(), &rhs);
             continue;
         }
@@ -316,23 +336,28 @@ Own<AstClause> ResolveAliasesTransformer::resolveAliases(const AstClause& clause
         assert(isVar(lhs));
 
         // therefore, we have v = t
-        const auto& v = static_cast<const AstVariable&>(lhs);
-        const AstArgument& t = rhs;
+        const auto& v = static_cast<const ast::Variable&>(lhs);
+        const Argument& t = rhs;
 
-        // #6:  v occurs in t   => skip
+        // #6:  t is a generator => skip
+        if (isGenerator(t)) {
+            continue;
+        }
+
+        // #7:  v occurs in t   => skip
         if (occurs(v, t)) {
             continue;
         }
 
         assert(!occurs(v, t));
 
-        // #7:  t is a record   => add mapping
-        if (isRec(t)) {
+        // #8:  t is a record   => add mapping
+        if (isRec(t) || isAdt(t)) {
             newMapping(v.getName(), &t);
             continue;
         }
 
-        // #8:  v is already grounded   => skip
+        // #9:  v is already grounded   => skip
         auto pos = baseGroundedVariables.find(v.getName());
         if (pos != baseGroundedVariables.end()) {
             continue;
@@ -343,93 +368,106 @@ Own<AstClause> ResolveAliasesTransformer::resolveAliases(const AstClause& clause
     }
 
     // III) compute resulting clause
-    return substitution(souffle::clone(&clause));
+    return substitution(clone(clause));
 }
 
-Own<AstClause> ResolveAliasesTransformer::removeTrivialEquality(const AstClause& clause) {
-    Own<AstClause> res(cloneHead(&clause));
+Own<Clause> ResolveAliasesTransformer::removeTrivialEquality(const Clause& clause) {
+    auto res = cloneHead(clause);
 
     // add all literals, except filtering out t = t constraints
-    for (AstLiteral* literal : clause.getBodyLiterals()) {
-        if (auto* constraint = dynamic_cast<AstBinaryConstraint*>(literal)) {
+    for (Literal* literal : clause.getBodyLiterals()) {
+        if (auto* constraint = as<BinaryConstraint>(literal)) {
             // TODO: don't filter out `FEQ` constraints, since `x = x` can fail when `x` is a NaN
-            if (isEqConstraint(constraint->getOperator())) {
+            if (isEqConstraint(constraint->getBaseOperator())) {
                 if (*constraint->getLHS() == *constraint->getRHS()) {
                     continue;  // skip this one
                 }
             }
         }
 
-        res->addToBody(souffle::clone(literal));
+        res->addToBody(clone(literal));
     }
 
     // done
     return res;
 }
 
-Own<AstClause> ResolveAliasesTransformer::removeComplexTermsInAtoms(const AstClause& clause) {
-    Own<AstClause> res(clause.clone());
+Own<Clause> ResolveAliasesTransformer::removeComplexTermsInAtoms(const Clause& clause) {
+    Own<Clause> res(clone(clause));
 
     // get list of atoms
-    std::vector<AstAtom*> atoms = getBodyLiterals<AstAtom>(*res);
+    std::vector<Atom*> atoms = getBodyLiterals<Atom>(*res);
 
     // find all functors in atoms
-    std::vector<const AstArgument*> terms;
-    for (const AstAtom* atom : atoms) {
-        for (const AstArgument* arg : atom->getArguments()) {
+    std::vector<const Argument*> terms;
+    for (const Atom* atom : atoms) {
+        for (const Argument* arg : atom->getArguments()) {
             // ignore if not a functor
-            if (!isA<AstFunctor>(arg)) {
+            if (!isA<Functor>(arg) && !isA<TypeCast>(arg)) {
                 continue;
             }
 
             // add this functor if not seen yet
-            if (!any_of(terms, [&](const AstArgument* cur) { return *cur == *arg; })) {
+            if (!any_of(terms, [&](const Argument* cur) { return *cur == *arg; })) {
                 terms.push_back(arg);
             }
         }
     }
 
-    // find all functors in records too
-    visitDepthFirst(atoms, [&](const AstRecordInit& rec) {
-        for (const AstArgument* arg : rec.getArguments()) {
+    // find all functors in records/ADTs too
+    visit(atoms, [&](const RecordInit& rec) {
+        for (const Argument* arg : rec.getArguments()) {
             // ignore if not a functor
-            if (!isA<AstFunctor>(arg)) {
+            if (!isA<Functor>(arg)) {
                 continue;
             }
 
             // add this functor if not seen yet
-            if (!any_of(terms, [&](const AstArgument* cur) { return *cur == *arg; })) {
+            if (!any_of(terms, [&](const Argument* cur) { return *cur == *arg; })) {
+                terms.push_back(arg);
+            }
+        }
+    });
+    visit(atoms, [&](const BranchInit& adt) {
+        for (const Argument* arg : adt.getArguments()) {
+            // ignore if not a functor
+            if (!isA<Functor>(arg)) {
+                continue;
+            }
+
+            // add this functor if not seen yet
+            if (!any_of(terms, [&](const Argument* cur) { return *cur == *arg; })) {
                 terms.push_back(arg);
             }
         }
     });
 
     // substitute them with new variables (a real map would compare pointers)
-    using substitution_map = std::vector<std::pair<Own<AstArgument>, Own<AstVariable>>>;
+    using substitution_map = std::vector<std::pair<Own<Argument>, Own<ast::Variable>>>;
     substitution_map termToVar;
 
     static int varCounter = 0;
-    for (const AstArgument* arg : terms) {
+    for (const Argument* arg : terms) {
         // create a new mapping for this term
-        auto term = souffle::clone(arg);
-        auto newVariable = mk<AstVariable>(" _tmp_" + toString(varCounter++));
+        auto term = clone(arg);
+        auto newVariable = mk<ast::Variable>(" _tmp_" + toString(varCounter++));
         termToVar.push_back(std::make_pair(std::move(term), std::move(newVariable)));
     }
 
     // apply mapping to replace the terms with the variables
-    struct Update : public AstNodeMapper {
+    struct Update : public NodeMapper {
         const substitution_map& map;
 
         Update(const substitution_map& map) : map(map) {}
 
-        Own<AstNode> operator()(Own<AstNode> node) const override {
+        Own<Node> operator()(Own<Node> node) const override {
             // check whether node needs to be replaced
             for (const auto& pair : map) {
                 auto& term = pair.first;
                 auto& variable = pair.second;
 
                 if (*term == *node) {
-                    return souffle::clone(variable);
+                    return clone(variable);
                 }
             }
 
@@ -441,7 +479,7 @@ Own<AstClause> ResolveAliasesTransformer::removeComplexTermsInAtoms(const AstCla
 
     // update atoms
     Update update(termToVar);
-    for (AstAtom* atom : atoms) {
+    for (Atom* atom : atoms) {
         atom->apply(update);
     }
 
@@ -450,37 +488,40 @@ Own<AstClause> ResolveAliasesTransformer::removeComplexTermsInAtoms(const AstCla
         auto& term = pair.first;
         auto& variable = pair.second;
 
-        res->addToBody(mk<AstBinaryConstraint>(
-                BinaryConstraintOp::EQ, souffle::clone(variable), souffle::clone(term)));
+        res->addToBody(mk<BinaryConstraint>(BinaryConstraintOp::EQ, clone(variable), clone(term)));
     }
 
     return res;
 }
 
-bool ResolveAliasesTransformer::transform(AstTranslationUnit& translationUnit) {
+bool ResolveAliasesTransformer::transform(TranslationUnit& translationUnit) {
     bool changed = false;
-    AstProgram& program = *translationUnit.getProgram();
+    Program& program = translationUnit.getProgram();
 
     // get all clauses
-    std::vector<const AstClause*> clauses;
-    visitDepthFirst(program, [&](const AstRelation& rel) {
-        for (const auto& clause : getClauses(program, rel)) {
-            clauses.push_back(clause);
+    std::vector<const Clause*> clauses;
+    visit(program, [&](const Relation& rel) {
+        const auto& qualifiers = rel.getQualifiers();
+        // Don't resolve clauses of inlined relations
+        if (qualifiers.count(RelationQualifier::INLINE) == 0) {
+            for (const auto& clause : getClauses(program, rel)) {
+                clauses.push_back(clause);
+            }
         }
     });
 
     // clean all clauses
-    for (const AstClause* clause : clauses) {
+    for (const Clause* clause : clauses) {
         // -- Step 1 --
         // get rid of aliases
-        Own<AstClause> noAlias = resolveAliases(*clause);
+        Own<Clause> noAlias = resolveAliases(*clause);
 
         // clean up equalities
-        Own<AstClause> cleaned = removeTrivialEquality(*noAlias);
+        Own<Clause> cleaned = removeTrivialEquality(*noAlias);
 
         // -- Step 2 --
         // restore simple terms in atoms
-        Own<AstClause> normalised = removeComplexTermsInAtoms(*cleaned);
+        Own<Clause> normalised = removeComplexTermsInAtoms(*cleaned);
 
         // swap if changed
         if (*normalised != *clause) {
@@ -493,4 +534,4 @@ bool ResolveAliasesTransformer::transform(AstTranslationUnit& translationUnit) {
     return changed;
 }
 
-}  // namespace souffle
+}  // namespace souffle::ast::transform

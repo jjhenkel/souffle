@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -18,23 +18,15 @@
 
 #include "ast/Argument.h"
 #include "ast/Constraint.h"
-#include "ast/Node.h"
-#include "ast/utility/NodeMapper.h"
 #include "parser/SrcLocation.h"
 #include "souffle/BinaryConstraintOps.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/MiscUtil.h"
-#include <cassert>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <utility>
-#include <vector>
+#include "souffle/utility/Types.h"
+#include <iosfwd>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstBinaryConstraint
+ * @class BinaryConstraint
  * @brief Binary constraint class
  *
  * Example:
@@ -43,63 +35,51 @@ namespace souffle {
  * A binary constraint has a constraint operator, a left-hand side
  * expression, and right-hand side expression.
  */
-class AstBinaryConstraint : public AstConstraint {
+class BinaryConstraint : public Constraint {
 public:
-    AstBinaryConstraint(BinaryConstraintOp o, Own<AstArgument> ls, Own<AstArgument> rs, SrcLocation loc = {})
-            : AstConstraint(std::move(loc)), operation(o), lhs(std::move(ls)), rhs(std::move(rs)) {}
+    BinaryConstraint(BinaryConstraintOp o, Own<Argument> ls, Own<Argument> rs, SrcLocation loc = {});
 
     /** Return left-hand side argument */
-    AstArgument* getLHS() const {
+    Argument* getLHS() const {
         return lhs.get();
     }
 
     /** Return right-hand side argument */
-    AstArgument* getRHS() const {
+    Argument* getRHS() const {
         return rhs.get();
     }
 
     /** Return binary operator */
-    BinaryConstraintOp getOperator() const {
+    BinaryConstraintOp getBaseOperator() const {
         return operation;
     }
 
     /** Set binary operator */
-    void setOperator(BinaryConstraintOp op) {
+    void setBaseOperator(BinaryConstraintOp op) {
         operation = op;
     }
 
-    AstBinaryConstraint* clone() const override {
-        return new AstBinaryConstraint(operation, souffle::clone(lhs), souffle::clone(rhs), getSrcLoc());
-    }
-
-    void apply(const AstNodeMapper& map) override {
-        lhs = map(std::move(lhs));
-        rhs = map(std::move(rhs));
-    }
-
-    std::vector<const AstNode*> getChildNodes() const override {
-        return {lhs.get(), rhs.get()};
-    }
+    void apply(const NodeMapper& map) override;
 
 protected:
-    void print(std::ostream& os) const override {
-        os << *lhs << " " << operation << " " << *rhs;
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        assert(isA<AstBinaryConstraint>(&node));
-        const auto& other = static_cast<const AstBinaryConstraint&>(node);
-        return operation == other.operation && equal_ptr(lhs, other.lhs) && equal_ptr(rhs, other.rhs);
-    }
+    NodeVec getChildNodesImpl() const override;
 
-    /** Constraint operator */
+private:
+    bool equal(const Node& node) const override;
+
+    BinaryConstraint* cloning() const override;
+
+private:
+    /** Constraint (base) operator */
     BinaryConstraintOp operation;
 
     /** Left-hand side argument of binary constraint */
-    Own<AstArgument> lhs;
+    Own<Argument> lhs;
 
     /** Right-hand side argument of binary constraint */
-    Own<AstArgument> rhs;
+    Own<Argument> rhs;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

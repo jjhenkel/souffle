@@ -29,7 +29,6 @@
 #include "ast/TranslationUnit.h"
 #include "ast/Type.h"
 #include "parser/SrcLocation.h"
-#include "parser/parser.hh"
 #include "reports/DebugReport.h"
 #include <cstdio>
 #include <memory>
@@ -39,32 +38,24 @@
 
 namespace souffle {
 
-using yyscan_t = void*;
-
-struct scanner_data {
-    SrcLocation yylloc;
-
-    /* Stack of parsed files */
-    std::string yyfilename;
-};
-
 class ParserDriver {
 public:
     virtual ~ParserDriver() = default;
 
-    Own<AstTranslationUnit> translationUnit;
+    Own<ast::TranslationUnit> translationUnit;
 
-    void addRelation(Own<AstRelation> r);
-    void addFunctorDeclaration(Own<AstFunctorDeclaration> f);
-    void addDirective(Own<AstDirective> d);
-    void addType(Own<AstType> type);
-    void addClause(Own<AstClause> c);
-    void addComponent(Own<AstComponent> c);
-    void addInstantiation(Own<AstComponentInit> ci);
-    void addPragma(Own<AstPragma> p);
+    void addRelation(Own<ast::Relation> r);
+    void addFunctorDeclaration(Own<ast::FunctorDeclaration> f);
+    void addDirective(Own<ast::Directive> d);
+    void addType(Own<ast::Type> type);
+    void addClause(Own<ast::Clause> c);
+    void addComponent(Own<ast::Component> c);
+    void addInstantiation(Own<ast::ComponentInit> ci);
+    void addPragma(Own<ast::Pragma> p);
 
-    void addIoFromDeprecatedTag(AstRelation& r);
-    Own<AstSubsetType> mkDeprecatedSubType(AstQualifiedName name, AstQualifiedName attr, SrcLocation loc);
+    void addIoFromDeprecatedTag(ast::Relation& r);
+    Own<ast::SubsetType> mkDeprecatedSubType(
+            ast::QualifiedName name, ast::QualifiedName attr, SrcLocation loc);
 
     std::set<RelationTag> addReprTag(RelationTag tag, SrcLocation tagLoc, std::set<RelationTag> tags);
     std::set<RelationTag> addDeprecatedTag(RelationTag tag, SrcLocation tagLoc, std::set<RelationTag> tags);
@@ -74,13 +65,13 @@ public:
 
     bool trace_scanning = false;
 
-    Own<AstTranslationUnit> parse(
+    Own<ast::TranslationUnit> parse(
             const std::string& filename, FILE* in, ErrorReport& errorReport, DebugReport& debugReport);
-    Own<AstTranslationUnit> parse(
+    Own<ast::TranslationUnit> parse(
             const std::string& code, ErrorReport& errorReport, DebugReport& debugReport);
-    static Own<AstTranslationUnit> parseTranslationUnit(
+    static Own<ast::TranslationUnit> parseTranslationUnit(
             const std::string& filename, FILE* in, ErrorReport& errorReport, DebugReport& debugReport);
-    static Own<AstTranslationUnit> parseTranslationUnit(
+    static Own<ast::TranslationUnit> parseTranslationUnit(
             const std::string& code, ErrorReport& errorReport, DebugReport& debugReport);
 
     void warning(const SrcLocation& loc, const std::string& msg);
@@ -89,6 +80,3 @@ public:
 };
 
 }  // end of namespace souffle
-
-#define YY_DECL yy::parser::symbol_type yylex(souffle::ParserDriver& driver, yyscan_t yyscanner)
-YY_DECL;

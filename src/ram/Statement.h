@@ -21,15 +21,15 @@
 #include <cassert>
 #include <ostream>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamStatement
+ * @class Statement
  * @brief Abstract class for RAM statements
  */
-class RamStatement : public RamNode {
+class Statement : public Node {
 public:
-    RamStatement* clone() const override = 0;
+    Statement* cloning() const override = 0;
 
 protected:
     void print(std::ostream& os) const override {
@@ -39,12 +39,12 @@ protected:
     virtual void print(std::ostream& os, int tabpos) const = 0;
 
     /** @brief Pretty print jump-bed */
-    static void print(const RamStatement* statement, std::ostream& os, int tabpos) {
+    static void print(const Statement* statement, std::ostream& os, int tabpos) {
         assert(statement != nullptr && "statement is a null-pointer");
         statement->print(os, tabpos);
     }
 
-    friend class RamProgram;
+    friend class Program;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

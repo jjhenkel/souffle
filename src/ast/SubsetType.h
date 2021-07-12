@@ -16,50 +16,40 @@
 
 #pragma once
 
-#include "ast/Node.h"
 #include "ast/QualifiedName.h"
 #include "ast/Type.h"
 #include "parser/SrcLocation.h"
-#include <iostream>
-#include <string>
-#include <utility>
+#include <iosfwd>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstSubsetType
+ * @class SubsetType
  * @brief Defines subset type class
  *
  * Example:
  *    .type A <: B
  */
-class AstSubsetType : public AstType {
+class SubsetType : public Type {
 public:
-    AstSubsetType(AstQualifiedName name, AstQualifiedName baseTypeName, SrcLocation loc = {})
-            : AstType(std::move(name), std::move(loc)), baseType(std::move(baseTypeName)) {}
-
-    AstSubsetType* clone() const override {
-        return new AstSubsetType(getQualifiedName(), getBaseType(), getSrcLoc());
-    }
+    SubsetType(QualifiedName name, QualifiedName baseTypeName, SrcLocation loc = {});
 
     /** Return base type */
-    const AstQualifiedName& getBaseType() const {
+    const QualifiedName& getBaseType() const {
         return baseType;
     }
 
 protected:
-    void print(std::ostream& os) const override {
-        os << ".type " << getQualifiedName() << " <: " << getBaseType();
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstSubsetType&>(node);
-        return getQualifiedName() == other.getQualifiedName() && baseType == other.baseType;
-    }
+private:
+    bool equal(const Node& node) const override;
+
+    SubsetType* cloning() const override;
 
 private:
     /** Base type */
-    const AstQualifiedName baseType;
+    const QualifiedName baseType;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

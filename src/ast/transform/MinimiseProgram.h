@@ -22,35 +22,44 @@
 #include <string>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
+class Relation;
+}
+
+namespace souffle::ast::transform {
 
 /**
  * Transformation pass to remove equivalent rules.
  */
-class MinimiseProgramTransformer : public AstTransformer {
+class MinimiseProgramTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "MinimiseProgramTransformer";
     }
 
     // Check whether two normalised clause representations are equivalent.
-    static bool areBijectivelyEquivalent(const NormalisedClause& left, const NormalisedClause& right);
+    static bool areBijectivelyEquivalent(
+            const analysis::NormalisedClause& left, const analysis::NormalisedClause& right);
 
-    MinimiseProgramTransformer* clone() const override {
+private:
+    MinimiseProgramTransformer* cloning() const override {
         return new MinimiseProgramTransformer();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
 
     /** -- Bijective Equivalence Helper Methods -- */
 
     // Check whether a valid variable mapping exists for the given permutation.
-    static bool isValidPermutation(const NormalisedClause& left, const NormalisedClause& right,
-            const std::vector<unsigned int>& permutation);
+    static bool isValidPermutation(const analysis::NormalisedClause& left,
+            const analysis::NormalisedClause& right, const std::vector<unsigned int>& permutation);
+
+    // Check whether two relations have the same qualifiers, representation and attribute types.
+    static bool areEquivalentRelations(const Relation* firstRelation, const Relation* secondRelation);
 
     // Checks whether a permutation encoded in the given matrix has a valid corresponding variable mapping.
-    static bool existsValidPermutation(const NormalisedClause& left, const NormalisedClause& right,
+    static bool existsValidPermutation(const analysis::NormalisedClause& left,
+            const analysis::NormalisedClause& right,
             const std::vector<std::vector<unsigned int>>& permutationMatrix);
 
     /** -- Sub-Transformations -- */
@@ -60,17 +69,17 @@ private:
      * A clause is locally-redundant if there is another clause within the same relation
      * that computes the same set of tuples.
      */
-    static bool reduceLocallyEquivalentClauses(AstTranslationUnit& translationUnit);
+    static bool reduceLocallyEquivalentClauses(TranslationUnit& translationUnit);
 
     /**
      * Remove clauses that are only satisfied if they are already satisfied.
      */
-    static bool removeRedundantClauses(AstTranslationUnit& translationUnit);
+    static bool removeRedundantClauses(TranslationUnit& translationUnit);
 
     /**
      * Remove redundant literals within a clause.
      */
-    static bool reduceClauseBodies(AstTranslationUnit& translationUnit);
+    static bool reduceClauseBodies(TranslationUnit& translationUnit);
 
     /**
      * Removes redundant singleton relations.
@@ -78,7 +87,7 @@ private:
      * if there exists another singleton relation that computes the same set of tuples.
      * @return true iff the program was changed
      */
-    static bool reduceSingletonRelations(AstTranslationUnit& translationUnit);
+    static bool reduceSingletonRelations(TranslationUnit& translationUnit);
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

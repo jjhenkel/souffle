@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -18,93 +18,64 @@
 
 #include "ast/Argument.h"
 #include "ast/Literal.h"
-#include "ast/Node.h"
 #include "ast/QualifiedName.h"
-#include "ast/utility/NodeMapper.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/StreamUtil.h"
-#include <algorithm>
+#include "souffle/utility/Types.h"
 #include <cstddef>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <utility>
+#include <iosfwd>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstAtom
+ * @class Atom
  * @brief An atom class
  *
  * An atom representing the use of a relation
  * either in the head or in the body of a clause,
  * e.g., parent(x,y), !parent(x,y), ...
  */
-class AstAtom : public AstLiteral {
+class Atom : public Literal {
 public:
-    AstAtom(AstQualifiedName name = {}, VecOwn<AstArgument> args = {}, SrcLocation loc = {})
-            : AstLiteral(std::move(loc)), name(std::move(name)), arguments(std::move(args)) {}
+    Atom(QualifiedName name = {}, VecOwn<Argument> args = {}, SrcLocation loc = {});
 
     /** Return qualified name */
-    const AstQualifiedName& getQualifiedName() const {
+    const QualifiedName& getQualifiedName() const {
         return name;
     }
 
     /** Return arity of the atom */
-    size_t getArity() const {
+    std::size_t getArity() const {
         return arguments.size();
     }
 
     /** Set qualified name */
-    void setQualifiedName(AstQualifiedName n) {
-        name = std::move(n);
-    }
+    void setQualifiedName(QualifiedName n);
 
     /** Add argument to the atom */
-    void addArgument(Own<AstArgument> arg) {
-        arguments.push_back(std::move(arg));
-    }
+    void addArgument(Own<Argument> arg);
 
     /** Return arguments */
-    std::vector<AstArgument*> getArguments() const {
-        return toPtrVector(arguments);
-    }
+    std::vector<Argument*> getArguments() const;
 
-    AstAtom* clone() const override {
-        return new AstAtom(name, souffle::clone(arguments), getSrcLoc());
-    }
-
-    void apply(const AstNodeMapper& map) override {
-        for (auto& arg : arguments) {
-            arg = map(std::move(arg));
-        }
-    }
-
-    std::vector<const AstNode*> getChildNodes() const override {
-        std::vector<const AstNode*> res;
-        for (auto& cur : arguments) {
-            res.push_back(cur.get());
-        }
-        return res;
-    }
+    void apply(const NodeMapper& map) override;
 
 protected:
-    void print(std::ostream& os) const override {
-        os << getQualifiedName() << "(" << join(arguments) << ")";
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstAtom&>(node);
-        return name == other.name && equal_targets(arguments, other.arguments);
-    }
+    NodeVec getChildNodesImpl() const override;
 
+private:
+    bool equal(const Node& node) const override;
+
+    Atom* cloning() const override;
+
+private:
     /** Name of atom */
-    AstQualifiedName name;
+    QualifiedName name;
 
     /** Arguments of atom */
-    VecOwn<AstArgument> arguments;
+    VecOwn<Argument> arguments;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -25,10 +25,10 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamScan
+ * @class Scan
  * @brief Iterate all tuples of a relation
  *
  * The following example iterates over all tuples
@@ -40,23 +40,22 @@ namespace souffle {
  *     ...
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamScan : public RamRelationOperation {
+class Scan : public RelationOperation {
 public:
-    RamScan(Own<RamRelationReference> rel, int ident, Own<RamOperation> nested, std::string profileText = "")
-            : RamRelationOperation(std::move(rel), ident, std::move(nested), std::move(profileText)) {}
+    Scan(std::string rel, int ident, Own<Operation> nested, std::string profileText = "")
+            : RelationOperation(rel, ident, std::move(nested), std::move(profileText)) {}
 
-    RamScan* clone() const override {
-        return new RamScan(
-                souffle::clone(relationRef), getTupleId(), souffle::clone(&getOperation()), getProfileText());
+    Scan* cloning() const override {
+        return new Scan(relation, getTupleId(), clone(getOperation()), getProfileText());
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
         os << times(" ", tabpos);
         os << "FOR t" << getTupleId();
-        os << " IN " << getRelation().getName() << std::endl;
-        RamRelationOperation::print(os, tabpos + 1);
+        os << " IN " << relation << std::endl;
+        RelationOperation::print(os, tabpos + 1);
     }
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

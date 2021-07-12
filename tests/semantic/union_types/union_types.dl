@@ -32,8 +32,7 @@ F(X) :- A(X). // no error
 F(X) :- B(X). // no error
 G(X) :- E(X). // error
 
-// F(X) is the only source, thus type(X) = all, but we have two sinks in form of negation that require a more specific subtype, thus we have error.
-E(X) :- F(X), !A(X), !B(X). // error.
+E(X) :- F(X), !A(X), !B(X). // no error
 E(X) :- F(X), A(X), B(X). // error
 
 C(X) :- D(X), !A(X). // error

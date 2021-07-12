@@ -26,250 +26,124 @@
 #include "ast/QualifiedName.h"
 #include "ast/Relation.h"
 #include "ast/Type.h"
-#include "ast/utility/NodeMapper.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/StreamUtil.h"
-#include <algorithm>
-#include <cassert>
 #include <iosfwd>
-#include <memory>
-#include <ostream>
-#include <utility>
 #include <vector>
 
 namespace souffle {
+class ParserDriver;
+}
+namespace souffle::ast {
 
+namespace transform {
+class ComponentInstantiationTransformer;
+}
 /**
- * @class AstProgram
+ * @class Program
  * @brief The program class consists of relations, clauses and types.
  */
-class AstProgram : public AstNode {
+class Program : public Node {
 public:
     /** Return types */
-    std::vector<AstType*> getTypes() const {
-        return toPtrVector(types);
-    }
+    std::vector<Type*> getTypes() const;
 
     /** Return relations */
-    std::vector<AstRelation*> getRelations() const {
-        return toPtrVector(relations);
-    }
+    std::vector<Relation*> getRelations() const;
 
     /** Return clauses */
-    std::vector<AstClause*> getClauses() const {
-        return toPtrVector(clauses);
-    }
+    std::vector<Clause*> getClauses() const;
 
     /** Return functor declarations */
-    std::vector<AstFunctorDeclaration*> getFunctorDeclarations() const {
-        return toPtrVector(functors);
-    }
+    std::vector<FunctorDeclaration*> getFunctorDeclarations() const;
 
     /** Return relation directives */
-    std::vector<AstDirective*> getDirectives() const {
-        return toPtrVector(directives);
-    }
+    std::vector<Directive*> getDirectives() const;
 
     /** Add relation directive */
-    void addDirective(Own<AstDirective> directive) {
-        assert(directive && "NULL directive");
-        directives.push_back(std::move(directive));
-    }
+    void addDirective(Own<Directive> directive);
 
     /** Return pragma directives */
-    const VecOwn<AstPragma>& getPragmaDirectives() const {
+    const VecOwn<Pragma>& getPragmaDirectives() const {
         return pragmas;
     }
 
     /* Add relation */
-    void addRelation(Own<AstRelation> relation);
+    void addRelation(Own<Relation> relation);
 
     /** Remove relation */
-    bool removeRelationDecl(const AstQualifiedName& name);
+    bool removeRelationDecl(const QualifiedName& name);
 
     /** Set clauses */
-    void setClauses(VecOwn<AstClause> newClauses) {
-        clauses = std::move(newClauses);
-    }
+    void setClauses(VecOwn<Clause> newClauses);
 
     /** Add a clause */
-    void addClause(Own<AstClause> clause);
+    void addClause(Own<Clause> clause);
+
+    /** Add a type declaration */
+    void addType(Own<Type> type);
 
     /** Remove a clause */
-    bool removeClause(const AstClause* clause);
+    bool removeClause(const Clause* clause);
 
     /** Remove a directive */
-    bool removeDirective(const AstDirective* directive);
+    bool removeDirective(const Directive* directive);
 
     /** Return components */
-    std::vector<AstComponent*> getComponents() const {
-        return toPtrVector(components);
-    }
+    std::vector<Component*> getComponents() const;
 
     /** Return component instantiation */
-    std::vector<AstComponentInit*> getComponentInstantiations() const {
-        return toPtrVector(instantiations);
-    }
+    std::vector<ComponentInit*> getComponentInstantiations() const;
 
-    AstProgram* clone() const override {
-        auto res = new AstProgram();
-        res->pragmas = souffle::clone(pragmas);
-        res->components = souffle::clone(components);
-        res->instantiations = souffle::clone(instantiations);
-        res->types = souffle::clone(types);
-        res->functors = souffle::clone(functors);
-        res->relations = souffle::clone(relations);
-        res->clauses = souffle::clone(clauses);
-        res->directives = souffle::clone(directives);
-        return res;
-    }
+    /** Remove components and components' instantiations */
+    void clearComponents();
 
-    void apply(const AstNodeMapper& map) override {
-        for (auto& cur : pragmas) {
-            cur = map(std::move(cur));
-        }
-        for (auto& cur : components) {
-            cur = map(std::move(cur));
-        }
-        for (auto& cur : instantiations) {
-            cur = map(std::move(cur));
-        }
-        for (auto& cur : functors) {
-            cur = map(std::move(cur));
-        }
-        for (auto& cur : types) {
-            cur = map(std::move(cur));
-        }
-        for (auto& cur : relations) {
-            cur = map(std::move(cur));
-        }
-        for (auto& cur : clauses) {
-            cur = map(std::move(cur));
-        }
-        for (auto& cur : directives) {
-            cur = map(std::move(cur));
-        }
-    }
-
-    std::vector<const AstNode*> getChildNodes() const override {
-        std::vector<const AstNode*> res;
-        for (const auto& cur : pragmas) {
-            res.push_back(cur.get());
-        }
-        for (const auto& cur : components) {
-            res.push_back(cur.get());
-        }
-        for (const auto& cur : instantiations) {
-            res.push_back(cur.get());
-        }
-        for (const auto& cur : functors) {
-            res.push_back(cur.get());
-        }
-        for (const auto& cur : types) {
-            res.push_back(cur.get());
-        }
-        for (const auto& cur : relations) {
-            res.push_back(cur.get());
-        }
-        for (const auto& cur : clauses) {
-            res.push_back(cur.get());
-        }
-        for (const auto& cur : directives) {
-            res.push_back(cur.get());
-        }
-        return res;
-    }
+    void apply(const NodeMapper& map) override;
 
 protected:
-    void print(std::ostream& os) const override {
-        auto show = [&](auto&& xs, char const* sep = "\n") {
-            if (!xs.empty()) os << join(xs, sep) << "\n";
-        };
+    void print(std::ostream& os) const override;
 
-        show(pragmas, "\n\n");
-        show(components);
-        show(instantiations);
-        show(types);
-        show(functors);
-        show(relations);
-        show(clauses, "\n\n");
-        show(directives, "\n\n");
-    }
+    NodeVec getChildNodesImpl() const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstProgram&>(node);
-        if (!equal_targets(pragmas, other.pragmas)) {
-            return false;
-        }
-        if (!equal_targets(components, other.components)) {
-            return false;
-        }
-        if (!equal_targets(instantiations, other.instantiations)) {
-            return false;
-        }
-        if (!equal_targets(functors, other.functors)) {
-            return false;
-        }
-        if (!equal_targets(types, other.types)) {
-            return false;
-        }
-        if (!equal_targets(relations, other.relations)) {
-            return false;
-        }
-        if (!equal_targets(clauses, other.clauses)) {
-            return false;
-        }
-        if (!equal_targets(directives, other.directives)) {
-            return false;
-        }
-        return true;
-    }
+    friend class souffle::ParserDriver;
 
-protected:
-    friend class ComponentInstantiationTransformer;
-    friend class ParserDriver;
+    void addPragma(Own<Pragma> pragma);
 
-    void addType(Own<AstType> type);
-
-    void addPragma(Own<AstPragma> pragma);
-
-    void addFunctorDeclaration(Own<souffle::AstFunctorDeclaration> functor);
+    void addFunctorDeclaration(Own<FunctorDeclaration> functor);
 
     /** Add component */
-    void addComponent(Own<AstComponent> component) {
-        assert(component && "NULL component");
-        components.push_back(std::move(component));
-    }
+    void addComponent(Own<Component> component);
 
     /** Add component instantiation */
-    void addInstantiation(Own<AstComponentInit> instantiation) {
-        assert(instantiation && "NULL instantiation");
-        instantiations.push_back(std::move(instantiation));
-    }
+    void addInstantiation(Own<ComponentInit> instantiation);
 
+private:
+    bool equal(const Node& node) const override;
+
+    Program* cloning() const override;
+
+private:
     /** Program types  */
-    VecOwn<AstType> types;
+    VecOwn<Type> types;
 
     /** Program relations */
-    VecOwn<AstRelation> relations;
+    VecOwn<Relation> relations;
 
     /** External Functors */
-    VecOwn<AstFunctorDeclaration> functors;
+    VecOwn<FunctorDeclaration> functors;
 
     /** Program clauses */
-    VecOwn<AstClause> clauses;
+    VecOwn<Clause> clauses;
 
     /** Directives */
-    VecOwn<AstDirective> directives;
+    VecOwn<Directive> directives;
 
     /** Component definitions */
-    VecOwn<AstComponent> components;
+    VecOwn<Component> components;
 
     /** Component instantiations */
-    VecOwn<AstComponentInit> instantiations;
+    VecOwn<ComponentInit> instantiations;
 
     /** Pragmas */
-    VecOwn<AstPragma> pragmas;
+    VecOwn<Pragma> pragmas;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ast

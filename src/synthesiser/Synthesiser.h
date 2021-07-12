@@ -20,9 +20,10 @@
 #include "ram/Relation.h"
 #include "ram/Statement.h"
 #include "ram/TranslationUnit.h"
+#include "ram/utility/Visitor.h"
 #include "souffle/RecordTable.h"
 #include "souffle/utility/ContainerUtil.h"
-#include "synthesiser/SynthesiserRelation.h"
+#include "synthesiser/Relation.h"
 #include <cstddef>
 #include <map>
 #include <memory>
@@ -30,7 +31,7 @@
 #include <set>
 #include <string>
 
-namespace souffle {
+namespace souffle::synthesiser {
 
 /**
  * A RAM synthesiser: synthesises a C++ program from a RAM program.
@@ -41,7 +42,7 @@ private:
     RecordTable recordTable;
 
     /** RAM translation unit */
-    RamTranslationUnit& translationUnit;
+    ram::TranslationUnit& translationUnit;
 
     /** RAM identifier to C++ identifier map */
     std::map<const std::string, const std::string> identifiers;
@@ -50,10 +51,19 @@ private:
     std::map<std::string, unsigned> idxMap;
 
     /** Frequency profiling of non-existence checks */
-    std::map<std::string, size_t> neIdxMap;
+    std::map<std::string, std::size_t> neIdxMap;
 
     /** Cache for generated types for relations */
     std::set<std::string> typeCache;
+
+    /** Relation map */
+    std::map<std::string, const ram::Relation*> relationMap;
+
+    /** Symbol map */
+    mutable std::map<std::string, unsigned> symbolMap;
+
+    /** Symbol map */
+    mutable std::vector<std::string> symbolIndex;
 
 protected:
     /** Get record table */
@@ -63,36 +73,61 @@ protected:
     const std::string convertRamIdent(const std::string& name);
 
     /** Get relation name */
-    const std::string getRelationName(const RamRelation& rel);
+    const std::string getRelationName(const ram::Relation& rel);
+    const std::string getRelationName(const ram::Relation* rel);
 
     /** Get context name */
-    const std::string getOpContextName(const RamRelation& rel);
+    const std::string getOpContextName(const ram::Relation& rel);
 
     /** Get relation struct definition */
-    void generateRelationTypeStruct(std::ostream& out, Own<SynthesiserRelation> relationType);
+    void generateRelationTypeStruct(std::ostream& out, Own<Relation> relationType);
 
     /** Get referenced relations */
-    std::set<const RamRelation*> getReferencedRelations(const RamOperation& op);
+    std::set<const ram::Relation*> getReferencedRelations(const ram::Operation& op);
 
     /** Generate code */
-    void emitCode(std::ostream& out, const RamStatement& stmt);
+    void emitCode(std::ostream& out, const ram::Statement& stmt);
 
     /** Lookup frequency counter */
     unsigned lookupFreqIdx(const std::string& txt);
 
     /** Lookup read counter */
-    size_t lookupReadIdx(const std::string& txt);
+    std::size_t lookupReadIdx(const std::string& txt);
+
+    /** Lookup relation by relation name */
+    const ram::Relation* lookup(const std::string& relName) {
+        auto it = relationMap.find(relName);
+        assert(it != relationMap.end() && "relation not found");
+        return it->second;
+    }
+
+    /** Lookup symbol index */
+    std::size_t convertSymbol2Idx(const std::string& symbol) const {
+        auto it = symbolMap.find(symbol);
+        if (it != symbolMap.end()) {
+            return it->second;
+        } else {
+            symbolIndex.push_back(symbol);
+            std::size_t idx = symbolMap.size();
+            symbolMap[symbol] = idx;
+            return idx;
+        }
+    }
 
 public:
-    explicit Synthesiser(RamTranslationUnit& tUnit) : translationUnit(tUnit) {}
+    explicit Synthesiser(ram::TranslationUnit& tUnit) : translationUnit(tUnit) {
+        visit(tUnit.getProgram(),
+                [&](const ram::Relation& relation) { relationMap[relation.getName()] = &relation; });
+    }
+
     virtual ~Synthesiser() = default;
 
     /** Get translation unit */
-    RamTranslationUnit& getTranslationUnit() {
+    ram::TranslationUnit& getTranslationUnit() {
         return translationUnit;
     }
 
     /** Generate code */
     void generateCode(std::ostream& os, const std::string& id, bool& withSharedLibrary);
 };
-}  // end of namespace souffle
+}  // namespace souffle::synthesiser

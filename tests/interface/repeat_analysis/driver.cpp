@@ -43,7 +43,7 @@ void printSource2sink(Own<SouffleProgram>& prog) {
 /**
  * Main program
  */
-int main(int argc, char** argv) {
+int main(int /* argc */, char** /* argv */) {
     Own<SouffleProgram> prog(ProgramFactory::newInstance("repeat_analysis"));
     if (prog == nullptr) {
         error("failed to create souffle program");

@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -26,30 +26,30 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamProvenanceExistenceCheck
+ * @class ProvenanceExistenceCheck
  * @brief Provenance Existence check for a relation
  */
-class RamProvenanceExistenceCheck : public RamAbstractExistenceCheck {
+class ProvenanceExistenceCheck : public AbstractExistenceCheck {
 public:
-    RamProvenanceExistenceCheck(Own<RamRelationReference> relRef, VecOwn<RamExpression> vals)
-            : RamAbstractExistenceCheck(std::move(relRef), std::move(vals)) {}
+    ProvenanceExistenceCheck(std::string rel, VecOwn<Expression> vals)
+            : AbstractExistenceCheck(rel, std::move(vals)) {}
 
-    RamProvenanceExistenceCheck* clone() const override {
-        VecOwn<RamExpression> newValues;
+    ProvenanceExistenceCheck* cloning() const override {
+        VecOwn<Expression> newValues;
         for (auto& cur : values) {
-            newValues.emplace_back(cur->clone());
+            newValues.emplace_back(cur->cloning());
         }
-        return new RamProvenanceExistenceCheck(souffle::clone(relationRef), std::move(newValues));
+        return new ProvenanceExistenceCheck(relation, std::move(newValues));
     }
 
 protected:
     void print(std::ostream& os) const override {
-        os << "prov";
-        RamAbstractExistenceCheck::print(os);
+        os << "PROV ";
+        AbstractExistenceCheck::print(os);
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

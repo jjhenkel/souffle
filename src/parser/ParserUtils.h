@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -27,7 +27,6 @@
 
 namespace souffle {
 
-class AstConstraint;
 class RuleBody {
 public:
     RuleBody() = default;
@@ -40,7 +39,7 @@ public:
 
     void disjunct(RuleBody other);
 
-    VecOwn<AstClause> toClauseBodies() const;
+    VecOwn<ast::Clause> toClauseBodies() const;
 
     // -- factory functions --
 
@@ -48,25 +47,25 @@ public:
 
     static RuleBody getFalse();
 
-    static RuleBody atom(Own<AstAtom> atom);
+    static RuleBody atom(Own<ast::Atom> atom);
 
-    static RuleBody constraint(Own<AstConstraint> constraint);
+    static RuleBody constraint(Own<ast::Constraint> constraint);
 
     friend std::ostream& operator<<(std::ostream& out, const RuleBody& body);
 
 private:
     // a struct to represent literals
     struct literal {
-        literal(bool negated, Own<AstLiteral> atom) : negated(negated), atom(std::move(atom)) {}
+        literal(bool negated, Own<ast::Literal> atom) : negated(negated), atom(std::move(atom)) {}
 
         // whether this literal is negated or not
         bool negated;
 
         // the atom referenced by tis literal
-        Own<AstLiteral> atom;
+        Own<ast::Literal> atom;
 
-        literal clone() const {
-            return literal(negated, souffle::clone(atom));
+        literal cloneImpl() const {
+            return literal(negated, clone(atom));
         }
     };
 

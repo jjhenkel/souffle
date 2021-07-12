@@ -94,7 +94,7 @@ public:
         // conduct a depth-first search starting at from
         bool found = false;
         bool first = true;
-        visitDepthFirst(from, [&](const Vertex& cur) {
+        visit(from, [&](const Vertex& cur) {
             found = !first && (found || cur == to);
             first = false;
         });
@@ -115,9 +115,9 @@ public:
 
     /** A generic utility for depth-first visits */
     template <typename Lambda>
-    void visitDepthFirst(const Vertex& vertex, const Lambda& lambda) const {
+    void visit(const Vertex& vertex, const Lambda& lambda) const {
         std::set<Vertex, Compare> visited;
-        visitDepthFirst(vertex, lambda, visited);
+        visit(vertex, lambda, visited);
     }
 
     /** Enables graphs to be printed (e.g. for debugging) */
@@ -149,8 +149,7 @@ private:
 
     /** The internal implementation of depth-first visits */
     template <typename Lambda>
-    void visitDepthFirst(
-            const Vertex& vertex, const Lambda& lambda, std::set<Vertex, Compare>& visited) const {
+    void visit(const Vertex& vertex, const Lambda& lambda, std::set<Vertex, Compare>& visited) const {
         lambda(vertex);
         auto pos = _successors.find(vertex);
         if (pos == _successors.end()) {
@@ -158,7 +157,7 @@ private:
         }
         for (const auto& cur : pos->second) {
             if (visited.insert(cur).second) {
-                visitDepthFirst(cur, lambda, visited);
+                visit(cur, lambda, visited);
             }
         }
     }

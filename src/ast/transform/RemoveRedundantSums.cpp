@@ -29,31 +29,30 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool RemoveRedundantSumsTransformer::transform(AstTranslationUnit& translationUnit) {
-    struct ReplaceSumWithCount : public AstNodeMapper {
+bool RemoveRedundantSumsTransformer::transform(TranslationUnit& translationUnit) {
+    struct ReplaceSumWithCount : public NodeMapper {
         ReplaceSumWithCount() = default;
 
-        Own<AstNode> operator()(Own<AstNode> node) const override {
+        Own<Node> operator()(Own<Node> node) const override {
             // Apply to all aggregates of the form
             // sum k : { .. } where k is a constant
-            if (auto* agg = dynamic_cast<AstAggregator*>(node.get())) {
-                if (agg->getOperator() == AggregateOp::SUM) {
-                    if (const auto* constant =
-                                    dynamic_cast<const AstNumericConstant*>(agg->getTargetExpression())) {
+            if (auto* agg = as<Aggregator>(node)) {
+                if (agg->getBaseOperator() == AggregateOp::SUM) {
+                    if (const auto* constant = as<NumericConstant>(agg->getTargetExpression())) {
                         changed = true;
                         // Then construct the new thing to replace it with
-                        auto count = mk<AstAggregator>(AggregateOp::COUNT);
+                        auto count = mk<Aggregator>(AggregateOp::COUNT);
                         // Duplicate the body of the aggregate
-                        VecOwn<AstLiteral> newBody;
+                        VecOwn<Literal> newBody;
                         for (const auto& lit : agg->getBodyLiterals()) {
-                            newBody.push_back(souffle::clone(lit));
+                            newBody.push_back(clone(lit));
                         }
                         count->setBody(std::move(newBody));
-                        auto number = souffle::clone(constant);
+                        auto number = clone(constant);
                         // Now it's constant * count : { ... }
-                        auto result = mk<AstIntrinsicFunctor>("*", std::move(number), std::move(count));
+                        auto result = mk<IntrinsicFunctor>("*", std::move(number), std::move(count));
 
                         return result;
                     }
@@ -68,8 +67,9 @@ bool RemoveRedundantSumsTransformer::transform(AstTranslationUnit& translationUn
     };
 
     ReplaceSumWithCount update;
-    translationUnit.getProgram()->apply(update);
+    Program& program = translationUnit.getProgram();
+    program.apply(update);
     return update.changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

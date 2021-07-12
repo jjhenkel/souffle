@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -40,15 +40,14 @@
 #include <string>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform::test {
+using namespace analysis;
 
-namespace test {
-
-TEST(AstTransformers, GroundTermPropagation) {
+TEST(Transformers, GroundTermPropagation) {
     ErrorReport errorReport;
     DebugReport debugReport;
     // load some test program
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .type D <: symbol
                 .decl p(a:D,b:D)
@@ -57,16 +56,16 @@ TEST(AstTransformers, GroundTermPropagation) {
             )",
             errorReport, debugReport);
 
-    AstProgram& program = *tu->getProgram();
+    Program& program = tu->getProgram();
 
     // check types in clauses
-    AstClause* a = getClauses(program, "p")[0];
+    Clause* a = getClauses(program, "p")[0];
 
     EXPECT_EQ("p(a,b) :- \n   p(x,y),\n   r = [x,y],\n   s = r,\n   s = [w,v],\n   [w,v] = [a,b].",
             toString(*a));
 
-    Own<AstClause> res = ResolveAliasesTransformer::resolveAliases(*a);
-    Own<AstClause> cleaned = ResolveAliasesTransformer::removeTrivialEquality(*res);
+    Own<Clause> res = ResolveAliasesTransformer::resolveAliases(*a);
+    Own<Clause> cleaned = ResolveAliasesTransformer::removeTrivialEquality(*res);
 
     EXPECT_EQ(
             "p(x,y) :- \n   p(x,y),\n   [x,y] = [x,y],\n   [x,y] = [x,y],\n   [x,y] = [x,y],\n   [x,y] = "
@@ -75,11 +74,11 @@ TEST(AstTransformers, GroundTermPropagation) {
     EXPECT_EQ("p(x,y) :- \n   p(x,y).", toString(*cleaned));
 }
 
-TEST(AstTransformers, GroundTermPropagation2) {
+TEST(Transformers, GroundTermPropagation2) {
     ErrorReport errorReport;
     DebugReport debugReport;
     // load some test program
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                .type D <: symbol
                .decl p(a:D,b:D)
@@ -88,25 +87,25 @@ TEST(AstTransformers, GroundTermPropagation2) {
            )",
             errorReport, debugReport);
 
-    AstProgram& program = *tu->getProgram();
+    Program& program = tu->getProgram();
 
     // check types in clauses
-    AstClause* a = getClauses(program, "p")[0];
+    Clause* a = getClauses(program, "p")[0];
 
     EXPECT_EQ("p(a,b) :- \n   p(x,y),\n   x = y,\n   x = a,\n   y = b.", toString(*a));
 
-    Own<AstClause> res = ResolveAliasesTransformer::resolveAliases(*a);
-    Own<AstClause> cleaned = ResolveAliasesTransformer::removeTrivialEquality(*res);
+    Own<Clause> res = ResolveAliasesTransformer::resolveAliases(*a);
+    Own<Clause> cleaned = ResolveAliasesTransformer::removeTrivialEquality(*res);
 
     EXPECT_EQ("p(b,b) :- \n   p(b,b),\n   b = b,\n   b = b,\n   b = b.", toString(*res));
     EXPECT_EQ("p(b,b) :- \n   p(b,b).", toString(*cleaned));
 }
 
-TEST(AstTransformers, ResolveGroundedAliases) {
+TEST(Transformers, ResolveGroundedAliases) {
     // load some test program
     ErrorReport errorReport;
     DebugReport debugReport;
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .type D <: symbol
                 .decl p(a:D,b:D)
@@ -115,7 +114,7 @@ TEST(AstTransformers, ResolveGroundedAliases) {
             )",
             errorReport, debugReport);
 
-    AstProgram& program = *tu->getProgram();
+    Program& program = tu->getProgram();
 
     EXPECT_EQ("p(a,b) :- \n   p(x,y),\n   r = [x,y],\n   s = r,\n   s = [w,v],\n   [w,v] = [a,b].",
             toString(*getClauses(program, "p")[0]));
@@ -125,11 +124,11 @@ TEST(AstTransformers, ResolveGroundedAliases) {
     EXPECT_EQ("p(x,y) :- \n   p(x,y).", toString(*getClauses(program, "p")[0]));
 }
 
-TEST(AstTransformers, ResolveAliasesWithTermsInAtoms) {
+TEST(Transformers, ResolveAliasesWithTermsInAtoms) {
     // load some test program
     ErrorReport errorReport;
     DebugReport debugReport;
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .type D <: symbol
                 .decl p(a:D,b:D)
@@ -138,7 +137,7 @@ TEST(AstTransformers, ResolveAliasesWithTermsInAtoms) {
             )",
             errorReport, debugReport);
 
-    AstProgram& program = *tu->getProgram();
+    Program& program = tu->getProgram();
 
     EXPECT_EQ("p(x,c) :- \n   p(x,b),\n   p(b,c),\n   c = (b+1),\n   x = (c+2).",
             toString(*getClauses(program, "p")[0]));
@@ -163,11 +162,11 @@ TEST(AstTransformers, ResolveAliasesWithTermsInAtoms) {
  *
  */
 
-TEST(AstTransformers, RemoveRelationCopies) {
+TEST(Transformers, RemoveRelationCopies) {
     ErrorReport errorReport;
     DebugReport debugReport;
     // load some test program
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .type D = number
                 .decl a(a:D,b:D)
@@ -184,7 +183,7 @@ TEST(AstTransformers, RemoveRelationCopies) {
             )",
             errorReport, debugReport);
 
-    AstProgram& program = *tu->getProgram();
+    Program& program = tu->getProgram();
 
     EXPECT_EQ(4, program.getRelations().size());
 
@@ -208,11 +207,11 @@ TEST(AstTransformers, RemoveRelationCopies) {
  *  B can be removed, but not C as C is output
  *
  */
-TEST(AstTransformers, RemoveRelationCopiesOutput) {
+TEST(Transformers, RemoveRelationCopiesOutput) {
     ErrorReport errorReport;
     DebugReport debugReport;
     // load some test program
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .type D = number
                 .decl a(a:D,b:D)
@@ -230,7 +229,7 @@ TEST(AstTransformers, RemoveRelationCopiesOutput) {
             )",
             errorReport, debugReport);
 
-    AstProgram& program = *tu->getProgram();
+    Program& program = tu->getProgram();
 
     EXPECT_EQ(4, program.getRelations().size());
 
@@ -242,11 +241,11 @@ TEST(AstTransformers, RemoveRelationCopiesOutput) {
 /**
  * Test the equivalence (or lack of equivalence) of clauses using the MinimiseProgramTransfomer.
  */
-TEST(AstTransformers, CheckClausalEquivalence) {
+TEST(Transformers, CheckClausalEquivalence) {
     ErrorReport errorReport;
     DebugReport debugReport;
 
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .decl A(x:number, y:number)
                 .decl B(x:number)
@@ -264,7 +263,7 @@ TEST(AstTransformers, CheckClausalEquivalence) {
             )",
             errorReport, debugReport);
 
-    const auto& program = *tu->getProgram();
+    const auto& program = tu->getProgram();
 
     // Resolve aliases to remove trivial equalities
     mk<ResolveAliasesTransformer>()->apply(*tu);
@@ -333,11 +332,11 @@ TEST(AstTransformers, CheckClausalEquivalence) {
 /**
  * Test the equivalence (or lack of equivalence) of aggregators using the MinimiseProgramTransfomer.
  */
-TEST(AstTransformers, CheckAggregatorEquivalence) {
+TEST(Transformers, CheckAggregatorEquivalence) {
     ErrorReport errorReport;
     DebugReport debugReport;
 
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .decl A,B,C,D(X:number) input
                 // first and second are equivalent
@@ -364,7 +363,7 @@ TEST(AstTransformers, CheckAggregatorEquivalence) {
             )",
             errorReport, debugReport);
 
-    const auto& program = *tu->getProgram();
+    const auto& program = tu->getProgram();
     mk<MinimiseProgramTransformer>()->apply(*tu);
 
     // A, B, C, D should still be the relations
@@ -396,11 +395,11 @@ TEST(AstTransformers, CheckAggregatorEquivalence) {
  *      - clauses that are only trivially satisfiable
  *          e.g. a(x) :- a(x), x != 0. is only true if a(x) is already true
  */
-TEST(AstTransformers, RemoveClauseRedundancies) {
+TEST(Transformers, RemoveClauseRedundancies) {
     ErrorReport errorReport;
     DebugReport debugReport;
 
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .decl a,b,c(X:number)
                 a(0).
@@ -418,7 +417,7 @@ TEST(AstTransformers, RemoveClauseRedundancies) {
             )",
             errorReport, debugReport);
 
-    const auto& program = *tu->getProgram();
+    const auto& program = tu->getProgram();
 
     // Invoking the `RemoveRelationCopiesTransformer` to create some extra redundancy
     // In particular: The relation `c` will be replaced with `b` throughout, creating
@@ -455,11 +454,11 @@ TEST(AstTransformers, RemoveClauseRedundancies) {
  *      (3) AdornDatabaseTransformer
  *      (4) MagicSetTransformer
  */
-TEST(AstTransformers, MagicSetComprehensive) {
+TEST(Transformers, MagicSetComprehensive) {
     ErrorReport e;
     DebugReport d;
 
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 // Stratum 0 - Base Relations
                 .decl BaseOne(X:number) magic
@@ -492,10 +491,10 @@ TEST(AstTransformers, MagicSetComprehensive) {
             )",
             e, d);
 
-    auto& program = *tu->getProgram();
+    auto& program = tu->getProgram();
 
     // Test helpers
-    auto mappifyRelations = [&](const AstProgram& program) {
+    auto mappifyRelations = [&](const Program& program) {
         std::map<std::string, std::multiset<std::string>> result;
         for (const auto* rel : program.getRelations()) {
             std::multiset<std::string> clauseStrings;
@@ -785,7 +784,5 @@ TEST(AstTransformers, MagicSetComprehensive) {
                             "BaseOne(X)."}},
     });
     checkRelMapEq(finalProgram, mappifyRelations(program));
-}  // namespace test
-
-}  // namespace test
-}  // namespace souffle
+}
+}  // namespace souffle::ast::transform::test

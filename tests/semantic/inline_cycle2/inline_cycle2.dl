@@ -27,3 +27,15 @@ c(x) :- b(x).
 b(x) :- e(x).
 e(x) :- d(x).
 b(x) :- a(x).
+
+//
+// ungrounded positive testcase for inlining
+// (See issue #1956)
+//
+.decl a2(x: number, y: number) inline
+.decl b2(x: number, y: number)
+.decl c2(x: number, y: number)
+a2(x, y) :- x = y.
+b2(1,2).
+c2(x, y) :- b2(x, y), !a2(x, y).
+.output c2

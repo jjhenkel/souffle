@@ -24,15 +24,23 @@ char const* functorOpNameLegacy(FunctorOp op) {
         case FunctorOp::UBNOT: return "bnot";
         case FunctorOp::LNOT:
         case FunctorOp::ULNOT: return "lnot";
+
+        case FunctorOp::F2F:
         case FunctorOp::I2F:
         case FunctorOp::S2F:
         case FunctorOp::U2F: return "to_float";
+
+        case FunctorOp::I2I:
         case FunctorOp::F2I:
         case FunctorOp::S2I:
         case FunctorOp::U2I: return "to_number";
+
+        case FunctorOp::S2S:
         case FunctorOp::I2S:
         case FunctorOp::F2S:
         case FunctorOp::U2S: return "to_string";
+
+        case FunctorOp::U2U:
         case FunctorOp::F2U:
         case FunctorOp::I2U:
         case FunctorOp::S2U: return "to_unsigned";
@@ -154,22 +162,26 @@ using FOp = FunctorOp;
 #define VARIADIC_ORDERED(op) \
     VARIADIC(op, Signed), VARIADIC(U##op, Unsigned), VARIADIC(F##op, Float), VARIADIC(S##op, Symbol)
 
-const std::vector<IntrinsicFunctor> FUNCTOR_INTRINSICS = {
+const std::vector<IntrinsicFunctorInfo> FUNCTOR_INTRINSICS = {
         {FUNCTOR_INTRINSIC_PREFIX_NEGATE_NAME, {TAttr::Signed}, TAttr::Signed, FunctorOp::NEG},
         {FUNCTOR_INTRINSIC_PREFIX_NEGATE_NAME, {TAttr::Float}, TAttr::Float, FunctorOp::FNEG},
 
+        OP_1(F2F, Float, Float),
         OP_1(F2I, Float, Signed),
         OP_1(F2S, Float, Symbol),
         OP_1(F2U, Float, Unsigned),
 
+        OP_1(I2I, Signed, Signed),
         OP_1(I2F, Signed, Float),
         OP_1(I2S, Signed, Symbol),
         OP_1(I2U, Signed, Unsigned),
 
+        OP_1(S2S, Symbol, Symbol),
         OP_1(S2F, Symbol, Float),
         OP_1(S2I, Symbol, Signed),
         OP_1(S2U, Symbol, Unsigned),
 
+        OP_1(U2U, Unsigned, Unsigned),
         OP_1(U2F, Unsigned, Float),
         OP_1(U2I, Unsigned, Signed),
         OP_1(U2S, Unsigned, Symbol),
@@ -206,6 +218,7 @@ const std::vector<IntrinsicFunctor> FUNCTOR_INTRINSICS = {
         OP_1(ORD, Float, Signed),
         OP_1(ORD, Symbol, Signed),
         OP_1(ORD, Record, Signed),
+        OP_1(ORD, ADT, Signed),
 
         VARIADIC(CAT, Symbol),
         OP_1(STRLEN, Symbol, Signed),
@@ -237,7 +250,7 @@ IntrinsicFunctors functorBuiltIn(std::string_view symbol, const std::vector<Type
     });
 }
 
-bool isValidFunctorOpArity(std::string_view symbol, size_t arity) {
+bool isValidFunctorOpArity(std::string_view symbol, std::size_t arity) {
     return any_of(FUNCTOR_INTRINSICS, [&](auto&& x) {
         auto arityOk = x.params.size() == arity || x.variadic;
         return x.symbol == symbol && arityOk;

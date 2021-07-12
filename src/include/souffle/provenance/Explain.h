@@ -122,7 +122,7 @@ public:
             query = parseTuple(command[1]);
 
             // a counter for the rule numbers
-            size_t i = 1;
+            std::size_t i = 1;
             std::string rules;
 
             // if there are no rules, then this must be an EDB relation

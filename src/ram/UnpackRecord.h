@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -17,9 +17,9 @@
 #include "ram/Expression.h"
 #include "ram/NestedOperation.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Operation.h"
 #include "ram/TupleOperation.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
@@ -31,10 +31,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamUnpackRecord
+ * @class UnpackRecord
  * @brief Record lookup
  *
  * Looks up a record with respect to an expression
@@ -44,15 +44,15 @@ namespace souffle {
  * UNPACK t0.0 INTO t1
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamUnpackRecord : public RamTupleOperation {
+class UnpackRecord : public TupleOperation {
 public:
-    RamUnpackRecord(Own<RamOperation> nested, int ident, Own<RamExpression> expr, size_t arity)
-            : RamTupleOperation(ident, std::move(nested)), expression(std::move(expr)), arity(arity) {
+    UnpackRecord(Own<Operation> nested, int ident, Own<Expression> expr, std::size_t arity)
+            : TupleOperation(ident, std::move(nested)), expression(std::move(expr)), arity(arity) {
         assert(expression != nullptr && "Expression is a null-pointer");
     }
 
     /** @brief Get record expression */
-    const RamExpression& getExpression() const {
+    const Expression& getExpression() const {
         assert(expression != nullptr && "Expression of unpack-record is a null-pointer");
         return *expression;
     }
@@ -62,40 +62,39 @@ public:
         return arity;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        auto res = RamTupleOperation::getChildNodes();
+    std::vector<const Node*> getChildNodes() const override {
+        auto res = TupleOperation::getChildNodes();
         res.push_back(expression.get());
         return res;
     }
 
-    RamUnpackRecord* clone() const override {
-        return new RamUnpackRecord(
-                souffle::clone(&getOperation()), getTupleId(), souffle::clone(&getExpression()), arity);
+    UnpackRecord* cloning() const override {
+        return new UnpackRecord(clone(getOperation()), getTupleId(), clone(getExpression()), arity);
     }
 
-    void apply(const RamNodeMapper& map) override {
-        RamTupleOperation::apply(map);
+    void apply(const NodeMapper& map) override {
+        TupleOperation::apply(map);
         expression = map(std::move(expression));
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
         os << times(" ", tabpos);
-        os << "UNPACK t" << getTupleId() << " FROM " << *expression << "\n";
-        RamNestedOperation::print(os, tabpos + 1);
+        os << "UNPACK t" << getTupleId() << " ARITY " << arity << " FROM " << *expression << "\n";
+        NestedOperation::print(os, tabpos + 1);
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamUnpackRecord&>(node);
-        return RamTupleOperation::equal(other) && equal_ptr(expression, other.expression) &&
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<UnpackRecord>(node);
+        return TupleOperation::equal(other) && equal_ptr(expression, other.expression) &&
                arity == other.arity;
     }
 
     /** Expression for record reference */
-    Own<RamExpression> expression;
+    Own<Expression> expression;
 
     /** Arity of the unpacked tuple */
-    const size_t arity;
+    const std::size_t arity;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

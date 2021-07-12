@@ -15,31 +15,31 @@
 #pragma once
 
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Statement.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
+#include "souffle/utility/MiscUtil.h"
 #include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamAbstractLog
+ * @class AbstractLog
  * @brief Abstract class for logging
  *
- * Comprises a RamStatement and the message (string) to be logged
+ * Comprises a Statement and the message (string) to be logged
  */
-class RamAbstractLog {
+class AbstractLog {
 public:
-    RamAbstractLog(Own<RamStatement> stmt, std::string msg)
-            : statement(std::move(stmt)), message(std::move(msg)) {
+    AbstractLog(Own<Statement> stmt, std::string msg) : statement(std::move(stmt)), message(std::move(msg)) {
         assert(statement && "log statement is a nullptr");
     }
 
-    std::vector<const RamNode*> getChildNodes() const {
+    std::vector<const Node*> getChildNodes() const {
         return {statement.get()};
     }
 
@@ -49,26 +49,26 @@ public:
     }
 
     /** @brief Get logging statement */
-    const RamStatement& getStatement() const {
+    const Statement& getStatement() const {
         return *statement;
     }
 
-    void apply(const RamNodeMapper& map) {
+    void apply(const NodeMapper& map) {
         statement = map(std::move(statement));
     }
 
 protected:
-    bool equal(const RamNode& node) const {
-        const auto& other = dynamic_cast<const RamAbstractLog&>(node);
+    bool equal(const Node& node) const {
+        const auto& other = asAssert<AbstractLog, AllowCrossCast>(node);
         return equal_ptr(statement, other.statement) && message == other.message;
     }
 
 protected:
-    /** logging statement */
-    Own<RamStatement> statement;
+    /** Logging statement */
+    Own<Statement> statement;
 
-    /** logging message */
-    std::string message;
+    /** Logging message */
+    const std::string message;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

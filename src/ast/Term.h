@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -17,78 +17,56 @@
 #pragma once
 
 #include "ast/Argument.h"
-#include "ast/Node.h"
-#include "ast/utility/NodeMapper.h"
 #include "parser/SrcLocation.h"
 #include "souffle/utility/ContainerUtil.h"
-#include <algorithm>
-#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstTerm
+ * @class Term
  * @brief Defines an abstract term class used for functors and other constructors
  */
-class AstTerm : public AstArgument {
+class Term : public Argument {
 protected:
     template <typename... Operands>
-    AstTerm(Operands&&... operands) : AstTerm(asVec(std::forward<Operands>(operands)...)) {}
+    Term(Operands&&... operands) : Term({}, std::forward<Operands>(operands)...) {}
 
     template <typename... Operands>
-    AstTerm(SrcLocation loc, Operands&&... operands)
-            : AstTerm(asVec(std::forward<Operands>(operands)...), std::move(loc)) {}
+    Term(SrcLocation loc, Operands&&... operands)
+            : Term(asVec(std::forward<Operands>(operands)...), std::move(loc)) {}
 
-    AstTerm(VecOwn<AstArgument> operands, SrcLocation loc = {})
-            : AstArgument(std::move(loc)), args(std::move(operands)) {}
+    Term(VecOwn<Argument> operands, SrcLocation loc = {});
 
 public:
     /** Get arguments */
-    std::vector<AstArgument*> getArguments() const {
-        return toPtrVector(args);
-    }
+    std::vector<Argument*> getArguments() const;
 
     /** Add argument to argument list */
-    void addArgument(Own<AstArgument> arg) {
-        args.push_back(std::move(arg));
-    }
+    void addArgument(Own<Argument> arg);
 
-    std::vector<const AstNode*> getChildNodes() const override {
-        auto res = AstArgument::getChildNodes();
-        for (auto& cur : args) {
-            res.push_back(cur.get());
-        }
-        return res;
-    }
+    void apply(const NodeMapper& map) override;
 
-    void apply(const AstNodeMapper& map) override {
-        for (auto& arg : args) {
-            arg = map(std::move(arg));
-        }
-    }
-
-protected:
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstTerm&>(node);
-        return equal_targets(args, other.args);
-    }
-
-    /** Arguments */
-    VecOwn<AstArgument> args;
+    bool equal(const Node& node) const override;
 
 private:
+    NodeVec getChildNodesImpl() const override;
+
     template <typename... Operands>
-    static VecOwn<AstArgument> asVec(Operands... ops) {
-        Own<AstArgument> ary[] = {std::move(ops)...};
-        VecOwn<AstArgument> xs;
+    static VecOwn<Argument> asVec(Operands... ops) {
+        Own<Argument> ary[] = {std::move(ops)...};
+        VecOwn<Argument> xs;
         for (auto&& x : ary) {
             xs.push_back(std::move(x));
         }
         return xs;
     }
+
+protected:
+    /** Arguments */
+    VecOwn<Argument> args;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

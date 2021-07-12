@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2018, The Souffle Developers and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -42,12 +42,12 @@ namespace test {
 /** Piggy List that allows creation at arbitrary elements **/
 TEST(RandomInsertPiggyTest, Scoping) {
     // simply test that namespaces were setup correctly (compile time)
-    souffle::RandomInsertPiggyList<size_t> pl;
+    souffle::RandomInsertPiggyList<std::size_t> pl;
 }
 
 TEST(RandomInsertPiggyTest, Insertion) {
     // insert a bunch of stuff and check the size is valid?
-    souffle::RandomInsertPiggyList<size_t> pl;
+    souffle::RandomInsertPiggyList<std::size_t> pl;
     EXPECT_EQ(pl.size(), 0);
 
     pl.insertAt(0, 99);
@@ -63,7 +63,7 @@ TEST(RandomInsertPiggyTest, DoubleClear) {
     // err.. prior versions have had the bug where clear caused double-free errors (as we don't set the
     // container to null) This should *crash* the test-suite if this is the case, but I also try to check the
     // contents here
-    souffle::RandomInsertPiggyList<size_t> pl;
+    souffle::RandomInsertPiggyList<std::size_t> pl;
     pl.insertAt(0, 3213);
     pl.insertAt(1, 3213);
     pl.insertAt(2, 3213);
@@ -79,17 +79,17 @@ TEST(RandomInsertPiggyTest, DoubleClear) {
 
 #ifdef _OPENMP
 TEST(RandomInsertPiggyTest, ParallelInsert) {
-    constexpr size_t limit = 10000;
-    souffle::RandomInsertPiggyList<size_t> pl;
+    constexpr std::size_t limit = 10000;
+    souffle::RandomInsertPiggyList<std::size_t> pl;
 
 // insert in parallel (no element should be overridden, because this breaks the datastructure)
 #pragma omp parallel for
-    for (size_t i = 0; i < limit; ++i) {
+    for (std::size_t i = 0; i < limit; ++i) {
         pl.insertAt(i, i);
     }
 
     EXPECT_EQ(limit, pl.size());
-    for (size_t i = 0; i < limit; ++i) {
+    for (std::size_t i = 0; i < limit; ++i) {
         EXPECT_EQ(pl.get(i), i);
     }
 }
@@ -98,11 +98,11 @@ TEST(RandomInsertPiggyTest, ParallelInsert) {
 /** Regular Old Piggy List **/
 TEST(PiggyTest, Scoping) {
     // simply test that namespaces were setup correctly (compile time)
-    souffle::PiggyList<size_t> pl;
+    souffle::PiggyList<std::size_t> pl;
 }
 
 TEST(PiggyTest, Append) {
-    souffle::PiggyList<size_t> pl;
+    souffle::PiggyList<std::size_t> pl;
     EXPECT_EQ(pl.size(), 0);
     pl.append(99);
     EXPECT_EQ(pl.size(), 1);
@@ -114,50 +114,50 @@ TEST(PiggyTest, Append) {
     EXPECT_EQ(pl.get(2), 99);
 
     // larger than BLOCKSIZE
-    constexpr size_t N = 10000;
+    constexpr std::size_t N = 10000;
 
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         pl.append(2);
     }
     EXPECT_EQ(pl.size(), N + 3);
     // make sure that all of our inserties are exacties
-    for (size_t i = 3; i < N + 3; ++i) {
+    for (std::size_t i = 3; i < N + 3; ++i) {
         EXPECT_EQ(pl.get(i), 2);
     }
 }
 
 TEST(PiggyTest, ElementCreation) {
     // test that we can use makeNode() and set the values properly
-    souffle::PiggyList<size_t> pl;
+    souffle::PiggyList<std::size_t> pl;
     pl.get(pl.createNode()) = 99;
     EXPECT_EQ(pl.size(), 1);
     EXPECT_EQ(pl.get(0), 99);
 }
 
 TEST(PiggyTest, Iteration) {
-    souffle::PiggyList<size_t> pl;
-    constexpr size_t N = 10000;
-    for (size_t i = 0; i < N; ++i) {
+    souffle::PiggyList<std::size_t> pl;
+    constexpr std::size_t N = 10000;
+    for (std::size_t i = 0; i < N; ++i) {
         pl.append(i);
     }
-    size_t counter = 0;
-    for (size_t e : pl) {
+    std::size_t counter = 0;
+    for (std::size_t e : pl) {
         EXPECT_EQ(e, counter++);
     }
 }
 
 TEST(PiggyTest, CopyCtor) {
-    souffle::PiggyList<size_t> pl;
-    constexpr size_t N = 10000;
-    for (size_t i = 0; i < N; ++i) {
+    souffle::PiggyList<std::size_t> pl;
+    constexpr std::size_t N = 10000;
+    for (std::size_t i = 0; i < N; ++i) {
         pl.append(i);
     }
 
-    souffle::PiggyList<size_t> pl2(pl);
+    souffle::PiggyList<std::size_t> pl2(pl);
     EXPECT_EQ(pl.size(), pl2.size());
 
     // check every element is equal and same order
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         EXPECT_EQ(pl.get(i), pl2.get(i));
         EXPECT_EQ(pl.get(i), i);
     }
@@ -200,7 +200,7 @@ TEST(PiggyTest, DoubleClear) {
     // err.. prior versions have had the bug where clear caused double-free errors (as we don't set the
     // container to null) This should *crash* the test-suite if this is the case, but I also try to check the
     // contents here
-    souffle::PiggyList<size_t> pl;
+    souffle::PiggyList<std::size_t> pl;
     pl.append(3213);
     pl.append(3213);
     pl.append(3213);
@@ -216,39 +216,39 @@ TEST(PiggyTest, DoubleClear) {
 
 #ifdef _OPENMP
 TEST(PiggyTest, ParallelElementSpawning) {
-    constexpr size_t N = 10000;
-    souffle::PiggyList<size_t> pl;
+    constexpr std::size_t N = 10000;
+    souffle::PiggyList<std::size_t> pl;
 
 #pragma omp parallel for
-    for (size_t i = 0; i < N; ++i) {
-        size_t pos = pl.createNode();
+    for (std::size_t i = 0; i < N; ++i) {
+        std::size_t pos = pl.createNode();
         pl.get(pos) = pos;
     }
     EXPECT_EQ(N, pl.size());
 
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         EXPECT_EQ(i, pl.get(i));
     }
 }
 
 TEST(PiggyTest, ParallelAppend) {
-    constexpr size_t N = 10000;
-    souffle::PiggyList<size_t> pl;
+    constexpr std::size_t N = 10000;
+    souffle::PiggyList<std::size_t> pl;
 
 #pragma omp parallel for
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         pl.append(i);
     }
     EXPECT_EQ(N, pl.size());
 
-    std::set<size_t> verifier;
-    for (size_t i = 0; i < N; ++i) {
+    std::set<std::size_t> verifier;
+    for (std::size_t i = 0; i < N; ++i) {
         verifier.emplace(pl.get(i));
     }
     // check there aren't any duplicate elements
     EXPECT_EQ(verifier.size(), N);
     // check every element within the inserted range exists
-    for (size_t e : verifier) {
+    for (std::size_t e : verifier) {
         EXPECT_TRUE(e < N);
     }
 }
@@ -319,7 +319,7 @@ TEST(DjTest, Clear) {
     EXPECT_EQ(ds.size(), 0);
 
     // get ready 2 double free y'all
-    for (size_t i = 0; i < 10000; ++i) {
+    for (std::size_t i = 0; i < 10000; ++i) {
         ds.makeNode();
     }
     ds.unionNodes(1, 2);
@@ -332,10 +332,10 @@ TEST(DjTest, ParallelScaling) {
     // insert, union, and stuff in parallel, then check things are in the valid sets
 
     souffle::DisjointSet ds;
-    constexpr size_t N = 10000;
+    constexpr std::size_t N = 10000;
 
 #pragma omp parallel for
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         ds.makeNode();
     }
     // check we didn't miss any
@@ -343,14 +343,14 @@ TEST(DjTest, ParallelScaling) {
 
 // union everything
 #pragma omp parallel for
-    for (size_t i = 0; i < N - 1; ++i) {
+    for (std::size_t i = 0; i < N - 1; ++i) {
         ds.unionNodes(i, i + 1);
     }
     EXPECT_EQ(ds.size(), N);
 
     // iterate through and check that the findNode is always the same
     parent_t rep = ds.findNode(0);
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         EXPECT_EQ(rep, ds.findNode(i));
     }
 }
@@ -358,11 +358,11 @@ TEST(DjTest, ParallelScaling) {
 
 /** The SparseDisjointSet that is used by the EquivalenceRelation **/
 TEST(SparseDjTest, Scoping) {
-    souffle::SparseDisjointSet<size_t> sds;
+    souffle::SparseDisjointSet<std::size_t> sds;
 }
 
 TEST(SparseDjTest, MakeNode) {
-    souffle::SparseDisjointSet<size_t> sds;
+    souffle::SparseDisjointSet<std::size_t> sds;
     EXPECT_EQ(sds.size(), 0);
 
     sds.makeNode(99);
@@ -372,8 +372,8 @@ TEST(SparseDjTest, MakeNode) {
     sds.makeNode(99);
     EXPECT_EQ(sds.size(), 1);
 
-    constexpr size_t N = 10000;
-    for (size_t i = 0; i < N; ++i) {
+    constexpr std::size_t N = 10000;
+    for (std::size_t i = 0; i < N; ++i) {
         sds.makeNode(i);
     }
 
@@ -382,7 +382,7 @@ TEST(SparseDjTest, MakeNode) {
 
 TEST(SparseDjTest, TestUnion) {
     // check whether the unioning works to see if the elements are properly in the same set
-    souffle::SparseDisjointSet<size_t> sds;
+    souffle::SparseDisjointSet<std::size_t> sds;
 
     sds.makeNode(20);
     sds.makeNode(32);
@@ -402,7 +402,7 @@ TEST(SparseDjTest, TestUnion) {
 
 TEST(SparseDjTest, SignedData) {
     // test when the sparse dj set stores different signed-ness to the internally stored data
-    souffle::SparseDisjointSet<ssize_t> sds;
+    souffle::SparseDisjointSet<std::size_t> sds;
 
     EXPECT_EQ(sds.size(), 0);
     sds.makeNode(9999);
@@ -411,33 +411,33 @@ TEST(SparseDjTest, SignedData) {
 
 #ifdef _OPENMP
 TEST(SparseDjTest, ParallelDense) {
-    souffle::SparseDisjointSet<size_t> sds;
+    souffle::SparseDisjointSet<std::size_t> sds;
     // store the dense and sparse values
-    souffle::PiggyList<std::pair<size_t, size_t>> pl;
+    souffle::PiggyList<std::pair<std::size_t, std::size_t>> pl;
 
-    constexpr size_t N = 1000000;
+    constexpr std::size_t N = 1000000;
 
-    std::vector<size_t> data_source;
-    for (size_t i = 0; i < N; ++i) {
+    std::vector<std::size_t> data_source;
+    for (std::size_t i = 0; i < N; ++i) {
         data_source.push_back(i);
     }
     std::shuffle(data_source.begin(), data_source.end(), std::random_device());
 
     // call toDense for a load of sparse values, and hope to god they're the same
 #pragma omp parallel for
-    for (size_t i = 0; i < N; ++i) {
-        size_t val = data_source[i];
-        size_t a = sds.toDense(val);
-        size_t b = sds.toDense(val);
+    for (std::size_t i = 0; i < N; ++i) {
+        std::size_t val = data_source[i];
+        std::size_t a = sds.toDense(val);
+        std::size_t b = sds.toDense(val);
         pl.append(std::make_pair(a, val));
         pl.append(std::make_pair(b, val));
     }
 
     // check each sparse value (pair.second) maps to a single dense value as per the piggylist
-    std::unordered_map<size_t, size_t> mapper;
-    for (size_t i = 0; i < pl.size(); ++i) {
-        size_t sparse = pl.get(i).second;
-        size_t dense = pl.get(i).first;
+    std::unordered_map<std::size_t, std::size_t> mapper;
+    for (std::size_t i = 0; i < pl.size(); ++i) {
+        std::size_t sparse = pl.get(i).second;
+        std::size_t dense = pl.get(i).first;
 
         if (mapper.count(sparse) == 1) {
             if (mapper[sparse] != dense) {
@@ -457,11 +457,11 @@ TEST(SparseDjTest, ParallelDense) {
 #ifdef _OPENMP
 TEST(SparseDjTest, ParallelScaling) {
     // insert, union, and stuff in parallel, then check things are in the valid sets
-    souffle::SparseDisjointSet<size_t> sds;
-    constexpr size_t N = 1000000;
+    souffle::SparseDisjointSet<std::size_t> sds;
+    constexpr std::size_t N = 1000000;
 
 #pragma omp parallel for
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         // make things which are relatively sparse (hence why we mul by 50)
         sds.makeNode(i * 50);
     }
@@ -469,23 +469,23 @@ TEST(SparseDjTest, ParallelScaling) {
     EXPECT_EQ(sds.size(), N);
     // union everything
 #pragma omp parallel for
-    for (size_t i = 0; i < N - 1; ++i) {
+    for (std::size_t i = 0; i < N - 1; ++i) {
         sds.unionNodes(i * 50, (i + 1) * 50);
     }
 
     EXPECT_EQ(sds.size(), N);
-    for (size_t i = 0; i < N - 1; ++i) {
+    for (std::size_t i = 0; i < N - 1; ++i) {
         EXPECT_TRUE(sds.contains(i * 50, (i + 1) * 50));
     }
     EXPECT_EQ(sds.size(), N);
 }
 
 TEST(SparseDjTest, ParallelTest) {
-    souffle::SparseDisjointSet<size_t> sds;
-    constexpr size_t N = 1000000;
+    souffle::SparseDisjointSet<std::size_t> sds;
+    constexpr std::size_t N = 1000000;
 
 #pragma omp parallel for
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         sds.unionNodes(i, i);
     }
 
@@ -494,10 +494,9 @@ TEST(SparseDjTest, ParallelTest) {
 
 #endif  // ifdef _OPENMP
 
-typedef std::pair<size_t, size_t> TestPair;
-typedef souffle::LambdaBTreeSet<TestPair, std::function<TestPair::second_type(TestPair&)>,
-        souffle::EqrelMapComparator<TestPair>>
-        TestLambdaTree;
+typedef std::pair<std::size_t, std::size_t> TestPair;
+using TestLambdaTree = souffle::LambdaBTreeSet<TestPair, std::function<TestPair::second_type(TestPair&)>,
+        souffle::EqrelMapComparator<TestPair>>;
 
 /** The LambdaBTree - essentially a ripoff to the Btree, but allows a function to be called on successful
  * insert. I just am gonna test a subset of it, because I can argue that BTree already tests the basic stuff
@@ -512,7 +511,7 @@ TEST(LambdaBTreeTest, Insert) {
     // that the elements are contained
 
     // the ticket machine that sets the second argument (for now our functor will just postincrent to assign)
-    std::atomic<size_t> assigner(0);
+    std::atomic<std::size_t> assigner(0);
 
     TestLambdaTree t;
     EXPECT_EQ(t.size(), 0);
@@ -562,11 +561,11 @@ TEST(LambdaBTreeTest, ParallelInsert) {
     // we must ensure that duplicate elements inserted in parallel stiiilll should only result in singly
     // elements inserted
 
-    constexpr size_t N = 10000;
+    constexpr std::size_t N = 10000;
     {
         // the ticket machine that sets the second argument (for now our functor will just postincrent to
         // assign)
-        std::atomic<size_t> assigner(0);
+        std::atomic<std::size_t> assigner(0);
         std::function<TestPair::second_type(TestPair&)> update_fn = [&](TestPair& tp) {
             tp.second = assigner.fetch_add(1);
             return tp.second;
@@ -575,7 +574,7 @@ TEST(LambdaBTreeTest, ParallelInsert) {
         TestLambdaTree t;
 
 #pragma omp parallel for
-        for (size_t i = 0; i < N; ++i) {
+        for (std::size_t i = 0; i < N; ++i) {
             TestPair tp = {i, 123132};
             t.insert(tp, update_fn);
         }
@@ -584,7 +583,7 @@ TEST(LambdaBTreeTest, ParallelInsert) {
         std::set<TestPair::second_type> covering;
 
         // iterating through the tree should be in order
-        size_t i = 0;
+        std::size_t i = 0;
         for (auto p : t) {
             EXPECT_EQ(p.first, i++);
             covering.emplace(p.second);
@@ -594,20 +593,20 @@ TEST(LambdaBTreeTest, ParallelInsert) {
 
         // assert that everything is unique (i.e. a set)
         EXPECT_EQ(covering.size(), N);
-        for (size_t i = 0; i < N; ++i) {
+        for (std::size_t i = 0; i < N; ++i) {
             EXPECT_EQ(covering.count(i), 1);
         }
     }
 
     // now our second test is setting duplicates concurrently (we try and maximise the potentiality of
     // duplication, by trying to make the threads make the same number at the same time)
-    size_t num_threads = omp_get_max_threads();
+    std::size_t num_threads = omp_get_max_threads();
     {
         // shadowing the N to make one that's trimmed by thread number (don't want things non-divisible by the
         // thread count!)
-        const size_t N2 = (N / num_threads) * num_threads;
+        const std::size_t N2 = (N / num_threads) * num_threads;
 
-        std::atomic<size_t> assigner(0);
+        std::atomic<std::size_t> assigner(0);
         std::function<TestPair::second_type(TestPair&)> update_fn = [&](TestPair& tp) {
             tp.second = assigner.fetch_add(1);
             return tp.second;
@@ -615,7 +614,7 @@ TEST(LambdaBTreeTest, ParallelInsert) {
 
         TestLambdaTree t;
 #pragma omp parallel for
-        for (size_t i = 0; i < N2; ++i) {
+        for (std::size_t i = 0; i < N2; ++i) {
             TestPair tp = {i / num_threads, 213812309};
             // by doing this, we pretty much make the same insertion num_thread times, for the next num_thread
             // loops
@@ -624,7 +623,7 @@ TEST(LambdaBTreeTest, ParallelInsert) {
 
         EXPECT_EQ(t.size(), N2 / num_threads);
         // iterating through the tree should be in order
-        size_t i = 0;
+        std::size_t i = 0;
         for (auto p : t) {
             EXPECT_EQ(p.first, i++);
         }
@@ -655,30 +654,30 @@ TEST(LambdaBTree, ContendParallel) {
     // insert).
     TestLambdaTree tlt;
 
-    std::atomic<size_t> counter{0};
+    std::atomic<std::size_t> counter{0};
 
-    constexpr size_t N = 100;
-    const std::function<size_t(TestPair&)> fun = [&](TestPair& p) {
+    constexpr std::size_t N = 100;
+    const std::function<std::size_t(TestPair&)> fun = [&](TestPair& p) {
         p.second = counter++;
         return p.second;
     };
 
     // shuffle the vector around to make us insert non-incremental pairs (seems to make it more common...?)
-    std::vector<size_t> data_source;
-    for (size_t i = 0; i < N; ++i) {
+    std::vector<std::size_t> data_source;
+    for (std::size_t i = 0; i < N; ++i) {
         data_source.push_back(i);
     }
     std::shuffle(data_source.begin(), data_source.end(), std::random_device());
 
 #pragma omp parallel for
-    for (size_t i = 0; i < N; ++i) {
-        size_t val = data_source[i];
+    for (std::size_t i = 0; i < N; ++i) {
+        std::size_t val = data_source[i];
         // two pairs, the second part of the pair is updated within the functor if it doesn't exist
         // in both cases, the now-existing value is returned.
-        std::pair<size_t, size_t> paira = {val, -1};
-        std::pair<size_t, size_t> pairb = {val, -1};
-        size_t a = tlt.insert(paira, fun);
-        size_t b = tlt.insert(pairb, fun);
+        std::pair<std::size_t, std::size_t> paira = {val, -1};
+        std::pair<std::size_t, std::size_t> pairb = {val, -1};
+        std::size_t a = tlt.insert(paira, fun);
+        std::size_t b = tlt.insert(pairb, fun);
 
         if (a != b) {
             std::cout << "Different values observed for key " << val << ": " << a << " vs. " << b << "\n";

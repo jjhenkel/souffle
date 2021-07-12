@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -30,15 +30,15 @@
 #include <memory>
 #include <set>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
 void RelationScheduleAnalysisStep::print(std::ostream& os) const {
     os << "computed: ";
-    for (const AstRelation* compRel : computed()) {
+    for (const Relation* compRel : computed()) {
         os << compRel->getQualifiedName() << ", ";
     }
     os << "\nexpired: ";
-    for (const AstRelation* compRel : expired()) {
+    for (const Relation* compRel : expired()) {
         os << compRel->getQualifiedName() << ", ";
     }
     os << "\n";
@@ -50,47 +50,47 @@ void RelationScheduleAnalysisStep::print(std::ostream& os) const {
     os << "\n";
 }
 
-void RelationScheduleAnalysis::run(const AstTranslationUnit& translationUnit) {
+void RelationScheduleAnalysis::run(const TranslationUnit& translationUnit) {
     topsortSCCGraphAnalysis = translationUnit.getAnalysis<TopologicallySortedSCCGraphAnalysis>();
     precedenceGraph = translationUnit.getAnalysis<PrecedenceGraphAnalysis>();
 
-    size_t numSCCs = translationUnit.getAnalysis<SCCGraphAnalysis>()->getNumberOfSCCs();
-    std::vector<std::set<const AstRelation*>> relationExpirySchedule =
+    std::size_t numSCCs = translationUnit.getAnalysis<SCCGraphAnalysis>()->getNumberOfSCCs();
+    std::vector<std::set<const Relation*>> relationExpirySchedule =
             computeRelationExpirySchedule(translationUnit);
 
     relationSchedule.clear();
-    for (size_t i = 0; i < numSCCs; i++) {
+    for (std::size_t i = 0; i < numSCCs; i++) {
         auto scc = topsortSCCGraphAnalysis->order()[i];
-        const std::set<const AstRelation*> computedRelations =
+        const std::set<const Relation*> computedRelations =
                 translationUnit.getAnalysis<SCCGraphAnalysis>()->getInternalRelations(scc);
         relationSchedule.emplace_back(computedRelations, relationExpirySchedule[i],
                 translationUnit.getAnalysis<SCCGraphAnalysis>()->isRecursive(scc));
     }
 }
 
-std::vector<std::set<const AstRelation*>> RelationScheduleAnalysis::computeRelationExpirySchedule(
-        const AstTranslationUnit& translationUnit) {
-    std::vector<std::set<const AstRelation*>> relationExpirySchedule;
+std::vector<std::set<const Relation*>> RelationScheduleAnalysis::computeRelationExpirySchedule(
+        const TranslationUnit& translationUnit) {
+    std::vector<std::set<const Relation*>> relationExpirySchedule;
     /* Compute for each step in the reverse topological order
        of evaluating the SCC the set of alive relations. */
-    size_t numSCCs = topsortSCCGraphAnalysis->order().size();
+    std::size_t numSCCs = topsortSCCGraphAnalysis->order().size();
 
     /* Alive set for each step */
-    std::vector<std::set<const AstRelation*>> alive(numSCCs);
+    std::vector<std::set<const Relation*>> alive(numSCCs);
     /* Resize expired relations sets */
     relationExpirySchedule.resize(numSCCs);
     const auto& sccGraph = translationUnit.getAnalysis<SCCGraphAnalysis>();
 
     /* Compute all alive relations by iterating over all steps in reverse order
        determine the dependencies */
-    for (size_t orderedSCC = 1; orderedSCC < numSCCs; orderedSCC++) {
+    for (std::size_t orderedSCC = 1; orderedSCC < numSCCs; orderedSCC++) {
         /* Add alive set of previous step */
         alive[orderedSCC].insert(alive[orderedSCC - 1].begin(), alive[orderedSCC - 1].end());
 
         /* Add predecessors of relations computed in this step */
         auto scc = topsortSCCGraphAnalysis->order()[numSCCs - orderedSCC];
-        for (const AstRelation* r : sccGraph->getInternalRelations(scc)) {
-            for (const AstRelation* predecessor : precedenceGraph->graph().predecessors(r)) {
+        for (const Relation* r : sccGraph->getInternalRelations(scc)) {
+            for (const Relation* predecessor : precedenceGraph->graph().predecessors(r)) {
                 alive[orderedSCC].insert(predecessor);
             }
         }
@@ -111,11 +111,11 @@ void RelationScheduleAnalysis::print(std::ostream& os) const {
     for (const RelationScheduleAnalysisStep& step : relationSchedule) {
         os << step;
         os << "computed: ";
-        for (const AstRelation* compRel : step.computed()) {
+        for (const Relation* compRel : step.computed()) {
             os << compRel->getQualifiedName() << ", ";
         }
         os << "\nexpired: ";
-        for (const AstRelation* compRel : step.expired()) {
+        for (const Relation* compRel : step.expired()) {
             os << compRel->getQualifiedName() << ", ";
         }
         os << "\n";
@@ -129,4 +129,4 @@ void RelationScheduleAnalysis::print(std::ostream& os) const {
     os << "end schedule\n";
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

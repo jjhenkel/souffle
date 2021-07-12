@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -56,7 +56,7 @@ protected:
     void writeNullary() override {}
 
     void writeNextTuple(const RamDomain* tuple) override {
-        for (size_t i = 0; i < arity; i++) {
+        for (std::size_t i = 0; i < arity; i++) {
             RamDomain value = 0;  // Silence warning
 
             switch (typeAttributes.at(i)[0]) {
@@ -103,7 +103,7 @@ private:
     }
 
     uint64_t getSymbolTableIDFromDB(int index) {
-        if (sqlite3_bind_text(symbolSelectStatement, 1, symbolTable.unsafeResolve(index).c_str(), -1,
+        if (sqlite3_bind_text(symbolSelectStatement, 1, symbolTable.unsafeDecode(index).c_str(), -1,
                     SQLITE_TRANSIENT) != SQLITE_OK) {
             throwError("SQLite error in sqlite3_bind_text: ");
         }
@@ -120,7 +120,7 @@ private:
             return dbSymbolTable[index];
         }
 
-        if (sqlite3_bind_text(symbolInsertStatement, 1, symbolTable.unsafeResolve(index).c_str(), -1,
+        if (sqlite3_bind_text(symbolInsertStatement, 1, symbolTable.unsafeDecode(index).c_str(), -1,
                     SQLITE_TRANSIENT) != SQLITE_OK) {
             throwError("SQLite error in sqlite3_bind_text: ");
         }

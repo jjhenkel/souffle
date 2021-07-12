@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -22,26 +22,26 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamSequence
+ * @class Sequence
  * @brief Sequence of RAM statements
  *
  * Execute statement one by one from an ordered list of statements.
  */
-class RamSequence : public RamListStatement {
+class Sequence : public ListStatement {
 public:
-    RamSequence(VecOwn<RamStatement> statements) : RamListStatement(std::move(statements)) {}
-    RamSequence() : RamListStatement() {}
+    Sequence(VecOwn<Statement> statements) : ListStatement(std::move(statements)) {}
+    Sequence() : ListStatement() {}
     template <typename... Stmts>
-    RamSequence(Own<RamStatement> first, Own<Stmts>... rest)
-            : RamListStatement(std::move(first), std::move(rest)...) {}
+    Sequence(Own<Statement> first, Own<Stmts>... rest)
+            : ListStatement(std::move(first), std::move(rest)...) {}
 
-    RamSequence* clone() const override {
-        auto* res = new RamSequence();
+    Sequence* cloning() const override {
+        auto* res = new Sequence();
         for (auto& cur : statements) {
-            res->statements.push_back(souffle::clone(cur));
+            res->statements.push_back(clone(cur));
         }
         return res;
     }
@@ -49,9 +49,9 @@ public:
 protected:
     void print(std::ostream& os, int tabpos) const override {
         for (const auto& stmt : statements) {
-            RamStatement::print(stmt.get(), os, tabpos);
+            Statement::print(stmt.get(), os, tabpos);
         }
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

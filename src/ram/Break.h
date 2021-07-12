@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -27,10 +27,10 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamBreak
+ * @class Break
  * @brief Breaks out of the loop if a condition holds
  *
  * The following example will break out of the inner-most
@@ -42,21 +42,21 @@ namespace souffle {
  *     ...
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamBreak : public RamAbstractConditional {
+class Break : public AbstractConditional {
 public:
-    RamBreak(Own<RamCondition> cond, Own<RamOperation> nested, std::string profileText = "")
-            : RamAbstractConditional(std::move(cond), std::move(nested), std::move(profileText)) {}
+    Break(Own<Condition> cond, Own<Operation> nested, std::string profileText = "")
+            : AbstractConditional(std::move(cond), std::move(nested), std::move(profileText)) {}
 
-    RamBreak* clone() const override {
-        return new RamBreak(souffle::clone(condition), souffle::clone(&getOperation()), getProfileText());
+    Break* cloning() const override {
+        return new Break(clone(condition), clone(getOperation()), getProfileText());
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
         os << times(" ", tabpos);
         os << "IF " << getCondition() << " BREAK" << std::endl;
-        RamNestedOperation::print(os, tabpos + 1);
+        NestedOperation::print(os, tabpos + 1);
     }
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

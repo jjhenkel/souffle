@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -29,7 +29,7 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
 /**
  * A single step in a relation schedule, consisting of the relations computed in the step
@@ -37,16 +37,16 @@ namespace souffle {
  */
 class RelationScheduleAnalysisStep {
 public:
-    RelationScheduleAnalysisStep(std::set<const AstRelation*> computedRelations,
-            std::set<const AstRelation*> expiredRelations, const bool isRecursive)
+    RelationScheduleAnalysisStep(std::set<const Relation*> computedRelations,
+            std::set<const Relation*> expiredRelations, const bool isRecursive)
             : computedRelations(std::move(computedRelations)), expiredRelations(std::move(expiredRelations)),
               isRecursive(isRecursive) {}
 
-    const std::set<const AstRelation*>& computed() const {
+    const std::set<const Relation*>& computed() const {
         return computedRelations;
     }
 
-    const std::set<const AstRelation*>& expired() const {
+    const std::set<const Relation*>& expired() const {
         return expiredRelations;
     }
 
@@ -63,21 +63,21 @@ public:
     }
 
 private:
-    std::set<const AstRelation*> computedRelations;
-    std::set<const AstRelation*> expiredRelations;
+    std::set<const Relation*> computedRelations;
+    std::set<const Relation*> expiredRelations;
     const bool isRecursive;
 };
 
 /**
  * Analysis pass computing a schedule for computing relations.
  */
-class RelationScheduleAnalysis : public AstAnalysis {
+class RelationScheduleAnalysis : public Analysis {
 public:
     static constexpr const char* name = "relation-schedule";
 
-    RelationScheduleAnalysis() : AstAnalysis(name) {}
+    RelationScheduleAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     const std::vector<RelationScheduleAnalysisStep>& schedule() const {
         return relationSchedule;
@@ -93,8 +93,8 @@ private:
     /** Relations computed and expired relations at each step */
     std::vector<RelationScheduleAnalysisStep> relationSchedule;
 
-    std::vector<std::set<const AstRelation*>> computeRelationExpirySchedule(
-            const AstTranslationUnit& translationUnit);
+    std::vector<std::set<const Relation*>> computeRelationExpirySchedule(
+            const TranslationUnit& translationUnit);
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

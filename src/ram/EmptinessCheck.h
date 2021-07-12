@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,8 +19,8 @@
 
 #include "ram/Condition.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Relation.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include <cassert>
@@ -30,10 +30,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamEmptinessCheck
+ * @class EmptinessCheck
  * @brief Emptiness check for a relation
  *
  * Evaluates to true if the given relation is the empty set
@@ -43,41 +43,31 @@ namespace souffle {
  * (B = ∅)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamEmptinessCheck : public RamCondition {
+class EmptinessCheck : public Condition {
 public:
-    RamEmptinessCheck(Own<RamRelationReference> relRef) : relationRef(std::move(relRef)) {
-        assert(relationRef != nullptr && "Relation reference is a nullptr");
-    }
+    EmptinessCheck(std::string rel) : relation(std::move(rel)) {}
 
     /** @brief Get relation */
-    const RamRelation& getRelation() const {
-        return *relationRef->get();
+    const std::string& getRelation() const {
+        return relation;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        return {relationRef.get()};
-    }
-
-    RamEmptinessCheck* clone() const override {
-        return new RamEmptinessCheck(souffle::clone(relationRef));
-    }
-
-    void apply(const RamNodeMapper& map) override {
-        relationRef = map(std::move(relationRef));
+    EmptinessCheck* cloning() const override {
+        return new EmptinessCheck(relation);
     }
 
 protected:
     void print(std::ostream& os) const override {
-        os << "(" << getRelation().getName() << " = ∅)";
+        os << "ISEMPTY(" << relation << ")";
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamEmptinessCheck&>(node);
-        return equal_ptr(relationRef, other.relationRef);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<EmptinessCheck>(node);
+        return relation == other.relation;
     }
 
     /** Relation */
-    Own<RamRelationReference> relationRef;
+    const std::string relation;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

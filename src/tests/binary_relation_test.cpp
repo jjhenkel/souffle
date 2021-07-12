@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2017, The Souffle Developers and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -31,7 +31,6 @@
 #include <omp.h>
 #endif
 
-#include "souffle/CompiledTuple.h"
 #include "souffle/datastructure/EquivalenceRelation.h"
 
 namespace souffle {
@@ -65,7 +64,7 @@ TEST(EqRelTest, Basic) {
     EXPECT_TRUE(br.contains(3, 3));
     EXPECT_FALSE(br.contains(1, 3));
     EXPECT_FALSE(br.contains(3, 2));
-    size_t count = 0;
+    std::size_t count = 0;
     for (auto x : br) {
         ++count;
         testutil::ignore(x);
@@ -79,7 +78,7 @@ TEST(EqRelTest, Clear) {
     br.insert(0, 1);
 
     EXPECT_EQ(9, br.size());
-    size_t count = 0;
+    std::size_t count = 0;
     for (auto x : br) {
         ++count;
         testutil::ignore(x);
@@ -110,7 +109,7 @@ TEST(EqRelTest, Duplicates) {
     EXPECT_FALSE(br.contains(1, 1));
 
     // check iteration of duplicate is fine
-    Tuple<RamDomain, 2> tup{};
+    Tuple<RamDomain, 2> tup;
     tup[0] = 0;
     tup[1] = 0;
     auto x = br.begin();
@@ -125,7 +124,7 @@ TEST(EqRelTest, TransitivityTest) {
     br.insert(1, 2);
     br.insert(2, 3);
     EXPECT_EQ(br.size(), 9);
-    size_t count = 0;
+    std::size_t count = 0;
     for (auto x : br) {
         ++count;
         testutil::ignore(x);
@@ -145,9 +144,9 @@ TEST(EqRelTest, TransitivityTest) {
 TEST(EqRelTest, PairwiseIncremental) {
     EqRel br;
 
-    const size_t N = 100;
+    const std::size_t N = 100;
     // test inserting ascending pairs still isolates them
-    for (size_t i = 1; i < N; ++i) {
+    for (std::size_t i = 1; i < N; ++i) {
         br.insert(i, i);
         EXPECT_TRUE(br.contains(i, i));
         br.insert(i + (N + 1), i);
@@ -156,7 +155,7 @@ TEST(EqRelTest, PairwiseIncremental) {
         EXPECT_TRUE(br.contains(i + (N + 1), i));
     }
     EXPECT_EQ(br.size(), (N - 1) * 4);
-    size_t count = 0;
+    std::size_t count = 0;
     for (auto x : br) {
         ++count;
         testutil::ignore(x);
@@ -167,9 +166,9 @@ TEST(EqRelTest, PairwiseIncremental) {
 TEST(EqRelTest, PairwiseDecremental) {
     EqRel br;
 
-    const size_t N = 100;
+    const std::size_t N = 100;
     // test inserting descending pairs still isolates them
-    for (size_t i = N; i > 1; --i) {
+    for (std::size_t i = N; i > 1; --i) {
         br.insert(i, i);
         EXPECT_TRUE(br.contains(i, i));
         br.insert(i + (N + 1), i);
@@ -179,7 +178,7 @@ TEST(EqRelTest, PairwiseDecremental) {
     }
 
     EXPECT_EQ(br.size(), (N - 1) * 4);
-    size_t count = 0;
+    std::size_t count = 0;
     for (auto x : br) {
         ++count;
         testutil::ignore(x);
@@ -190,10 +189,10 @@ TEST(EqRelTest, PairwiseDecremental) {
 TEST(EqRelTest, Shuffled) {
     EqRel br;
 
-    size_t N = 100;
+    std::size_t N = 100;
     // test inserting data "out of order" keeps isolation
     std::vector<int> data;
-    for (size_t i = 0; i < N; i++) {
+    for (std::size_t i = 0; i < N; i++) {
         data.push_back(i);
     }
     std::random_device rd;
@@ -205,14 +204,14 @@ TEST(EqRelTest, Shuffled) {
         br.insert(x, x);
     }
 
-    for (size_t i = 0; i < N; ++i) {
+    for (std::size_t i = 0; i < N; ++i) {
         EXPECT_TRUE(br.contains(i, i));
     }
 
     EXPECT_EQ(br.size(), N);
 
     // always check the iterator for size too
-    size_t count = 0;
+    std::size_t count = 0;
     for (auto x : br) {
         ++count;
         testutil::ignore(x);
@@ -301,12 +300,12 @@ TEST(EqRelTest, Merge) {
     // also insert a joint pair
     br.insert(N - 1, N + 1);
 
-    EXPECT_EQ((size_t)N + 3, br.size());
+    EXPECT_EQ((std::size_t)N + 3, br.size());
 
     EqRel br2;
     EXPECT_EQ(0, br2.size());
 
-    size_t count = 0;
+    std::size_t count = 0;
     for (auto x : br2) {
         ++count;
         testutil::ignore(x);
@@ -314,8 +313,8 @@ TEST(EqRelTest, Merge) {
     EXPECT_EQ(count, br2.size());
 
     br2.insertAll(br);
-    EXPECT_EQ((size_t)N + 3, br2.size());
-    EXPECT_EQ((size_t)N + 3, br.size());
+    EXPECT_EQ((std::size_t)N + 3, br2.size());
+    EXPECT_EQ((std::size_t)N + 3, br.size());
     count = 0;
     for (auto x : br2) {
         ++count;
@@ -324,7 +323,7 @@ TEST(EqRelTest, Merge) {
     EXPECT_EQ(count, br2.size());
 
     br.clear();
-    EXPECT_EQ((size_t)N + 3, br2.size());
+    EXPECT_EQ((std::size_t)N + 3, br2.size());
     EXPECT_EQ(0, br.size());
     EXPECT_FALSE(br.begin() != br.end());
 
@@ -363,7 +362,7 @@ TEST(EqRelTest, IterBasic) {
     br.insert(1, 1);
     br.insert(2, 2);
 
-    size_t count = 0;
+    std::size_t count = 0;
     for (auto x : br) {
         ++count;
         testutil::ignore(x);
@@ -397,7 +396,7 @@ TEST(EqRelTest, IterRange) {
     // this should return an iterator covering (3, 0), (3, 1), ..., (3, 6), it's a (3, *) iterator
     auto rangeIt = br.getBoundaries<1>({{3, 18293018}});
 
-    std::vector<size_t> posteriorsCovered;
+    std::vector<std::size_t> posteriorsCovered;
     for (auto tup : rangeIt) {
         posteriorsCovered.push_back(tup[1]);
     }
@@ -441,7 +440,7 @@ TEST(EqRelTest, IterRange) {
     {
         auto rangeIt = br.getBoundaries<1>({{3, 18293018}});
 
-        std::vector<size_t> posteriorsCovered;
+        std::vector<std::size_t> posteriorsCovered;
         for (auto tup : rangeIt) {
             posteriorsCovered.push_back(tup[1]);
         }
@@ -491,7 +490,7 @@ TEST(EqRelTest, IterPartition) {
         br.insert(i, i + 1);
     }
 
-    EXPECT_EQ(size_t((N + 1) * (N + 1)), br.size());
+    EXPECT_EQ(std::size_t((N + 1) * (N + 1)), br.size());
 
     auto chunks = br.partition(400);
     // we can't make too many assumptions..
@@ -513,7 +512,7 @@ TEST(EqRelTest, IterPartition) {
     for (RamDomain i = 0; i < 1000; i += 2) {
         br.insert(i, i + 1);
     }
-    EXPECT_EQ((size_t)4 * 1000 / 2, br.size());
+    EXPECT_EQ((std::size_t)4 * 1000 / 2, br.size());
 
     chunks = br.partition(400);
     for (auto chunk : chunks) {

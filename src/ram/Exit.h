@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -16,8 +16,8 @@
 
 #include "ram/Condition.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Statement.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
@@ -27,10 +27,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamExit
+ * @class Exit
  * @brief Exit statement for a loop
  *
  * Exits a loop if exit condition holds.
@@ -41,26 +41,26 @@ namespace souffle {
  * EXIT (A = ∅)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamExit : public RamStatement {
+class Exit : public Statement {
 public:
-    RamExit(Own<RamCondition> c) : condition(std::move(c)) {
+    Exit(Own<Condition> c) : condition(std::move(c)) {
         assert(condition && "condition is a nullptr");
     }
 
     /** @brief Get exit condition */
-    const RamCondition& getCondition() const {
+    const Condition& getCondition() const {
         return *condition;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
+    std::vector<const Node*> getChildNodes() const override {
         return {condition.get()};
     }
 
-    RamExit* clone() const override {
-        return new RamExit(souffle::clone(condition));
+    Exit* cloning() const override {
+        return new Exit(clone(condition));
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         condition = map(std::move(condition));
     }
 
@@ -69,13 +69,13 @@ protected:
         os << times(" ", tabpos) << "EXIT " << getCondition() << std::endl;
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamExit&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<Exit>(node);
         return equal_ptr(condition, other.condition);
     }
 
-    /** exit condition */
-    Own<RamCondition> condition;
+    /** Exit condition */
+    Own<Condition> condition;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

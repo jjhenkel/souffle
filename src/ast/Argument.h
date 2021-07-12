@@ -18,18 +18,15 @@
 
 #include "ast/Node.h"
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstArgument
+ * @class Argument
  * @brief An abstract class for arguments
  */
-class AstArgument : public AstNode {
+class Argument : public Node {
 public:
-    using AstNode::AstNode;
-
-    /** Create clone */
-    AstArgument* clone() const override = 0;
+    using Node::Node;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

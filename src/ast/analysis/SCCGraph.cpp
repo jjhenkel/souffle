@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -31,28 +31,29 @@
 #include <set>
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
-void SCCGraphAnalysis::run(const AstTranslationUnit& translationUnit) {
+void SCCGraphAnalysis::run(const TranslationUnit& translationUnit) {
     precedenceGraph = translationUnit.getAnalysis<PrecedenceGraphAnalysis>();
-    ioType = translationUnit.getAnalysis<IOType>();
+    ioType = translationUnit.getAnalysis<IOTypeAnalysis>();
     sccToRelation.clear();
     relationToScc.clear();
     predecessors.clear();
     successors.clear();
 
     /* Compute SCC */
-    std::vector<AstRelation*> relations = translationUnit.getProgram()->getRelations();
-    size_t counter = 0;
-    size_t numSCCs = 0;
-    std::stack<const AstRelation*> S;
-    std::stack<const AstRelation*> P;
-    std::map<const AstRelation*, size_t> preOrder;  // Pre-order number of a node (for Gabow's Algo)
-    for (const AstRelation* relation : relations) {
-        relationToScc[relation] = preOrder[relation] = (size_t)-1;
+    Program& program = translationUnit.getProgram();
+    std::vector<Relation*> relations = program.getRelations();
+    std::size_t counter = 0;
+    std::size_t numSCCs = 0;
+    std::stack<const Relation*> S;
+    std::stack<const Relation*> P;
+    std::map<const Relation*, std::size_t> preOrder;  // Pre-order number of a node (for Gabow's Algo)
+    for (const Relation* relation : relations) {
+        relationToScc[relation] = preOrder[relation] = (std::size_t)-1;
     }
-    for (const AstRelation* relation : relations) {
-        if (preOrder[relation] == (size_t)-1) {
+    for (const Relation* relation : relations) {
+        if (preOrder[relation] == (std::size_t)-1) {
             scR(relation, preOrder, counter, S, P, numSCCs);
         }
     }
@@ -60,8 +61,8 @@ void SCCGraphAnalysis::run(const AstTranslationUnit& translationUnit) {
     /* Build SCC graph */
     successors.resize(numSCCs);
     predecessors.resize(numSCCs);
-    for (const AstRelation* u : relations) {
-        for (const AstRelation* v : precedenceGraph->graph().predecessors(u)) {
+    for (const Relation* u : relations) {
+        for (const Relation* v : precedenceGraph->graph().predecessors(u)) {
             auto scc_u = relationToScc[u];
             auto scc_v = relationToScc[v];
             assert(scc_u < numSCCs && "Wrong range");
@@ -75,7 +76,7 @@ void SCCGraphAnalysis::run(const AstTranslationUnit& translationUnit) {
 
     /* Store the relations for each SCC */
     sccToRelation.resize(numSCCs);
-    for (const AstRelation* relation : relations) {
+    for (const Relation* relation : relations) {
         sccToRelation[relationToScc[relation]].insert(relation);
     }
 }
@@ -83,16 +84,16 @@ void SCCGraphAnalysis::run(const AstTranslationUnit& translationUnit) {
 /* Compute strongly connected components using Gabow's algorithm (cf. Algorithms in
  * Java by Robert Sedgewick / Part 5 / Graph *  algorithms). The algorithm has linear
  * runtime. */
-void SCCGraphAnalysis::scR(const AstRelation* w, std::map<const AstRelation*, size_t>& preOrder,
-        size_t& counter, std::stack<const AstRelation*>& S, std::stack<const AstRelation*>& P,
-        size_t& numSCCs) {
+void SCCGraphAnalysis::scR(const Relation* w, std::map<const Relation*, std::size_t>& preOrder,
+        std::size_t& counter, std::stack<const Relation*>& S, std::stack<const Relation*>& P,
+        std::size_t& numSCCs) {
     preOrder[w] = counter++;
     S.push(w);
     P.push(w);
-    for (const AstRelation* t : precedenceGraph->graph().predecessors(w)) {
-        if (preOrder[t] == (size_t)-1) {
+    for (const Relation* t : precedenceGraph->graph().predecessors(w)) {
+        if (preOrder[t] == (std::size_t)-1) {
             scR(t, preOrder, counter, S, P, numSCCs);
-        } else if (relationToScc[t] == (size_t)-1) {
+        } else if (relationToScc[t] == (std::size_t)-1) {
             while (preOrder[P.top()] > preOrder[t]) {
                 P.pop();
             }
@@ -104,7 +105,7 @@ void SCCGraphAnalysis::scR(const AstRelation* w, std::map<const AstRelation*, si
         return;
     }
 
-    const AstRelation* v;
+    const Relation* v;
     do {
         v = S.top();
         S.pop();
@@ -119,13 +120,13 @@ void SCCGraphAnalysis::print(std::ostream& os) const {
     /* Print SCC graph */
     ss << "digraph {" << std::endl;
     /* Print nodes of SCC graph */
-    for (size_t scc = 0; scc < getNumberOfSCCs(); scc++) {
+    for (std::size_t scc = 0; scc < getNumberOfSCCs(); scc++) {
         ss << "\t" << name << "_" << scc << "[label = \"";
         ss << join(getInternalRelations(scc), ",\\n",
-                [](std::ostream& out, const AstRelation* rel) { out << rel->getQualifiedName(); });
+                [](std::ostream& out, const Relation* rel) { out << rel->getQualifiedName(); });
         ss << "\" ];" << std::endl;
     }
-    for (size_t scc = 0; scc < getNumberOfSCCs(); scc++) {
+    for (std::size_t scc = 0; scc < getNumberOfSCCs(); scc++) {
         for (auto succ : getSuccessorSCCs(scc)) {
             ss << "\t" << name << "_" << scc << " -> " << name << "_" << succ << ";" << std::endl;
         }
@@ -134,4 +135,4 @@ void SCCGraphAnalysis::print(std::ostream& os) const {
     printHTMLGraph(os, ss.str(), getName());
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

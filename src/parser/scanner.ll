@@ -14,7 +14,7 @@
  *
  ***********************************************************************/
 %option reentrant
-%option extra-type="struct scanner_data *"
+%option extra-type="struct ScannerInfo *"
 %{
 
 #if defined(__clang__)
@@ -36,10 +36,14 @@
 
     #include "ast/Program.h"
 
-    #include "parser/ParserDriver.h"
     #include "parser/parser.hh"
     #include "parser/SrcLocation.h"
+    #include "parser/ParserDriver.h"
+
     #define YYLTYPE SrcLocation
+
+    #define YY_DECL yy::parser::symbol_type yylex(souffle::ParserDriver& driver, yyscan_t yyscanner)
+    YY_DECL;
 
     #include "souffle/RamTypes.h"
 
@@ -70,23 +74,26 @@
 
 %x COMMENT
 
+WS [ \t\r\v\f]
+
 /* Add line number tracking */
 %option yylineno noyywrap nounput
 
 %%
-".decl"                               { return yy::parser::make_DECL(yylloc); }
-".functor"                            { return yy::parser::make_FUNCTOR(yylloc); }
-".input"                              { return yy::parser::make_INPUT_DECL(yylloc); }
-".output"                             { return yy::parser::make_OUTPUT_DECL(yylloc); }
-".printsize"                          { return yy::parser::make_PRINTSIZE_DECL(yylloc); }
-".limitsize"                          { return yy::parser::make_LIMITSIZE_DECL(yylloc); }
-".type"                               { return yy::parser::make_TYPE(yylloc); }
-".comp"                               { return yy::parser::make_COMPONENT(yylloc); }
-".init"                               { return yy::parser::make_INSTANTIATE(yylloc); }
-".number_type"                        { return yy::parser::make_NUMBER_TYPE(yylloc); }
-".symbol_type"                        { return yy::parser::make_SYMBOL_TYPE(yylloc); }
-".override"                           { return yy::parser::make_OVERRIDE(yylloc); }
-".pragma"                             { return yy::parser::make_PRAGMA(yylloc); }
+".decl"/{WS}                          { return yy::parser::make_DECL(yylloc); }
+".functor"/{WS}                       { return yy::parser::make_FUNCTOR(yylloc); }
+".input"/{WS}                         { return yy::parser::make_INPUT_DECL(yylloc); }
+".output"/{WS}                        { return yy::parser::make_OUTPUT_DECL(yylloc); }
+".printsize"/{WS}                     { return yy::parser::make_PRINTSIZE_DECL(yylloc); }
+".limitsize"/{WS}                     { return yy::parser::make_LIMITSIZE_DECL(yylloc); }
+".type"/{WS}                          { return yy::parser::make_TYPE(yylloc); }
+".comp"/{WS}                          { return yy::parser::make_COMPONENT(yylloc); }
+".init"/{WS}                          { return yy::parser::make_INSTANTIATE(yylloc); }
+".number_type"/{WS}                   { return yy::parser::make_NUMBER_TYPE(yylloc); }
+".symbol_type"/{WS}                   { return yy::parser::make_SYMBOL_TYPE(yylloc); }
+".override"/{WS}                      { return yy::parser::make_OVERRIDE(yylloc); }
+".pragma"/{WS}                        { return yy::parser::make_PRAGMA(yylloc); }
+".plan"/{WS}                          { return yy::parser::make_PLAN(yylloc); }
 "band"                                { return yy::parser::make_BW_AND(yylloc); }
 "bor"                                 { return yy::parser::make_BW_OR(yylloc); }
 "bxor"                                { return yy::parser::make_BW_XOR(yylloc); }
@@ -129,7 +136,7 @@
 "to_number"                           { return yy::parser::make_TONUMBER(yylloc); }
 "to_string"                           { return yy::parser::make_TOSTRING(yylloc); }
 "to_unsigned"                         { return yy::parser::make_TOUNSIGNED(yylloc); }
-".plan"                               { return yy::parser::make_PLAN(yylloc); }
+"choice-domain"                       { return yy::parser::make_CHOICEDOMAIN(yylloc); }
 "|"                                   { return yy::parser::make_PIPE(yylloc); }
 "["                                   { return yy::parser::make_LBRACKET(yylloc); }
 "]"                                   { return yy::parser::make_RBRACKET(yylloc); }
@@ -190,8 +197,38 @@
                                         return yy::parser::make_IDENT(yytext, yylloc);
                                       }
 \"(\\.|[^"\\])*\"                     {
-                                        yytext[strlen(yytext)-1]=0;
-                                        return yy::parser::make_STRING(&yytext[1], yylloc);
+                                        std::string result;
+                                        size_t end = strlen(yytext) - 1;
+                                        bool error = false;
+                                        char error_char;
+                                        for (size_t i = 1; i < end; i++) {
+                                            if (yytext[i] == '\\' && i + 1 < end) {
+                                                switch (yytext[i+1]) {
+                                                    case '"':  result += '"'; break;
+                                                    case '\'': result += '\''; break;
+                                                    case '\\': result += '\\'; break;
+                                                    case 'a':  result += '\a'; break;
+                                                    case 'b':  result += '\b'; break;
+                                                    case 'f':  result += '\f'; break;
+                                                    case 'n':  result += '\n'; break;
+                                                    case 'r':  result += '\r'; break;
+                                                    case 't':  result += '\t'; break;
+                                                    case 'v':  result += '\v'; break;
+                                                    default:
+                                                        error_char = yytext[i+1];
+                                                        error = true;
+                                                        break;
+                                                }
+                                                i++;
+                                            } else {
+                                                result += yytext[i];
+                                            }
+                                            if (error) {
+                                                break;
+                                            }
+                                        }
+                                        if (error) driver.error(yylloc, std::string("Unknown escape sequence \\") + error_char);
+                                        return yy::parser::make_STRING(result, yylloc);
                                       }
 \#.*$                                 {
                                         char fname[yyleng+1];
@@ -217,7 +254,7 @@
 \n                                    { }
 }
 \n                                    { yycolumn = 1; }
-[ \t\r\v\f]*                          { }
+{WS}*                                 { }
 <<EOF>>                               { return yy::parser::make_END(yylloc); }
 .                                     { driver.error(yylloc, std::string("unexpected ") + yytext); }
 %%

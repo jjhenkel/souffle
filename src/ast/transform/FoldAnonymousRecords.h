@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformation pass that removes (binary) constraints on the anonymous records.
@@ -45,18 +45,18 @@ namespace souffle {
  * E.g. A = [a, b], A = [c, d]
  * Thus it should be called in conjunction with ResolveAnonymousRecordAliases.
  */
-class FoldAnonymousRecords : public AstTransformer {
+class FoldAnonymousRecords : public Transformer {
 public:
     std::string getName() const override {
         return "FoldAnonymousRecords";
     }
 
-    FoldAnonymousRecords* clone() const override {
+private:
+    FoldAnonymousRecords* cloning() const override {
         return new FoldAnonymousRecords();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
 
     /**
      * Process a single clause.
@@ -64,7 +64,7 @@ private:
      * @parem clause Clause to be processed.
      * @param newClauses a destination for the newly produced clauses.
      */
-    void transformClause(const AstClause& clause, VecOwn<AstClause>& newClauses);
+    void transformClause(const Clause& clause, VecOwn<Clause>& newClauses);
 
     /**
      * Expand constraint on records position-wise.
@@ -74,20 +74,20 @@ private:
      * [x, y, z] != [a, b, c] => vector(x != a, x != b, z != c)
      *
      * Procedure assumes that argument has a valid operation,
-     * that children are of type AstRecordInit and that the size
+     * that children are of type RecordInit and that the size
      * of both sides is the same
      */
-    VecOwn<AstLiteral> expandRecordBinaryConstraint(const AstBinaryConstraint&);
+    VecOwn<Literal> expandRecordBinaryConstraint(const BinaryConstraint&);
 
     /**
      * Determine if the clause contains at least one binary constraint which can be expanded.
      */
-    bool containsValidRecordConstraint(const AstClause&);
+    bool containsValidRecordConstraint(const Clause&);
 
     /**
      * Determine if binary constraint can be expanded.
      */
-    bool isValidRecordConstraint(const AstLiteral* literal);
+    bool isValidRecordConstraint(const Literal* literal);
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

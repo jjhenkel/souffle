@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -27,14 +27,14 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /** Pattern type for lower/upper bound */
-using RamBound = VecOwn<RamExpression>;
+using RamBound = VecOwn<Expression>;
 using RamPattern = std::pair<RamBound, RamBound>;
 
 /**
- * @class RamIndexScan
+ * @class IndexScan
  * @brief Search for tuples of a relation matching a criteria
  *
  * For example:
@@ -45,35 +45,33 @@ using RamPattern = std::pair<RamBound, RamBound>;
  *	 ...
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamIndexScan : public RamIndexOperation {
+class IndexScan : public IndexOperation {
 public:
-    RamIndexScan(Own<RamRelationReference> r, int ident, RamPattern queryPattern, Own<RamOperation> nested,
+    IndexScan(std::string rel, int ident, RamPattern queryPattern, Own<Operation> nested,
             std::string profileText = "")
-            : RamIndexOperation(std::move(r), ident, std::move(queryPattern), std::move(nested),
-                      std::move(profileText)) {}
+            : IndexOperation(rel, ident, std::move(queryPattern), std::move(nested), std::move(profileText)) {
+    }
 
-    RamIndexScan* clone() const override {
+    IndexScan* cloning() const override {
         RamPattern resQueryPattern;
         for (const auto& i : queryPattern.first) {
-            resQueryPattern.first.emplace_back(i->clone());
+            resQueryPattern.first.emplace_back(i->cloning());
         }
         for (const auto& i : queryPattern.second) {
-            resQueryPattern.second.emplace_back(i->clone());
+            resQueryPattern.second.emplace_back(i->cloning());
         }
-        return new RamIndexScan(souffle::clone(relationRef), getTupleId(), std::move(resQueryPattern),
-                souffle::clone(&getOperation()), getProfileText());
+        return new IndexScan(
+                relation, getTupleId(), std::move(resQueryPattern), clone(getOperation()), getProfileText());
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
-        const RamRelation& rel = getRelation();
         os << times(" ", tabpos);
-        os << "FOR t" << getTupleId() << " IN ";
-        os << rel.getName();
+        os << "FOR t" << getTupleId() << " IN " << relation;
         printIndex(os);
         os << std::endl;
-        RamIndexOperation::print(os, tabpos + 1);
+        IndexOperation::print(os, tabpos + 1);
     }
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

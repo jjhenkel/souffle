@@ -25,41 +25,40 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamLogSize
+ * @class LogSize
  * @brief Log relation size and a logging message.
  */
-class RamLogSize : public RamRelationStatement {
+class LogSize : public RelationStatement {
 public:
-    RamLogSize(Own<RamRelationReference> relRef, std::string message)
-            : RamRelationStatement(std::move(relRef)), message(std::move(message)) {}
+    LogSize(std::string rel, std::string message) : RelationStatement(rel), message(std::move(message)) {}
 
     /** @brief Get logging message */
     const std::string& getMessage() const {
         return message;
     }
 
-    RamLogSize* clone() const override {
-        return new RamLogSize(souffle::clone(relationRef), message);
+    LogSize* cloning() const override {
+        return new LogSize(relation, message);
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
-        os << times(" ", tabpos) << "LOGSIZE " << getRelation().getName();
+        os << times(" ", tabpos) << "LOG SIZE " << relation;
         os << " TEXT "
            << "\"" << stringify(message) << "\"";
         os << std::endl;
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamLogSize&>(node);
-        return RamRelationStatement::equal(other) && message == other.message;
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<LogSize>(node);
+        return RelationStatement::equal(other) && message == other.message;
     }
 
-    /** logging message */
-    std::string message;
+    /** Logging message */
+    const std::string message;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

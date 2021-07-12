@@ -16,31 +16,48 @@
 
 #pragma once
 
-#include "ast/Argument.h"
+#include "AggregateOp.h"
+#include "FunctorOps.h"
 #include "ast/Clause.h"
+#include "ast/NumericConstant.h"
 #include "ast/analysis/Analysis.h"
 #include "ast/analysis/TypeSystem.h"
+#include "souffle/BinaryConstraintOps.h"
+#include <cstddef>
 #include <memory>
+#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
+class Argument;
+class Aggregator;
+class BinaryConstraint;
+class Clause;
+class Functor;
+class FunctorDeclaration;
+class IntrinsicFunctor;
+class NumericConstant;
+class Type;
+class UserDefinedFunctor;
+}  // namespace souffle::ast
 
-class TypeAnalysis : public AstAnalysis {
+namespace souffle::ast::analysis {
+class TypeEnvironment;
+
+class TypeAnalysis : public Analysis {
 public:
     static constexpr const char* name = "type-analysis";
 
-    TypeAnalysis() : AstAnalysis(name) {}
+    TypeAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     void print(std::ostream& os) const override;
 
-    /**
-     * Get the computed types for the given argument.
-     */
-    TypeSet const& getTypes(const AstArgument* argument) const {
+    /** Get the computed types for the given argument. */
+    TypeSet const& getTypes(const Argument* argument) const {
         return argumentTypes.at(argument);
     }
 
@@ -49,18 +66,69 @@ public:
      * a set of potential types. If the set associated to an argument is empty,
      * no consistent typing can be found and the rule can not be properly typed.
      *
-     * @param env a typing environment describing the set of available types
-     * @param clause the clause to be typed
-     * @param program the program
-     * @return a map mapping each contained argument to a a set of types
+     * @return a map mapping each contained argument to a set of types
      */
-    static std::map<const AstArgument*, TypeSet> analyseTypes(
-            const AstTranslationUnit&, const AstClause&, std::ostream* /*logs*/ = nullptr);
+    static std::map<const Argument*, TypeSet> analyseTypes(
+            const TranslationUnit& tu, const Clause& clause, std::ostream* logs = nullptr);
+
+    // Checks whether an argument has been assigned a valid type
+    bool hasValidTypeInfo(const Argument& argument) const;
+    /** Check whether a functor declaration has valid type info */
+    bool hasValidTypeInfo(const FunctorDeclaration& decl) const;
+
+    std::set<TypeAttribute> getTypeAttributes(const Argument* arg) const;
+
+    /** -- Functor-related methods -- */
+    IntrinsicFunctors getValidIntrinsicFunctorOverloads(const IntrinsicFunctor& inf) const;
+    TypeAttribute getFunctorReturnTypeAttribute(const Functor& functor) const;
+    Type const& getFunctorReturnType(const UserDefinedFunctor& functor) const;
+    Type const& getFunctorParamType(const UserDefinedFunctor& functor, std::size_t idx) const;
+    TypeAttribute getFunctorParamTypeAttribute(const Functor& functor, std::size_t idx) const;
+    std::vector<TypeAttribute> getFunctorParamTypeAttributes(const UserDefinedFunctor& functor) const;
+
+    std::size_t getFunctorArity(UserDefinedFunctor const& functor) const;
+    bool isStatefulFunctor(const UserDefinedFunctor& udf) const;
+    static bool isMultiResultFunctor(const Functor& functor);
+
+    /** -- Polymorphism-related methods -- */
+    NumericConstant::Type getPolymorphicNumericConstantType(const NumericConstant& nc) const;
+    const std::map<const NumericConstant*, NumericConstant::Type>& getNumericConstantTypes() const;
+    AggregateOp getPolymorphicOperator(const Aggregator& agg) const;
+    BinaryConstraintOp getPolymorphicOperator(const BinaryConstraint& bc) const;
+    FunctorOp getPolymorphicOperator(const IntrinsicFunctor& inf) const;
 
 private:
-    std::map<const AstArgument*, TypeSet> argumentTypes;
-    VecOwn<AstClause> annotatedClauses;
+    // General type analysis
+    TypeEnvironment const* typeEnv = nullptr;
+    std::map<const Argument*, TypeSet> argumentTypes;
+    VecOwn<Clause> annotatedClauses;
     std::stringstream analysisLogs;
+
+    /* Return a new clause with type-annotated variables */
+    static Own<Clause> createAnnotatedClause(
+            const Clause* clause, const std::map<const Argument*, TypeSet> argumentTypes);
+
+    // Polymorphic objects analysis
+    std::map<const IntrinsicFunctor*, const IntrinsicFunctorInfo*> functorInfo;
+    std::map<std::string, const FunctorDeclaration*> udfDeclaration;
+    std::map<const NumericConstant*, NumericConstant::Type> numericConstantType;
+    std::map<const Aggregator*, AggregateOp> aggregatorType;
+    std::map<const BinaryConstraint*, BinaryConstraintOp> constraintType;
+
+    bool analyseIntrinsicFunctors(const TranslationUnit& translationUnit);
+    bool analyseNumericConstants(const TranslationUnit& translationUnit);
+    bool analyseAggregators(const TranslationUnit& translationUnit);
+    bool analyseBinaryConstraints(const TranslationUnit& translationUnit);
+
+    bool isFloat(const Argument* argument) const;
+    bool isUnsigned(const Argument* argument) const;
+    bool isSymbol(const Argument* argument) const;
+
+    /** Convert a qualified name to its type */
+    Type const& nameToType(QualifiedName const& name) const;
+
+    /** Convert a qualified name to a TypeAttribute */
+    TypeAttribute nameToTypeAttribute(QualifiedName const& name) const;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

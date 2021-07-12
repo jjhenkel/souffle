@@ -1,7 +1,4 @@
-Error: Ambiguous branch in file type_system_sum_types2.dl at line 18
-R($Y(-1)). // Undeclared.
---^-----------------------
 Error: Undeclared branch in file type_system_sum_types2.dl at line 18
 R($Y(-1)). // Undeclared.
 --^-----------------------
-2 errors generated, evaluation aborted
+1 errors generated, evaluation aborted

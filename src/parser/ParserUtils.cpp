@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -67,10 +67,10 @@ void RuleBody::conjunct(RuleBody other) {
             clause cur;
 
             for (const auto& lit : clauseA) {
-                cur.emplace_back(lit.clone());
+                cur.emplace_back(lit.cloneImpl());
             }
             for (const auto& lit : clauseB) {
-                insert(cur, lit.clone());
+                insert(cur, lit.cloneImpl());
             }
 
             insert(res, std::move(cur));
@@ -87,12 +87,12 @@ void RuleBody::disjunct(RuleBody other) {
     }
 }
 
-VecOwn<AstClause> RuleBody::toClauseBodies() const {
+VecOwn<ast::Clause> RuleBody::toClauseBodies() const {
     // collect clause results
-    VecOwn<AstClause> bodies;
+    VecOwn<ast::Clause> bodies;
     for (const clause& cur : dnf) {
-        bodies.push_back(mk<AstClause>());
-        AstClause& clause = *bodies.back();
+        bodies.push_back(mk<ast::Clause>("*"));
+        ast::Clause& clause = *bodies.back();
 
         for (const literal& lit : cur) {
             // extract literal
@@ -100,11 +100,10 @@ VecOwn<AstClause> RuleBody::toClauseBodies() const {
             // negate if necessary
             if (lit.negated) {
                 // negate
-                if (auto* atom = dynamic_cast<AstAtom*>(&*base)) {
+                if (auto* atom = as<ast::Atom>(*base)) {
                     base.release();
-                    base = mk<AstNegation>(Own<AstAtom>(atom));
-                    base->setSrcLoc(atom->getSrcLoc());
-                } else if (auto* cstr = dynamic_cast<AstConstraint*>(&*base)) {
+                    base = mk<ast::Negation>(Own<ast::Atom>(atom), atom->getSrcLoc());
+                } else if (auto* cstr = as<ast::Constraint>(*base)) {
                     negateConstraintInPlace(*cstr);
                 }
             }
@@ -130,14 +129,14 @@ RuleBody RuleBody::getFalse() {
     return RuleBody();
 }
 
-RuleBody RuleBody::atom(Own<AstAtom> atom) {
+RuleBody RuleBody::atom(Own<ast::Atom> atom) {
     RuleBody body;
     body.dnf.push_back(clause());
     body.dnf.back().emplace_back(literal{false, std::move(atom)});
     return body;
 }
 
-RuleBody RuleBody::constraint(Own<AstConstraint> constraint) {
+RuleBody RuleBody::constraint(Own<ast::Constraint> constraint) {
     RuleBody body;
     body.dnf.push_back(clause());
     body.dnf.back().emplace_back(literal{false, std::move(constraint)});

@@ -30,5 +30,15 @@ check_PROGRAMS += interpreter_relation_test
 interpreter_relation_test_SOURCES = interpreter_relation_test.cpp
 interpreter_relation_test_LDADD = $(top_builddir)/src/libsouffle.la
 
+# arithmetic test
+check_PROGRAMS += ram_arithmetic_test
+ram_arithmetic_test_SOURCES = ram_arithmetic_test.cpp
+ram_arithmetic_test_LDADD = $(top_builddir)/src/libsouffle.la
+
+# relation test
+check_PROGRAMS += ram_relation_test
+ram_relation_test_SOURCES = ram_relation_test.cpp
+ram_relation_test_LDADD = $(top_builddir)/src/libsouffle.la
+
 # make all check-programs tests
 TESTS = $(check_PROGRAMS)

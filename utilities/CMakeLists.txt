@@ -1,3 +1,9 @@
+# Souffle - A Datalog Compiler
+# Copyright (c) 2021 The Souffle Developers. All rights reserved
+# Licensed under the Universal Permissive License v 1.0 as shown at:
+# - https://opensource.org/licenses/UPL
+# - <souffle root>/licenses/SOUFFLE-UPL.txt
+
 CMAKE_MINIMUM_REQUIRED(VERSION 3.6)
 PROJECT(souffle)
 SET(CMAKE_CXX_STANDARD 11)
@@ -63,7 +69,6 @@ ADD_EXECUTABLE(souffle
         ./src/ProfileDatabase.h
         ./src/SrcLocation.h
         ./src/RamTranslationUnit.h
-        ./src/CompiledTuple.h
         ./src/htmx86.h
         ./src/ComponentModel.h
         ./src/BinaryConstraintOps.h

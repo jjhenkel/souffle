@@ -19,7 +19,7 @@
 #include "ram/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
  * @class EliminateDuplicatesTransformer
@@ -46,7 +46,7 @@ namespace souffle {
  * assuming that C1 and C2 are equal.
  *
  */
-class EliminateDuplicatesTransformer : public RamTransformer {
+class EliminateDuplicatesTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "EliminateDuplicatesTransformer";
@@ -57,12 +57,12 @@ public:
      * @param program Program that is transformed
      * @return Flag showing whether the program has been changed by the transformation
      */
-    bool eliminateDuplicates(RamProgram& program);
+    bool eliminateDuplicates(Program& program);
 
 protected:
-    bool transform(RamTranslationUnit& translationUnit) override {
+    bool transform(TranslationUnit& translationUnit) override {
         return eliminateDuplicates(translationUnit.getProgram());
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

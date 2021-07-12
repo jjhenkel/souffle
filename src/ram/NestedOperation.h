@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -15,8 +15,8 @@
 #pragma once
 
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Operation.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/MiscUtil.h"
 #include <cassert>
 #include <iosfwd>
@@ -25,10 +25,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamNestedOperation
+ * @class NestedOperation
  * @brief Abstract class for a nesting operations in a loop-nest
  *
  * In the following example, the nested operation
@@ -45,17 +45,17 @@ namespace souffle {
  *                  storing profile information for RAM operations since
  *                  it is not always used for all RAM operations.
  */
-class RamNestedOperation : public RamOperation {
+class NestedOperation : public Operation {
 public:
-    RamNestedOperation(Own<RamOperation> nested, std::string profileText = "")
+    NestedOperation(Own<Operation> nested, std::string profileText = "")
             : nestedOperation(std::move(nested)), profileText(std::move(profileText)) {
         assert(nestedOperation != nullptr);
     }
 
-    RamNestedOperation* clone() const override = 0;
+    NestedOperation* cloning() const override = 0;
 
     /** @brief Get nested operation */
-    RamOperation& getOperation() const {
+    Operation& getOperation() const {
         return *nestedOperation;
     }
 
@@ -64,29 +64,29 @@ public:
         return profileText;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
+    std::vector<const Node*> getChildNodes() const override {
         return {nestedOperation.get()};
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         nestedOperation = map(std::move(nestedOperation));
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
-        RamOperation::print(nestedOperation.get(), os, tabpos);
+        Operation::print(nestedOperation.get(), os, tabpos);
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamNestedOperation&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<NestedOperation>(node);
         return equal_ptr(nestedOperation, other.nestedOperation) && profileText == other.profileText;
     }
 
     /** Nested operation */
-    Own<RamOperation> nestedOperation;
+    Own<Operation> nestedOperation;
 
     /** Text used by the profiler */
     const std::string profileText;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

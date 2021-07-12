@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -17,26 +17,23 @@
 #pragma once
 
 #include "ast/Argument.h"
-#include <ostream>
+#include <iosfwd>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstUnnamedVariable
+ * @class UnnamedVariable
  * @brief Unnamed variable class
  */
-class AstUnnamedVariable : public AstArgument {
+class UnnamedVariable : public Argument {
 public:
-    using AstArgument::AstArgument;
-
-    AstUnnamedVariable* clone() const override {
-        return new AstUnnamedVariable(getSrcLoc());
-    }
+    using Argument::Argument;
 
 protected:
-    void print(std::ostream& os) const override {
-        os << "_";
-    }
+    void print(std::ostream& os) const override;
+
+private:
+    UnnamedVariable* cloning() const override;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

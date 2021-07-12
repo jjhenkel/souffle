@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -21,11 +21,11 @@
 #include "reports/DebugReport.h"
 #include <chrono>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool DebugReporter::transform(AstTranslationUnit& translationUnit) {
+bool DebugReporter::transform(TranslationUnit& translationUnit) {
     translationUnit.getDebugReport().startSection();
-    auto datalogSpecOriginal = pprint(*translationUnit.getProgram());
+    auto datalogSpecOriginal = pprint(translationUnit.getProgram());
     auto start = std::chrono::high_resolution_clock::now();
     bool changed = applySubtransformer(translationUnit, wrappedTransformer.get());
     auto end = std::chrono::high_resolution_clock::now();
@@ -40,9 +40,9 @@ bool DebugReporter::transform(AstTranslationUnit& translationUnit) {
     return changed;
 }
 
-void DebugReporter::generateDebugReport(AstTranslationUnit& tu, const std::string& preTransformDatalog) {
+void DebugReporter::generateDebugReport(TranslationUnit& tu, const std::string& preTransformDatalog) {
     tu.getDebugReport().addCodeSection(
-            "dl", "Datalog", "souffle", preTransformDatalog, pprint(*tu.getProgram()));
+            "dl", "Datalog", "souffle", preTransformDatalog, pprint(tu.getProgram()));
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

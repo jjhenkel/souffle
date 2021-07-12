@@ -93,16 +93,16 @@ public:
         return result;
     }
 
-    size_t getTotalSize() const {
-        size_t result = 0;
+    std::size_t getTotalSize() const {
+        std::size_t result = 0;
         for (auto& item : relationMap) {
             result += item.second->size();
         }
         return result;
     }
 
-    size_t getTotalRecursiveSize() const {
-        size_t result = 0;
+    std::size_t getTotalRecursiveSize() const {
+        std::size_t result = 0;
         for (auto& item : relationMap) {
             result += item.second->getTotalRecursiveRuleSize();
         }

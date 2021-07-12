@@ -19,24 +19,22 @@
 #include "ast/Node.h"
 #include "ast/QualifiedName.h"
 #include "parser/SrcLocation.h"
-#include <ostream>
+#include <iosfwd>
 #include <string>
-#include <utility>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstAttribute
+ * @class Attribute
  * @brief Attribute class
  *
  * Example:
  *    x: number
  * An attribute consists of a name and its type name.
  */
-class AstAttribute : public AstNode {
+class Attribute : public Node {
 public:
-    AstAttribute(std::string n, AstQualifiedName t, SrcLocation loc = {})
-            : AstNode(std::move(loc)), name(std::move(n)), typeName(std::move(t)) {}
+    Attribute(std::string n, QualifiedName t, SrcLocation loc = {});
 
     /** Return attribute name */
     const std::string& getName() const {
@@ -44,35 +42,27 @@ public:
     }
 
     /** Return type name */
-    const AstQualifiedName& getTypeName() const {
+    const QualifiedName& getTypeName() const {
         return typeName;
     }
 
     /** Set type name */
-    void setTypeName(AstQualifiedName name) {
-        typeName = std::move(name);
-    }
-
-    AstAttribute* clone() const override {
-        return new AstAttribute(name, typeName, getSrcLoc());
-    }
+    void setTypeName(QualifiedName name);
 
 protected:
-    void print(std::ostream& os) const override {
-        os << name << ":" << typeName;
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstAttribute&>(node);
-        return name == other.name && typeName == other.typeName;
-    }
+private:
+    bool equal(const Node& node) const override;
+
+    Attribute* cloning() const override;
 
 private:
     /** Attribute name */
     std::string name;
 
     /** Type name */
-    AstQualifiedName typeName;
+    QualifiedName typeName;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

@@ -13,6 +13,7 @@
  ***********************************************************************/
 
 #include "ast/transform/ReplaceSingletonVariables.h"
+#include "ast/BranchInit.h"
 #include "ast/Clause.h"
 #include "ast/Constraint.h"
 #include "ast/Node.h"
@@ -29,23 +30,23 @@
 #include <set>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool ReplaceSingletonVariablesTransformer::transform(AstTranslationUnit& translationUnit) {
+bool ReplaceSingletonVariablesTransformer::transform(TranslationUnit& translationUnit) {
     bool changed = false;
 
-    AstProgram& program = *translationUnit.getProgram();
+    Program& program = translationUnit.getProgram();
 
     // Node-mapper to replace a set of singletons with unnamed variables
-    struct replaceSingletons : public AstNodeMapper {
+    struct replaceSingletons : public NodeMapper {
         std::set<std::string>& singletons;
 
         replaceSingletons(std::set<std::string>& singletons) : singletons(singletons) {}
 
-        Own<AstNode> operator()(Own<AstNode> node) const override {
-            if (auto* var = dynamic_cast<AstVariable*>(node.get())) {
+        Own<Node> operator()(Own<Node> node) const override {
+            if (auto* var = as<ast::Variable>(node)) {
                 if (singletons.find(var->getName()) != singletons.end()) {
-                    return mk<AstUnnamedVariable>();
+                    return mk<UnnamedVariable>();
                 }
             }
             node->apply(*this);
@@ -53,12 +54,12 @@ bool ReplaceSingletonVariablesTransformer::transform(AstTranslationUnit& transla
         }
     };
 
-    for (AstRelation* rel : program.getRelations()) {
-        for (AstClause* clause : getClauses(program, *rel)) {
+    for (Relation* rel : program.getRelations()) {
+        for (Clause* clause : getClauses(program, *rel)) {
             std::set<std::string> nonsingletons;
             std::set<std::string> vars;
 
-            visitDepthFirst(*clause, [&](const AstVariable& var) {
+            visit(*clause, [&](const ast::Variable& var) {
                 const std::string& name = var.getName();
                 if (vars.find(name) != vars.end()) {
                     // Variable seen before, so not a singleton variable
@@ -71,16 +72,19 @@ bool ReplaceSingletonVariablesTransformer::transform(AstTranslationUnit& transla
             std::set<std::string> ignoredVars;
 
             // Don't unname singleton variables occurring in records.
-            // TODO (azreika): remove this check once issue #420 is fixed
-            std::set<std::string> recordVars;
-            visitDepthFirst(*clause, [&](const AstRecordInit& rec) {
-                visitDepthFirst(rec, [&](const AstVariable& var) { ignoredVars.insert(var.getName()); });
+            visit(*clause, [&](const RecordInit& rec) {
+                visit(rec, [&](const ast::Variable& var) { ignoredVars.insert(var.getName()); });
+            });
+
+            // Don't unname singleton variables occurring in ADTs
+            visit(*clause, [&](const BranchInit& adt) {
+                visit(adt, [&](const ast::Variable& var) { ignoredVars.insert(var.getName()); });
             });
 
             // Don't unname singleton variables occuring in constraints.
             std::set<std::string> constraintVars;
-            visitDepthFirst(*clause, [&](const AstConstraint& cons) {
-                visitDepthFirst(cons, [&](const AstVariable& var) { ignoredVars.insert(var.getName()); });
+            visit(*clause, [&](const Constraint& cons) {
+                visit(cons, [&](const ast::Variable& var) { ignoredVars.insert(var.getName()); });
             });
 
             std::set<std::string> singletons;
@@ -101,4 +105,4 @@ bool ReplaceSingletonVariablesTransformer::transform(AstTranslationUnit& transla
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

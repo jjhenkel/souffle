@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -15,60 +15,46 @@
 #pragma once
 
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Operation.h"
 #include "ram/Relation.h"
 #include "ram/TupleOperation.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
+#include "souffle/utility/MiscUtil.h"
 #include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamRelationOperation
+ * @class RelationOperation
  * @brief Abstract class for operations on relations
  *
  * One such operation is a for loop
  */
-class RamRelationOperation : public RamTupleOperation {
+class RelationOperation : public TupleOperation {
 public:
-    RamRelationOperation(Own<RamRelationReference> relRef, int ident, Own<RamOperation> nested,
-            std::string profileText = "")
-            : RamTupleOperation(ident, std::move(nested), std::move(profileText)),
-              relationRef(std::move(relRef)) {
-        assert(relationRef != nullptr && "relation reference is a null-pointer");
-    }
+    RelationOperation(std::string rel, int ident, Own<Operation> nested, std::string profileText = "")
+            : TupleOperation(ident, std::move(nested), std::move(profileText)), relation(std::move(rel)) {}
 
-    RamRelationOperation* clone() const override = 0;
+    RelationOperation* cloning() const override = 0;
 
     /** @brief Get search relation */
-    const RamRelation& getRelation() const {
-        return *relationRef->get();
-    }
-
-    void apply(const RamNodeMapper& map) override {
-        RamTupleOperation::apply(map);
-        relationRef = map(std::move(relationRef));
-    }
-
-    std::vector<const RamNode*> getChildNodes() const override {
-        auto res = RamTupleOperation::getChildNodes();
-        res.push_back(relationRef.get());
-        return res;
+    const std::string& getRelation() const {
+        return relation;
     }
 
 protected:
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamRelationOperation&>(node);
-        return RamTupleOperation::equal(other) && equal_ptr(relationRef, other.relationRef);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<RelationOperation>(node);
+        return TupleOperation::equal(other) && relation == other.relation;
     }
 
     /** Search relation */
-    Own<RamRelationReference> relationRef;
+    const std::string relation;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

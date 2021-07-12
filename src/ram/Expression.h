@@ -18,15 +18,15 @@
 
 #include "ram/Node.h"
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamExpression
+ * @class Expression
  * @brief Abstract class for describing scalar values in RAM
  */
-class RamExpression : public RamNode {
+class Expression : public Node {
 public:
-    RamExpression* clone() const override = 0;
+    Expression* cloning() const override = 0;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

@@ -18,23 +18,23 @@
 #include "ram/Operation.h"
 #include "ram/Program.h"
 #include "ram/Statement.h"
-#include "ram/Utils.h"
-#include "ram/Visitor.h"
+#include "ram/utility/Utils.h"
+#include "ram/utility/Visitor.h"
 #include "souffle/utility/MiscUtil.h"
 #include <cstddef>
 #include <functional>
 #include <memory>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
-bool EliminateDuplicatesTransformer::eliminateDuplicates(RamProgram& program) {
+bool EliminateDuplicatesTransformer::eliminateDuplicates(Program& program) {
     bool changed = false;
-    visitDepthFirst(program, [&](const RamQuery& query) {
-        std::function<Own<RamNode>(Own<RamNode>)> filterRewriter = [&](Own<RamNode> node) -> Own<RamNode> {
-            if (const RamFilter* filter = dynamic_cast<RamFilter*>(node.get())) {
-                const RamCondition* condition = &filter->getCondition();
-                VecOwn<RamCondition> conds = toConjunctionList(condition);
+    visit(program, [&](const Query& query) {
+        std::function<Own<Node>(Own<Node>)> filterRewriter = [&](Own<Node> node) -> Own<Node> {
+            if (const Filter* filter = as<Filter>(node)) {
+                const Condition* condition = &filter->getCondition();
+                VecOwn<Condition> conds = toConjunctionList(condition);
                 bool eliminatedDuplicate = false;
                 for (std::size_t i = 0; i < conds.size(); i++) {
                     for (std::size_t j = i + 1; j < conds.size(); j++) {
@@ -48,16 +48,15 @@ bool EliminateDuplicatesTransformer::eliminateDuplicates(RamProgram& program) {
                 }
                 if (eliminatedDuplicate) {
                     changed = true;
-                    node = mk<RamFilter>(
-                            Own<RamCondition>(toCondition(conds)), souffle::clone(&filter->getOperation()));
+                    node = mk<Filter>(Own<Condition>(toCondition(conds)), clone(filter->getOperation()));
                 }
             }
             node->apply(makeLambdaRamMapper(filterRewriter));
             return node;
         };
-        const_cast<RamQuery*>(&query)->apply(makeLambdaRamMapper(filterRewriter));
+        const_cast<Query*>(&query)->apply(makeLambdaRamMapper(filterRewriter));
     });
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

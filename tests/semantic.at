@@ -18,7 +18,6 @@ m4_define([TEST_EVAL_GZIP],[
   m4_define([FACTS],[TESTDIR/$3])
   m4_define([EXPECTEDDIR], [TESTDIR$4])
   # invoke souffle
-  cp TESTDIR/*sqlite.input . || true
   AT_CHECK(["$SOUFFLE" FLAGS -D. -F FACTS PROGRAM 1>TESTNAME.out 2>TESTNAME.err], [0])
   SORTED_SAME_FILES([*.csv],[EXPECTEDDIR])
   # compare all other output files without sorting
@@ -40,6 +39,52 @@ dnl $2 -- category
 m4_define([POSITIVE_TEST_GZIP],[
   TEST_GROUP([$1],[
     TEST_EVAL_GZIP([$1],[$2],facts)
+  ])
+])
+
+
+dnl Execute a positive json test case for a given flag configuration
+dnl $1 -- test case
+dnl $2 -- category
+dnl $3 -- facts directory relative to the test directory
+dnl $4 -- directory with expected output
+dnl       (relative to the test dir, but starting with '/'), or empty string
+m4_define([TEST_EVAL_JSON],[
+  m4_define([TESTNAME],[$1])
+  m4_define([CATEGORY],[$2])
+  m4_define([TESTDIR],["$TESTS"/CATEGORY/TESTNAME])
+  m4_define([PROGRAM],[TESTDIR/TESTNAME.dl])
+  m4_define([FACTS],[TESTDIR/$3])
+  m4_define([EXPECTEDDIR], [TESTDIR$4])
+  # invoke souffle
+  AT_CHECK(["$SOUFFLE" FLAGS -D. -F FACTS PROGRAM 1>TESTNAME.out 2>TESTNAME.err], [0])
+  sed 's/\(@<:@@:>@,@:>@\)$/\
+\1/' TESTNAME.out | sort > TESTNAME.out.generated
+  sed 's/\(@<:@@:>@,@:>@\)$/\
+\1/' EXPECTEDDIR/TESTNAME.out | sort > TESTNAME.out.expected
+  SAME_FILE([TESTNAME.out.generated],[TESTNAME.out.expected])
+
+  for i in *.json
+  do
+    if ls "$i" 2>&1 > /dev/null;
+    then
+      sed 's/\(@<:@@:>@,@:>@\)$/\
+\1/' $i | sort > $i.generated
+      sed 's/\(@<:@@:>@,@:>@\)$/\
+\1/' EXPECTEDDIR/$i | sort > $i.expected
+      SAME_FILE([$i.generated],[$i.expected])
+    fi
+  done
+  # validate stdout and stderr
+  SAME_FILE([TESTNAME.err],[EXPECTEDDIR/TESTNAME.err])
+])
+
+dnl Positive json testcase for Souffle
+dnl $1 -- test name
+dnl $2 -- category
+m4_define([POSITIVE_TEST_JSON],[
+  TEST_GROUP([$1],[
+    TEST_EVAL_JSON([$1],[$2],facts)
   ])
 ])
 
@@ -84,22 +129,30 @@ m4_define([POSITIVE_TEST_SQLITE3],[
 
 ##########################################################################
 
+POSITIVE_TEST([adt_access],[semantic])
 NEGATIVE_TEST([adt_invalid_arity],[semantic])
+NEGATIVE_TEST([adt_invalid_branch],[semantic])
 NEGATIVE_TEST([agg_checks],[semantic])
 NEGATIVE_TEST([agg_checks2],[semantic])
 POSITIVE_TEST([agg_checks3],[semantic])
 POSITIVE_TEST([aggregate1],[semantic])
 POSITIVE_TEST([aggregate2],[semantic])
 POSITIVE_TEST([aggregate3],[semantic])
+POSITIVE_TEST([aggregate4],[semantic])
+POSITIVE_TEST([aggregate5],[semantic])
+POSITIVE_TEST([aggregate6],[semantic])
 POSITIVE_TEST([agg_nested],[semantic])
 POSITIVE_TEST([alias],[semantic])
 NEGATIVE_TEST([attrib_dupl],[semantic])
+NEGATIVE_TEST([bad_functor_types],[semantic])
 POSITIVE_TEST([bin1],[semantic])
 POSITIVE_TEST([bin],[semantic])
 POSITIVE_TEST([binhex],[semantic])
 POSITIVE_TEST([bitwise],[semantic])
 POSITIVE_TEST([bool],[semantic])
 NEGATIVE_TEST([choice],[semantic])
+POSITIVE_TEST([choice1],[semantic])
+dnl POSITIVE_TEST([comparison],[semantic]) TODO (see PR #1932)
 NEGATIVE_TEST([comp_clauses],[semantic])
 NEGATIVE_TEST([comp_infinite_recursion],[semantic])
 POSITIVE_TEST([comp_inner_types],[semantic])
@@ -113,6 +166,7 @@ POSITIVE_TEST([comp_opt],[semantic])
 NEGATIVE_TEST([counter2],[semantic])
 POSITIVE_TEST([counter],[semantic])
 NEGATIVE_TEST([disjoint_names],[semantic])
+NEGATIVE_TEST([disjoint_names2],[semantic])
 # TODO (see issue #231) NEGATIVE_TEST([divide_by_zero],[semantic])
 POSITIVE_TEST([duplicates],[semantic])
 POSITIVE_TEST([eqrel_tests],[semantic])
@@ -134,6 +188,8 @@ NEGATIVE_TEST([fact_variable],[semantic])
 POSITIVE_TEST([func_in_rec],[semantic])
 POSITIVE_TEST([hex1],[semantic])
 POSITIVE_TEST([hex],[semantic])
+POSITIVE_TEST([identity_functor],[semantic])
+POSITIVE_TEST([identity_functor_inf_loop],[semantic])
 NEGATIVE_TEST([inline_cycle1],[semantic])
 POSITIVE_TEST([inline_cycle2],[semantic])
 NEGATIVE_TEST([inline_ungrounded],[semantic])
@@ -141,8 +197,11 @@ NEGATIVE_TEST([inline_negation],[semantic])
 NEGATIVE_TEST([inline_output],[semantic])
 POSITIVE_TEST([ipv4],[semantic])
 POSITIVE_TEST([ipv4_1],[semantic])
-POSITIVE_TEST([json],[semantic])
-POSITIVE_TEST([jsonfile],[semantic])
+POSITIVE_TEST_JSON([json],[semantic])
+POSITIVE_TEST_JSON([jsonfile],[semantic])
+NEGATIVE_TEST([keys],[semantic])
+POSITIVE_TEST([keys1],[semantic])
+POSITIVE_TEST([keys2],[semantic])
 POSITIVE_TEST([limitsize],[semantic])
 POSITIVE_TEST([load2],[semantic])
 POSITIVE_TEST([load3],[semantic])
@@ -177,6 +236,7 @@ POSITIVE_TEST([progmin1],[semantic])
 POSITIVE_TEST([progmin2],[semantic])
 POSITIVE_TEST([range],[semantic])
 NEGATIVE_TEST([record_null],[semantic])
+POSITIVE_TEST([rel_redundant],[semantic])
 POSITIVE_TEST([records0],[semantic])
 POSITIVE_TEST([records1],[semantic])
 POSITIVE_TEST([records2],[semantic])
@@ -221,6 +281,8 @@ POSITIVE_TEST([string_substr],[semantic])
 POSITIVE_TEST([suppress_warnings],[semantic])
 POSITIVE_TEST([type_as],[semantic])
 NEGATIVE_TEST([type_as2],[semantic])
+NEGATIVE_TEST([type_as3],[semantic])
+POSITIVE_TEST([type_as4],[semantic])
 NEGATIVE_TEST([type_dupl],[semantic])
 NEGATIVE_TEST([type_system1],[semantic])
 NEGATIVE_TEST([type_system2],[semantic])
@@ -236,12 +298,16 @@ NEGATIVE_TEST([type_system11],[semantic])
 NEGATIVE_TEST([type_system12],[semantic])
 NEGATIVE_TEST([type_system13],[semantic])
 NEGATIVE_TEST([type_system14],[semantic])
+NEGATIVE_TEST([type_system15],[semantic])
+NEGATIVE_TEST([type_system16],[semantic])
+POSITIVE_TEST([type_system_negation],[semantic])
 NEGATIVE_TEST([type_system_sum_types],[semantic])
 NEGATIVE_TEST([type_system_sum_types2],[semantic])
 POSITIVE_TEST([type_system_records],[semantic])
 NEGATIVE_TEST([type_system_records2],[semantic])
 NEGATIVE_TEST([type_udef],[semantic])
 POSITIVE_TEST([types_components], [semantic])
+NEGATIVE_TEST([undeclared_udfs],[semantic])
 POSITIVE_TEST([underscore2],[semantic])
 POSITIVE_TEST([underscore3],[semantic])
 POSITIVE_TEST([underscore4],[semantic])

@@ -35,22 +35,22 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
 namespace {
 
-Graph<AstQualifiedName> createTypeDependencyGraph(const std::vector<AstType*>& programTypes) {
-    Graph<AstQualifiedName> typeDependencyGraph;
+Graph<QualifiedName> createTypeDependencyGraph(const std::vector<ast::Type*>& programTypes) {
+    Graph<QualifiedName> typeDependencyGraph;
     for (const auto* astType : programTypes) {
-        if (auto type = as<AstSubsetType>(astType)) {
+        if (auto type = as<ast::SubsetType>(astType)) {
             typeDependencyGraph.insert(type->getQualifiedName(), type->getBaseType());
-        } else if (isA<AstRecordType>(astType)) {
+        } else if (isA<ast::RecordType>(astType)) {
             // do nothing
-        } else if (auto type = as<AstUnionType>(astType)) {
+        } else if (auto type = as<ast::UnionType>(astType)) {
             for (const auto& subtype : type->getTypes()) {
                 typeDependencyGraph.insert(type->getQualifiedName(), subtype);
             }
-        } else if (isA<AstAlgebraicDataType>(astType)) {
+        } else if (isA<ast::AlgebraicDataType>(astType)) {
             // do nothing
         } else {
             fatal("unsupported type construct: %s", typeid(astType).name());
@@ -62,11 +62,11 @@ Graph<AstQualifiedName> createTypeDependencyGraph(const std::vector<AstType*>& p
 /**
  * Find all the type with a cyclic definition (in terms of being a subtype)
  */
-std::set<AstQualifiedName> analyseCyclicTypes(
-        const Graph<AstQualifiedName>& dependencyGraph, const std::vector<AstType*>& programTypes) {
-    std::set<AstQualifiedName> cyclicTypes;
+std::set<QualifiedName> analyseCyclicTypes(
+        const Graph<QualifiedName>& dependencyGraph, const std::vector<ast::Type*>& programTypes) {
+    std::set<QualifiedName> cyclicTypes;
     for (const auto& astType : programTypes) {
-        AstQualifiedName typeName = astType->getQualifiedName();
+        QualifiedName typeName = astType->getQualifiedName();
 
         if (dependencyGraph.reaches(typeName, typeName)) {
             cyclicTypes.insert(std::move(typeName));
@@ -78,17 +78,17 @@ std::set<AstQualifiedName> analyseCyclicTypes(
 /**
  * Find all the primitive types that are the subtypes of the union types.
  */
-std::map<AstQualifiedName, std::set<AstQualifiedName>> analysePrimitiveTypesInUnion(
-        const Graph<AstQualifiedName>& dependencyGraph, const std::vector<AstType*>& programTypes,
+std::map<QualifiedName, std::set<QualifiedName>> analysePrimitiveTypesInUnion(
+        const Graph<QualifiedName>& dependencyGraph, const std::vector<ast::Type*>& programTypes,
         const TypeEnvironment& env) {
-    std::map<AstQualifiedName, std::set<AstQualifiedName>> primitiveTypesInUnions;
+    std::map<QualifiedName, std::set<QualifiedName>> primitiveTypesInUnions;
 
     for (const auto& astType : programTypes) {
-        auto* unionType = as<AstUnionType>(astType);
+        auto* unionType = as<ast::UnionType>(astType);
         if (unionType == nullptr) {
             continue;
         }
-        AstQualifiedName unionName = unionType->getQualifiedName();
+        QualifiedName unionName = unionType->getQualifiedName();
 
         auto iteratorToUnion = primitiveTypesInUnions.find(unionName);
 
@@ -111,67 +111,62 @@ std::map<AstQualifiedName, std::set<AstQualifiedName>> analysePrimitiveTypesInUn
 
 }  // namespace
 
-void TypeEnvironmentAnalysis::run(const AstTranslationUnit& translationUnit) {
-    const AstProgram& program = *translationUnit.getProgram();
+void TypeEnvironmentAnalysis::run(const TranslationUnit& translationUnit) {
+    const Program& program = translationUnit.getProgram();
 
     auto rawProgramTypes = program.getTypes();
-    Graph<AstQualifiedName> typeDependencyGraph{createTypeDependencyGraph(rawProgramTypes)};
+    Graph<QualifiedName> typeDependencyGraph{createTypeDependencyGraph(rawProgramTypes)};
 
     cyclicTypes = analyseCyclicTypes(typeDependencyGraph, rawProgramTypes);
     primitiveTypesInUnions = analysePrimitiveTypesInUnion(typeDependencyGraph, rawProgramTypes, env);
 
-    std::map<AstQualifiedName, const AstType*> nameToAstType;
+    std::map<QualifiedName, const ast::Type*> nameToType;
 
     // Filter redefined primitive types and cyclic types.
-    std::vector<AstType*> programTypes;
+    std::vector<ast::Type*> programTypes;
     for (auto* type : program.getTypes()) {
         if (env.isType(type->getQualifiedName()) || isCyclic(type->getQualifiedName())) {
             continue;
         }
         programTypes.push_back(type);
-        nameToAstType.insert({type->getQualifiedName(), type});
+        nameToType.insert({type->getQualifiedName(), type});
     }
 
     for (const auto* astType : programTypes) {
-        createType(astType->getQualifiedName(), nameToAstType);
+        createType(astType->getQualifiedName(), nameToType);
     }
 }
 
 // TODO (darth_tytus): This procedure does too much.
 const Type* TypeEnvironmentAnalysis::createType(
-        const AstQualifiedName& typeName, const std::map<AstQualifiedName, const AstType*>& nameToAstType) {
+        const QualifiedName& typeName, const std::map<QualifiedName, const ast::Type*>& nameToType) {
     // base case
     if (env.isType(typeName)) {
         return &env.getType(typeName);
     }
 
     // Handle undeclared type in the definition of another type.
-    auto iterToType = nameToAstType.find(typeName);
-    if (iterToType == nameToAstType.end()) {
+    auto iterToType = nameToType.find(typeName);
+    if (iterToType == nameToType.end()) {
         return nullptr;
     }
     const auto& astType = iterToType->second;
 
-    if (isA<AstSubsetType>(astType)) {
+    if (isA<ast::SubsetType>(astType)) {
         // First create a base type.
-        auto* baseType = createType(as<AstSubsetType>(astType)->getBaseType(), nameToAstType);
+        auto* baseType = createType(as<ast::SubsetType>(astType)->getBaseType(), nameToType);
 
         if (baseType == nullptr) {
             return nullptr;
         }
 
-        // Subset of a record is a special case.
-        if (isA<RecordType>(baseType)) {
-            return &env.createType<SubsetRecordType>(typeName, *as<RecordType>(baseType));
-        }
-
         return &env.createType<SubsetType>(typeName, *baseType);
 
-    } else if (isA<AstUnionType>(astType)) {
+    } else if (isA<ast::UnionType>(astType)) {
         // Create all elements and then the type itself
         std::vector<const Type*> elements;
-        for (const auto& element : as<AstUnionType>(astType)->getTypes()) {
-            auto* elementType = createType(element, nameToAstType);
+        for (const auto& element : as<ast::UnionType>(astType)->getTypes()) {
+            auto* elementType = createType(element, nameToType);
             if (elementType == nullptr) {
                 return nullptr;
             }
@@ -179,46 +174,40 @@ const Type* TypeEnvironmentAnalysis::createType(
         }
         return &env.createType<UnionType>(typeName, elements);
 
-    } else if (isA<AstRecordType>(astType)) {
-        // Create anonymous base type first.
-        // The types need to be initialized upfront,
-        // because we may have mutually recursive record definitions.
-        auto& recordBase = env.createType<RecordType>(tfm::format("__%sConstant", typeName));
-        auto& recordType = env.createType<SubsetRecordType>(typeName, recordBase);
+    } else if (auto astRecordType = as<ast::RecordType>(astType)) {
+        // Create the corresponding type first, since it could be recursive.
+        auto& recordType = env.createType<RecordType>(typeName);
 
         std::vector<const Type*> elements;
-        for (const auto* field : as<AstRecordType>(astType)->getFields()) {
+        for (const auto* field : astRecordType->getFields()) {
             if (field->getTypeName() == typeName) {
-                elements.push_back(&recordBase);
+                elements.push_back(&recordType);
                 continue;
             }
 
-            auto* elementType = createType(field->getTypeName(), nameToAstType);
+            // Recursively create element's type.
+            auto* elementType = createType(field->getTypeName(), nameToType);
             if (elementType == nullptr) {
                 return nullptr;
             }
             elements.push_back(elementType);
         }
 
-        recordBase.setFields(elements);
-        std::replace(elements.begin(), elements.end(), dynamic_cast<Type*>(&recordBase),
-                dynamic_cast<Type*>(&recordType));
         recordType.setFields(std::move(elements));
-
         return &recordType;
 
-    } else if (isA<AstAlgebraicDataType>(astType)) {
+    } else if (isA<ast::AlgebraicDataType>(astType)) {
         // ADT can be recursive so its need to be forward initialized
         auto& adt = env.createType<AlgebraicDataType>(typeName);
 
         std::vector<AlgebraicDataType::Branch> elements;
 
         // Create and collect branches types.
-        for (auto* branch : as<AstAlgebraicDataType>(astType)->getBranches()) {
+        for (auto* branch : as<ast::AlgebraicDataType>(astType)->getBranches()) {
             std::vector<const Type*> branchTypes;
 
             for (auto* attr : branch->getFields()) {
-                auto* type = createType(attr->getTypeName(), nameToAstType);
+                auto* type = createType(attr->getTypeName(), nameToType);
                 if (type == nullptr) return nullptr;
                 branchTypes.push_back(type);
             }
@@ -237,4 +226,4 @@ void TypeEnvironmentAnalysis::print(std::ostream& os) const {
     env.print(os);
 }
 
-}  // namespace souffle
+}  // namespace souffle::ast::analysis

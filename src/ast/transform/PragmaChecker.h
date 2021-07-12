@@ -20,20 +20,20 @@
 #include "ast/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-class AstPragmaChecker : public AstTransformer {
+class PragmaChecker : public Transformer {
 public:
     std::string getName() const override {
-        return "AstPragmaChecker";
-    }
-
-    AstPragmaChecker* clone() const override {
-        return new AstPragmaChecker();
+        return "PragmaChecker";
     }
 
 private:
-    bool transform(AstTranslationUnit&) override;
+    PragmaChecker* cloning() const override {
+        return new PragmaChecker();
+    }
+
+    bool transform(TranslationUnit&) override;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

@@ -28,9 +28,9 @@ private:
     std::vector<std::string> history;
     std::string output;
     char current_char = 0;
-    size_t cursor_pos = 0;
-    size_t hist_pos = 0;
-    size_t tab_pos = 0;
+    std::size_t cursor_pos = 0;
+    std::size_t hist_pos = 0;
+    std::size_t tab_pos = 0;
     bool in_tab_complete = false;
     bool in_history = false;
     std::string original_hist_val;
@@ -38,7 +38,7 @@ private:
     std::string current_tab_val;
     std::string original_tab_val;
     std::vector<std::string> current_tab_completes;
-    size_t original_hist_cursor_pos = 0;
+    std::size_t original_hist_cursor_pos = 0;
     bool inputReceived = false;
 
 public:
@@ -293,11 +293,11 @@ public:
             showFullText(output);
         }
     }
-    void clearPrompt(size_t text_len) {
-        for (size_t i = cursor_pos; i < text_len + 1; i++) {
+    void clearPrompt(std::size_t text_len) {
+        for (std::size_t i = cursor_pos; i < text_len + 1; i++) {
             std::cout << (char)27 << "[C" << std::flush;
         }
-        for (size_t i = 0; i < text_len + 1; i++) {
+        for (std::size_t i = 0; i < text_len + 1; i++) {
             std::cout << "\b \b" << std::flush;
         }
     }
@@ -307,7 +307,7 @@ public:
             std::cout << i << std::flush;
         }
 
-        for (size_t i = cursor_pos; i < text.size(); i++) {
+        for (std::size_t i = cursor_pos; i < text.size(); i++) {
             std::cout << "\b" << std::flush;
         }
     }

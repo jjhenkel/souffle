@@ -18,12 +18,12 @@
 
 #include "ram/transform/Transformer.h"
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
- * @Class RamMetaTransformer
+ * @Class MetaTransformer
  * @Brief Abstract class to identifier meta transformer
  */
-class RamMetaTransformer : public RamTransformer {};
+class MetaTransformer : public Transformer {};
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

@@ -33,28 +33,28 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool RemoveBooleanConstraintsTransformer::transform(AstTranslationUnit& translationUnit) {
-    AstProgram& program = *translationUnit.getProgram();
+bool RemoveBooleanConstraintsTransformer::transform(TranslationUnit& translationUnit) {
+    Program& program = translationUnit.getProgram();
 
     // If any boolean constraints exist, they will be removed
     bool changed = false;
-    visitDepthFirst(program, [&](const AstBooleanConstraint&) { changed = true; });
+    visit(program, [&](const BooleanConstraint&) { changed = true; });
 
     // Remove true and false constant literals from all aggregators
-    struct removeBools : public AstNodeMapper {
-        Own<AstNode> operator()(Own<AstNode> node) const override {
+    struct removeBools : public NodeMapper {
+        Own<Node> operator()(Own<Node> node) const override {
             // Remove them from child nodes
             node->apply(*this);
 
-            if (auto* aggr = dynamic_cast<AstAggregator*>(node.get())) {
+            if (auto* aggr = as<Aggregator>(node)) {
                 bool containsTrue = false;
                 bool containsFalse = false;
 
                 // Check if aggregator body contains booleans.
-                for (AstLiteral* lit : aggr->getBodyLiterals()) {
-                    if (auto* bc = dynamic_cast<AstBooleanConstraint*>(lit)) {
+                for (Literal* lit : aggr->getBodyLiterals()) {
+                    if (auto* bc = as<BooleanConstraint>(lit)) {
                         if (bc->isTrue()) {
                             containsTrue = true;
                         } else {
@@ -65,25 +65,25 @@ bool RemoveBooleanConstraintsTransformer::transform(AstTranslationUnit& translat
 
                 // Only keep literals that aren't boolean constraints
                 if (containsFalse || containsTrue) {
-                    auto replacementAggregator = souffle::clone(aggr);
-                    VecOwn<AstLiteral> newBody;
+                    auto replacementAggregator = clone(aggr);
+                    VecOwn<Literal> newBody;
 
                     bool isEmpty = true;
 
                     // Don't bother copying over body literals if any are false
                     if (!containsFalse) {
-                        for (AstLiteral* lit : aggr->getBodyLiterals()) {
+                        for (Literal* lit : aggr->getBodyLiterals()) {
                             // Don't add in boolean constraints
-                            if (!isA<AstBooleanConstraint>(lit)) {
+                            if (!isA<BooleanConstraint>(lit)) {
                                 isEmpty = false;
-                                newBody.push_back(souffle::clone(lit));
+                                newBody.push_back(clone(lit));
                             }
                         }
 
                         // If the body is still empty and the original body contains true add it now.
                         if (containsTrue && isEmpty) {
-                            newBody.push_back(mk<AstBinaryConstraint>(BinaryConstraintOp::EQ,
-                                    mk<AstNumericConstant>(1), mk<AstNumericConstant>(1)));
+                            newBody.push_back(mk<BinaryConstraint>(
+                                    BinaryConstraintOp::EQ, mk<NumericConstant>(1), mk<NumericConstant>(1)));
 
                             isEmpty = false;
                         }
@@ -93,8 +93,8 @@ bool RemoveBooleanConstraintsTransformer::transform(AstTranslationUnit& translat
                         // Empty aggregator body!
                         // Not currently handled, so add in a false literal in the body
                         // E.g. max x : { } =becomes=> max 1 : {0 = 1}
-                        newBody.push_back(mk<AstBinaryConstraint>(BinaryConstraintOp::EQ,
-                                mk<AstNumericConstant>(0), mk<AstNumericConstant>(1)));
+                        newBody.push_back(mk<BinaryConstraint>(
+                                BinaryConstraintOp::EQ, mk<NumericConstant>(0), mk<NumericConstant>(1)));
                     }
 
                     replacementAggregator->setBody(std::move(newBody));
@@ -111,13 +111,13 @@ bool RemoveBooleanConstraintsTransformer::transform(AstTranslationUnit& translat
     program.apply(update);
 
     // Remove true and false constant literals from all clauses
-    for (AstRelation* rel : program.getRelations()) {
-        for (AstClause* clause : getClauses(program, *rel)) {
+    for (Relation* rel : program.getRelations()) {
+        for (Clause* clause : getClauses(program, *rel)) {
             bool containsTrue = false;
             bool containsFalse = false;
 
-            for (AstLiteral* lit : clause->getBodyLiterals()) {
-                if (auto* bc = dynamic_cast<AstBooleanConstraint*>(lit)) {
+            for (Literal* lit : clause->getBodyLiterals()) {
+                if (auto* bc = as<BooleanConstraint>(lit)) {
                     bc->isTrue() ? containsTrue = true : containsFalse = true;
                 }
             }
@@ -126,12 +126,12 @@ bool RemoveBooleanConstraintsTransformer::transform(AstTranslationUnit& translat
                 // Clause will always fail
                 program.removeClause(clause);
             } else if (containsTrue) {
-                auto replacementClause = Own<AstClause>(cloneHead(clause));
+                auto replacementClause = cloneHead(*clause);
 
                 // Only keep non-'true' literals
-                for (AstLiteral* lit : clause->getBodyLiterals()) {
-                    if (!isA<AstBooleanConstraint>(lit)) {
-                        replacementClause->addToBody(souffle::clone(lit));
+                for (Literal* lit : clause->getBodyLiterals()) {
+                    if (!isA<BooleanConstraint>(lit)) {
+                        replacementClause->addToBody(clone(lit));
                     }
                 }
 
@@ -144,4 +144,4 @@ bool RemoveBooleanConstraintsTransformer::transform(AstTranslationUnit& translat
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

@@ -10,7 +10,7 @@
  *
  * @file TypeSystem.h
  *
- * Covers basic operations constituting Souffle's type system.
+ * Souffle's Type System
  *
  ***********************************************************************/
 
@@ -35,12 +35,19 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
 class TypeEnvironment;
 
 /**
- * An abstract base class for types to be covered within a type environment.
+ * Abstract Type Class
+ *
+ * A type in Souffle can be either a primitive type,
+ * a constant type, a subset type, a union type, a
+ * record type, an algebraic data-type.
+ *
+ * Type = PrimitiveType | ConstantType | SubsetType |
+ *        UnionType | RecordType | AlgebraicDataType
  */
 class Type {
 public:
@@ -48,7 +55,7 @@ public:
 
     virtual ~Type() = default;
 
-    const AstQualifiedName& getName() const {
+    const QualifiedName& getName() const {
         return name;
     }
 
@@ -77,28 +84,41 @@ public:
     }
 
 protected:
-    Type(const TypeEnvironment& environment, AstQualifiedName name)
+    Type(const TypeEnvironment& environment, QualifiedName name)
             : environment(environment), name(std::move(name)) {}
 
-    /** A reference to the type environment this type is associated to. */
+    /** Type environment of type */
     const TypeEnvironment& environment;
 
-    AstQualifiedName name;
+    /** Qualified type name */
+    QualifiedName name;
 };
 
 /**
- * Representing the type assigned to a constant.
- * ConstantType = NumberConstant/UnsignedConstant/FloatConstant/SymbolConstant
+ * Constant Type Class
+ *
+ * This type class represents the type of a constant. Currently, we have
+ * in Souffle following constant types: number, unsigned, float, and symbol.
+ *
+ * ConstantType =  NumberConstant | UnsignedConstant |
+ *                 FloatConstant | SymbolConstant
  */
 class ConstantType : public Type {
-    ConstantType(const TypeEnvironment& environment, const AstQualifiedName& name)
-            : Type(environment, name) {}
+    ConstantType(const TypeEnvironment& environment, const QualifiedName& name) : Type(environment, name) {}
 
+private:
     friend class TypeEnvironment;
 };
 
-/**
- * A type being a subset of another type.
+/*
+ * Subset Type Class
+ *
+ * A subset-type of a type supports substitutability
+ * (also written as Subtype <: Type).
+ *
+ * SubsetType = subset(T)
+ *
+ * where T is a type.
  */
 class SubsetType : virtual public Type {
 public:
@@ -109,18 +129,26 @@ public:
     }
 
 protected:
-    SubsetType(const TypeEnvironment& environment, const AstQualifiedName& name, const Type& base)
+    SubsetType(const TypeEnvironment& environment, const QualifiedName& name, const Type& base)
             : Type(environment, name), baseType(base){};
 
 private:
     friend class TypeEnvironment;
 
+    /** Base type */
     const Type& baseType;
 };
 
 /**
- * PrimitiveType = Number/Unsigned/Float/Symbol
- * The class representing pre-built, concrete types.
+ * Primitive Type Class
+ *
+ * Primitive types in Souffle are the actual computational
+ * domains. Currently, we have number, unsigned, float,
+ * and symbol. This class are pre-built and are concrete
+ * types in the RAM (not user-defined types).
+ *
+ * PrimitiveType = Number | Unsigned |
+ *                 Float | Symbol
  */
 class PrimitiveType : public SubsetType {
 public:
@@ -128,15 +156,24 @@ public:
         out << name;
     }
 
-private:
-    PrimitiveType(const TypeEnvironment& environment, const AstQualifiedName& name, const ConstantType& base)
+protected:
+    PrimitiveType(const TypeEnvironment& environment, const QualifiedName& name, const ConstantType& base)
             : Type(environment, name), SubsetType(environment, name, base) {}
 
+private:
     friend class TypeEnvironment;
 };
 
 /**
- * A union type combining a list of types into a new, aggregated type.
+ * Union Type Class
+ *
+ * A union type is a type that supports a union of types
+ * and behaves as a least common super-type of them.
+ *
+ * UnionType = union(T1, ..., Tn)
+ *
+ * where T1, ..., Tn are types.
+ *
  */
 class UnionType : public Type {
 public:
@@ -151,18 +188,28 @@ public:
     void print(std::ostream& out) const override;
 
 protected:
-    friend class TypeEnvironment;
-    std::vector<const Type*> elementTypes;
-
-    UnionType(const TypeEnvironment& environment, const AstQualifiedName& name,
+    UnionType(const TypeEnvironment& environment, const QualifiedName& name,
             std::vector<const Type*> elementTypes = {})
             : Type(environment, name), elementTypes(std::move(elementTypes)) {}
+
+private:
+    friend class TypeEnvironment;
+
+    /** List of types */
+    std::vector<const Type*> elementTypes;
 };
 
 /**
- * A record type combining a list of fields into a new, aggregated type.
+ * Record Type Class
+ *
+ * A record type is a type of tuples. The elements of the tuple
+ * have types themselves.
+ *
+ * RecordType = record(T1, ..., Tn)
+ *
+ * where T1, ..., Tn are the types of the tuple elements.
  */
-struct RecordType : virtual public Type {
+struct RecordType : public Type {
 public:
     void setFields(std::vector<const Type*> newFields) {
         fields = std::move(newFields);
@@ -175,44 +222,36 @@ public:
     void print(std::ostream& out) const override;
 
 protected:
-    friend class TypeEnvironment;
-
-    std::vector<const Type*> fields;
-
-    RecordType(const TypeEnvironment& environment, const AstQualifiedName& name,
+    RecordType(const TypeEnvironment& environment, const QualifiedName& name,
             const std::vector<const Type*> fields = {})
             : Type(environment, name), fields(fields) {}
-};
 
-/**
- * Type representing a subset type derived from the record type.
- */
-struct SubsetRecordType : public SubsetType, public RecordType {
-public:
-    void print(std::ostream& out) const override {
-        SubsetType::print(out);
-    }
-
-protected:
+private:
     friend class TypeEnvironment;
 
-    SubsetRecordType(
-            const TypeEnvironment& environment, const AstQualifiedName& name, const RecordType& baseType)
-            : Type(environment, name), SubsetType(environment, name, baseType),
-              RecordType(environment, name, baseType.getFields()) {
-        // Update fields, replacing each occurrence of base with derived.
-        // so that if .type base = [a, base] and derived <: base, then derived = [a, derived].
-        std::replace(fields.begin(), fields.end(), dynamic_cast<const Type*>(&baseType),
-                dynamic_cast<const Type*>(this));
-    };
+    /* Fields of record type */
+    std::vector<const Type*> fields;
 };
 
 /**
- * @class AlgebraicDataType
- * @brief Aggregates types using sums and products.
+ * Algebraic Data Type Class
  *
+ * An algebraic datatype is a polymorphic datatype that
+ * consists of several branches.
  *
- * Invariant: branches are in stored in lexicographical order.
+ * AlgebraicDataType = adt(BranchType1, ...,  BranchTypem).
+ *
+ * A branch is assigned to a unique algebraic datatype
+ * (i.e., a branch cannot be used for several types).
+ * A symbolic label identifies a branch and it has a
+ * tuple type.
+ *
+ * BranchType = branch(S, T1, ..., Tn)
+ *
+ * where S is a symbol and T1, ..., Tn are types.
+ *
+ * Implementation invariant: branches are in stored in
+ * lexicographical order.
  */
 class AlgebraicDataType : public Type {
 public:
@@ -250,19 +289,21 @@ public:
         return branches;
     }
 
-private:
-    AlgebraicDataType(const TypeEnvironment& env, AstQualifiedName name) : Type(env, std::move(name)) {}
+protected:
+    AlgebraicDataType(const TypeEnvironment& env, QualifiedName name) : Type(env, std::move(name)) {}
 
+private:
     friend class TypeEnvironment;
 
+    /** Branches of ADT */
     std::vector<Branch> branches;
 };
 
 /**
- * A collection to represent sets of types. In addition to ordinary set capabilities
- * it may also represent the set of all types -- without being capable of iterating over those.
+ * Type Set Class
  *
- * It is the basic entity to conduct sub- and super-type computations.
+ * A sets of types with the ability to express the set of all
+ * types without being capable of iterating over those.
  */
 struct TypeSet {
 public:
@@ -282,6 +323,7 @@ public:
     TypeSet& operator=(const TypeSet& other) = default;
     TypeSet& operator=(TypeSet&& other) = default;
 
+    /** Empty check */
     bool empty() const {
         return !all && types.empty();
     }
@@ -297,37 +339,35 @@ public:
         return types.size();
     }
 
-    /** Determines whether a given type is included or not */
+    /** Membership of a type */
     bool contains(const Type& type) const {
         return all || types.find(&type) != types.end();
     }
 
-    /** Adds the given type to this set */
+    /** Insert a new type */
     void insert(const Type& type) {
         if (!all) {
             types.insert(&type);
         }
     }
 
-    /** Calculate intersection of two TypeSet */
+    /** Intersection of two type sets */
     static TypeSet intersection(const TypeSet& left, const TypeSet& right) {
         TypeSet result;
-
         if (left.isAll()) {
             return right;
         } else if (right.isAll()) {
             return left;
         }
-
         for (const auto& element : left) {
             if (right.contains(element)) {
                 result.insert(element);
             }
         }
-
         return result;
     }
 
+    /** Filter a typeset with a filter expression */
     template <typename F>
     TypeSet filter(TypeSet whenAll, F&& f) const {
         if (all) return whenAll;
@@ -338,7 +378,7 @@ public:
         return cpy;
     }
 
-    /** Inserts all the types of the given set into this set */
+    /** Union two type sets */
     void insert(const TypeSet& set) {
         if (all) {
             return;
@@ -357,19 +397,19 @@ public:
         }
     }
 
-    /** Allows to iterate over the types contained in this set (only if not universal) */
+    /** Returns iterator pointing to the first type in the type set (only if not universal) */
     const_iterator begin() const {
         assert(!all && "Unable to enumerate universe.");
         return derefIter(types.begin());
     }
 
-    /** Allows to iterate over the types contained in this set (only if not universal) */
+    /** Returns iterator pointing to the past-the-end type in the type set (only if not universal) */
     const_iterator end() const {
         assert(!all && "Unable to enumerate universe.");
         return derefIter(types.end());
     }
 
-    /** Determines whether this set is a subset of the given set */
+    /** Checks whether the set is a subset */
     bool isSubsetOf(const TypeSet& b) const {
         if (all) {
             return b.isAll();
@@ -377,17 +417,17 @@ public:
         return all_of(*this, [&](const Type& cur) { return b.contains(cur); });
     }
 
-    /** Determines equality between type sets */
+    /** Equality */
     bool operator==(const TypeSet& other) const {
         return all == other.all && types == other.types;
     }
 
-    /** Determines inequality between type sets */
+    /** Inequality */
     bool operator!=(const TypeSet& other) const {
         return !(*this == other);
     }
 
-    /** Adds print support for type sets */
+    /** Print type set */
     void print(std::ostream& out) const {
         if (all) {
             out << "{ - all types - }";
@@ -407,37 +447,36 @@ private:
     /** True if it is the all-types set, false otherwise */
     bool all;
 
-    /** The enumeration of types in case it is not the all-types set */
+    /** Set of types if flag "all" is not set; otherwise we assume an empty set */
     std::set<const Type*, deref_less<Type>> types;
 };
 
 /**
- * A type environment is a set of types. It's main purpose is to provide an enumeration
- * of all all types within a given program. Additionally, it manages the life cycle of
- * type instances.
+ * Type Environment Class
+ *
+ * Stores named types for a given program instance.
  */
 class TypeEnvironment {
 public:
     TypeEnvironment() = default;
-
     TypeEnvironment(const TypeEnvironment&) = delete;
-
     virtual ~TypeEnvironment() = default;
 
-    /** create type in this environment */
+    /** Create a new named type in this environment */
     template <typename T, typename... Args>
-    T& createType(const AstQualifiedName& name, Args&&... args) {
+    T& createType(const QualifiedName& name, Args&&... args) {
         assert(types.find(name) == types.end() && "Error: registering present type!");
-        auto* newType = new T(*this, name, std::forward<Args>(args)...);
-        types[name] = Own<Type>(newType);
-        return *newType;
+        auto newType = Own<T>(new T(*this, name, std::forward<Args>(args)...));
+        T& res = *newType;
+        types[name] = std::move(newType);
+        return res;
     }
 
-    bool isType(const AstQualifiedName&) const;
+    bool isType(const QualifiedName&) const;
     bool isType(const Type& type) const;
 
-    const Type& getType(const AstQualifiedName&) const;
-    const Type& getType(const AstType&) const;
+    const Type& getType(const QualifiedName&) const;
+    const Type& getType(const ast::Type&) const;
 
     const Type& getConstantType(TypeAttribute type) const {
         switch (type) {
@@ -448,11 +487,10 @@ public:
             case TypeAttribute::Record: break;
             case TypeAttribute::ADT: break;
         }
-
         fatal("There is no constant record type");
     }
 
-    bool isPrimitiveType(const AstQualifiedName& identifier) const {
+    bool isPrimitiveType(const QualifiedName& identifier) const {
         if (isType(identifier)) {
             return isPrimitiveType(getType(identifier));
         }
@@ -494,8 +532,8 @@ private:
     TypeSet initializePrimitiveTypes();
     TypeSet initializeConstantTypes();
 
-    /** The list of covered types. */
-    std::map<AstQualifiedName, Own<Type>> types;
+    /** Map for storing named types */
+    std::map<QualifiedName, Own<Type>> types;
 
     const TypeSet constantTypes = initializeConstantTypes();
     const TypeSet constantNumericTypes =
@@ -508,30 +546,34 @@ private:
 //                          Type Utilities
 // ---------------------------------------------------------------
 
-/**
- * Determines whether type a is a subtype of type b.
- */
+/** Check subtype relationship between two types */
 bool isSubtypeOf(const Type& a, const Type& b);
 
-/**
- * Returns full type qualifier for a given type
- */
+/** Returns fully qualified name for a given type */
 std::string getTypeQualifier(const Type& type);
 
-/**
- * Check if the type is of a kind corresponding to the TypeAttribute.
- */
+/** Check if the type is of a kind corresponding to the TypeAttribute */
 bool isOfKind(const Type& type, TypeAttribute kind);
 bool isOfKind(const TypeSet& typeSet, TypeAttribute kind);
 
+/** Get type attributes */
 TypeAttribute getTypeAttribute(const Type&);
+
+/** Get type attribute */
 std::optional<TypeAttribute> getTypeAttribute(const TypeSet&);
 
+/** Check whether it is a numeric type */
 inline bool isNumericType(const TypeSet& type) {
     return isOfKind(type, TypeAttribute::Signed) || isOfKind(type, TypeAttribute::Unsigned) ||
            isOfKind(type, TypeAttribute::Float);
 }
 
+/**
+ * Determine if ADT is enumerations (are all constructors empty)
+ */
+bool isADTEnum(const AlgebraicDataType& type);
+
+/** Check whether it is a oderable type */
 inline bool isOrderableType(const TypeSet& type) {
     return isNumericType(type) || isOfKind(type, TypeAttribute::Symbol);
 }
@@ -572,4 +614,4 @@ bool haveCommonSupertype(const Type& a, const Type& b);
  */
 bool areEquivalentTypes(const Type& a, const Type& b);
 
-}  // end namespace souffle
+}  // namespace souffle::ast::analysis

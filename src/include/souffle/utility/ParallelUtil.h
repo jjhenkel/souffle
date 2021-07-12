@@ -55,7 +55,7 @@
 #define SECTION_END }
 
 // a macro to create an operation context
-#define CREATE_OP_CONTEXT(NAME, INIT) auto NAME = INIT;
+#define CREATE_OP_CONTEXT(NAME, INIT) [[maybe_unused]] auto NAME = INIT;
 #define READ_OP_CONTEXT(NAME) NAME
 
 #else
@@ -80,7 +80,7 @@
 #define SECTION_END }
 
 // a macro to create an operation context
-#define CREATE_OP_CONTEXT(NAME, INIT) auto NAME = INIT;
+#define CREATE_OP_CONTEXT(NAME, INIT) [[maybe_unused]] auto NAME = INIT;
 #define READ_OP_CONTEXT(NAME) NAME
 
 // mark es sequential

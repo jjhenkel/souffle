@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,12 +19,12 @@
 #include "ast/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformation pass to remove all empty relations and rules that use empty relations.
  */
-class RemoveEmptyRelationsTransformer : public AstTransformer {
+class RemoveEmptyRelationsTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "RemoveEmptyRelationsTransformer";
@@ -36,14 +36,14 @@ public:
      * @param translationUnit the program to be processed
      * @return whether the program was modified
      */
-    static bool removeEmptyRelations(AstTranslationUnit& translationUnit);
+    static bool removeEmptyRelations(TranslationUnit& translationUnit);
 
-    RemoveEmptyRelationsTransformer* clone() const override {
+private:
+    RemoveEmptyRelationsTransformer* cloning() const override {
         return new RemoveEmptyRelationsTransformer();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override {
+    bool transform(TranslationUnit& translationUnit) override {
         return removeEmptyRelations(translationUnit);
     }
 
@@ -54,8 +54,7 @@ private:
      * @param emptyRelation relation that is empty
      * @return whether the program was modified
      */
-    static bool removeEmptyRelationUses(
-            AstTranslationUnit& translationUnit, const AstQualifiedName& emptyRelation);
+    static bool removeEmptyRelationUses(TranslationUnit& translationUnit, const QualifiedName& emptyRelation);
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

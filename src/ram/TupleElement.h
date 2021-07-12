@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -18,13 +18,14 @@
 
 #include "ram/Expression.h"
 #include "ram/Node.h"
+#include "souffle/utility/MiscUtil.h"
 #include <cstdlib>
 #include <ostream>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamTupleElement
+ * @class TupleElement
  * @brief Access element from the current tuple in a tuple environment
  *
  * In the following example, the tuple element t0.1 is accessed:
@@ -33,21 +34,21 @@ namespace souffle {
  * 	...
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamTupleElement : public RamExpression {
+class TupleElement : public Expression {
 public:
-    RamTupleElement(size_t ident, size_t elem) : identifier(ident), element(elem) {}
+    TupleElement(std::size_t ident, std::size_t elem) : identifier(ident), element(elem) {}
     /** @brief Get identifier */
     int getTupleId() const {
         return identifier;
     }
 
     /** @brief Get element */
-    size_t getElement() const {
+    std::size_t getElement() const {
         return element;
     }
 
-    RamTupleElement* clone() const override {
-        return new RamTupleElement(identifier, element);
+    TupleElement* cloning() const override {
+        return new TupleElement(identifier, element);
     }
 
 protected:
@@ -55,16 +56,16 @@ protected:
         os << "t" << identifier << "." << element;
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamTupleElement&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<TupleElement>(node);
         return identifier == other.identifier && element == other.element;
     }
 
     /** Identifier for the tuple */
-    const size_t identifier;
+    const std::size_t identifier;
 
     /** Element number */
-    const size_t element;
+    const std::size_t element;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

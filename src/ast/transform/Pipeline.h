@@ -30,7 +30,7 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformer that holds an arbitrary number of sub-transformations
@@ -39,21 +39,21 @@ class PipelineTransformer : public MetaTransformer {
 public:
     template <typename... Args>
     PipelineTransformer(Args... args) {
-        Own<AstTransformer> tmp[] = {std::move(args)...};
+        Own<Transformer> tmp[] = {std::move(args)...};
         for (auto& cur : tmp) {
             pipeline.push_back(std::move(cur));
         }
     }
 
-    PipelineTransformer(VecOwn<AstTransformer> pipeline) : pipeline(std::move(pipeline)) {}
+    PipelineTransformer(VecOwn<Transformer> pipeline) : pipeline(std::move(pipeline)) {}
 
-    std::vector<AstTransformer*> getSubtransformers() const override {
+    std::vector<Transformer*> getSubtransformers() const override {
         return toPtrVector(pipeline);
     }
 
     void setDebugReport() override {
         for (auto& i : pipeline) {
-            if (auto* mt = dynamic_cast<MetaTransformer*>(i.get())) {
+            if (auto* mt = as<MetaTransformer>(i)) {
                 mt->setDebugReport();
             } else {
                 i = mk<DebugReporter>(std::move(i));
@@ -64,7 +64,7 @@ public:
     void setVerbosity(bool verbose) override {
         this->verbose = verbose;
         for (auto& cur : pipeline) {
-            if (auto* mt = dynamic_cast<MetaTransformer*>(cur.get())) {
+            if (auto* mt = as<MetaTransformer>(cur)) {
                 mt->setVerbosity(verbose);
             }
         }
@@ -72,9 +72,9 @@ public:
 
     void disableTransformers(const std::set<std::string>& transforms) override {
         for (auto& i : pipeline) {
-            if (auto* mt = dynamic_cast<MetaTransformer*>(i.get())) {
+            if (auto* mt = as<MetaTransformer>(i)) {
                 mt->disableTransformers(transforms);
-            } else if (transforms.find(i->getName()) != transforms.end()) {
+            } else if (transforms.find(i->getName()) != transforms.end() && i->isSwitchable()) {
                 i = mk<NullTransformer>();
             }
         }
@@ -84,23 +84,24 @@ public:
         return "PipelineTransformer";
     }
 
-    PipelineTransformer* clone() const override {
-        VecOwn<AstTransformer> transformers;
-        for (const auto& transformer : pipeline) {
-            transformers.push_back(souffle::clone(transformer));
-        }
-        return new PipelineTransformer(std::move(transformers));
-    }
-
 protected:
-    VecOwn<AstTransformer> pipeline;
-    bool transform(AstTranslationUnit& translationUnit) override {
+    VecOwn<Transformer> pipeline;
+    bool transform(TranslationUnit& translationUnit) override {
         bool changed = false;
         for (auto& transformer : pipeline) {
             changed |= applySubtransformer(translationUnit, transformer.get());
         }
         return changed;
     }
+
+private:
+    PipelineTransformer* cloning() const override {
+        VecOwn<Transformer> transformers;
+        for (const auto& transformer : pipeline) {
+            transformers.push_back(clone(transformer));
+        }
+        return new PipelineTransformer(std::move(transformers));
+    }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

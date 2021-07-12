@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,24 +19,24 @@
 #include "ram/Expression.h"
 #include <ostream>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamAutoIncrement
+ * @class AutoIncrement
  * @brief Increment a counter and return its value.
  *
  * Note that there exists a single counter only.
  */
-class RamAutoIncrement : public RamExpression {
+class AutoIncrement : public Expression {
 public:
-    RamAutoIncrement* clone() const override {
-        return new RamAutoIncrement();
+    AutoIncrement* cloning() const override {
+        return new AutoIncrement();
     }
 
 protected:
     void print(std::ostream& os) const override {
-        os << "autoinc()";
+        os << "AUTOINC()";
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

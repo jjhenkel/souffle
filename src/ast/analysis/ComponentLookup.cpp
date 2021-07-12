@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -8,7 +8,7 @@
 
 /************************************************************************
  *
- * @file ComponentLookup.cpp
+ * @file ComponentLookupAnalysis.cpp
  *
  * Implements the component lookup
  *
@@ -22,36 +22,36 @@
 #include "ast/utility/Visitor.h"
 #include "souffle/utility/StringUtil.h"
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
-void ComponentLookup::run(const AstTranslationUnit& translationUnit) {
-    const AstProgram* program = translationUnit.getProgram();
-    for (AstComponent* component : program->getComponents()) {
+void ComponentLookupAnalysis::run(const TranslationUnit& translationUnit) {
+    Program& program = translationUnit.getProgram();
+    for (Component* component : program.getComponents()) {
         globalScopeComponents.insert(component);
         enclosingComponent[component] = nullptr;
     }
-    visitDepthFirst(*program, [&](const AstComponent& cur) {
+    visit(program, [&](const Component& cur) {
         nestedComponents[&cur];
-        for (AstComponent* nestedComponent : cur.getComponents()) {
+        for (Component* nestedComponent : cur.getComponents()) {
             nestedComponents[&cur].insert(nestedComponent);
             enclosingComponent[nestedComponent] = &cur;
         }
     });
 }
 
-const AstComponent* ComponentLookup::getComponent(
-        const AstComponent* scope, const std::string& name, const TypeBinding& activeBinding) const {
+const Component* ComponentLookupAnalysis::getComponent(
+        const Component* scope, const std::string& name, const TypeBinding& activeBinding) const {
     // forward according to binding (we do not do this recursively on purpose)
-    AstQualifiedName boundName = activeBinding.find(name);
+    QualifiedName boundName = activeBinding.find(name);
     if (boundName.empty()) {
         // compName is not bound to anything => just just compName
         boundName = name;
     }
 
     // search nested scopes bottom up
-    const AstComponent* searchScope = scope;
+    const Component* searchScope = scope;
     while (searchScope != nullptr) {
-        for (const AstComponent* cur : searchScope->getComponents()) {
+        for (const Component* cur : searchScope->getComponents()) {
             if (cur->getComponentType()->getName() == toString(boundName)) {
                 return cur;
             }
@@ -66,7 +66,7 @@ const AstComponent* ComponentLookup::getComponent(
     }
 
     // check global scope
-    for (const AstComponent* cur : globalScopeComponents) {
+    for (const Component* cur : globalScopeComponents) {
         if (cur->getComponentType()->getName() == toString(boundName)) {
             return cur;
         }
@@ -76,4 +76,4 @@ const AstComponent* ComponentLookup::getComponent(
     return nullptr;
 }
 
-}  // end namespace souffle
+}  // namespace souffle::ast::analysis

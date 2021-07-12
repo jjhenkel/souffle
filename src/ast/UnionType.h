@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -16,22 +16,17 @@
 
 #pragma once
 
-#include "ast/Node.h"
 #include "ast/QualifiedName.h"
 #include "ast/Type.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/StreamUtil.h"
-#include <algorithm>
 #include <cstddef>
-#include <iostream>
-#include <string>
-#include <utility>
+#include <iosfwd>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstUnionType
+ * @class UnionType
  * @brief The union type class
  *
  * Example:
@@ -41,43 +36,36 @@ namespace souffle {
  * Each of the enumerated types become a sub-type of the new
  * union type.
  */
-class AstUnionType : public AstType {
+class UnionType : public Type {
 public:
-    AstUnionType(AstQualifiedName name, std::vector<AstQualifiedName> types, SrcLocation loc = {})
-            : AstType(std::move(name), std::move(loc)), types(std::move(types)) {}
+    UnionType(QualifiedName name, std::vector<QualifiedName> types, SrcLocation loc = {});
 
     /** Return list of unioned types */
-    const std::vector<AstQualifiedName>& getTypes() const {
+    const std::vector<QualifiedName>& getTypes() const {
+        return types;
+    }
+
+    std::vector<QualifiedName>& getTypes() {
         return types;
     }
 
     /** Add another unioned type */
-    void add(AstQualifiedName type) {
-        types.push_back(std::move(type));
-    }
+    void add(QualifiedName type);
 
     /** Set type */
-    void setType(size_t idx, AstQualifiedName type) {
-        types.at(idx) = std::move(type);
-    }
-
-    AstUnionType* clone() const override {
-        return new AstUnionType(getQualifiedName(), types, getSrcLoc());
-    }
+    void setType(std::size_t idx, QualifiedName type);
 
 protected:
-    void print(std::ostream& os) const override {
-        os << ".type " << getQualifiedName() << " = " << join(types, " | ");
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstUnionType&>(node);
-        return getQualifiedName() == other.getQualifiedName() && types == other.types;
-    }
+private:
+    bool equal(const Node& node) const override;
+
+    UnionType* cloning() const override;
 
 private:
     /** List of unioned types */
-    std::vector<AstQualifiedName> types;
+    std::vector<QualifiedName> types;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

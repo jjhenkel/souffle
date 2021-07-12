@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,22 +19,15 @@
 #include "AggregateOp.h"
 #include "ast/Argument.h"
 #include "ast/Literal.h"
-#include "ast/Node.h"
-#include "ast/utility/NodeMapper.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/MiscUtil.h"
-#include "souffle/utility/StreamUtil.h"
-#include <memory>
-#include <ostream>
-#include <string>
-#include <utility>
+#include "souffle/utility/Types.h"
+#include <iosfwd>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstAggregator
+ * @class Aggregator
  * @brief Defines the aggregator class
  *
  * Example:
@@ -43,86 +36,52 @@ namespace souffle {
  * Aggregates over a sub-query using an aggregate operator
  * and an expression.
  */
-class AstAggregator : public AstArgument {
+class Aggregator : public Argument {
 public:
-    AstAggregator(AggregateOp fun, Own<AstArgument> expr = nullptr, VecOwn<AstLiteral> body = {},
-            SrcLocation loc = {})
-            : AstArgument(std::move(loc)), fun(fun), targetExpression(std::move(expr)),
-              body(std::move(body)) {}
+    Aggregator(AggregateOp baseOperator, Own<Argument> expr = {}, VecOwn<Literal> body = {},
+            SrcLocation loc = {});
 
-    /** Return aggregate operator */
-    AggregateOp getOperator() const {
-        return fun;
-    }
-
-    /** Set aggregate operator */
-    void setOperator(AggregateOp op) {
-        fun = op;
+    /** Return the (base type) operator of the aggregator */
+    AggregateOp getBaseOperator() const {
+        return baseOperator;
     }
 
     /** Return target expression */
-    const AstArgument* getTargetExpression() const {
+    const Argument* getTargetExpression() const {
+        return targetExpression.get();
+    }
+
+    Argument* getTargetExpression() {
         return targetExpression.get();
     }
 
     /** Return body literals */
-    std::vector<AstLiteral*> getBodyLiterals() const {
-        return toPtrVector(body);
-    }
+    std::vector<Literal*> getBodyLiterals() const;
 
     /** Set body */
-    void setBody(VecOwn<AstLiteral> bodyLiterals) {
-        body = std::move(bodyLiterals);
-    }
+    void setBody(VecOwn<Literal> bodyLiterals);
 
-    std::vector<const AstNode*> getChildNodes() const override {
-        auto res = AstArgument::getChildNodes();
-        if (targetExpression) {
-            res.push_back(targetExpression.get());
-        }
-        for (auto& cur : body) {
-            res.push_back(cur.get());
-        }
-        return res;
-    }
-
-    AstAggregator* clone() const override {
-        return new AstAggregator(fun, souffle::clone(targetExpression), souffle::clone(body), getSrcLoc());
-    }
-
-    void apply(const AstNodeMapper& map) override {
-        if (targetExpression) {
-            targetExpression = map(std::move(targetExpression));
-        }
-        for (auto& cur : body) {
-            cur = map(std::move(cur));
-        }
-    }
+    void apply(const NodeMapper& map) override;
 
 protected:
-    void print(std::ostream& os) const override {
-        os << fun;
-        if (targetExpression) {
-            os << " " << *targetExpression;
-        }
-        os << " : { " << join(body) << " }";
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstAggregator&>(node);
-        return fun == other.fun && equal_ptr(targetExpression, other.targetExpression) &&
-               equal_targets(body, other.body);
-    }
+    NodeVec getChildNodesImpl() const override;
 
 private:
-    /** Aggregate operator */
-    AggregateOp fun;
+    bool equal(const Node& node) const override;
+
+    Aggregator* cloning() const override;
+
+private:
+    /** Aggregate (base type) operator */
+    AggregateOp baseOperator;
 
     /** Aggregate expression */
-    Own<AstArgument> targetExpression;
+    Own<Argument> targetExpression;
 
     /** Body literal of sub-query */
-    VecOwn<AstLiteral> body;
+    VecOwn<Literal> body;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

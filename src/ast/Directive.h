@@ -19,108 +19,79 @@
 #include "ast/Node.h"
 #include "ast/QualifiedName.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/MiscUtil.h"
-#include "souffle/utility/StreamUtil.h"
+#include <iosfwd>
 #include <map>
-#include <ostream>
 #include <string>
-#include <utility>
 
-namespace souffle {
+namespace souffle::ast {
 
-enum class AstDirectiveType { input, output, printsize, limitsize };
+enum class DirectiveType { input, output, printsize, limitsize };
 
 // FIXME: I'm going crazy defining these. There has to be a library that does this boilerplate for us.
-inline std::ostream& operator<<(std::ostream& os, AstDirectiveType e) {
-    switch (e) {
-        case AstDirectiveType::input: return os << "input";
-        case AstDirectiveType::output: return os << "output";
-        case AstDirectiveType::printsize: return os << "printsize";
-        case AstDirectiveType::limitsize: return os << "limitsize";
-    }
-
-    UNREACHABLE_BAD_CASE_ANALYSIS
-}
+std::ostream& operator<<(std::ostream& os, DirectiveType e);
 
 /**
- * @class AstDirective
+ * @class Directive
  * @brief a directive has a type (e.g. input/output/printsize/limitsize), qualified relation name, and a key
  * value map for storing parameters of the directive.
  */
-class AstDirective : public AstNode {
+class Directive : public Node {
 public:
-    AstDirective(AstDirectiveType type, AstQualifiedName name, SrcLocation loc = {})
-            : AstNode(std::move(loc)), type(type), name(std::move(name)) {}
+    Directive(DirectiveType type, QualifiedName name, SrcLocation loc = {});
 
     /** Get directive type */
-    AstDirectiveType getType() const {
+    DirectiveType getType() const {
         return type;
     }
 
     /** Set directive  type */
-    void setType(AstDirectiveType type) {
+    void setType(DirectiveType type) {
         this->type = type;
     }
 
     /** Get relation name */
-    const AstQualifiedName& getQualifiedName() const {
+    const QualifiedName& getQualifiedName() const {
         return name;
     }
 
     /** Set relation name */
-    void setQualifiedName(AstQualifiedName name) {
-        this->name = std::move(name);
-    }
+    void setQualifiedName(QualifiedName name);
 
     /** Get parameter */
-    const std::string& getDirective(const std::string& key) const {
-        return directives.at(key);
+    const std::string& getParameter(const std::string& key) const {
+        return parameters.at(key);
     }
 
     /** Add new parameter */
-    void addDirective(const std::string& key, std::string value) {
-        directives[key] = std::move(value);
-    }
+    void addParameter(const std::string& key, std::string value);
 
     /** Check for a parameter */
-    bool hasDirective(const std::string& key) const {
-        return directives.find(key) != directives.end();
+    bool hasParameter(const std::string& key) const {
+        return parameters.find(key) != parameters.end();
     }
 
     /** Get parameters */
-    const std::map<std::string, std::string>& getDirectives() const {
-        return directives;
-    }
-
-    AstDirective* clone() const override {
-        auto res = new AstDirective(type, name, getSrcLoc());
-        res->directives = directives;
-        return res;
+    const std::map<std::string, std::string>& getParameters() const {
+        return parameters;
     }
 
 protected:
-    void print(std::ostream& os) const override {
-        os << "." << type << " " << name;
-        if (!directives.empty()) {
-            os << "(" << join(directives, ",", [](std::ostream& out, const auto& arg) {
-                out << arg.first << "=\"" << arg.second << "\"";
-            }) << ")";
-        }
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstDirective&>(node);
-        return other.type == type && other.name == name && other.directives == directives;
-    }
+private:
+    bool equal(const Node& node) const override;
 
+    Directive* cloning() const override;
+
+private:
     /** Type of directive */
-    AstDirectiveType type;
+    DirectiveType type;
 
     /** Relation name of the directive */
-    AstQualifiedName name;
+    QualifiedName name;
 
     /** Parameters of directive */
-    std::map<std::string, std::string> directives;
+    std::map<std::string, std::string> parameters;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

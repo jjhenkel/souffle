@@ -17,21 +17,15 @@
 #pragma once
 
 #include "ast/Argument.h"
-#include "ast/Node.h"
 #include "ast/Term.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/StreamUtil.h"
-#include "souffle/utility/tinyformat.h"
 #include <iosfwd>
 #include <string>
-#include <utility>
-#include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstBranchInit
+ * @class BranchInit
  * @brief Initialization of ADT instance.
  *
  * @param constructor An entity used to create a variant type. Can be though of as a name of the branch.
@@ -40,33 +34,26 @@ namespace souffle {
  * $Constructor(args...)
  * In case of the branch with no arguments it is simplified to $Constructor.
  */
-class AstBranchInit : public AstTerm {
+class BranchInit : public Term {
 public:
-    AstBranchInit(std::string constructor, VecOwn<AstArgument> args, SrcLocation loc = {})
-            : AstTerm(std::move(args), std::move(loc)), constructor(std::move(constructor)) {}
+    BranchInit(std::string constructor, VecOwn<Argument> args, SrcLocation loc = {});
 
     const std::string& getConstructor() const {
         return constructor;
     }
 
-    AstBranchInit* clone() const override {
-        return new AstBranchInit(constructor, souffle::clone(args), getSrcLoc());
-    }
-
 protected:
-    void print(std::ostream& os) const override {
-        os << tfm::format("$%s(%s)", constructor, join(args, ", "));
-    }
+    void print(std::ostream& os) const override;
 
+private:
     /** Implements the node comparison for this node type */
-    bool equal(const AstNode& node) const override {
-        const auto& other = dynamic_cast<const AstBranchInit&>(node);
-        return (constructor == other.constructor) && equal_targets(args, other.args);
-    }
+    bool equal(const Node& node) const override;
+
+    BranchInit* cloning() const override;
 
 private:
     /** The adt branch constructor */
     std::string constructor;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ast

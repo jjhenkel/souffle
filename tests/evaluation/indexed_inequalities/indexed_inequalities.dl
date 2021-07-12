@@ -34,3 +34,11 @@ rel_4(x) :- rel_3(x), x >= 0.04, x <= 0.2.
 rel_5(0, "apple", 3.0, 0).
 rel_5(x-1, "strawberry", z+0.125, a-2) :- rel_5(x, _, z, a), x >= -5, z <= 5.0, a > -12.
 rel_5(x, "mango", z, a) :- rel_5(x, _, z, a), x >= -3, z <= 4.0, a > -10.
+
+.decl rel_6(s1: number, s2: number, s3: number, s4: number, s5: number, s6: number, s7: number)
+rel_6(1,2,3,4,5,6,7).
+
+.decl rel_7(x:number)
+.output rel_7
+
+rel_7(x) :- rel_6(1,_,3,4,5,_,_), rel_6(1,2,y,4,5,6,7), rel_6(_,2,3,4,5,6,_), rel_6(_,2,_,4,_,6,_), rel_6(1,_,_,4,_,_,_), rel_6(_,_,x,_,_,_,_), x > 3, y > 3.

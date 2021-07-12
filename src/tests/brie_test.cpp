@@ -16,7 +16,6 @@
 
 #include "tests/test.h"
 
-#include "souffle/CompiledTuple.h"
 #include "souffle/RamTypes.h"
 #include "souffle/datastructure/Brie.h"
 #include "souffle/utility/ContainerUtil.h"
@@ -710,21 +709,21 @@ TEST(Trie, Basic) {
     Trie<1> set;
 
     EXPECT_TRUE(set.empty());
-    EXPECT_FALSE(set.contains(1));
-    EXPECT_FALSE(set.contains(2));
-    EXPECT_FALSE(set.contains(3));
+    EXPECT_FALSE(set.contains({1}));
+    EXPECT_FALSE(set.contains({2}));
+    EXPECT_FALSE(set.contains({3}));
 
-    set.insert(1);
+    set.insert({1});
 
-    EXPECT_TRUE(set.contains(1));
-    EXPECT_FALSE(set.contains(2));
-    EXPECT_FALSE(set.contains(3));
+    EXPECT_TRUE(set.contains({1}));
+    EXPECT_FALSE(set.contains({2}));
+    EXPECT_FALSE(set.contains({3}));
 
-    set.insert(2);
+    set.insert({2});
 
-    EXPECT_TRUE(set.contains(1));
-    EXPECT_TRUE(set.contains(2));
-    EXPECT_FALSE(set.contains(3));
+    EXPECT_TRUE(set.contains({1}));
+    EXPECT_TRUE(set.contains({2}));
+    EXPECT_FALSE(set.contains({3}));
 }
 
 namespace {
@@ -749,12 +748,12 @@ TEST(Trie, Iterator) {
 
     EXPECT_EQ(set.begin(), set.end());
 
-    set.insert(1, 2);
+    set.insert({1, 2});
 
     EXPECT_NE(set.begin(), set.end());
 
-    set.insert(4, 3);
-    set.insert(5, 2);
+    set.insert({4, 3});
+    set.insert({5, 2});
 
     EXPECT_NE(set.begin(), set.end());
 
@@ -769,7 +768,7 @@ RamDomain rand(RamDomain max) {
 }  // namespace
 
 TEST(Trie, IteratorStress_1D) {
-    using tuple = typename souffle::Tuple<RamDomain, 1>;
+    using tuple = std::array<RamDomain, 1>;
 
     const int N = 10000;
 
@@ -777,7 +776,7 @@ TEST(Trie, IteratorStress_1D) {
 
     std::set<tuple> data;
     while (data.size() < N) {
-        tuple cur = tuple({{(RamDomain)(rand(N * 10))}});
+        tuple cur{(RamDomain)(rand(N * 10))};
         if (data.insert(cur).second) {
             EXPECT_FALSE(set.contains(cur));
             set.insert(cur);
@@ -795,7 +794,7 @@ TEST(Trie, IteratorStress_1D) {
 }
 
 TEST(Trie, IteratorStress_2D) {
-    using tuple = typename souffle::Tuple<RamDomain, 2>;
+    using tuple = std::array<RamDomain, 2>;
 
     const int N = 10000;
 
@@ -823,7 +822,7 @@ TEST(Trie, IteratorStress_2D) {
 }
 
 TEST(Trie, IteratorStress_3D) {
-    using tuple = typename souffle::Tuple<RamDomain, 3>;
+    using tuple = std::array<RamDomain, 3>;
 
     const int N = 10000;
 
@@ -852,7 +851,7 @@ TEST(Trie, IteratorStress_3D) {
 }
 
 TEST(Trie, IteratorStress_4D) {
-    using tuple = typename souffle::Tuple<RamDomain, 4>;
+    using tuple = std::array<RamDomain, 4>;
 
     const int N = 10000;
 
@@ -887,7 +886,7 @@ TEST(Trie, BoundaryTest_1D) {
     test_set t;
 
     for (int i = 0; i < 10; i++) {
-        t.insert(i);
+        t.insert({i});
     }
 
     auto a = t.lower_bound({5});
@@ -898,9 +897,9 @@ TEST(Trie, BoundaryTest_1D) {
 
     // add duplicates
 
-    t.insert(5);
-    t.insert(5);
-    t.insert(5);
+    t.insert({5});
+    t.insert({5});
+    t.insert({5});
 
     // test again ..
     a = t.lower_bound({5});
@@ -919,7 +918,7 @@ TEST(Trie, BoundaryTest_1D_2) {
     test_set t;
 
     for (int i = 0; i < 10; i++) {
-        t.insert(i * 100);
+        t.insert({i * 100});
     }
 
     auto a = t.lower_bound({500});
@@ -930,9 +929,9 @@ TEST(Trie, BoundaryTest_1D_2) {
 
     // add duplicates
 
-    t.insert(500);
-    t.insert(500);
-    t.insert(500);
+    t.insert({500});
+    t.insert({500});
+    t.insert({500});
 
     // test again ..
     a = t.lower_bound({500});
@@ -954,7 +953,7 @@ TEST(Trie, BoundaryTest_1D_Stress) {
     ref_set r;
 
     for (int i = 5; i < 10; i++) {
-        t.insert(i * 100);
+        t.insert({i * 100});
         r.insert({i * 100});
     }
 
@@ -989,7 +988,7 @@ TEST(Trie, BoundaryTest_1D_Stress_Dense) {
     ref_set r;
 
     for (int i = 100; i < 2000; i++) {
-        t.insert(i);
+        t.insert({i});
         r.insert({i});
     }
 
@@ -1022,7 +1021,7 @@ TEST(Trie, BoundaryTest_2D) {
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
-            t.insert(i, j);
+            t.insert({i, j});
         }
     }
 
@@ -1036,9 +1035,9 @@ TEST(Trie, BoundaryTest_2D) {
 
     // add duplicates
 
-    t.insert(5, 5);
-    t.insert(5, 5);
-    t.insert(5, 5);
+    t.insert({5, 5});
+    t.insert({5, 5});
+    t.insert({5, 5});
 
     // test again ..
     a = t.lower_bound({5, 5});
@@ -1060,7 +1059,7 @@ TEST(Trie, BoundaryTest_2D_2) {
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
-            t.insert(i * 100, j * 100);
+            t.insert({i * 100, j * 100});
         }
     }
 
@@ -1074,9 +1073,9 @@ TEST(Trie, BoundaryTest_2D_2) {
 
     // add duplicates
 
-    t.insert(500, 500);
-    t.insert(500, 500);
-    t.insert(500, 500);
+    t.insert({500, 500});
+    t.insert({500, 500});
+    t.insert({500, 500});
 
     // test again ..
     a = t.lower_bound({500, 500});
@@ -1101,7 +1100,7 @@ TEST(Trie, BoundaryTest_2D_Stress) {
 
     for (int i = 5; i < 10; i++) {
         for (int j = 5; j < 10; j++) {
-            t.insert(i * 100, j * 100);
+            t.insert({i * 100, j * 100});
             r.insert({i * 100, j * 100});
         }
     }
@@ -1140,7 +1139,7 @@ TEST(Trie, BoundaryTest_2D_Stress_Dense) {
 
     for (int i = 100; i < 200; i++) {
         for (int j = 50; j < 250; j++) {
-            t.insert(i, j);
+            t.insert({i, j});
             r.insert({i, j});
         }
     }
@@ -1177,7 +1176,7 @@ TEST(Trie, BoundaryTest_3D) {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
             for (int k = 0; k < 10; k++) {
-                t.insert(i, j, k);
+                t.insert({i, j, k});
             }
         }
     }
@@ -1204,7 +1203,7 @@ TEST(Trie, BoundaryTest_3D_2) {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
             for (int k = 0; k < 10; k++) {
-                t.insert(i * 100, j * 100, k * 100);
+                t.insert({i * 100, j * 100, k * 100});
             }
         }
     }
@@ -1234,7 +1233,7 @@ TEST(Trie, BoundaryTest_3D_Stress) {
     for (int i = 5; i < 10; i++) {
         for (int j = 5; j < 10; j++) {
             for (int k = 5; k < 10; k++) {
-                t.insert(i * 100, j * 100, k * 100);
+                t.insert({i * 100, j * 100, k * 100});
                 r.insert({i * 100, j * 100, k * 100});
             }
         }
@@ -1267,14 +1266,12 @@ TEST(Trie, BoundaryTest_3D_Stress) {
 }
 
 TEST(Trie, RangeQuery) {
-    using tuple = typename souffle::Tuple<RamDomain, 3>;
-
     Trie<3> set;
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
             for (int k = 0; k < 10; k++) {
-                set.insert(i, j, k);
+                set.insert({i, j, k});
             }
         }
     }
@@ -1282,120 +1279,112 @@ TEST(Trie, RangeQuery) {
     EXPECT_EQ(1000, set.size());
 
     // Range [*,*,*]
-    EXPECT_EQ(1000, card(set.getBoundaries<0>(tuple({{3, 4, 5}}))));
+    EXPECT_EQ(1000, card(set.getBoundaries<0>({3, 4, 5})));
 
     // Range [3,*,*]
-    EXPECT_EQ(100, card(set.getBoundaries<1>(tuple({{3, 4, 5}}))));
+    EXPECT_EQ(100, card(set.getBoundaries<1>({3, 4, 5})));
 
     // Range [3,4,*]
-    EXPECT_EQ(10, card(set.getBoundaries<2>(tuple({{3, 4, 5}}))));
+    EXPECT_EQ(10, card(set.getBoundaries<2>({3, 4, 5})));
 
     // Range [3,4,5]
-    EXPECT_EQ(1, card(set.getBoundaries<3>(tuple({{3, 4, 5}}))));
+    EXPECT_EQ(1, card(set.getBoundaries<3>({3, 4, 5})));
 }
 
 TEST(Trie, RangeQuery_1D) {
-    using tuple = typename souffle::Tuple<RamDomain, 1>;
-
     Trie<1> set;
 
     // empty set
-    EXPECT_EQ(0, card(set.getBoundaries<0>(tuple({{3}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<1>(tuple({{3}}))));
+    EXPECT_EQ(0, card(set.getBoundaries<0>({3})));
+    EXPECT_EQ(0, card(set.getBoundaries<1>({3})));
 
     // add some elements
     for (int i = 0; i < 5; i++) {
-        set.insert(i);
+        set.insert({i});
     }
 
-    EXPECT_EQ(5, card(set.getBoundaries<0>(tuple({{3}}))));
-    EXPECT_EQ(5, card(set.getBoundaries<0>(tuple({{7}}))));
+    EXPECT_EQ(5, card(set.getBoundaries<0>({3})));
+    EXPECT_EQ(5, card(set.getBoundaries<0>({7})));
 
-    EXPECT_EQ(1, card(set.getBoundaries<1>(tuple({{3}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<1>(tuple({{7}}))));
+    EXPECT_EQ(1, card(set.getBoundaries<1>({3})));
+    EXPECT_EQ(0, card(set.getBoundaries<1>({7})));
 }
 
 TEST(Trie, RangeQuery_2D) {
-    using tuple = typename souffle::Tuple<RamDomain, 2>;
-
     Trie<2> set;
 
     // empty set
-    EXPECT_EQ(0, card(set.getBoundaries<0>(tuple({{3, 4}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<1>(tuple({{3, 4}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<2>(tuple({{3, 4}}))));
+    EXPECT_EQ(0, card(set.getBoundaries<0>({3, 4})));
+    EXPECT_EQ(0, card(set.getBoundaries<1>({3, 4})));
+    EXPECT_EQ(0, card(set.getBoundaries<2>({3, 4})));
 
     // add some elements
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            set.insert(i, j);
+            set.insert({i, j});
         }
     }
 
-    EXPECT_EQ(25, card(set.getBoundaries<0>(tuple({{3, 4}}))));
-    EXPECT_EQ(25, card(set.getBoundaries<0>(tuple({{7, 4}}))));
-    EXPECT_EQ(25, card(set.getBoundaries<0>(tuple({{3, 7}}))));
+    EXPECT_EQ(25, card(set.getBoundaries<0>({3, 4})));
+    EXPECT_EQ(25, card(set.getBoundaries<0>({7, 4})));
+    EXPECT_EQ(25, card(set.getBoundaries<0>({3, 7})));
 
-    EXPECT_EQ(5, card(set.getBoundaries<1>(tuple({{3, 4}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<1>(tuple({{7, 4}}))));
-    EXPECT_EQ(5, card(set.getBoundaries<1>(tuple({{3, 7}}))));
+    EXPECT_EQ(5, card(set.getBoundaries<1>({3, 4})));
+    EXPECT_EQ(0, card(set.getBoundaries<1>({7, 4})));
+    EXPECT_EQ(5, card(set.getBoundaries<1>({3, 7})));
 
-    EXPECT_EQ(1, card(set.getBoundaries<2>(tuple({{3, 4}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<2>(tuple({{7, 4}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<2>(tuple({{3, 7}}))));
+    EXPECT_EQ(1, card(set.getBoundaries<2>({3, 4})));
+    EXPECT_EQ(0, card(set.getBoundaries<2>({7, 4})));
+    EXPECT_EQ(0, card(set.getBoundaries<2>({3, 7})));
 }
 
 TEST(Trie, RangeQuery_3D) {
-    using tuple = typename souffle::Tuple<RamDomain, 3>;
-
     Trie<3> set;
 
     // empty set
-    EXPECT_EQ(0, card(set.getBoundaries<0>(tuple({{3, 4, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<1>(tuple({{3, 4, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<2>(tuple({{3, 4, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<3>(tuple({{3, 4, 2}}))));
+    EXPECT_EQ(0, card(set.getBoundaries<0>({3, 4, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<1>({3, 4, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<2>({3, 4, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<3>({3, 4, 2})));
 
     // add some elements
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
             for (int k = 0; k < 5; k++) {
-                set.insert(i, j, k);
+                set.insert({i, j, k});
             }
         }
     }
 
-    EXPECT_EQ(125, card(set.getBoundaries<0>(tuple({{3, 4, 2}}))));
-    EXPECT_EQ(125, card(set.getBoundaries<0>(tuple({{7, 4, 2}}))));
-    EXPECT_EQ(125, card(set.getBoundaries<0>(tuple({{3, 7, 2}}))));
-    EXPECT_EQ(125, card(set.getBoundaries<0>(tuple({{3, 7, 8}}))));
+    EXPECT_EQ(125, card(set.getBoundaries<0>({3, 4, 2})));
+    EXPECT_EQ(125, card(set.getBoundaries<0>({7, 4, 2})));
+    EXPECT_EQ(125, card(set.getBoundaries<0>({3, 7, 2})));
+    EXPECT_EQ(125, card(set.getBoundaries<0>({3, 7, 8})));
 
-    EXPECT_EQ(25, card(set.getBoundaries<1>(tuple({{3, 4, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<1>(tuple({{7, 4, 2}}))));
-    EXPECT_EQ(25, card(set.getBoundaries<1>(tuple({{3, 7, 2}}))));
-    EXPECT_EQ(25, card(set.getBoundaries<1>(tuple({{3, 7, 8}}))));
+    EXPECT_EQ(25, card(set.getBoundaries<1>({3, 4, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<1>({7, 4, 2})));
+    EXPECT_EQ(25, card(set.getBoundaries<1>({3, 7, 2})));
+    EXPECT_EQ(25, card(set.getBoundaries<1>({3, 7, 8})));
 
-    EXPECT_EQ(5, card(set.getBoundaries<2>(tuple({{3, 4, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<2>(tuple({{7, 4, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<2>(tuple({{3, 7, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<2>(tuple({{3, 7, 8}}))));
-    EXPECT_EQ(5, card(set.getBoundaries<2>(tuple({{3, 2, 8}}))));
+    EXPECT_EQ(5, card(set.getBoundaries<2>({3, 4, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<2>({7, 4, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<2>({3, 7, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<2>({3, 7, 8})));
+    EXPECT_EQ(5, card(set.getBoundaries<2>({3, 2, 8})));
 
-    EXPECT_EQ(1, card(set.getBoundaries<3>(tuple({{3, 4, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<3>(tuple({{7, 4, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<3>(tuple({{3, 7, 2}}))));
-    EXPECT_EQ(0, card(set.getBoundaries<3>(tuple({{3, 7, 8}}))));
+    EXPECT_EQ(1, card(set.getBoundaries<3>({3, 4, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<3>({7, 4, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<3>({3, 7, 2})));
+    EXPECT_EQ(0, card(set.getBoundaries<3>({3, 7, 8})));
 }
 
 TEST(Trie, RangeQueryStress) {
-    using tuple = typename souffle::Tuple<RamDomain, 3>;
-
     Trie<3> set;
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
             for (int k = 0; k < 10; k++) {
-                set.insert(i, j, k);
+                set.insert({i, j, k});
             }
         }
     }
@@ -1403,17 +1392,17 @@ TEST(Trie, RangeQueryStress) {
     EXPECT_EQ(1000, set.size());
 
     // Range [*,*,*]
-    EXPECT_EQ(1000, card(set.getBoundaries<0>(tuple({{3, 4, 5}}))));
+    EXPECT_EQ(1000, card(set.getBoundaries<0>({3, 4, 5})));
 
     // Range [x,*,*]
     for (RamDomain x = 0; x < 10; x++) {
-        EXPECT_EQ(100, card(set.getBoundaries<1>(tuple({{x, 4, 5}}))));
+        EXPECT_EQ(100, card(set.getBoundaries<1>({x, 4, 5})));
     }
 
     // Range [x,y,*]
     for (RamDomain x = 0; x < 10; x++) {
         for (RamDomain y = 0; y < 10; y++) {
-            EXPECT_EQ(10, card(set.getBoundaries<2>(tuple({{x, y, 5}}))));
+            EXPECT_EQ(10, card(set.getBoundaries<2>({x, y, 5})));
         }
     }
 
@@ -1421,7 +1410,7 @@ TEST(Trie, RangeQueryStress) {
     for (RamDomain x = 0; x < 10; x++) {
         for (RamDomain y = 0; y < 10; y++) {
             for (RamDomain z = 0; z < 10; z++) {
-                EXPECT_EQ(1, card(set.getBoundaries<3>(tuple({{x, y, z}}))));
+                EXPECT_EQ(1, card(set.getBoundaries<3>({x, y, z})));
             }
         }
     }
@@ -1433,15 +1422,15 @@ TEST(Trie, Merge_1D) {
     Trie<1> b;
 
     for (int i = 0; i < 5; i++) {
-        a.insert(i);
-        b.insert(i + 5);
+        a.insert({i});
+        b.insert({i + 5});
     }
 
     {
         Trie<1> c = e;
         c.insertAll(a);
         for (int i = 0; i < 10; i++) {
-            EXPECT_EQ(a.contains(i), c.contains(i));
+            EXPECT_EQ(a.contains({i}), c.contains({i}));
         }
     }
 
@@ -1449,7 +1438,7 @@ TEST(Trie, Merge_1D) {
         Trie<1> c = e;
         c.insertAll(b);
         for (int i = 0; i < 10; i++) {
-            EXPECT_EQ(b.contains(i), c.contains(i));
+            EXPECT_EQ(b.contains({i}), c.contains({i}));
         }
     }
 
@@ -1458,7 +1447,7 @@ TEST(Trie, Merge_1D) {
         c.insertAll(a);
         c.insertAll(b);
         for (int i = 0; i < 10; i++) {
-            EXPECT_EQ(a.contains(i) || b.contains(i), c.contains(i));
+            EXPECT_EQ(a.contains({i}) || b.contains({i}), c.contains({i}));
         }
     }
 }
@@ -1470,8 +1459,8 @@ TEST(Trie, Merge_2D) {
 
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            a.insert(i, j);
-            b.insert(i + 5, j + 5);
+            a.insert({i, j});
+            b.insert({i + 5, j + 5});
         }
     }
 
@@ -1480,7 +1469,7 @@ TEST(Trie, Merge_2D) {
         c.insertAll(a);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                EXPECT_EQ(a.contains(i, j), c.contains(i, j));
+                EXPECT_EQ(a.contains({i, j}), c.contains({i, j}));
             }
         }
     }
@@ -1490,7 +1479,7 @@ TEST(Trie, Merge_2D) {
         c.insertAll(b);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                EXPECT_EQ(b.contains(i, j), c.contains(i, j));
+                EXPECT_EQ(b.contains({i, j}), c.contains({i, j}));
             }
         }
     }
@@ -1501,7 +1490,7 @@ TEST(Trie, Merge_2D) {
         c.insertAll(b);
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                EXPECT_EQ(a.contains(i, j) || b.contains(i, j), c.contains(i, j));
+                EXPECT_EQ(a.contains({i, j}) || b.contains({i, j}), c.contains({i, j}));
             }
         }
     }
@@ -1515,8 +1504,8 @@ TEST(Trie, Merge_3D) {
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
             for (int k = 0; k < 5; k++) {
-                a.insert(i, j, k);
-                b.insert(i + 5, j + 5, k + 5);
+                a.insert({i, j, k});
+                b.insert({i + 5, j + 5, k + 5});
             }
         }
     }
@@ -1527,7 +1516,7 @@ TEST(Trie, Merge_3D) {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 for (int k = 0; k < 5; k++) {
-                    EXPECT_EQ(a.contains(i, j, k), c.contains(i, j, k));
+                    EXPECT_EQ(a.contains({i, j, k}), c.contains({i, j, k}));
                 }
             }
         }
@@ -1539,7 +1528,7 @@ TEST(Trie, Merge_3D) {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 for (int k = 0; k < 5; k++) {
-                    EXPECT_EQ(b.contains(i, j, k), c.contains(i, j, k));
+                    EXPECT_EQ(b.contains({i, j, k}), c.contains({i, j, k}));
                 }
             }
         }
@@ -1552,7 +1541,7 @@ TEST(Trie, Merge_3D) {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 for (int k = 0; k < 5; k++) {
-                    EXPECT_EQ(a.contains(i, j, k) || b.contains(i, j, k), c.contains(i, j, k));
+                    EXPECT_EQ(a.contains({i, j, k}) || b.contains({i, j, k}), c.contains({i, j, k}));
                 }
             }
         }
@@ -1573,9 +1562,9 @@ TEST(Trie, Merge_Stress) {
         for (int i = 0; i < N; i++) {
             RamDomain x = rand(N / 2);
             RamDomain y = rand(N / 2);
-            if (!a.contains(x, y)) {
-                b.insert(x, y);
-                ref.insert(entry_t({{x, y}}));
+            if (!a.contains({x, y})) {
+                b.insert({x, y});
+                ref.insert(entry_t{x, y});
             }
         }
 
@@ -1590,9 +1579,9 @@ TEST(Trie, Merge_Stress) {
 TEST(Trie, Merge_Bug) {
     // having this set ...
     Trie<2> a;
-    a.insert(25129, 67714);
-    a.insert(25132, 67714);
-    a.insert(84808, 68457);
+    a.insert({25129, 67714});
+    a.insert({25132, 67714});
+    a.insert({84808, 68457});
 
     //    a.getStore().dump();
 
@@ -1604,8 +1593,8 @@ TEST(Trie, Merge_Bug) {
 
     // and later on merged with a third set
     Trie<2> c;
-    c.insert(133, 455);
-    c.insert(10033, 455);
+    c.insert({133, 455});
+    c.insert({10033, 455});
     a.insertAll(c);
 
     //    a.getStore().dump();
@@ -1626,27 +1615,27 @@ TEST(Trie, Size) {
     EXPECT_TRUE(t.empty());
     EXPECT_EQ(0, t.size());
 
-    t.insert(1, 2);
+    t.insert({1, 2});
 
     EXPECT_FALSE(t.empty());
     EXPECT_EQ(1, t.size());
 
-    t.insert(1, 2);
+    t.insert({1, 2});
 
     EXPECT_FALSE(t.empty());
     EXPECT_EQ(1, t.size());
 
-    t.insert(2, 1);
+    t.insert({2, 1});
 
     EXPECT_FALSE(t.empty());
     EXPECT_EQ(2, t.size());
 
     Trie<2> t2;
 
-    t2.insert(1, 2);
-    t2.insert(1, 3);
-    t2.insert(1, 4);
-    t2.insert(3, 2);
+    t2.insert({1, 2});
+    t2.insert({1, 3});
+    t2.insert({1, 4});
+    t2.insert({3, 2});
 
     EXPECT_EQ(4, t2.size());
 
@@ -1659,17 +1648,17 @@ TEST(Trie, Limits) {
     Trie<2> data;
 
     EXPECT_EQ(0, data.size());
-    data.insert(10, 15);
+    data.insert({10, 15});
     EXPECT_EQ(1, data.size());
 
-    data.insert((1 << 31) + (1 << 30), 18);
+    data.insert({(1 << 31) + (1 << 30), 18});
     EXPECT_EQ(2, data.size());
 
     Trie<2> a;
-    a.insert(140, 15);
+    a.insert({140, 15});
 
     Trie<2> b;
-    b.insert(25445, 18);
+    b.insert({25445, 18});
 
     b.insertAll(a);
 
@@ -1691,7 +1680,7 @@ TEST(Trie, Parallel) {
     Trie<2> filter;
 
     while (filter.size() < N) {
-        entry_t entry({{(RamDomain)(random() % N), (RamDomain)(random() % N)}});
+        entry_t entry{(RamDomain)(random() % N), (RamDomain)(random() % N)};
         if (filter.insert(entry)) {
             list.push_back(entry);
         }

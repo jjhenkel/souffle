@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,7 +19,7 @@
 
 #include "ram/Condition.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include <cassert>
@@ -28,10 +28,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamNegation
+ * @class Negation
  * @brief Negates a given condition
  *
  * For example:
@@ -39,26 +39,26 @@ namespace souffle {
  * (NOT t0 IN A)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamNegation : public RamCondition {
+class Negation : public Condition {
 public:
-    RamNegation(Own<RamCondition> op) : operand(std::move(op)) {
+    Negation(Own<Condition> op) : operand(std::move(op)) {
         assert(operand != nullptr && "operand of negation is a null-pointer");
     }
 
     /** @brief Get operand of negation */
-    const RamCondition& getOperand() const {
+    const Condition& getOperand() const {
         return *operand;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
+    std::vector<const Node*> getChildNodes() const override {
         return {operand.get()};
     }
 
-    RamNegation* clone() const override {
-        return new RamNegation(souffle::clone(operand));
+    Negation* cloning() const override {
+        return new Negation(clone(operand));
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         operand = map(std::move(operand));
     }
 
@@ -67,13 +67,13 @@ protected:
         os << "(NOT " << *operand << ")";
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamNegation&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<Negation>(node);
         return equal_ptr(operand, other.operand);
     }
 
     /** Operand */
-    Own<RamCondition> operand;
+    Own<Condition> operand;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

@@ -1,11 +1,24 @@
 souffle (@VERSION@-1) UNRELEASED; urgency=low
 
-  * UNSTABLE WORK IN PROGRESS
-  * Enhanced MST (azreika)
-  * Restructuring for reability and maintainability (b-scholz, mmcgr)
-  * Various bugfixes
+  * Interpreter performance improvement
 
  -- Martin McGrane <mmcgrane@it.usyd.edu.au>  @DEBDATE@
+
+souffle (2.0.2); urgency=low
+
+  * Fix OSX user library paths (mmcgr)
+  * Fix concurrent profling (mmcgr)
+  * Fix indirect index use (aeflores)
+  * Fix 'as' type conversion (darth-tytus)
+  * Fix output of hint statistics (azreika)
+  * Implement Record/ADT user-defined functors (darth-tytus)
+  * Optimise ADT encoding (darth-tytus)
+  * Added limitsize directive (b-scholz)
+  * Add heuristic-based clause reordering (azreika)
+  * Enhanced Magic Set transformation (azreika)
+  * Restructuring for readability and maintainability (b-scholz, mmcgr)
+
+ -- Martin McGrane <mmcgrane@it.usyd.edu.au>  Fri, 25 Sep 2020 11:10:35 +1000
 
 souffle (2.0.1); urgency=low
   * Stop overmaterialising aggregate bodies (rdowavic)

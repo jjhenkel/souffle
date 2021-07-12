@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -23,19 +23,19 @@
 #include <string>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformer that does absolutely nothing
  */
 class NullTransformer : public MetaTransformer {
 private:
-    bool transform(AstTranslationUnit& /* translationUnit */) override {
+    bool transform(TranslationUnit& /* translationUnit */) override {
         return false;
     }
 
 public:
-    std::vector<AstTransformer*> getSubtransformers() const override {
+    std::vector<Transformer*> getSubtransformers() const override {
         return {};
     }
 
@@ -49,9 +49,9 @@ public:
         return "NullTransformer";
     }
 
-    NullTransformer* clone() const override {
+    NullTransformer* cloning() const override {
         return new NullTransformer();
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

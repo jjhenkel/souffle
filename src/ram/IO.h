@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -27,18 +27,18 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamIO
+ * @class IO
  * @brief I/O statement for a relation
  *
  * I/O operation for a relation, e.g., input/output/printsize
  */
-class RamIO : public RamRelationStatement {
+class IO : public RelationStatement {
 public:
-    RamIO(Own<RamRelationReference> relRef, std::map<std::string, std::string> directives)
-            : RamRelationStatement(std::move(relRef)), directives(std::move(directives)) {}
+    IO(std::string rel, std::map<std::string, std::string> directives)
+            : RelationStatement(rel), directives(std::move(directives)) {}
 
     /** @brief get I/O directives */
     const std::map<std::string, std::string>& getDirectives() const {
@@ -50,28 +50,27 @@ public:
         return directives.at(key);
     }
 
-    RamIO* clone() const override {
-        return new RamIO(souffle::clone(relationRef), directives);
+    IO* cloning() const override {
+        return new IO(relation, directives);
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
-        const RamRelation& rel = getRelation();
         os << times(" ", tabpos);
-        os << "IO " << rel.getName() << " (";
+        os << "IO " << relation << " (";
         os << join(directives, ",", [](std::ostream& out, const auto& arg) {
             out << arg.first << "=\"" << escape(arg.second) << "\"";
         });
         os << ")" << std::endl;
     };
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamIO&>(node);
-        return RamRelationStatement::equal(other) && directives == other.directives;
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<IO>(node);
+        return RelationStatement::equal(other) && directives == other.directives;
     }
 
     /** IO directives */
-    std::map<std::string, std::string> directives;
+    const std::map<std::string, std::string> directives;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

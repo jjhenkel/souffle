@@ -25,12 +25,13 @@
 #include "ast/utility/Visitor.h"
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
-void SumTypeBranchesAnalysis::run(const AstTranslationUnit& tu) {
+void SumTypeBranchesAnalysis::run(const TranslationUnit& tu) {
     const TypeEnvironment& env = tu.getAnalysis<TypeEnvironmentAnalysis>()->getTypeEnvironment();
 
-    visitDepthFirst(tu.getProgram()->getTypes(), [&](const AstAlgebraicDataType& adt) {
+    Program& program = tu.getProgram();
+    visit(program.getTypes(), [&](const ast::AlgebraicDataType& adt) {
         auto typeName = adt.getQualifiedName();
         if (!env.isType(typeName)) return;
 
@@ -40,4 +41,4 @@ void SumTypeBranchesAnalysis::run(const AstTranslationUnit& tu) {
     });
 }
 
-}  // namespace souffle
+}  // namespace souffle::ast::analysis

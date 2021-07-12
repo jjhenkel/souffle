@@ -30,20 +30,20 @@
 #include <cassert>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
-BindingStore::BindingStore(const AstClause* clause) {
+BindingStore::BindingStore(const Clause* clause) {
     generateBindingDependencies(clause);
     reduceDependencies();
 }
 
-void BindingStore::generateBindingDependencies(const AstClause* clause) {
+void BindingStore::generateBindingDependencies(const Clause* clause) {
     // Grab all relevant constraints (i.e. eq. constrs not involving aggregators)
-    std::set<const AstBinaryConstraint*> relevantEqConstraints;
-    visitDepthFirst(*clause, [&](const AstBinaryConstraint& bc) {
+    std::set<const BinaryConstraint*> relevantEqConstraints;
+    visit(*clause, [&](const BinaryConstraint& bc) {
         bool containsAggregators = false;
-        visitDepthFirst(bc, [&](const AstAggregator& /* aggr */) { containsAggregators = true; });
-        if (!containsAggregators && bc.getOperator() == BinaryConstraintOp::EQ) {
+        visit(bc, [&](const Aggregator& /* aggr */) { containsAggregators = true; });
+        if (!containsAggregators && isEqConstraint(bc.getBaseOperator())) {
             relevantEqConstraints.insert(&bc);
         }
     });
@@ -55,20 +55,20 @@ void BindingStore::generateBindingDependencies(const AstClause* clause) {
     }
 }
 
-void BindingStore::processEqualityBindings(const AstArgument* lhs, const AstArgument* rhs) {
+void BindingStore::processEqualityBindings(const Argument* lhs, const Argument* rhs) {
     // Only care about equalities affecting the bound status of variables
-    const auto* var = dynamic_cast<const AstVariable*>(lhs);
+    const auto* var = as<Variable>(lhs);
     if (var == nullptr) return;
 
     // If all variables on the rhs are bound, then lhs is also bound
     BindingStore::ConjBindingSet depSet;
-    visitDepthFirst(*rhs, [&](const AstVariable& subVar) { depSet.insert(subVar.getName()); });
+    visit(*rhs, [&](const Variable& subVar) { depSet.insert(subVar.getName()); });
     addBindingDependency(var->getName(), depSet);
 
     // If the lhs is bound, then all args in the rec on the rhs are also bound
-    if (const auto* rec = dynamic_cast<const AstRecordInit*>(rhs)) {
+    if (const auto* rec = as<RecordInit>(rhs)) {
         for (const auto* arg : rec->getArguments()) {
-            const auto* subVar = dynamic_cast<const AstVariable*>(arg);
+            const auto* subVar = as<Variable>(arg);
             assert(subVar != nullptr && "expected args to be variables");
             addBindingDependency(subVar->getName(), BindingStore::ConjBindingSet({var->getName()}));
         }
@@ -139,25 +139,25 @@ bool BindingStore::reduceDependencies() {
     return false;
 }
 
-bool BindingStore::isBound(const AstArgument* arg) const {
-    if (const auto* var = dynamic_cast<const AstVariable*>(arg)) {
+bool BindingStore::isBound(const Argument* arg) const {
+    if (const auto* var = as<Variable>(arg)) {
         return isBound(var->getName());
-    } else if (const auto* term = dynamic_cast<const AstTerm*>(arg)) {
+    } else if (const auto* term = as<Term>(arg)) {
         for (const auto* subArg : term->getArguments()) {
             if (!isBound(subArg)) {
                 return false;
             }
         }
         return true;
-    } else if (isA<AstConstant>(arg)) {
+    } else if (isA<Constant>(arg)) {
         return true;
     } else {
         return false;
     }
 }
 
-size_t BindingStore::numBoundArguments(const AstAtom* atom) const {
-    size_t count = 0;
+std::size_t BindingStore::numBoundArguments(const Atom* atom) const {
+    std::size_t count = 0;
     for (const auto* arg : atom->getArguments()) {
         if (isBound(arg)) {
             count++;
@@ -166,4 +166,4 @@ size_t BindingStore::numBoundArguments(const AstAtom* atom) const {
     return count;
 }
 
-}  // namespace souffle
+}  // namespace souffle::ast

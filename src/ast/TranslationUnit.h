@@ -16,25 +16,26 @@
 
 #pragma once
 
-#include "Global.h"
-#include "ast/Program.h"
-#include "ast/analysis/Analysis.h"
-#include "ast/analysis/PrecedenceGraph.h"
-#include "ast/analysis/SCCGraph.h"
-#include "ast/analysis/SumTypeBranches.h"
-#include "ast/analysis/Type.h"
-#include "reports/DebugReport.h"
+#include "souffle/utility/MiscUtil.h"
+#include "souffle/utility/Types.h"
 #include <map>
-#include <memory>
-#include <sstream>
-#include <string>
 #include <utility>
 
 namespace souffle {
 class ErrorReport;
+class DebugReport;
+}  // namespace souffle
+
+namespace souffle::ast {
+
+class Program;
+
+namespace analysis {
+class Analysis;
+}
 
 /**
- * @class AstTranslationUnit
+ * @class TranslationUnit
  * @brief Translation unit class for the translation pipeline
  *
  * The translation unit class consisting of
@@ -42,46 +43,28 @@ class ErrorReport;
  * cached analysis results.
  */
 
-class AstTranslationUnit {
+class TranslationUnit {
 public:
-    AstTranslationUnit(Own<AstProgram> program, ErrorReport& e, DebugReport& d)
-            : program(std::move(program)), errorReport(e), debugReport(d) {}
-
-    virtual ~AstTranslationUnit() = default;
+    TranslationUnit(Own<Program> program, ErrorReport& e, DebugReport& d);
+    virtual ~TranslationUnit();
 
     /** get analysis: analysis is generated on the fly if not present */
     template <class Analysis>
     Analysis* getAnalysis() const {
-        static const bool debug = Global::config().has("debug-report");
-        std::string name = Analysis::name;
-        auto it = analyses.find(name);
+        auto it = analyses.find(Analysis::name);
+        analysis::Analysis* ana = nullptr;
         if (it == analyses.end()) {
-            // analysis does not exist yet, create instance and run it.
-            analyses[name] = mk<Analysis>();
-            analyses[name]->run(*this);
-            if (debug) {
-                std::stringstream ss;
-                analyses[name]->print(ss);
-                if (!isA<PrecedenceGraphAnalysis>(analyses[name].get()) &&
-                        !isA<SCCGraphAnalysis>(analyses[name].get())) {
-                    debugReport.addSection(name, "Ast Analysis [" + name + "]", ss.str());
-                } else {
-                    debugReport.addSection(
-                            DebugReportSection(name, "Ast Analysis [" + name + "]", {}, ss.str()));
-                }
-            }
+            ana = addAnalysis(Analysis::name, mk<Analysis>());
+        } else {
+            ana = it->second.get();
         }
-        return dynamic_cast<Analysis*>(analyses[name].get());
+
+        return as<Analysis>(ana);
     }
 
     /** Return the program */
-    AstProgram* getProgram() {
-        return program.get();
-    }
-
-    /** Return the program */
-    const AstProgram* getProgram() const {
-        return program.get();
+    Program& getProgram() const {
+        return *program.get();
     }
 
     /** Return error report */
@@ -89,32 +72,23 @@ public:
         return errorReport;
     }
 
-    /** Return error report */
-    const ErrorReport& getErrorReport() const {
-        return errorReport;
-    }
-
     /** Destroy all cached analyses of translation unit */
-    void invalidateAnalyses() {
-        analyses.clear();
-    }
+    void invalidateAnalyses() const;
 
     /** Return debug report */
     DebugReport& getDebugReport() {
         return debugReport;
     }
 
-    /** Return debug report */
-    const DebugReport& getDebugReport() const {
-        return debugReport;
-    }
+private:
+    analysis::Analysis* addAnalysis(char const* name, Own<analysis::Analysis> analysis) const;
 
 private:
     /** Cached analyses */
-    mutable std::map<std::string, Own<AstAnalysis>> analyses;
+    mutable std::map<std::string, Own<analysis::Analysis>> analyses;
 
     /** AST program */
-    Own<AstProgram> program;
+    Own<Program> program;
 
     /** Error report capturing errors while compiling */
     ErrorReport& errorReport;
@@ -123,4 +97,4 @@ private:
     DebugReport& debugReport;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

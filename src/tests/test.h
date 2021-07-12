@@ -36,7 +36,7 @@
 namespace testutil {
 
 template <typename T>
-std::vector<T> generateRandomVector(const size_t vectorSize, const int seed = 3) {
+std::vector<T> generateRandomVector(const std::size_t vectorSize, const int seed = 3) {
     std::vector<T> values(vectorSize);
 
     std::default_random_engine randomGenerator(seed);
@@ -70,11 +70,11 @@ static class TestCase* base = nullptr;
 
 class TestCase {
 private:
-    TestCase* next;     // next test case (linked by constructor)
-    std::string group;  // group name of test
-    std::string test;   // test name of test
-    size_t num_checks;  // number of checks
-    size_t num_failed;  // number of failed checks
+    TestCase* next;          // next test case (linked by constructor)
+    std::string group;       // group name of test
+    std::string test;        // test name of test
+    std::size_t num_checks;  // number of checks
+    std::size_t num_failed;  // number of failed checks
 
 protected:
     std::ostream& logstream;  // logfile
@@ -156,17 +156,20 @@ public:
     /**
      * get number of checks
      */
-    size_t getChecks() const {
+    std::size_t getChecks() const {
         return num_checks;
     }
 
     /**
      * get number of failed checks
      */
-    size_t getFailed() const {
+    std::size_t getFailed() const {
         return num_failed;
     }
 };
+
+#define PASTE(x, y) x##y
+#define PASTE2(x, y) PASTE(x, y)
 
 #define TEST(a, b)                                                       \
     class test_##a##_##b : public TestCase {                             \
@@ -175,6 +178,22 @@ public:
         void run();                                                      \
     } Test_##a##_##b(#a, #b);                                            \
     void test_##a##_##b::run()
+
+#define TEMPLATE_TEST(a, b, Param, P)                                                       \
+    template <Param>                                                                        \
+    class test_##a##_##b : public TestCase {                                                \
+    public:                                                                                 \
+        test_##a##_##b(std::string g, std::string t, std::string k) : TestCase(g, t + k) {} \
+        void run();                                                                         \
+    };                                                                                      \
+    template <Param>                                                                        \
+    void test_##a##_##b<P>::run()
+
+#define SPECIALIZE_TEMPLATE_TEST(a, b, P) \
+    template <>                           \
+    void test_##a##_##b<P>::run()
+
+#define INSTANTIATE_TEMPLATE_TEST(a, b, V) test_##a##_##b<V> PASTE2(Test_##a##_##b##_, __LINE__)(#a, #b, #V)
 
 #define S(x) #x
 #define S_(x) S(x)

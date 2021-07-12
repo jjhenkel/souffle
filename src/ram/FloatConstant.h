@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -16,14 +16,14 @@
 
 #pragma once
 
-#include "ram/Constant.h"
+#include "ram/NumericConstant.h"
 #include "souffle/RamTypes.h"
 #include <ostream>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamFloatConstant
+ * @class FloatConstant
  * @brief Represents a float constant
  *
  * For example:
@@ -31,24 +31,24 @@ namespace souffle {
  * float(3.3)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamFloatConstant : public RamConstant {
+class FloatConstant : public NumericConstant {
 public:
-    explicit RamFloatConstant(RamFloat val) : RamConstant(ramBitCast(val)) {}
+    explicit FloatConstant(RamFloat val) : NumericConstant(ramBitCast(val)) {}
 
     /** @brief Get value of the constant. */
     RamFloat getValue() const {
         return ramBitCast<RamFloat>(constant);
     }
 
-    /** Create clone */
-    RamFloatConstant* clone() const override {
-        return new RamFloatConstant(getValue());
+    /** Create cloning */
+    FloatConstant* cloning() const override {
+        return new FloatConstant(getValue());
     }
 
 protected:
     void print(std::ostream& os) const override {
-        os << "float(" << getValue() << ")";
+        os << "FLOAT(" << getValue() << ")";
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

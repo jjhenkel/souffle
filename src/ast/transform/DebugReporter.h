@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -27,7 +27,7 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformation pass which wraps another transformation pass and generates
@@ -36,10 +36,9 @@ namespace souffle {
  */
 class DebugReporter : public MetaTransformer {
 public:
-    DebugReporter(Own<AstTransformer> wrappedTransformer)
-            : wrappedTransformer(std::move(wrappedTransformer)) {}
+    DebugReporter(Own<Transformer> wrappedTransformer) : wrappedTransformer(std::move(wrappedTransformer)) {}
 
-    std::vector<AstTransformer*> getSubtransformers() const override {
+    std::vector<Transformer*> getSubtransformers() const override {
         return {wrappedTransformer.get()};
     }
 
@@ -47,13 +46,13 @@ public:
 
     void setVerbosity(bool verbose) override {
         this->verbose = verbose;
-        if (auto* mt = dynamic_cast<MetaTransformer*>(wrappedTransformer.get())) {
+        if (auto* mt = as<MetaTransformer>(wrappedTransformer)) {
             mt->setVerbosity(verbose);
         }
     }
 
     void disableTransformers(const std::set<std::string>& transforms) override {
-        if (auto* mt = dynamic_cast<MetaTransformer*>(wrappedTransformer.get())) {
+        if (auto* mt = as<MetaTransformer>(wrappedTransformer)) {
             mt->disableTransformers(transforms);
         } else if (transforms.find(wrappedTransformer->getName()) != transforms.end()) {
             wrappedTransformer = mk<NullTransformer>();
@@ -64,16 +63,16 @@ public:
         return "DebugReporter";
     }
 
-    DebugReporter* clone() const override {
-        return new DebugReporter(souffle::clone(wrappedTransformer));
+    DebugReporter* cloning() const override {
+        return new DebugReporter(clone(wrappedTransformer));
     }
 
 private:
-    Own<AstTransformer> wrappedTransformer;
+    Own<Transformer> wrappedTransformer;
 
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
 
-    void generateDebugReport(AstTranslationUnit& tu, const std::string& preTransformDatalog);
+    void generateDebugReport(TranslationUnit& tu, const std::string& preTransformDatalog);
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

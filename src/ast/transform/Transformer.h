@@ -17,22 +17,37 @@
 #pragma once
 
 #include "ast/TranslationUnit.h"
+#include "souffle/utility/Types.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-class AstTransformer {
+class Transformer {
 private:
-    virtual bool transform(AstTranslationUnit& translationUnit) = 0;
+    virtual bool transform(TranslationUnit& translationUnit) = 0;
 
 public:
-    virtual ~AstTransformer() = default;
+    virtual ~Transformer() = default;
 
-    bool apply(AstTranslationUnit& translationUnit);
+    bool apply(TranslationUnit& translationUnit);
 
     virtual std::string getName() const = 0;
 
-    virtual AstTransformer* clone() const = 0;
+    /**
+     * Transformers can be disabled by command line
+     * with --disable-transformer. Default behaviour
+     * is that all transformers can be disabled.
+     */
+    virtual bool isSwitchable() {
+        return true;
+    }
+
+    Own<Transformer> cloneImpl() const {
+        return Own<Transformer>(cloning());
+    }
+
+private:
+    virtual Transformer* cloning() const = 0;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

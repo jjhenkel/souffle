@@ -22,25 +22,25 @@
 #include "ast/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformation pass to replace unnamed variables
  * with singletons.
  * E.g.: a() :- b(_). -> a() :- b(x).
  */
-class NameUnnamedVariablesTransformer : public AstTransformer {
+class NameUnnamedVariablesTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "NameUnnamedVariablesTransformer";
     }
 
-    NameUnnamedVariablesTransformer* clone() const override {
+private:
+    NameUnnamedVariablesTransformer* cloning() const override {
         return new NameUnnamedVariablesTransformer();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

@@ -20,7 +20,7 @@
 #include <random>
 #include <string>
 
-namespace souffle::test {
+namespace souffle::ram::test {
 
 #define NUMBER_OF_CONVERSION_TESTS 100
 
@@ -69,4 +69,4 @@ TEST(randomConversions, RamFloat) {
     }
 }
 
-}  // namespace souffle::test
+}  // namespace souffle::ram::test

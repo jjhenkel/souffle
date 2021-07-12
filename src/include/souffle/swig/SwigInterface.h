@@ -67,15 +67,15 @@ public:
     /**
      * Calls the corresponding method souffle::SouffleProgram::dumpInputs in SouffleInterface.h
      */
-    void dumpInputs(std::ostream& out = std::cout) {
-        program->dumpInputs(out);
+    void dumpInputs() {
+        program->dumpInputs();
     }
 
     /**
      * Calls the corresponding method souffle::SouffleProgram::dumpOutputs in SouffleInterface.h
      */
-    void dumpOutputs(std::ostream& out = std::cout) {
-        program->dumpOutputs(out);
+    void dumpOutputs() {
+        program->dumpOutputs();
     }
 };
 

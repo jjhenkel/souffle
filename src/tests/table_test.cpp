@@ -54,7 +54,7 @@ TEST(Table, Stress) {
             table.insert(j);
         }
 
-        EXPECT_EQ((size_t)i, table.size());
+        EXPECT_EQ((std::size_t)i, table.size());
 
         int last = -1;
         for (const auto& cur : table) {

@@ -158,3 +158,46 @@ NumWorkersPerDepartment(dept, n) :-
     n = count : WorksForDepartment(_, dept).
 
 .output AverageSalaryPerDepartment, AvgWorkersPerDepartment, NumWorkersPerDepartment()
+
+/**
+*   Try a super super nested aggregate query.
+*   We want to find the minimum of maximum counts.
+**/
+.decl M, Y(x:number)
+.decl P(p:symbol)
+.decl H(a:symbol, b:symbol, y:number, m:number)
+.decl W(a:symbol, n:number)
+
+Y(2019).
+Y(2020).
+M(1).
+M(n+1) :- M(n), n + 1 <= 12.
+
+P("Anna").
+P("Rachel").
+P("Shelby").
+
+H("Anna", "Gringo", 2019, 1).
+H("Anna", "Celine", 2019, 1).
+
+H("Rachel", "Howard", 2019, 3).
+H("Rachel", "Sandra", 2020, 5).
+H("Rachel", "Holland", 2020, 6).
+
+H("Shelby", "George", 2020, 2).
+H("Shelby", "Tim", 2020, 2).
+H("Shelby", "Rafael", 2020, 2).
+
+W(a, n) :-
+    n = min worstNPart : {
+        P(a),
+        worstNPart = max part : {
+                Y(y),
+                M(m),
+                part = count : {
+                    H(a, _, y, m)
+                }
+            }
+    }.
+
+.output W()

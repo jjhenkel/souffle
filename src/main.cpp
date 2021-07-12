@@ -21,14 +21,15 @@
 #include "ast/analysis/PrecedenceGraph.h"
 #include "ast/analysis/SCCGraph.h"
 #include "ast/analysis/Type.h"
-#include "ast/transform/ADTtoRecords.h"
 #include "ast/transform/AddNullariesToAtomlessAggregates.h"
 #include "ast/transform/ComponentChecker.h"
 #include "ast/transform/ComponentInstantiation.h"
 #include "ast/transform/Conditional.h"
 #include "ast/transform/ExecutionPlanChecker.h"
+#include "ast/transform/ExpandEqrels.h"
 #include "ast/transform/Fixpoint.h"
 #include "ast/transform/FoldAnonymousRecords.h"
+#include "ast/transform/GroundWitnesses.h"
 #include "ast/transform/GroundedTermsChecker.h"
 #include "ast/transform/IOAttributes.h"
 #include "ast/transform/IODefaults.h"
@@ -38,34 +39,37 @@
 #include "ast/transform/MaterializeSingletonAggregation.h"
 #include "ast/transform/MinimiseProgram.h"
 #include "ast/transform/NameUnnamedVariables.h"
+#include "ast/transform/NormaliseGenerators.h"
 #include "ast/transform/PartitionBodyLiterals.h"
 #include "ast/transform/Pipeline.h"
-#include "ast/transform/PolymorphicObjects.h"
 #include "ast/transform/PragmaChecker.h"
-#include "ast/transform/Provenance.h"
 #include "ast/transform/ReduceExistentials.h"
 #include "ast/transform/RemoveBooleanConstraints.h"
 #include "ast/transform/RemoveEmptyRelations.h"
 #include "ast/transform/RemoveRedundantRelations.h"
 #include "ast/transform/RemoveRedundantSums.h"
 #include "ast/transform/RemoveRelationCopies.h"
-#include "ast/transform/RemoveTypecasts.h"
 #include "ast/transform/ReorderLiterals.h"
 #include "ast/transform/ReplaceSingletonVariables.h"
 #include "ast/transform/ResolveAliases.h"
 #include "ast/transform/ResolveAnonymousRecordAliases.h"
 #include "ast/transform/SemanticChecker.h"
+#include "ast/transform/SimplifyAggregateTargetExpression.h"
 #include "ast/transform/UniqueAggregationVariables.h"
-#include "ast/transform/UserDefinedFunctors.h"
-#include "ast2ram/AstToRamTranslator.h"
+#include "ast2ram/TranslationStrategy.h"
+#include "ast2ram/UnitTranslator.h"
+#include "ast2ram/provenance/TranslationStrategy.h"
+#include "ast2ram/provenance/UnitTranslator.h"
+#include "ast2ram/seminaive/TranslationStrategy.h"
+#include "ast2ram/seminaive/UnitTranslator.h"
+#include "ast2ram/utility/TranslatorContext.h"
 #include "config.h"
-#include "interpreter/InterpreterEngine.h"
-#include "interpreter/InterpreterProgInterface.h"
+#include "interpreter/Engine.h"
+#include "interpreter/ProgInterface.h"
 #include "parser/ParserDriver.h"
 #include "ram/Node.h"
 #include "ram/Program.h"
 #include "ram/TranslationUnit.h"
-#include "ram/transform/ChoiceConversion.h"
 #include "ram/transform/CollapseFilters.h"
 #include "ram/transform/Conditional.h"
 #include "ram/transform/EliminateDuplicates.h"
@@ -73,7 +77,7 @@
 #include "ram/transform/HoistAggregate.h"
 #include "ram/transform/HoistConditions.h"
 #include "ram/transform/IfConversion.h"
-#include "ram/transform/IndexedInequality.h"
+#include "ram/transform/IfExistsConversion.h"
 #include "ram/transform/Loop.h"
 #include "ram/transform/MakeIndex.h"
 #include "ram/transform/Parallel.h"
@@ -112,6 +116,7 @@
 #include <vector>
 
 namespace souffle {
+
 /**
  * Executes a binary file.
  */
@@ -200,7 +205,7 @@ int main(int argc, char** argv) {
         footer << "----------------------------------------------------------------------------" << std::endl;
         footer << "Version: " << PACKAGE_VERSION << "" << std::endl;
         footer << "----------------------------------------------------------------------------" << std::endl;
-        footer << "Copyright (c) 2016-20 The Souffle Developers." << std::endl;
+        footer << "Copyright (c) 2016-21 The Souffle Developers." << std::endl;
         footer << "Copyright (c) 2013-16 Oracle and/or its affiliates." << std::endl;
         footer << "All rights reserved." << std::endl;
         footer << "============================================================================" << std::endl;
@@ -225,8 +230,8 @@ int main(int argc, char** argv) {
                 {"swig", 's', "LANG", "", false,
                         "Generate SWIG interface for given language. The values <LANG> accepts is java and "
                         "python. "},
-                {"library-dir", 'L', "DIR", "", false, "Specify directory for library files."},
-                {"libraries", 'l', "FILE", "", false, "Specify libraries."},
+                {"library-dir", 'L', "DIR", "", true, "Specify directory for library files."},
+                {"libraries", 'l', "FILE", "", true, "Specify libraries."},
                 {"no-warn", 'w', "", "", false, "Disable warnings."},
                 {"magic-transform", 'm', "RELATIONS", "", false,
                         "Enable magic set transformation changes on the given relations, use '*' "
@@ -237,10 +242,11 @@ int main(int argc, char** argv) {
                 {"dl-program", 'o', "FILE", "", false,
                         "Generate C++ source code, written to <FILE>, and compile this to a "
                         "binary executable (without executing it)."},
-                {"live-profile", '\2', "", "", false, "Enable live profiling."},
+                {"live-profile", '\1', "", "", false, "Enable live profiling."},
                 {"profile", 'p', "FILE", "", false, "Enable profiling, and write profile data to <FILE>."},
                 {"profile-use", 'u', "FILE", "", false,
                         "Use profile log-file <FILE> for profile-guided optimization."},
+                {"profile-frequency", '\2', "", "", false, "Enable the frequency counter in the profiler."},
                 {"debug-report", 'r', "FILE", "", false, "Write HTML debug report to <FILE>."},
                 {"pragma", 'P', "OPTIONS", "", false, "Set pragma options."},
                 {"provenance", 't', "[ none | explain | explore ]", "", false,
@@ -262,7 +268,7 @@ int main(int argc, char** argv) {
         if (Global::config().has("pragma")) {
             std::vector<std::string> configOptions = splitString(Global::config().get("pragma"), ';');
             for (const std::string& option : configOptions) {
-                size_t splitPoint = option.find(':');
+                std::size_t splitPoint = option.find(':');
 
                 std::string optionName = option.substr(0, splitPoint);
                 std::string optionValue = (splitPoint == std::string::npos)
@@ -307,6 +313,7 @@ int main(int argc, char** argv) {
             if (!Global::config().has("jobs", "auto")) {
                 throw std::runtime_error("-j/--jobs may only be set to 'auto' or an integer greater than 0.");
             }
+            // set jobs to zero to indicate the synthesiser and interpreter to use the system default.
             Global::config().set("jobs", "0");
         }
 #else
@@ -392,7 +399,7 @@ int main(int argc, char** argv) {
     }
 
     /* Create the pipe to establish a communication between cpp and souffle */
-    std::string cmd = ::which("mcpp");
+    std::string cmd = which("mcpp");
 
     if (!isExecutable(cmd)) {
         throw std::runtime_error("failed to locate mcpp pre-processor");
@@ -415,7 +422,7 @@ int main(int argc, char** argv) {
     // parse file
     ErrorReport errReport(Global::config().has("no-warn"));
     DebugReport debugReport;
-    Own<AstTranslationUnit> astTranslationUnit =
+    Own<ast::TranslationUnit> astTranslationUnit =
             ParserDriver::parseTranslationUnit("<stdin>", in, errReport, debugReport);
 
     // close input pipe
@@ -428,7 +435,7 @@ int main(int argc, char** argv) {
     /* Report run-time of the parser if verbose flag is set */
     if (Global::config().has("verbose")) {
         auto parser_end = std::chrono::high_resolution_clock::now();
-        std::cout << "Parse Time: " << std::chrono::duration<double>(parser_end - parser_start).count()
+        std::cout << "Parse time: " << std::chrono::duration<double>(parser_end - parser_start).count()
                   << "sec\n";
     }
 
@@ -443,52 +450,72 @@ int main(int argc, char** argv) {
     // ------- rewriting / optimizations -------------
 
     /* set up additional global options based on pragma declaratives */
-    (mk<AstPragmaChecker>())->apply(*astTranslationUnit);
+    (mk<ast::transform::PragmaChecker>())->apply(*astTranslationUnit);
 
     /* construct the transformation pipeline */
 
     // Equivalence pipeline
-    auto equivalencePipeline = mk<PipelineTransformer>(mk<NameUnnamedVariablesTransformer>(),
-            mk<FixpointTransformer>(mk<MinimiseProgramTransformer>()),
-            mk<ReplaceSingletonVariablesTransformer>(), mk<RemoveRelationCopiesTransformer>(),
-            mk<RemoveEmptyRelationsTransformer>(), mk<RemoveRedundantRelationsTransformer>());
+    auto equivalencePipeline =
+            mk<ast::transform::PipelineTransformer>(mk<ast::transform::NameUnnamedVariablesTransformer>(),
+                    mk<ast::transform::FixpointTransformer>(mk<ast::transform::MinimiseProgramTransformer>()),
+                    mk<ast::transform::ReplaceSingletonVariablesTransformer>(),
+                    mk<ast::transform::RemoveRelationCopiesTransformer>(),
+                    mk<ast::transform::RemoveEmptyRelationsTransformer>(),
+                    mk<ast::transform::RemoveRedundantRelationsTransformer>());
 
     // Magic-Set pipeline
-    auto magicPipeline = mk<PipelineTransformer>(mk<MagicSetTransformer>(), mk<ResolveAliasesTransformer>(),
-            mk<RemoveRelationCopiesTransformer>(), mk<RemoveEmptyRelationsTransformer>(),
-            mk<RemoveRedundantRelationsTransformer>(), souffle::clone(equivalencePipeline));
+    auto magicPipeline = mk<ast::transform::PipelineTransformer>(mk<ast::transform::MagicSetTransformer>(),
+            mk<ast::transform::ResolveAliasesTransformer>(),
+            mk<ast::transform::RemoveRelationCopiesTransformer>(),
+            mk<ast::transform::RemoveEmptyRelationsTransformer>(),
+            mk<ast::transform::RemoveRedundantRelationsTransformer>(), clone(equivalencePipeline));
 
     // Partitioning pipeline
-    auto partitionPipeline = mk<PipelineTransformer>(mk<NameUnnamedVariablesTransformer>(),
-            mk<PartitionBodyLiteralsTransformer>(), mk<ReplaceSingletonVariablesTransformer>());
+    auto partitionPipeline =
+            mk<ast::transform::PipelineTransformer>(mk<ast::transform::NameUnnamedVariablesTransformer>(),
+                    mk<ast::transform::PartitionBodyLiteralsTransformer>(),
+                    mk<ast::transform::ReplaceSingletonVariablesTransformer>());
 
     // Provenance pipeline
-    auto provenancePipeline = mk<ConditionalTransformer>(Global::config().has("provenance"),
-            mk<PipelineTransformer>(mk<ProvenanceTransformer>(), mk<PolymorphicObjectsTransformer>()));
+    auto provenancePipeline = mk<ast::transform::ConditionalTransformer>(Global::config().has("provenance"),
+            mk<ast::transform::PipelineTransformer>(mk<ast::transform::ExpandEqrelsTransformer>(),
+                    mk<ast::transform::NameUnnamedVariablesTransformer>()));
 
     // Main pipeline
-    auto pipeline = mk<PipelineTransformer>(mk<AstComponentChecker>(),
-            mk<ComponentInstantiationTransformer>(), mk<IODefaultsTransformer>(),
-            mk<UniqueAggregationVariablesTransformer>(), mk<AstUserDefinedFunctorsTransformer>(),
-            mk<FixpointTransformer>(
-                    mk<PipelineTransformer>(mk<ResolveAnonymousRecordAliases>(), mk<FoldAnonymousRecords>())),
-            mk<PolymorphicObjectsTransformer>(), mk<AstSemanticChecker>(), mk<ADTtoRecordsTransformer>(),
-            mk<MaterializeSingletonAggregationTransformer>(),
-            mk<FixpointTransformer>(mk<MaterializeAggregationQueriesTransformer>()),
-            mk<ResolveAliasesTransformer>(), mk<RemoveTypecastsTransformer>(),
-            mk<RemoveBooleanConstraintsTransformer>(), mk<ResolveAliasesTransformer>(),
-            mk<MinimiseProgramTransformer>(), mk<InlineRelationsTransformer>(),
-            mk<PolymorphicObjectsTransformer>(), mk<GroundedTermsChecker>(), mk<ResolveAliasesTransformer>(),
-            mk<RemoveRedundantRelationsTransformer>(), mk<RemoveRelationCopiesTransformer>(),
-            mk<RemoveEmptyRelationsTransformer>(), mk<ReplaceSingletonVariablesTransformer>(),
-            mk<FixpointTransformer>(mk<PipelineTransformer>(
-                    mk<ReduceExistentialsTransformer>(), mk<RemoveRedundantRelationsTransformer>())),
-            mk<RemoveRelationCopiesTransformer>(), std::move(partitionPipeline),
-            std::move(equivalencePipeline), mk<RemoveRelationCopiesTransformer>(), std::move(magicPipeline),
-            mk<ReorderLiteralsTransformer>(), mk<RemoveRedundantSumsTransformer>(),
-            mk<RemoveEmptyRelationsTransformer>(), mk<AddNullariesToAtomlessAggregatesTransformer>(),
-            mk<PolymorphicObjectsTransformer>(), mk<ReorderLiteralsTransformer>(),
-            mk<AstExecutionPlanChecker>(), std::move(provenancePipeline), mk<IOAttributesTransformer>());
+    auto pipeline = mk<ast::transform::PipelineTransformer>(mk<ast::transform::ComponentChecker>(),
+            mk<ast::transform::ComponentInstantiationTransformer>(),
+            mk<ast::transform::IODefaultsTransformer>(),
+            mk<ast::transform::SimplifyAggregateTargetExpressionTransformer>(),
+            mk<ast::transform::UniqueAggregationVariablesTransformer>(),
+            mk<ast::transform::FixpointTransformer>(mk<ast::transform::PipelineTransformer>(
+                    mk<ast::transform::ResolveAnonymousRecordAliasesTransformer>(),
+                    mk<ast::transform::FoldAnonymousRecords>())),
+            mk<ast::transform::SemanticChecker>(), mk<ast::transform::GroundWitnessesTransformer>(),
+            mk<ast::transform::UniqueAggregationVariablesTransformer>(),
+            mk<ast::transform::MaterializeSingletonAggregationTransformer>(),
+            mk<ast::transform::FixpointTransformer>(
+                    mk<ast::transform::MaterializeAggregationQueriesTransformer>()),
+            mk<ast::transform::RemoveRedundantSumsTransformer>(),
+            mk<ast::transform::NormaliseGeneratorsTransformer>(),
+            mk<ast::transform::ResolveAliasesTransformer>(),
+            mk<ast::transform::RemoveBooleanConstraintsTransformer>(),
+            mk<ast::transform::ResolveAliasesTransformer>(), mk<ast::transform::MinimiseProgramTransformer>(),
+            mk<ast::transform::InlineRelationsTransformer>(), mk<ast::transform::GroundedTermsChecker>(),
+            mk<ast::transform::ResolveAliasesTransformer>(),
+            mk<ast::transform::RemoveRedundantRelationsTransformer>(),
+            mk<ast::transform::RemoveRelationCopiesTransformer>(),
+            mk<ast::transform::RemoveEmptyRelationsTransformer>(),
+            mk<ast::transform::ReplaceSingletonVariablesTransformer>(),
+            mk<ast::transform::FixpointTransformer>(mk<ast::transform::PipelineTransformer>(
+                    mk<ast::transform::ReduceExistentialsTransformer>(),
+                    mk<ast::transform::RemoveRedundantRelationsTransformer>())),
+            mk<ast::transform::RemoveRelationCopiesTransformer>(), std::move(partitionPipeline),
+            std::move(equivalencePipeline), mk<ast::transform::RemoveRelationCopiesTransformer>(),
+            std::move(magicPipeline), mk<ast::transform::ReorderLiteralsTransformer>(),
+            mk<ast::transform::RemoveEmptyRelationsTransformer>(),
+            mk<ast::transform::AddNullariesToAtomlessAggregatesTransformer>(),
+            mk<ast::transform::ReorderLiteralsTransformer>(), mk<ast::transform::ExecutionPlanChecker>(),
+            std::move(provenancePipeline), mk<ast::transform::IOAttributesTransformer>());
 
     // Disable unwanted transformations
     if (Global::config().has("disable-transformers")) {
@@ -534,27 +561,27 @@ int main(int argc, char** argv) {
     if (Global::config().has("show")) {
         // Output the transformed datalog and return
         if (Global::config().get("show") == "transformed-datalog") {
-            std::cout << *astTranslationUnit->getProgram() << std::endl;
+            std::cout << astTranslationUnit->getProgram() << std::endl;
             return 0;
         }
 
         // Output the precedence graph in graphviz dot format and return
         if (Global::config().get("show") == "precedence-graph") {
-            astTranslationUnit->getAnalysis<PrecedenceGraphAnalysis>()->print(std::cout);
+            astTranslationUnit->getAnalysis<ast::analysis::PrecedenceGraphAnalysis>()->print(std::cout);
             std::cout << std::endl;
             return 0;
         }
 
         // Output the scc graph in graphviz dot format and return
         if (Global::config().get("show") == "scc-graph") {
-            astTranslationUnit->getAnalysis<SCCGraphAnalysis>()->print(std::cout);
+            astTranslationUnit->getAnalysis<ast::analysis::SCCGraphAnalysis>()->print(std::cout);
             std::cout << std::endl;
             return 0;
         }
 
         // Output the type analysis
         if (Global::config().get("show") == "type-analysis") {
-            astTranslationUnit->getAnalysis<TypeAnalysis>()->print(std::cout);
+            astTranslationUnit->getAnalysis<ast::analysis::TypeAnalysis>()->print(std::cout);
             std::cout << std::endl;
             return 0;
         }
@@ -563,26 +590,36 @@ int main(int argc, char** argv) {
     // ------- execution -------------
     /* translate AST to RAM */
     debugReport.startSection();
-    Own<RamTranslationUnit> ramTranslationUnit = AstToRamTranslator().translateUnit(*astTranslationUnit);
+    auto translationStrategy =
+            Global::config().has("provenance")
+                    ? mk<ast2ram::TranslationStrategy, ast2ram::provenance::TranslationStrategy>()
+                    : mk<ast2ram::TranslationStrategy, ast2ram::seminaive::TranslationStrategy>();
+    auto unitTranslator = Own<ast2ram::UnitTranslator>(translationStrategy->createUnitTranslator());
+    auto ramTranslationUnit = unitTranslator->translateUnit(*astTranslationUnit);
     debugReport.endSection("ast-to-ram", "Translate AST to RAM");
 
-    Own<RamTransformer> ramTransform = mk<RamTransformerSequence>(
-            mk<RamLoopTransformer>(mk<RamTransformerSequence>(mk<ExpandFilterTransformer>(),
-                    mk<HoistConditionsTransformer>(), mk<MakeIndexTransformer>())),
-            mk<RamLoopTransformer>(mk<IndexedInequalityTransformer>()), mk<IfConversionTransformer>(),
-            mk<ChoiceConversionTransformer>(), mk<CollapseFiltersTransformer>(), mk<TupleIdTransformer>(),
-            mk<RamLoopTransformer>(
-                    mk<RamTransformerSequence>(mk<HoistAggregateTransformer>(), mk<TupleIdTransformer>())),
-            mk<ExpandFilterTransformer>(), mk<HoistConditionsTransformer>(), mk<CollapseFiltersTransformer>(),
-            mk<EliminateDuplicatesTransformer>(), mk<ReorderConditionsTransformer>(),
-            mk<RamLoopTransformer>(mk<ReorderFilterBreak>()),
-            mk<RamConditionalTransformer>(
-                    // job count of 0 means all cores are used.
-                    []() -> bool { return std::stoi(Global::config().get("jobs")) != 1; },
-                    mk<ParallelTransformer>()),
-            mk<ReportIndexTransformer>());
+    // Apply RAM transforms
+    {
+        using namespace ram::transform;
+        Own<Transformer> ramTransform = mk<TransformerSequence>(
+                mk<LoopTransformer>(mk<TransformerSequence>(mk<ExpandFilterTransformer>(),
+                        mk<HoistConditionsTransformer>(), mk<MakeIndexTransformer>())),
+                mk<IfConversionTransformer>(), mk<IfExistsConversionTransformer>(),
+                mk<CollapseFiltersTransformer>(), mk<TupleIdTransformer>(),
+                mk<LoopTransformer>(
+                        mk<TransformerSequence>(mk<HoistAggregateTransformer>(), mk<TupleIdTransformer>())),
+                mk<ExpandFilterTransformer>(), mk<HoistConditionsTransformer>(),
+                mk<CollapseFiltersTransformer>(), mk<EliminateDuplicatesTransformer>(),
+                mk<ReorderConditionsTransformer>(), mk<LoopTransformer>(mk<ReorderFilterBreak>()),
+                mk<ConditionalTransformer>(
+                        // job count of 0 means all cores are used.
+                        []() -> bool { return std::stoi(Global::config().get("jobs")) != 1; },
+                        mk<ParallelTransformer>()),
+                mk<ReportIndexTransformer>());
 
-    ramTransform->apply(*ramTranslationUnit);
+        ramTransform->apply(*ramTranslationUnit);
+    }
+
     if (ramTranslationUnit->getErrorReport().getNumIssues() != 0) {
         std::cerr << ramTranslationUnit->getErrorReport();
     }
@@ -605,7 +642,7 @@ int main(int argc, char** argv) {
             }
 
             // configure and execute interpreter
-            Own<InterpreterEngine> interpreter(mk<InterpreterEngine>(*ramTranslationUnit));
+            Own<interpreter::Engine> interpreter(mk<interpreter::Engine>(*ramTranslationUnit));
             interpreter->executeMain();
             // If the profiler was started, join back here once it exits.
             if (profiler.joinable()) {
@@ -613,7 +650,7 @@ int main(int argc, char** argv) {
             }
             if (Global::config().has("provenance")) {
                 // only run explain interface if interpreted
-                InterpreterProgInterface interface(*interpreter);
+                interpreter::ProgInterface interface(*interpreter);
                 if (Global::config().get("provenance") == "explain") {
                     explain(interface, false);
                 } else if (Global::config().get("provenance") == "explore") {
@@ -622,7 +659,7 @@ int main(int argc, char** argv) {
             }
         } else {
             // ------- compiler -------------
-            Own<Synthesiser> synthesiser = mk<Synthesiser>(*ramTranslationUnit);
+            auto synthesiser = mk<synthesiser::Synthesiser>(*ramTranslationUnit);
 
             // Find the base filename for code generation and execution
             std::string baseFilename;
@@ -646,12 +683,18 @@ int main(int argc, char** argv) {
             std::string sourceFilename = baseFilename + ".cpp";
 
             bool withSharedLibrary;
+            auto synthesisStart = std::chrono::high_resolution_clock::now();
             const bool emitToStdOut = Global::config().has("generate", "-");
             if (emitToStdOut)
                 synthesiser->generateCode(std::cout, baseIdentifier, withSharedLibrary);
             else {
                 std::ofstream os{sourceFilename};
                 synthesiser->generateCode(os, baseIdentifier, withSharedLibrary);
+            }
+            if (Global::config().has("verbose")) {
+                auto synthesisEnd = std::chrono::high_resolution_clock::now();
+                std::cout << "Synthesis time: "
+                          << std::chrono::duration<double>(synthesisEnd - synthesisStart).count() << "sec\n";
             }
 
             if (withSharedLibrary) {
@@ -664,7 +707,7 @@ int main(int argc, char** argv) {
             }
 
             auto findCompileCmd = [&] {
-                auto cmd = ::findTool("souffle-compile", souffleExecutable, ".");
+                auto cmd = findTool("souffle-compile", souffleExecutable, ".");
                 /* Fail if a souffle-compile executable is not found */
                 if (!isExecutable(cmd)) {
                     throw std::runtime_error("failed to locate souffle-compile");
@@ -672,22 +715,22 @@ int main(int argc, char** argv) {
                 return cmd;
             };
 
+            auto compileStart = std::chrono::high_resolution_clock::now();
             if (Global::config().has("swig")) {
                 auto compileCmd = findCompileCmd() + " -s " + Global::config().get("swig") + " ";
                 compileToBinary(compileCmd, sourceFilename);
             } else if (Global::config().has("compile")) {
-                auto start = std::chrono::high_resolution_clock::now();
                 compileToBinary(findCompileCmd(), sourceFilename);
                 /* Report overall run-time in verbose mode */
-                if (Global::config().has("verbose")) {
-                    auto end = std::chrono::high_resolution_clock::now();
-                    std::cout << "Compilation Time: " << std::chrono::duration<double>(end - start).count()
-                              << "sec\n";
-                }
                 // run compiled C++ program if requested.
                 if (!Global::config().has("dl-program") && !Global::config().has("swig")) {
                     executeBinary(baseFilename);
                 }
+            }
+            if (Global::config().has("verbose")) {
+                auto compileEnd = std::chrono::high_resolution_clock::now();
+                std::cout << "Compilation time: "
+                          << std::chrono::duration<double>(compileEnd - compileStart).count() << "sec\n";
             }
         }
     } catch (std::exception& e) {
@@ -698,7 +741,7 @@ int main(int argc, char** argv) {
     /* Report overall run-time in verbose mode */
     if (Global::config().has("verbose")) {
         auto souffle_end = std::chrono::high_resolution_clock::now();
-        std::cout << "Total Time: " << std::chrono::duration<double>(souffle_end - souffle_start).count()
+        std::cout << "Total time: " << std::chrono::duration<double>(souffle_end - souffle_start).count()
                   << "sec\n";
     }
 

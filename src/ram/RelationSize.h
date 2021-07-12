@@ -18,8 +18,8 @@
 
 #include "ram/Expression.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Relation.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include <cassert>
@@ -29,10 +29,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamRelationSize
+ * @class RelationSize
  * @brief Returns the numbers of tuples in a relation
  *
  * For example:
@@ -40,41 +40,31 @@ namespace souffle {
  * size(B)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamRelationSize : public RamExpression {
+class RelationSize : public Expression {
 public:
-    RamRelationSize(Own<RamRelationReference> relRef) : relationRef(std::move(relRef)) {
-        assert(relationRef != nullptr && "Relation reference is a nullptr");
-    }
+    RelationSize(std::string rel) : relation(std::move(rel)) {}
 
     /** @brief Get relation */
-    const RamRelation& getRelation() const {
-        return *relationRef->get();
+    const std::string getRelation() const {
+        return relation;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        return {relationRef.get()};
-    }
-
-    RamRelationSize* clone() const override {
-        return new RamRelationSize(souffle::clone(relationRef));
-    }
-
-    void apply(const RamNodeMapper& map) override {
-        relationRef = map(std::move(relationRef));
+    RelationSize* cloning() const override {
+        return new RelationSize(relation);
     }
 
 protected:
     void print(std::ostream& os) const override {
-        os << "size(" << getRelation().getName() << ")";
+        os << "SIZE(" << relation << ")";
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamRelationSize&>(node);
-        return equal_ptr(relationRef, other.relationRef);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<RelationSize>(node);
+        return relation == other.relation;
     }
 
     /** Relation */
-    Own<RamRelationReference> relationRef;
+    std::string relation;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

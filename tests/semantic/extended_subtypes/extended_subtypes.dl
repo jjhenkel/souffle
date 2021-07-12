@@ -52,16 +52,3 @@ UnionSubtypes(0.5, 1).
 UnionSubtypes(x, x) :- UnionSubtypes(_, x).
 
 .output UnionSubtypes(IO=stdout)
-
-
-// record subtypes
-.type List = [head: number, tail: List]
-.type S1List <: List
-.type S2List <: S1List
-
-.decl RecordSubtypes(a: List, b: S1List, c: S2List)
-RecordSubtypes([1, [1, nil]], [2, nil], [3, nil]).
-RecordSubtypes([x, z], [y, z], z) :- RecordSubtypes([x, _], [y, _], z).
-RecordSubtypes([x, y], y, z) :- RecordSubtypes([x, _], y, z).
-
-.output RecordSubtypes(IO=stdout)

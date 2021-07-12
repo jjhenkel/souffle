@@ -32,11 +32,13 @@ AM_INIT_AUTOMAKE([foreign subdir-objects 1.9 tar-pax])
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIRS([m4])
-AC_CONFIG_MACRO_DIR([m4])
 
 dnl Do not set default CFLAGS and CXXFLAGS
 ENV_CXXFLAGS="$CXXFLAGS"
 CXXFLAGS=" -fwrapv "
+
+dnl This is here for CMAKE build compatibility
+AC_SUBST(CMAKE_HEADER_DIRS)
 
 # Disable provenance
 AC_ARG_ENABLE(
@@ -293,6 +295,7 @@ AC_CONFIG_FILES([
   tests/Makefile
   tests/atlocal
   tests/interface/functors/Makefile
+  tests/interface/graph_coloring/Makefile
 ])
 AC_CONFIG_LINKS([utilities/bash-completion/completions/souffle:debian/souffle.bash-completion])
 
@@ -307,6 +310,6 @@ AC_SUBST(SOUFFLE_CXXFLAGS)
 CXXFLAGS="-Wall -Wextra $CXXFLAGS $ENV_CXXFLAGS"
 
 AC_OUTPUT(
-  [ src/souffle-compile src/souffle-config debian/changelog ],
-  [ chmod +x src/souffle-compile src/souffle-config ]
+  [ src/souffle-compile debian/changelog ],
+  [ chmod +x src/souffle-compile ]
 )

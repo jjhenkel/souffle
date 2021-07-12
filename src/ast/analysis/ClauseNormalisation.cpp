@@ -40,11 +40,11 @@
 #include <memory>
 #include <ostream>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
-NormalisedClause::NormalisedClause(const AstClause* clause) {
+NormalisedClause::NormalisedClause(const Clause* clause) {
     // head
-    AstQualifiedName name("@min:head");
+    QualifiedName name("@min:head");
     std::vector<std::string> headVars;
     for (const auto* arg : clause->getHead()->getArguments()) {
         headVars.push_back(normaliseArgument(arg));
@@ -58,8 +58,8 @@ NormalisedClause::NormalisedClause(const AstClause* clause) {
 }
 
 void NormalisedClause::addClauseAtom(
-        const std::string& qualifier, const std::string& scopeID, const AstAtom* atom) {
-    AstQualifiedName name(atom->getQualifiedName());
+        const std::string& qualifier, const std::string& scopeID, const Atom* atom) {
+    QualifiedName name(atom->getQualifiedName());
     name.prepend(qualifier);
 
     std::vector<std::string> vars;
@@ -70,13 +70,13 @@ void NormalisedClause::addClauseAtom(
     clauseElements.push_back({.name = name, .params = vars});
 }
 
-void NormalisedClause::addClauseBodyLiteral(const std::string& scopeID, const AstLiteral* lit) {
-    if (const auto* atom = dynamic_cast<const AstAtom*>(lit)) {
+void NormalisedClause::addClauseBodyLiteral(const std::string& scopeID, const Literal* lit) {
+    if (const auto* atom = as<Atom>(lit)) {
         addClauseAtom("@min:atom", scopeID, atom);
-    } else if (const auto* neg = dynamic_cast<const AstNegation*>(lit)) {
+    } else if (const auto* neg = as<Negation>(lit)) {
         addClauseAtom("@min:neg", scopeID, neg->getAtom());
-    } else if (const auto* bc = dynamic_cast<const AstBinaryConstraint*>(lit)) {
-        AstQualifiedName name(toBinaryConstraintSymbol(bc->getOperator()));
+    } else if (const auto* bc = as<BinaryConstraint>(lit)) {
+        QualifiedName name(toBinaryConstraintSymbol(bc->getBaseOperator()));
         name.prepend("@min:operator");
         std::vector<std::string> vars;
         vars.push_back(scopeID);
@@ -88,37 +88,37 @@ void NormalisedClause::addClauseBodyLiteral(const std::string& scopeID, const As
         fullyNormalised = false;
         std::stringstream qualifier;
         qualifier << "@min:unhandled:lit:" << scopeID;
-        AstQualifiedName name(toString(*lit));
+        QualifiedName name(toString(*lit));
         name.prepend(qualifier.str());
         clauseElements.push_back({.name = name, .params = std::vector<std::string>()});
     }
 }
 
-std::string NormalisedClause::normaliseArgument(const AstArgument* arg) {
-    if (auto* stringCst = dynamic_cast<const AstStringConstant*>(arg)) {
+std::string NormalisedClause::normaliseArgument(const Argument* arg) {
+    if (auto* stringCst = as<StringConstant>(arg)) {
         std::stringstream name;
         name << "@min:cst:str" << *stringCst;
         constants.insert(name.str());
         return name.str();
-    } else if (auto* numericCst = dynamic_cast<const AstNumericConstant*>(arg)) {
+    } else if (auto* numericCst = as<NumericConstant>(arg)) {
         std::stringstream name;
         name << "@min:cst:num:" << *numericCst;
         constants.insert(name.str());
         return name.str();
-    } else if (isA<AstNilConstant>(arg)) {
+    } else if (isA<NilConstant>(arg)) {
         constants.insert("@min:cst:nil");
         return "@min:cst:nil";
-    } else if (auto* var = dynamic_cast<const AstVariable*>(arg)) {
+    } else if (auto* var = as<ast::Variable>(arg)) {
         auto name = var->getName();
         variables.insert(name);
         return name;
-    } else if (dynamic_cast<const AstUnnamedVariable*>(arg)) {
-        static size_t countUnnamed = 0;
+    } else if (as<UnnamedVariable>(arg)) {
+        static std::size_t countUnnamed = 0;
         std::stringstream name;
         name << "@min:unnamed:" << countUnnamed++;
         variables.insert(name.str());
         return name.str();
-    } else if (auto* aggr = dynamic_cast<const AstAggregator*>(arg)) {
+    } else if (auto* aggr = as<Aggregator>(arg)) {
         // Set the scope to uniquely identify the aggregator
         std::stringstream scopeID;
         scopeID << "@min:scope:" << ++aggrScopeCount;
@@ -130,7 +130,7 @@ std::string NormalisedClause::normaliseArgument(const AstArgument* arg) {
         std::vector<std::string> aggrTypeSignatureComponents;
 
         // - the operator is fixed and cannot be changed
-        aggrTypeSignature << ":" << aggr->getOperator();
+        aggrTypeSignature << ":" << aggr->getBaseOperator();
 
         // - the scope can be remapped as a variable
         aggrTypeSignatureComponents.push_back(scopeID.str());
@@ -157,8 +157,8 @@ std::string NormalisedClause::normaliseArgument(const AstArgument* arg) {
     }
 }
 
-void ClauseNormalisationAnalysis::run(const AstTranslationUnit& translationUnit) {
-    const auto& program = *translationUnit.getProgram();
+void ClauseNormalisationAnalysis::run(const TranslationUnit& translationUnit) {
+    const auto& program = translationUnit.getProgram();
     for (const auto* clause : program.getClauses()) {
         assert(!contains(normalisations, clause) && "clause already processed");
         normalisations[clause] = NormalisedClause(clause);
@@ -169,7 +169,7 @@ void ClauseNormalisationAnalysis::print(std::ostream& os) const {
     for (const auto& [clause, norm] : normalisations) {
         os << "Normalise(" << *clause << ") = {";
         const auto& els = norm.getElements();
-        for (size_t i = 0; i < els.size(); i++) {
+        for (std::size_t i = 0; i < els.size(); i++) {
             if (i != 0) {
                 os << ", ";
             }
@@ -179,9 +179,9 @@ void ClauseNormalisationAnalysis::print(std::ostream& os) const {
     }
 }
 
-const NormalisedClause& ClauseNormalisationAnalysis::getNormalisation(const AstClause* clause) const {
+const NormalisedClause& ClauseNormalisationAnalysis::getNormalisation(const Clause* clause) const {
     assert(contains(normalisations, clause) && "clause not normalised");
     return normalisations.at(clause);
 }
 
-}  // namespace souffle
+}  // namespace souffle::ast::analysis

@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -18,23 +18,23 @@
 #include "ast/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformation pass to rename aggregation variables to make them unique.
  */
-class UniqueAggregationVariablesTransformer : public AstTransformer {
+class UniqueAggregationVariablesTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "UniqueAggregationVariablesTransformer";
     }
 
-    UniqueAggregationVariablesTransformer* clone() const override {
+private:
+    UniqueAggregationVariablesTransformer* cloning() const override {
         return new UniqueAggregationVariablesTransformer();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,20 +19,17 @@
 #include "ast/utility/Utils.h"
 #include <set>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool RemoveRedundantRelationsTransformer::transform(AstTranslationUnit& translationUnit) {
+bool RemoveRedundantRelationsTransformer::transform(TranslationUnit& translationUnit) {
     bool changed = false;
-    auto* redundantRelationsAnalysis = translationUnit.getAnalysis<RedundantRelationsAnalysis>();
-    const std::set<const AstRelation*>& redundantRelations =
-            redundantRelationsAnalysis->getRedundantRelations();
-    if (!redundantRelations.empty()) {
-        for (auto rel : redundantRelations) {
-            removeRelation(translationUnit, rel->getQualifiedName());
-            changed = true;
-        }
+    auto* redundantRelationsAnalysis = translationUnit.getAnalysis<analysis::RedundantRelationsAnalysis>();
+    std::set<QualifiedName> redundantRelations = redundantRelationsAnalysis->getRedundantRelations();
+    for (auto name : redundantRelations) {
+        removeRelation(translationUnit, name);
+        changed = true;
     }
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

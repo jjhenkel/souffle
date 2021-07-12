@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -14,12 +14,12 @@
 
 #pragma once
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamAbstractParallel
+ * @class AbstractParallel
  * @brief Abstract class for parallel operation
  */
-class RamAbstractParallel {};
+class AbstractParallel {};
 
-}  // namespace souffle
+}  // namespace souffle::ram

@@ -16,11 +16,11 @@
 
 #pragma once
 
-#include "ram/LambdaNodeMapper.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Relation.h"
 #include "ram/Statement.h"
+#include "ram/utility/LambdaNodeMapper.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include <cassert>
@@ -31,10 +31,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamProgram
+ * @class Program
  * @brief RAM program relation declaration and functions
  *
  * A typical example:
@@ -49,13 +49,12 @@ namespace souffle {
  * END PROGRAM
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamProgram : public RamNode {
+class Program : public Node {
 private:
-    RamProgram() = default;
+    Program() = default;
 
 public:
-    RamProgram(
-            VecOwn<RamRelation> rels, Own<RamStatement> main, std::map<std::string, Own<RamStatement>> subs)
+    Program(VecOwn<Relation> rels, Own<Statement> main, std::map<std::string, Own<Statement>> subs)
             : relations(std::move(rels)), main(std::move(main)), subroutines(std::move(subs)) {
         assert(this->main != nullptr && "Main program is a null-pointer");
         for (const auto& rel : relations) {
@@ -66,8 +65,8 @@ public:
         }
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        std::vector<const RamNode*> children;
+    std::vector<const Node*> getChildNodes() const override {
+        std::vector<const Node*> children;
         children = main->getChildNodes();
         for (auto& rel : relations) {
             children.push_back(rel.get());
@@ -79,18 +78,18 @@ public:
     }
 
     /** @brief Get main program */
-    RamStatement& getMain() const {
+    Statement& getMain() const {
         return *main;
     }
 
     /** @brief Get all relations of RAM program  */
-    std::vector<RamRelation*> getRelations() const {
+    std::vector<Relation*> getRelations() const {
         return toPtrVector(relations);
     }
 
     /** @brief Get all subroutines of a RAM program */
-    const std::map<std::string, RamStatement*> getSubroutines() const {
-        std::map<std::string, RamStatement*> subroutineRefs;
+    const std::map<std::string, Statement*> getSubroutines() const {
+        std::map<std::string, Statement*> subroutineRefs;
         for (auto& sub : subroutines) {
             subroutineRefs.insert({sub.first, sub.second.get()});
         }
@@ -98,34 +97,23 @@ public:
     }
 
     /** @brief Get a specific subroutine */
-    const RamStatement& getSubroutine(const std::string& name) const {
+    const Statement& getSubroutine(const std::string& name) const {
         return *subroutines.at(name);
     }
 
-    RamProgram* clone() const override {
-        auto* res = new RamProgram();
-        res->main = souffle::clone(main);
+    Program* cloning() const override {
+        auto* res = new Program();
+        res->main = clone(main);
         for (auto& rel : relations) {
-            res->relations.push_back(souffle::clone(rel));
+            res->relations.push_back(clone(rel));
         }
         for (auto& sub : subroutines) {
-            res->subroutines[sub.first] = souffle::clone(sub.second);
+            res->subroutines[sub.first] = clone(sub.second);
         }
-        std::map<const RamRelation*, const RamRelation*> refMap;
-        res->apply(makeLambdaRamMapper([&](Own<RamNode> node) -> Own<RamNode> {
-            // rewire relation references to newly cloned relations
-            if (const RamRelationReference* relRef = dynamic_cast<RamRelationReference*>(node.get())) {
-                const RamRelation* rel = refMap[relRef->get()];
-                assert(rel != nullptr && "dangling RAM relation reference");
-                return mk<RamRelationReference>(rel);
-            } else {
-                return node;
-            }
-        }));
         return res;
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         main = map(std::move(main));
         for (auto& rel : relations) {
             rel = map(std::move(rel));
@@ -154,22 +142,21 @@ protected:
         out << "END PROGRAM" << std::endl;
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamProgram&>(node);
-
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<Program>(node);
         return equal_targets(relations, other.relations) && equal_ptr(main, other.main) &&
                equal_targets(subroutines, other.subroutines);
     }
 
 protected:
     /** Relations of RAM program */
-    VecOwn<RamRelation> relations;
+    VecOwn<Relation> relations;
 
     /** Main program */
-    Own<RamStatement> main;
+    Own<Statement> main;
 
     /** Subroutines for provenance system */
-    std::map<std::string, Own<RamStatement>> subroutines;
+    std::map<std::string, Own<Statement>> subroutines;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -20,10 +20,10 @@
 #include "ram/Expression.h"
 #include "ram/IndexOperation.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Operation.h"
 #include "ram/Relation.h"
-#include "ram/Utils.h"
+#include "ram/utility/NodeMapper.h"
+#include "ram/utility/Utils.h"
 #include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
 #include <iosfwd>
@@ -33,10 +33,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamIndexAggregate
+ * @class IndexAggregate
  * @brief Indexed aggregation on a relation. The index allows us to iterate over a restricted range
  *
  * For example:
@@ -44,34 +44,34 @@ namespace souffle {
  * t0.0=sum t0.1 SEARCH t0 ∈ S ON INDEX t0.0 = number(1)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamIndexAggregate : public RamIndexOperation, public RamAbstractAggregate {
+class IndexAggregate : public IndexOperation, public AbstractAggregate {
 public:
-    RamIndexAggregate(Own<RamOperation> nested, AggregateOp fun, Own<RamRelationReference> relRef,
-            Own<RamExpression> expression, Own<RamCondition> condition, RamPattern queryPattern, int ident)
-            : RamIndexOperation(std::move(relRef), ident, std::move(queryPattern), std::move(nested)),
-              RamAbstractAggregate(fun, std::move(expression), std::move(condition)) {}
+    IndexAggregate(Own<Operation> nested, AggregateOp fun, std::string rel, Own<Expression> expression,
+            Own<Condition> condition, RamPattern queryPattern, int ident)
+            : IndexOperation(rel, ident, std::move(queryPattern), std::move(nested)),
+              AbstractAggregate(fun, std::move(expression), std::move(condition)) {}
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        auto res = RamIndexOperation::getChildNodes();
-        auto children = RamAbstractAggregate::getChildNodes();
+    std::vector<const Node*> getChildNodes() const override {
+        auto res = IndexOperation::getChildNodes();
+        auto children = AbstractAggregate::getChildNodes();
         res.insert(res.end(), children.begin(), children.end());
         return res;
     }
 
-    RamIndexAggregate* clone() const override {
+    IndexAggregate* cloning() const override {
         RamPattern pattern;
         for (const auto& i : queryPattern.first) {
-            pattern.first.emplace_back(i->clone());
+            pattern.first.emplace_back(i->cloning());
         }
         for (const auto& i : queryPattern.second) {
-            pattern.second.emplace_back(i->clone());
+            pattern.second.emplace_back(i->cloning());
         }
-        return new RamIndexAggregate(souffle::clone(&getOperation()), function, souffle::clone(relationRef),
-                souffle::clone(expression), souffle::clone(condition), std::move(pattern), getTupleId());
+        return new IndexAggregate(clone(getOperation()), function, relation, clone(expression),
+                clone(condition), std::move(pattern), getTupleId());
     }
 
-    void apply(const RamNodeMapper& map) override {
-        RamIndexOperation::apply(map);
+    void apply(const NodeMapper& map) override {
+        IndexOperation::apply(map);
         condition = map(std::move(condition));
         expression = map(std::move(expression));
     }
@@ -79,21 +79,21 @@ public:
 protected:
     void print(std::ostream& os, int tabpos) const override {
         os << times(" ", tabpos);
-        os << "t" << getTupleId() << ".0=";
-        RamAbstractAggregate::print(os, tabpos);
-        os << "SEARCH t" << getTupleId() << " ∈ " << getRelation().getName();
+        os << "t" << getTupleId() << ".0 = ";
+        AbstractAggregate::print(os, tabpos);
+        os << "SEARCH t" << getTupleId() << " IN " << relation;
         printIndex(os);
-        if (!isRamTrue(condition.get())) {
+        if (!isTrue(condition.get())) {
             os << " WHERE " << getCondition();
         }
         os << std::endl;
-        RamIndexOperation::print(os, tabpos + 1);
+        IndexOperation::print(os, tabpos + 1);
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamIndexAggregate&>(node);
-        return RamIndexOperation::equal(other) && RamAbstractAggregate::equal(other);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<IndexAggregate>(node);
+        return IndexOperation::equal(other) && AbstractAggregate::equal(other);
     }
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -16,40 +16,33 @@
 
 #pragma once
 
-#include "souffle/utility/StreamUtil.h"
-#include <algorithm>
-#include <sstream>
+#include <iosfwd>
 #include <string>
-#include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstQualifiedName
+ * @class QualifiedName
  * @brief Qualified Name class defines fully/partially qualified names
  * to identify objects in components.
  */
-class AstQualifiedName {
+class QualifiedName {
 public:
-    AstQualifiedName() : qualifiers() {}
-    AstQualifiedName(const std::string& name) : qualifiers({name}) {}
-    AstQualifiedName(const char* name) : AstQualifiedName(std::string(name)) {}
-    AstQualifiedName(const std::vector<std::string> qualifiers) : qualifiers(qualifiers) {}
-    AstQualifiedName(const AstQualifiedName&) = default;
-    AstQualifiedName(AstQualifiedName&&) = default;
-    AstQualifiedName& operator=(const AstQualifiedName&) = default;
-    AstQualifiedName& operator=(AstQualifiedName&&) = default;
+    QualifiedName();
+    QualifiedName(std::string name);
+    QualifiedName(const char* name);
+    QualifiedName(std::vector<std::string> qualifiers);
+    QualifiedName(const QualifiedName&) = default;
+    QualifiedName(QualifiedName&&) = default;
+    QualifiedName& operator=(const QualifiedName&) = default;
+    QualifiedName& operator=(QualifiedName&&) = default;
 
     /** append qualifiers */
-    void append(std::string name) {
-        qualifiers.push_back(std::move(name));
-    }
+    void append(std::string name);
 
     /** prepend qualifiers */
-    void prepend(std::string name) {
-        qualifiers.insert(qualifiers.begin(), std::move(name));
-    }
+    void prepend(std::string name);
 
     /** check for emptiness */
     bool empty() const {
@@ -62,44 +55,32 @@ public:
     }
 
     /** convert to a string separated by fullstop */
-    std::string toString() const {
-        std::stringstream ss;
-        ss << join(qualifiers, ".");
-        return ss.str();
-    }
+    std::string toString() const;
 
-    bool operator==(const AstQualifiedName& other) const {
+    bool operator==(const QualifiedName& other) const {
         return qualifiers == other.qualifiers;
     }
 
-    bool operator!=(const AstQualifiedName& other) const {
+    bool operator!=(const QualifiedName& other) const {
         return !(*this == other);
     }
 
-    bool operator<(const AstQualifiedName& other) const {
-        return std::lexicographical_compare(
-                qualifiers.begin(), qualifiers.end(), other.qualifiers.begin(), other.qualifiers.end());
-    }
+    bool operator<(const QualifiedName& other) const;
 
     /** print qualified name */
-    void print(std::ostream& out) const {
-        out << join(qualifiers, ".");
-    }
+    void print(std::ostream& out) const;
 
-    friend std::ostream& operator<<(std::ostream& out, const AstQualifiedName& id) {
-        id.print(out);
-        return out;
-    }
+    friend std::ostream& operator<<(std::ostream& out, const QualifiedName& id);
 
 private:
     /* array of name qualifiers */
     std::vector<std::string> qualifiers;
 };
 
-inline AstQualifiedName operator+(const std::string& name, const AstQualifiedName& id) {
-    AstQualifiedName res = id;
+inline QualifiedName operator+(const std::string& name, const QualifiedName& id) {
+    QualifiedName res = id;
     res.prepend(name);
     return res;
 }
 
-}  // namespace souffle
+}  // namespace souffle::ast

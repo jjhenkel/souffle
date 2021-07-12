@@ -19,10 +19,10 @@
 #include "ram/TranslationUnit.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
- * @Class RamTransformer
+ * @Class Transformer
  * @Brief abstract transformer class for a translation unit
  *
  * This is an abstract class to implement transformers. A
@@ -41,16 +41,16 @@ namespace souffle {
  *
  */
 
-class RamTransformer {
+class Transformer {
 public:
-    virtual ~RamTransformer() = default;
+    virtual ~Transformer() = default;
 
     /**
      * @Brief apply the transformer to a translation unit
      * @Param translationUnit that will be transformed.
      * @Return flag reporting whether the RAM program has changed
      */
-    bool apply(RamTranslationUnit& translationUnit);
+    bool apply(TranslationUnit& translationUnit);
 
     /**
      * @Brief get name of the transformer
@@ -63,7 +63,7 @@ protected:
      * @Param translationUnit that will be transformed.
      * @Return flag reporting whether the RAM program has changed
      */
-    virtual bool transform(RamTranslationUnit& translationUnit) = 0;
+    virtual bool transform(TranslationUnit& translationUnit) = 0;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

@@ -23,13 +23,13 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
-bool AstPragmaChecker::transform(AstTranslationUnit& translationUnit) {
+namespace souffle::ast::transform {
+bool PragmaChecker::transform(TranslationUnit& translationUnit) {
     bool changed = false;
-    AstProgram* program = translationUnit.getProgram();
+    Program& program = translationUnit.getProgram();
 
     // Take in pragma options from the datalog file
-    visitDepthFirst(*program, [&](const AstPragma& pragma) {
+    visit(program, [&](const Pragma& pragma) {
         std::pair<std::string, std::string> kvp = pragma.getkvp();
 
         // Command line options take precedence
@@ -41,4 +41,4 @@ bool AstPragmaChecker::transform(AstTranslationUnit& translationUnit) {
 
     return changed;
 }
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

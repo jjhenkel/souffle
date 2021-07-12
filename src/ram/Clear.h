@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -26,10 +26,10 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamClear
+ * @class Clear
  * @brief Delete tuples of a relation
  *
  * This retains the target relation, but cleans its content
@@ -39,22 +39,20 @@ namespace souffle {
  * CLEAR A
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamClear : public RamRelationStatement {
-public:
-    RamClear(Own<RamRelationReference> relRef) : RamRelationStatement(std::move(relRef)) {}
 
-    RamClear* clone() const override {
-        return new RamClear(souffle::clone(relationRef));
+class Clear : public RelationStatement {
+public:
+    Clear(std::string rel) : RelationStatement(rel) {}
+
+    Clear* cloning() const override {
+        return new Clear(relation);
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
-        const RamRelation& rel = getRelation();
         os << times(" ", tabpos);
-        os << "CLEAR ";
-        os << rel.getName();
-        os << std::endl;
+        os << "CLEAR " << relation << std::endl;
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

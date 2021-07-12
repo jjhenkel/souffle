@@ -24,37 +24,39 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ast {
 
-class AstTranslationUnit;
+class TranslationUnit;
 
-class IOType : public AstAnalysis {
+namespace analysis {
+
+class IOTypeAnalysis : public Analysis {
 public:
     static constexpr const char* name = "IO-type-analysis";
 
-    IOType() : AstAnalysis(name) {}
+    IOTypeAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     void print(std::ostream& os) const override;
 
-    bool isInput(const AstRelation* relation) const {
+    bool isInput(const Relation* relation) const {
         return inputRelations.count(relation) != 0;
     }
 
-    bool isOutput(const AstRelation* relation) const {
+    bool isOutput(const Relation* relation) const {
         return outputRelations.count(relation) != 0;
     }
 
-    bool isPrintSize(const AstRelation* relation) const {
+    bool isPrintSize(const Relation* relation) const {
         return printSizeRelations.count(relation) != 0;
     }
 
-    bool isLimitSize(const AstRelation* relation) const {
+    bool isLimitSize(const Relation* relation) const {
         return limitSizeRelations.count(relation) != 0;
     }
 
-    std::size_t getLimitSize(const AstRelation* relation) const {
+    std::size_t getLimitSize(const Relation* relation) const {
         auto iter = limitSize.find(relation);
         if (iter != limitSize.end()) {
             return (*iter).second;
@@ -62,15 +64,17 @@ public:
             return 0;
     }
 
-    bool isIO(const AstRelation* relation) const {
+    bool isIO(const Relation* relation) const {
         return isInput(relation) || isOutput(relation) || isPrintSize(relation);
     }
 
 private:
-    std::set<const AstRelation*> inputRelations;
-    std::set<const AstRelation*> outputRelations;
-    std::set<const AstRelation*> printSizeRelations;
-    std::set<const AstRelation*> limitSizeRelations;
-    std::map<const AstRelation*, std::size_t> limitSize;
+    std::set<const Relation*> inputRelations;
+    std::set<const Relation*> outputRelations;
+    std::set<const Relation*> printSizeRelations;
+    std::set<const Relation*> limitSizeRelations;
+    std::map<const Relation*, std::size_t> limitSize;
 };
-}  // end of namespace souffle
+
+}  // namespace analysis
+}  // namespace souffle::ast

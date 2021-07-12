@@ -23,7 +23,6 @@
 #include <functional>
 #include <string>
 #include <utility>
-#include <sys/resource.h>
 
 namespace souffle {
 
@@ -37,21 +36,35 @@ namespace souffle {
  */
 class Logger {
 public:
-    Logger(std::string label, size_t iteration) : Logger(label, iteration, []() { return 0; }) {}
+    Logger(std::string label, std::size_t iteration) : Logger(label, iteration, []() { return 0; }) {}
 
-    Logger(std::string label, size_t iteration, std::function<size_t()> size)
+    Logger(std::string label, std::size_t iteration, std::function<std::size_t()> size)
             : label(std::move(label)), start(now()), iteration(iteration), size(size), preSize(size()) {
+#ifdef WIN32
+        HANDLE hProcess = GetCurrentProcess();
+        PROCESS_MEMORY_COUNTERS processMemoryCounters;
+        GetProcessMemoryInfo(hProcess, &processMemoryCounters, sizeof(processMemoryCounters));
+        startMaxRSS = processMemoryCounters.PeakWorkingSetSize / 1000;
+#else
         struct rusage ru {};
         getrusage(RUSAGE_SELF, &ru);
         startMaxRSS = ru.ru_maxrss;
+#endif  // WIN32
         // Assume that if we are logging the progress of an event then we care about usage during that time.
         ProfileEventSingleton::instance().resetTimerInterval();
     }
 
     ~Logger() {
+#ifdef WIN32
+        HANDLE hProcess = GetCurrentProcess();
+        PROCESS_MEMORY_COUNTERS processMemoryCounters;
+        GetProcessMemoryInfo(hProcess, &processMemoryCounters, sizeof(processMemoryCounters));
+        std::size_t endMaxRSS = processMemoryCounters.PeakWorkingSetSize / 1000;
+#else
         struct rusage ru {};
         getrusage(RUSAGE_SELF, &ru);
-        size_t endMaxRSS = ru.ru_maxrss;
+        std::size_t endMaxRSS = ru.ru_maxrss;
+#endif  // WIN32
         ProfileEventSingleton::instance().makeTimingEvent(
                 label, start, now(), startMaxRSS, endMaxRSS, size() - preSize, iteration);
     }
@@ -59,9 +72,9 @@ public:
 private:
     std::string label;
     time_point start;
-    size_t startMaxRSS;
-    size_t iteration;
-    std::function<size_t()> size;
-    size_t preSize;
+    std::size_t startMaxRSS;
+    std::size_t iteration;
+    std::function<std::size_t()> size;
+    std::size_t preSize;
 };
 }  // end of namespace souffle

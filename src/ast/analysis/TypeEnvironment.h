@@ -27,15 +27,15 @@
 #include <set>
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
-class TypeEnvironmentAnalysis : public AstAnalysis {
+class TypeEnvironmentAnalysis : public Analysis {
 public:
     static constexpr const char* name = "type-environment";
 
-    TypeEnvironmentAnalysis() : AstAnalysis(name) {}
+    TypeEnvironmentAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     void print(std::ostream& os) const override;
 
@@ -43,25 +43,25 @@ public:
         return env;
     }
 
-    const std::set<AstQualifiedName>& getPrimitiveTypesInUnion(const AstQualifiedName& identifier) const {
+    const std::set<QualifiedName>& getPrimitiveTypesInUnion(const QualifiedName& identifier) const {
         return primitiveTypesInUnions.at(identifier);
     }
 
-    bool isCyclic(const AstQualifiedName& identifier) const {
+    bool isCyclic(const QualifiedName& identifier) const {
         return contains(cyclicTypes, identifier);
     }
 
 private:
     TypeEnvironment env;
-    std::map<AstQualifiedName, std::set<AstQualifiedName>> primitiveTypesInUnions;
-    std::set<AstQualifiedName> cyclicTypes;
+    std::map<QualifiedName, std::set<QualifiedName>> primitiveTypesInUnions;
+    std::set<QualifiedName> cyclicTypes;
 
     /**
      * Recursively create a type in env, that is
      * first create its base types and then the type itself.
      */
-    const Type* createType(const AstQualifiedName& typeName,
-            const std::map<AstQualifiedName, const AstType*>& nameToAstType);
+    const Type* createType(
+            const QualifiedName& typeName, const std::map<QualifiedName, const ast::Type*>& nameToType);
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

@@ -20,123 +20,82 @@
 #include "ast/ExecutionPlan.h"
 #include "ast/Literal.h"
 #include "ast/Node.h"
-#include "ast/utility/NodeMapper.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/MiscUtil.h"
-#include "souffle/utility/StreamUtil.h"
-#include <algorithm>
-#include <memory>
-#include <ostream>
-#include <string>
-#include <utility>
+#include <iosfwd>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstClause
+ * @class Clause
  * @brief Intermediate representation of a horn clause
  *
  *  A clause can either be:
  *      - a fact  - a clause with no body (e.g., X(a,b))
  *      - a rule  - a clause with a head and a body (e.g., Y(a,b) -: X(a,b))
  */
-class AstClause : public AstNode {
+class Clause : public Node {
 public:
-    AstClause(Own<AstAtom> head = {}, VecOwn<AstLiteral> bodyLiterals = {}, Own<AstExecutionPlan> plan = {},
-            SrcLocation loc = {})
-            : AstNode(std::move(loc)), head(std::move(head)), bodyLiterals(std::move(bodyLiterals)),
-              plan(std::move(plan)) {}
+    Clause(Own<Atom> head, VecOwn<Literal> bodyLiterals, Own<ExecutionPlan> plan = {}, SrcLocation loc = {});
+
+    Clause(Own<Atom> head, SrcLocation loc = {});
+
+    Clause(QualifiedName name, SrcLocation loc = {});
 
     /** Add a literal to the body of the clause */
-    void addToBody(Own<AstLiteral> literal) {
-        bodyLiterals.push_back(std::move(literal));
-    }
+    void addToBody(Own<Literal> literal);
+
+    /** Add a collection of literals to the body of the clause */
+    void addToBody(VecOwn<Literal>&& literals);
 
     /** Set the head of clause to @p h */
-    void setHead(Own<AstAtom> h) {
-        head = std::move(h);
-    }
+    void setHead(Own<Atom> h);
 
     /** Set the bodyLiterals of clause to @p body */
-    void setBodyLiterals(VecOwn<AstLiteral> body) {
-        bodyLiterals = std::move(body);
-    }
+    void setBodyLiterals(VecOwn<Literal> body);
 
     /** Return the atom that represents the head of the clause */
-    AstAtom* getHead() const {
+    Atom* getHead() const {
         return head.get();
     }
 
     /** Obtains a copy of the internally maintained body literals */
-    std::vector<AstLiteral*> getBodyLiterals() const {
-        return toPtrVector(bodyLiterals);
-    }
+    std::vector<Literal*> getBodyLiterals() const;
 
     /** Obtains the execution plan associated to this clause or null if there is none */
-    const AstExecutionPlan* getExecutionPlan() const {
+    const ExecutionPlan* getExecutionPlan() const {
         return plan.get();
     }
 
     /** Updates the execution plan associated to this clause */
-    void setExecutionPlan(Own<AstExecutionPlan> plan) {
-        this->plan = std::move(plan);
-    }
+    void setExecutionPlan(Own<ExecutionPlan> plan);
 
     /** Resets the execution plan */
     void clearExecutionPlan() {
         plan = nullptr;
     }
 
-    AstClause* clone() const override {
-        return new AstClause(
-                souffle::clone(head), souffle::clone(bodyLiterals), souffle::clone(plan), getSrcLoc());
-    }
-
-    void apply(const AstNodeMapper& map) override {
-        head = map(std::move(head));
-        for (auto& lit : bodyLiterals) {
-            lit = map(std::move(lit));
-        }
-    }
-
-    std::vector<const AstNode*> getChildNodes() const override {
-        std::vector<const AstNode*> res = {head.get()};
-        for (auto& cur : bodyLiterals) {
-            res.push_back(cur.get());
-        }
-        return res;
-    }
+    void apply(const NodeMapper& map) override;
 
 protected:
-    void print(std::ostream& os) const override {
-        if (head != nullptr) {
-            os << *head;
-        }
-        if (!bodyLiterals.empty()) {
-            os << " :- \n   " << join(bodyLiterals, ",\n   ");
-        }
-        os << ".";
-        if (plan != nullptr) {
-            os << *plan;
-        }
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstClause&>(node);
-        return equal_ptr(head, other.head) && equal_targets(bodyLiterals, other.bodyLiterals) &&
-               equal_ptr(plan, other.plan);
-    }
+    NodeVec getChildNodesImpl() const override;
 
+private:
+    bool equal(const Node& node) const override;
+
+    Clause* cloning() const override;
+
+private:
     /** Head of the clause */
-    Own<AstAtom> head;
+    Own<Atom> head;
 
     /** Body literals of clause */
-    VecOwn<AstLiteral> bodyLiterals;
+    VecOwn<Literal> bodyLiterals;
 
     /** User defined execution plan (if not defined, plan is null) */
-    Own<AstExecutionPlan> plan;
+    Own<ExecutionPlan> plan;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

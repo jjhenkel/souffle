@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -20,26 +20,26 @@
 #include "ast/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-class GroundedTermsChecker : public AstTransformer {
+class GroundedTermsChecker : public Transformer {
 public:
     std::string getName() const override {
         return "GroundedTermsChecker";
     }
 
     // `apply` but doesn't immediately bail if any errors are found.
-    void verify(AstTranslationUnit& translationUnit);
+    void verify(TranslationUnit& translationUnit);
 
-    GroundedTermsChecker* clone() const override {
+private:
+    GroundedTermsChecker* cloning() const override {
         return new GroundedTermsChecker();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override {
+    bool transform(TranslationUnit& translationUnit) override {
         verify(translationUnit);
         return false;
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

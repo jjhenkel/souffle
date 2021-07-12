@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/StringUtil.h"
 #include <algorithm>
 #include <cassert>
@@ -47,7 +48,7 @@ public:
         assert(x < width && "wrong x dimension");
         assert(y < height && "wrong y dimension");
         assert(x + s.length() <= width && "string too long");
-        for (size_t i = 0; i < s.length(); i++) {
+        for (std::size_t i = 0; i < s.length(); i++) {
             buffer[y * width + x + i] = s[i];
         }
     }
@@ -62,7 +63,7 @@ public:
     void print(std::ostream& os) {
         if (height > 0 && width > 0) {
             for (int i = height - 1; i >= 0; i--) {
-                for (size_t j = 0; j < width; j++) {
+                for (std::size_t j = 0; j < width; j++) {
                     os << buffer[width * i + j];
                 }
                 os << std::endl;
@@ -101,11 +102,11 @@ public:
     // render node in screen buffer
     virtual void render(ScreenBuffer& s) = 0;
 
-    size_t getSize() {
+    std::size_t getSize() {
         return size;
     }
 
-    void setSize(size_t s) {
+    void setSize(std::size_t s) {
         size = s;
     }
 

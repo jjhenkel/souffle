@@ -21,22 +21,19 @@
 #include <cstdint>
 #include <string>
 
-namespace souffle {
+namespace souffle::ram {
+using namespace analysis;
 
-class TestAutoIndex : public MinIndexSelection {
+class TestAutoIndex : public MinIndexSelectionStrategy {
 public:
-    TestAutoIndex() : MinIndexSelection() {}
-    /** returns number of unique matchings */
-    int getNumMatchings() {
-        return matching.getNumMatchings();
-    }
+    TestAutoIndex() : MinIndexSelectionStrategy() {}
 };
 
-using Nodes = MinIndexSelection::SearchSet;
+using Nodes = SearchSet;
 
-SearchSignature setBits(size_t arity, uint64_t mask) {
+SearchSignature setBits(std::size_t arity, uint64_t mask) {
     SearchSignature search(arity);
-    for (size_t i = 0; i < arity; ++i) {
+    for (std::size_t i = 0; i < arity; ++i) {
         if (mask % 2) {
             search[i] = AttributeConstraint::Equal;
         }
@@ -48,37 +45,36 @@ SearchSignature setBits(size_t arity, uint64_t mask) {
 TEST(Matching, StaticTest_1) {
     TestAutoIndex order;
     Nodes nodes;
-    size_t arity = 5;
+    std::size_t arity = 5;
 
     uint64_t patterns[] = {1, 3, 5, 7, 15, 23, 31};
+    SearchSet searches;
     for (auto pattern : patterns) {
         SearchSignature search = setBits(arity, pattern);
-        order.addSearch(search);
+        searches.insert(search);
         nodes.insert(search);
     }
 
-    order.solve();
-    int num = order.getNumMatchings();
-
-    EXPECT_EQ(num, 5);
+    auto selection = order.solve(searches);
+    std::size_t num = selection.getAllOrders().size();
+    EXPECT_EQ(num, 2);
 }
 
 TEST(Matching, StaticTest_2) {
     TestAutoIndex order;
     Nodes nodes;
 
-    size_t arity = 7;
+    std::size_t arity = 7;
 
     uint64_t patterns[] = {7, 11, 23, 32, 33, 39, 49, 53, 104, 121};
+    SearchSet searches;
     for (auto pattern : patterns) {
         SearchSignature search = setBits(arity, pattern);
-        order.addSearch(search);
+        searches.insert(search);
         nodes.insert(search);
     }
-
-    order.solve();
-    int num = order.getNumMatchings();
-
+    auto selection = order.solve(searches);
+    std::size_t num = selection.getAllOrders().size();
     EXPECT_EQ(num, 5);
 }
 
@@ -86,7 +82,7 @@ TEST(Matching, TestOver64BitSignature) {
     TestAutoIndex order;
     Nodes nodes;
 
-    size_t arity = 100;
+    std::size_t arity = 100;
     SearchSignature first(arity);
     first[99] = AttributeConstraint::Equal;
     first[75] = AttributeConstraint::Equal;
@@ -116,16 +112,10 @@ TEST(Matching, TestOver64BitSignature) {
     nodes.insert(fourth);
     nodes.insert(fifth);
 
-    order.addSearch(first);
-    order.addSearch(second);
-    order.addSearch(third);
-    order.addSearch(fourth);
-    order.addSearch(fifth);
-
-    order.solve();
-    int num = order.getNumMatchings();
-
-    EXPECT_EQ(num, 3);
+    SearchSet searches = {first, second, third, fourth, fifth};
+    auto selection = order.solve(searches);
+    std::size_t num = selection.getAllOrders().size();
+    EXPECT_EQ(num, 2);
 }
 
-}  // namespace souffle
+}  // namespace souffle::ram

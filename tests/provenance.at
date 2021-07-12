@@ -16,6 +16,40 @@ m4_define([TEST_PROV_GROUP],[
   ])
 ])
 
+dnl Execute a positive provenance test case for a given flag configuration
+dnl $1 -- test case
+dnl $2 -- category
+dnl $3 -- facts directory relative to the test directory
+dnl $4 -- directory with expected output
+dnl       (relative to the test dir, but starting with '/'), or empty string
+m4_define([TEST_PROV],[
+  m4_define([TESTNAME],[$1])
+  m4_define([CATEGORY],[$2])
+  m4_define([TESTDIR],["$TESTS"/CATEGORY/TESTNAME])
+  m4_define([PROGRAM],[TESTDIR/TESTNAME.dl])
+  m4_define([FACTS],[TESTDIR/$3])
+  m4_define([EXPECTEDDIR], [TESTDIR$4])
+  # invoke souffle
+  AT_CHECK(["$SOUFFLE" FLAGS -D. -F FACTS PROGRAM 0<TESTDIR/TESTNAME.in 1>TESTNAME.out 2>TESTNAME.err], [0])
+  SORTED_SAME_FILES([*.csv],[EXPECTEDDIR])
+
+  # provenance output generates a `.' after the final tuple
+  # since tuple output is non-deterministic, this `.' should be decoupled from the tuple
+  sed 's/\.$/\
+./' TESTNAME.out | sort > TESTNAME.out.generated
+  sed 's/\.$/\
+./' EXPECTEDDIR/TESTNAME.out | sort > TESTNAME.out.expected
+  SAME_FILE([TESTNAME.out.generated],[TESTNAME.out.expected])
+
+  # validate whether the number of generated CSV files
+  # is equal to the number of expected CSV files.
+  ls *.csv|wc -l >"num.generated"
+  ls EXPECTEDDIR/*.csv|wc -l >"num.expected"
+
+  SAME_FILE([TESTNAME.err],[EXPECTEDDIR/TESTNAME.err])
+  SAME_FILE([num.generated],[num.expected])
+])
+
 dnl Positive testcase for Souffle provenance explainer
 dnl $1 -- test name
 dnl $2 -- category
@@ -26,7 +60,7 @@ m4_define([POSITIVE_PROVENANCE_TEST],[
     m4_define([PROV_FLAGS], [ENV_CONFS])
   ])
   TEST_PROV_GROUP([$1],[
-    TEST_EVAL_IN([$1],[$2], facts)
+    TEST_PROV([$1],[$2], facts)
   ])
 ])
 

@@ -10,13 +10,14 @@
  *
  * @file Node.h
  *
- * Declaration of RAM node and mappers for RAM nodes
+ * Declaration of RAM node
  *
  ***********************************************************************/
 
 #pragma once
 
-#include "ram/LambdaNodeMapper.h"
+#include "ram/utility/LambdaNodeMapper.h"
+#include "souffle/utility/MiscUtil.h"
 #include <cassert>
 #include <functional>
 #include <iostream>
@@ -25,73 +26,61 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
-class RamNodeMapper;
+class NodeMapper;
 
 /**
- *  @class RamNode
- *  @brief RamNode is a superclass for all RAM IR classes.
+ *  @class Node
+ *  @brief Node is a superclass for all RAM IR classes.
  */
-class RamNode {
+class Node {
 public:
-    /*
-     * @brief A virtual destructor for RAM nodes
-     */
-    virtual ~RamNode() = default;
+    Node() = default;
+    Node(Node const&) = delete;
+    virtual ~Node() = default;
+    Node& operator=(Node const&) = delete;
 
     /**
      * @brief Equivalence check for two RAM nodes
      */
-    bool operator==(const RamNode& other) const {
+    bool operator==(const Node& other) const {
         return this == &other || (typeid(*this) == typeid(other) && equal(other));
     }
 
     /**
      * @brief Inequality check for two RAM nodes
      */
-    bool operator!=(const RamNode& other) const {
+    bool operator!=(const Node& other) const {
         return !(*this == other);
     }
 
-    /**
-     * @brief Create a clone (i.e. deep copy) of this node
-     */
-    virtual RamNode* clone() const = 0;
+    /** @brief Create a clone (i.e. deep copy) of this node as a smart-pointer */
+    Own<Node> cloneImpl() const {
+        return Own<Node>(cloning());
+    }
 
     /**
      * @brief Apply the mapper to all child nodes
      */
-    virtual void apply(const RamNodeMapper&) {}
+    virtual void apply(const NodeMapper&) {}
 
     /**
      * @brief Rewrite a child node
      */
-    virtual void rewrite(const RamNode* oldNode, Own<RamNode> newNode) {
-        assert(oldNode != nullptr && "old node is a null-pointer");
-        assert(newNode != nullptr && "new node is a null-pointer");
-        std::function<Own<RamNode>(Own<RamNode>)> rewriter = [&](Own<RamNode> node) -> Own<RamNode> {
-            if (oldNode == node.get()) {
-                return std::move(newNode);
-            } else {
-                node->apply(makeLambdaRamMapper(rewriter));
-                return node;
-            }
-        };
-        apply(makeLambdaRamMapper(rewriter));
-    };
+    virtual void rewrite(const Node* oldNode, Own<Node> newNode);
 
     /**
      * @brief Obtain list of all embedded child nodes
      */
-    virtual std::vector<const RamNode*> getChildNodes() const {
+    virtual std::vector<const Node*> getChildNodes() const {
         return {};
     }
 
     /**
      * Print RAM on a stream
      */
-    friend std::ostream& operator<<(std::ostream& out, const RamNode& node) {
+    friend std::ostream& operator<<(std::ostream& out, const Node& node) {
         node.print(out);
         return out;
     }
@@ -106,9 +95,14 @@ protected:
      * @brief Equality check for two RAM nodes.
      * Default action is that nothing needs to be checked.
      */
-    virtual bool equal(const RamNode&) const {
+    virtual bool equal(const Node&) const {
         return true;
     }
+
+    /**
+     * @brief Create a cloning (i.e. deep copy) of this node
+     */
+    virtual Node* cloning() const = 0;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

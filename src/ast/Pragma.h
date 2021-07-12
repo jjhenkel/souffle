@@ -18,40 +18,34 @@
 
 #include "ast/Node.h"
 #include "parser/SrcLocation.h"
-#include <ostream>
+#include <iosfwd>
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstPragma
+ * @class Pragma
  * @brief Representation of a global option
  */
-class AstPragma : public AstNode {
+class Pragma : public Node {
 public:
-    AstPragma(std::string key, std::string value, SrcLocation loc = {})
-            : AstNode(std::move(loc)), key(std::move(key)), value(std::move(value)) {}
-
-    AstPragma* clone() const override {
-        return new AstPragma(key, value, getSrcLoc());
-    }
+    Pragma(std::string key, std::string value, SrcLocation loc = {});
 
     /* Get kvp */
     std::pair<std::string, std::string> getkvp() const {
-        return std::pair<std::string, std::string>(key, value);
+        return std::make_pair(key, value);
     }
 
 protected:
-    void print(std::ostream& os) const override {
-        os << ".pragma " << key << " " << value << "\n";
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstPragma&>(node);
-        return other.key == key && other.value == value;
-    }
+private:
+    bool equal(const Node& node) const override;
 
+    Pragma* cloning() const override;
+
+private:
     /** Name of the key */
     std::string key;
 
@@ -59,4 +53,4 @@ protected:
     std::string value;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

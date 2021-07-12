@@ -16,38 +16,28 @@
 
 #pragma once
 
+#include "ast/Attribute.h"
 #include "ast/Node.h"
 #include "parser/SrcLocation.h"
-#include "souffle/TypeAttribute.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/MiscUtil.h"
-#include "souffle/utility/StreamUtil.h"
-#include "souffle/utility/tinyformat.h"
-#include <cassert>
-#include <cstdlib>
-#include <ostream>
+#include "souffle/utility/Types.h"
+#include <cstddef>
+#include <iosfwd>
 #include <string>
-#include <utility>
-#include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstFunctorDeclaration
+ * @class FunctorDeclaration
  * @brief User-defined functor declaration
  *
  * Example:
  *    .declfun foo(x:number, y:number):number
  */
 
-class AstFunctorDeclaration : public AstNode {
+class FunctorDeclaration : public Node {
 public:
-    AstFunctorDeclaration(std::string name, std::vector<TypeAttribute> argsTypes, TypeAttribute returnType,
-            bool stateful, SrcLocation loc = {})
-            : AstNode(std::move(loc)), name(std::move(name)), argsTypes(std::move(argsTypes)),
-              returnType(returnType), stateful(stateful) {
-        assert(this->name.length() > 0 && "functor name is empty");
-    }
+    FunctorDeclaration(std::string name, VecOwn<Attribute> params, Own<Attribute> returnType, bool stateful,
+            SrcLocation loc = {});
 
     /** Return name */
     const std::string& getName() const {
@@ -55,18 +45,18 @@ public:
     }
 
     /** Return type */
-    const std::vector<TypeAttribute>& getArgsTypes() const {
-        return argsTypes;
+    const VecOwn<Attribute>& getParams() const {
+        return params;
     }
 
     /** Get return type */
-    TypeAttribute getReturnType() const {
-        return returnType;
+    Attribute const& getReturnType() const {
+        return *returnType;
     }
 
     /** Return number of arguments */
-    size_t getArity() const {
-        return argsTypes.size();
+    std::size_t getArity() const {
+        return params.size();
     }
 
     /** Check whether functor is stateful */
@@ -74,49 +64,26 @@ public:
         return stateful;
     }
 
-    AstFunctorDeclaration* clone() const override {
-        return new AstFunctorDeclaration(name, argsTypes, returnType, stateful, getSrcLoc());
-    }
-
 protected:
-    void print(std::ostream& out) const override {
-        auto convert = [&](TypeAttribute type) {
-            switch (type) {
-                case TypeAttribute::Signed: return "number";
-                case TypeAttribute::Symbol: return "symbol";
-                case TypeAttribute::Float: return "float";
-                case TypeAttribute::Unsigned: return "unsigned";
-                case TypeAttribute::Record: break;
-                case TypeAttribute::ADT: break;
-            }
-            fatal("unhandled `TypeAttribute`");
-        };
+    void print(std::ostream& out) const override;
 
-        tfm::format(
-                out, ".declfun %s(%s): %s", name, join(map(argsTypes, convert), ","), convert(returnType));
-        if (stateful) {
-            out << " stateful";
-        }
-        out << std::endl;
-    }
+private:
+    bool equal(const Node& node) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstFunctorDeclaration&>(node);
-        return name == other.name && argsTypes == other.argsTypes && returnType == other.returnType &&
-               stateful == other.stateful;
-    }
+    FunctorDeclaration* cloning() const override;
 
+private:
     /** Name of functor */
     const std::string name;
 
     /** Types of arguments */
-    const std::vector<TypeAttribute> argsTypes;
+    const VecOwn<Attribute> params;
 
     /** Type of the return value */
-    const TypeAttribute returnType;
+    const Own<Attribute> returnType;
 
     /** Stateful flag */
     const bool stateful;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

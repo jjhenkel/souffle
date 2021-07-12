@@ -24,40 +24,36 @@
 #include "ast/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Replaces literals containing single-valued aggregates with
  * a synthesised relation
  */
-class MaterializeSingletonAggregationTransformer : public AstTransformer {
+class MaterializeSingletonAggregationTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "MaterializeSingletonAggregationTransformer";
     }
 
-    MaterializeSingletonAggregationTransformer* clone() const override {
+private:
+    MaterializeSingletonAggregationTransformer* cloning() const override {
         return new MaterializeSingletonAggregationTransformer();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
     /**
      * Determines whether an aggregate is single-valued,
      * ie the aggregate does not depend on the outer scope.
      */
-    static bool isSingleValued(const AstAggregator& agg, const AstClause& clause);
+    static bool isSingleValued(const TranslationUnit& tu, const Aggregator& agg, const Clause& clause);
     /**
-     * findUniqueVariableName returns a variable name that hasn't appeared
-     * in the given clause.
-     */
-    static std::string findUniqueVariableName(const AstClause& clause);
-    /**
-     * findUniqueAggregateRelationName returns a synthesised aggregate
-     * relation name that hasn't appeared
-     * in the given clause.
-     */
-    static std::string findUniqueAggregateRelationName(const AstProgram& program);
+     *  Modify the aggClause by adding in grounding literals for every
+     *  variable that appears in the clause ungrounded. The source of literals
+     *  to copy from is the originalClause.
+     **/
+    void groundInjectedParameters(
+            const TranslationUnit& translationUnit, Clause& aggClause, const Clause& originalClause);
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

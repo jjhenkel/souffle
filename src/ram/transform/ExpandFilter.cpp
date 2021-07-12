@@ -17,8 +17,8 @@
 #include "ram/Operation.h"
 #include "ram/Program.h"
 #include "ram/Statement.h"
-#include "ram/Utils.h"
-#include "ram/Visitor.h"
+#include "ram/utility/Utils.h"
+#include "ram/utility/Visitor.h"
 #include "souffle/utility/MiscUtil.h"
 #include <functional>
 #include <memory>
@@ -26,25 +26,25 @@
 #include <vector>
 
 namespace souffle {
-class RamCondition;
+class Condition;
 
-bool ExpandFilterTransformer::expandFilters(RamProgram& program) {
+namespace ram::transform {
+
+bool ExpandFilterTransformer::expandFilters(Program& program) {
     bool changed = false;
-    visitDepthFirst(program, [&](const RamQuery& query) {
-        std::function<Own<RamNode>(Own<RamNode>)> filterRewriter = [&](Own<RamNode> node) -> Own<RamNode> {
-            if (const RamFilter* filter = dynamic_cast<RamFilter*>(node.get())) {
-                const RamCondition* condition = &filter->getCondition();
-                VecOwn<RamCondition> conditionList = toConjunctionList(condition);
+    visit(program, [&](const Query& query) {
+        std::function<Own<Node>(Own<Node>)> filterRewriter = [&](Own<Node> node) -> Own<Node> {
+            if (const Filter* filter = as<Filter>(node)) {
+                const Condition* condition = &filter->getCondition();
+                VecOwn<Condition> conditionList = toConjunctionList(condition);
                 if (conditionList.size() > 1) {
                     changed = true;
-                    VecOwn<RamFilter> filters;
+                    VecOwn<Filter> filters;
                     for (auto& cond : conditionList) {
                         if (filters.empty()) {
-                            filters.emplace_back(mk<RamFilter>(
-                                    souffle::clone(cond), souffle::clone(&filter->getOperation())));
+                            filters.emplace_back(mk<Filter>(clone(cond), clone(filter->getOperation())));
                         } else {
-                            filters.emplace_back(
-                                    mk<RamFilter>(souffle::clone(cond), std::move(filters.back())));
+                            filters.emplace_back(mk<Filter>(clone(cond), std::move(filters.back())));
                         }
                     }
                     node = std::move(filters.back());
@@ -53,9 +53,10 @@ bool ExpandFilterTransformer::expandFilters(RamProgram& program) {
             node->apply(makeLambdaRamMapper(filterRewriter));
             return node;
         };
-        const_cast<RamQuery*>(&query)->apply(makeLambdaRamMapper(filterRewriter));
+        const_cast<Query*>(&query)->apply(makeLambdaRamMapper(filterRewriter));
     });
     return changed;
 }
 
+}  // namespace ram::transform
 }  // end of namespace souffle

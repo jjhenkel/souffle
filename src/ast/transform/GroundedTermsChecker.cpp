@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -30,17 +30,17 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-void GroundedTermsChecker::verify(AstTranslationUnit& translationUnit) {
-    auto&& program = *translationUnit.getProgram();
+void GroundedTermsChecker::verify(TranslationUnit& translationUnit) {
+    auto&& program = translationUnit.getProgram();
     auto&& report = translationUnit.getErrorReport();
 
     // -- check grounded variables and records --
-    visitDepthFirst(program.getClauses(), [&](const AstClause& clause) {
+    visit(program.getClauses(), [&](const Clause& clause) {
         if (isFact(clause)) return;  // only interested in rules
 
-        auto isGrounded = getGroundedTerms(translationUnit, clause);
+        auto isGrounded = analysis::getGroundedTerms(translationUnit, clause);
 
         std::set<std::string> reportedVars;
         // all terms in head need to be grounded
@@ -51,14 +51,14 @@ void GroundedTermsChecker::verify(AstTranslationUnit& translationUnit) {
         }
 
         // all records need to be grounded
-        visitDepthFirst(clause, [&](const AstRecordInit& record) {
+        visit(clause, [&](const RecordInit& record) {
             if (!isGrounded[&record]) {
                 report.addError("Ungrounded record", record.getSrcLoc());
             }
         });
 
         // All sums need to be grounded
-        visitDepthFirst(clause, [&](const AstBranchInit& adt) {
+        visit(clause, [&](const BranchInit& adt) {
             if (!isGrounded[&adt]) {
                 report.addError("Ungrounded ADT branch", adt.getSrcLoc());
             }
@@ -66,4 +66,4 @@ void GroundedTermsChecker::verify(AstTranslationUnit& translationUnit) {
     });
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

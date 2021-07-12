@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -15,9 +15,9 @@
 #pragma once
 
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Operation.h"
 #include "ram/Statement.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
@@ -27,10 +27,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamQuery
+ * @class Query
  * @brief A relational algebra query
  *
  * Corresponds to the core machinery of semi-naive evaluation
@@ -41,28 +41,29 @@ namespace souffle {
  *   FOR t0 in A
  *     FOR t1 in B
  *       ...
+ * END QUERY
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamQuery : public RamStatement {
+class Query : public Statement {
 public:
-    RamQuery(Own<RamOperation> o) : operation(std::move(o)) {
+    Query(Own<Operation> o) : operation(std::move(o)) {
         assert(operation && "operation is a nullptr");
     }
 
     /** @brief Get RAM operation */
-    const RamOperation& getOperation() const {
+    const Operation& getOperation() const {
         return *operation;
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
+    std::vector<const Node*> getChildNodes() const override {
         return {operation.get()};
     }
 
-    RamQuery* clone() const override {
-        return new RamQuery(souffle::clone(operation));
+    Query* cloning() const override {
+        return new Query(clone(operation));
     }
 
-    void apply(const RamNodeMapper& map) override {
+    void apply(const NodeMapper& map) override {
         operation = map(std::move(operation));
     }
 
@@ -70,15 +71,16 @@ protected:
     void print(std::ostream& os, int tabpos) const override {
         os << times(" ", tabpos) << "QUERY" << std::endl;
         operation->print(os, tabpos + 1);
+        os << times(" ", tabpos) << "END QUERY" << std::endl;
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamQuery&>(node);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<Query>(node);
         return equal_ptr(operation, other.operation);
     }
 
     /** RAM operation */
-    Own<RamOperation> operation;
+    Own<Operation> operation;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

@@ -66,6 +66,7 @@
 #include <vector>
 
 #ifdef _MSC_VER
+#pragma warning(disable : 4244)
 #if _MSC_VER <= 1800  // VS 2013
 #ifndef noexcept
 #define noexcept throw()
@@ -167,7 +168,7 @@ public:
     const object& object_items() const;
 
     // Return a reference to arr[i] if this is an array, Json() otherwise.
-    const Json& operator[](size_t i) const;
+    const Json& operator[](std::size_t i) const;
     // Return a reference to obj[key] if this is an object, Json() otherwise.
     const Json& operator[](const std::string& key) const;
 
@@ -256,7 +257,7 @@ protected:
     virtual bool bool_value() const;
     virtual const std::string& string_value() const;
     virtual const Json::array& array_items() const;
-    virtual const Json& operator[](size_t i) const;
+    virtual const Json& operator[](std::size_t i) const;
     virtual const Json::object& object_items() const;
     virtual const Json& operator[](const std::string& key) const;
     virtual ~JsonValue() = default;
@@ -307,7 +308,7 @@ static void dump(bool value, std::string& out) {
 
 static void dump(const std::string& value, std::string& out) {
     out += '"';
-    for (size_t i = 0; i < value.length(); i++) {
+    for (std::size_t i = 0; i < value.length(); i++) {
         const char ch = value[i];
         if (ch == '\\') {
             out += "\\\\";
@@ -464,7 +465,7 @@ class JsonArray final : public Value<Json::ARRAY, Json::array> {
     const Json::array& array_items() const override {
         return m_value;
     }
-    const Json& operator[](size_t i) const override;
+    const Json& operator[](std::size_t i) const override;
 
 public:
     explicit JsonArray(const Json::array& value) : Value(value) {}
@@ -556,7 +557,7 @@ inline const std::vector<Json>& Json::array_items() const {
 inline const std::map<std::string, Json>& Json::object_items() const {
     return m_ptr->object_items();
 }
-inline const Json& Json::operator[](size_t i) const {
+inline const Json& Json::operator[](std::size_t i) const {
     return (*m_ptr)[i];
 }
 inline const Json& Json::operator[](const std::string& key) const {
@@ -584,7 +585,7 @@ inline const std::vector<Json>& JsonValue::array_items() const {
 inline const std::map<std::string, Json>& JsonValue::object_items() const {
     return statics().empty_map;
 }
-inline const Json& JsonValue::operator[](size_t) const {
+inline const Json& JsonValue::operator[](std::size_t) const {
     return static_null();
 }
 inline const Json& JsonValue::operator[](const std::string&) const {
@@ -595,7 +596,7 @@ inline const Json& JsonObject::operator[](const std::string& key) const {
     auto iter = m_value.find(key);
     return (iter == m_value.end()) ? static_null() : iter->second;
 }
-inline const Json& JsonArray::operator[](size_t i) const {
+inline const Json& JsonArray::operator[](std::size_t i) const {
     if (i >= m_value.size()) {
         return static_null();
     }
@@ -659,7 +660,7 @@ struct JsonParser final {
     /* State
      */
     const std::string& str;
-    size_t i;
+    std::size_t i;
     std::string& err;
     bool failed;
     const JsonParse strategy;
@@ -834,7 +835,7 @@ struct JsonParser final {
                 if (esc.length() < 4) {
                     return fail("bad \\u escape: " + esc, "");
                 }
-                for (size_t j = 0; j < 4; j++) {
+                for (std::size_t j = 0; j < 4; j++) {
                     if (!in_range(esc[j], 'a', 'f') && !in_range(esc[j], 'A', 'F') &&
                             !in_range(esc[j], '0', '9'))
                         return fail("bad \\u escape: " + esc, "");
@@ -887,7 +888,7 @@ struct JsonParser final {
      * Parse a double.
      */
     Json parse_number() {
-        size_t start_pos = i;
+        std::size_t start_pos = i;
 
         if (str[i] == '-') {
             i++;
@@ -909,7 +910,7 @@ struct JsonParser final {
         }
 
         if (str[i] != '.' && str[i] != 'e' && str[i] != 'E' &&
-                (i - start_pos) <= static_cast<size_t>(std::numeric_limits<int>::digits10)) {
+                (i - start_pos) <= static_cast<std::size_t>(std::numeric_limits<int>::digits10)) {
             return std::atoll(str.c_str() + start_pos);
         }
 
@@ -1103,5 +1104,9 @@ inline std::vector<Json> parse_multi(const std::string& in, std::string::size_ty
     }
     return json_vec;
 }
+
+#ifdef _MSC_VER
+#pragma warning(default : 4244)
+#endif  // _MSC_VER
 
 }  // namespace json11

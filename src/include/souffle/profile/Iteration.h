@@ -27,7 +27,7 @@ class Iteration {
 private:
     std::chrono::microseconds starttime{};
     std::chrono::microseconds endtime{};
-    size_t numTuples = 0;
+    std::size_t numTuples = 0;
     std::chrono::microseconds copytime{};
     std::string locator = "";
 
@@ -68,7 +68,7 @@ public:
         return endtime;
     }
 
-    size_t size() const {
+    std::size_t size() const {
         return numTuples;
     }
 

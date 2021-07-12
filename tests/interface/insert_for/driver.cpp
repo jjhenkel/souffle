@@ -32,7 +32,7 @@ void error(std::string txt) {
 /**
  * Main program
  */
-int main(int argc, char** argv) {
+int main(int /* argc */, char** /* argv */) {
     // create an instance of program "insert_for"
     if (SouffleProgram* prog = ProgramFactory::newInstance("insert_for")) {
         // get input relation "edge"

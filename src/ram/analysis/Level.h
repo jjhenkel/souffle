@@ -21,16 +21,17 @@
 #include "ram/Node.h"
 #include "ram/TranslationUnit.h"
 #include "ram/analysis/Analysis.h"
+#include "ram/analysis/Relation.h"
 
-namespace souffle {
+namespace souffle::ram::analysis {
 
 /**
- * @class RamLevelAnalysis
+ * @class LevelAnalysis
  * @brief A Ram Analysis for determining the level of a expression/condition
  *
  * The expression is determined by the TupleElement of an expression/condition
  * with the highest tuple-id number. Note in the implementation we assume that the
- * tuple-id of RamTupleOperation operations are ordered, i.e., the most-outer loop has the
+ * tuple-id of TupleOperation operations are ordered, i.e., the most-outer loop has the
  * smallest tuple-id and the most inner-loop has the largest tuple-id number.
  *
  * If an expression/condition does not contain an TupleElement accessing an element
@@ -39,18 +40,23 @@ namespace souffle {
  * independent of data stemming from relations.
  *
  */
-class RamLevelAnalysis : public RamAnalysis {
+class LevelAnalysis : public Analysis {
 public:
-    RamLevelAnalysis(const char* id) : RamAnalysis(id) {}
+    LevelAnalysis(const char* id) : Analysis(id) {}
 
     static constexpr const char* name = "level-analysis";
 
-    void run(const RamTranslationUnit&) override {}
+    void run(const TranslationUnit& tUnit) override {
+        ra = tUnit.getAnalysis<RelationAnalysis>();
+    }
 
     /**
      * @brief Get level of a RAM expression/condition
      */
-    int getLevel(const RamNode* value) const;
+    int getLevel(const Node* value) const;
+
+protected:
+    RelationAnalysis* ra{nullptr};
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::analysis

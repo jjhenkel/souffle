@@ -17,8 +17,9 @@
 #pragma once
 
 #include "souffle/RamTypes.h"
-#include "souffle/utility/json11.h"
 
+#include "souffle/utility/StringUtil.h"
+#include "souffle/utility/json11.h"
 #include <cassert>
 #include <cstddef>
 #include <map>
@@ -43,7 +44,7 @@ protected:
     using RO = std::conditional_t<readOnlyTables, const A, A>;
 
     SerialisationStream(RO<SymbolTable>& symTab, RO<RecordTable>& recTab, Json types,
-            std::vector<std::string> relTypes, size_t auxArity = 0)
+            std::vector<std::string> relTypes, std::size_t auxArity = 0)
             : symbolTable(symTab), recordTable(recTab), types(std::move(types)),
               typeAttributes(std::move(relTypes)), arity(typeAttributes.size() - auxArity),
               auxiliaryArity(auxArity) {}
@@ -59,6 +60,9 @@ protected:
         std::string parseErrors;
         types = Json::parse(rwOperation.at("types"), parseErrors);
         assert(parseErrors.size() == 0 && "Internal JSON parsing failed.");
+
+        auxiliaryArity = RamSignedFromString(getOr(rwOperation, "auxArity", "0"));
+
         setupFromJson();
     }
 
@@ -67,23 +71,26 @@ protected:
     Json types;
     std::vector<std::string> typeAttributes;
 
-    size_t arity = 0;
-    size_t auxiliaryArity = 0;
+    std::size_t arity = 0;
+    std::size_t auxiliaryArity = 0;
 
 private:
     void setupFromJson() {
         auto&& relInfo = types["relation"];
-        arity = static_cast<size_t>(relInfo["arity"].long_value());
-        auxiliaryArity = static_cast<size_t>(relInfo["auxArity"].long_value());
+        arity = static_cast<std::size_t>(relInfo["arity"].long_value());
 
         assert(relInfo["types"].is_array());
         auto&& relTypes = relInfo["types"].array_items();
-        assert(relTypes.size() == (arity + auxiliaryArity));
+        assert(relTypes.size() == arity);
 
-        for (size_t i = 0; i < arity + auxiliaryArity; ++i) {
-            auto&& type = relTypes[i].string_value();
-            assert(!type.empty() && "malformed types tag");
-            typeAttributes.push_back(type);
+        for (const auto& jsonType : relTypes) {
+            const auto& typeString = jsonType.string_value();
+            assert(!typeString.empty() && "malformed types tag");
+            typeAttributes.push_back(typeString);
+        }
+
+        for (std::size_t i = 0; i < auxiliaryArity; i++) {
+            typeAttributes.push_back("i:number");
         }
     }
 };

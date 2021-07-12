@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -27,38 +27,41 @@
 #include <string>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
-class AstTranslationUnit;
+class TranslationUnit;
+
+namespace analysis {
+
 class SCCGraphAnalysis;
 
 /**
  * Analysis pass computing a topologically sorted strongly connected component (SCC) graph.
  */
-class TopologicallySortedSCCGraphAnalysis : public AstAnalysis {
+class TopologicallySortedSCCGraphAnalysis : public Analysis {
 public:
     static constexpr const char* name = "topological-scc-graph";
 
-    TopologicallySortedSCCGraphAnalysis() : AstAnalysis(name) {}
+    TopologicallySortedSCCGraphAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
-    const std::vector<size_t>& order() const {
+    const std::vector<std::size_t>& order() const {
         return sccOrder;
     }
 
-    size_t sccOfIndex(const size_t index) const {
+    std::size_t sccOfIndex(const std::size_t index) const {
         return sccOrder.at(index);
     }
 
-    size_t indexOfScc(const size_t scc) const {
+    std::size_t indexOfScc(const std::size_t scc) const {
         auto it = std::find(sccOrder.begin(), sccOrder.end(), scc);
         assert(it != sccOrder.end());
-        return (size_t)std::distance(sccOrder.begin(), it);
+        return (std::size_t)std::distance(sccOrder.begin(), it);
     }
 
-    std::set<size_t> indexOfScc(const std::set<size_t>& sccs) const {
-        std::set<size_t> indices;
+    std::set<std::size_t> indexOfScc(const std::set<std::size_t>& sccs) const {
+        std::set<std::size_t> indices;
         for (const auto scc : sccs) {
             indices.insert(indexOfScc(scc));
         }
@@ -73,14 +76,15 @@ private:
     SCCGraphAnalysis* sccGraph = nullptr;
 
     /** The final topological ordering of the SCCs. */
-    std::vector<size_t> sccOrder;
+    std::vector<std::size_t> sccOrder;
 
     /** Calculate the topological ordering cost of a permutation of as of yet unordered SCCs
     using the ordered SCCs. Returns -1 if the given vector is not a valid topological ordering. */
-    int topologicalOrderingCost(const std::vector<size_t>& permutationOfSCCs) const;
+    int topologicalOrderingCost(const std::vector<std::size_t>& permutationOfSCCs) const;
 
     /** Recursive component for the forwards algorithm computing the topological ordering of the SCCs. */
-    void computeTopologicalOrdering(size_t scc, std::vector<bool>& visited);
+    void computeTopologicalOrdering(std::size_t scc, std::vector<bool>& visited);
 };
 
-}  // end of namespace souffle
+}  // namespace analysis
+}  // namespace souffle::ast

@@ -28,7 +28,7 @@ using namespace souffle;
  */
 void error(std::string txt) {
     std::cerr << "error: " << txt << "\n";
-    exit(1);
+    exit(0);
 }
 
 /**
@@ -36,7 +36,7 @@ void error(std::string txt) {
  */
 void handler(int n) {
     std::cout << "handler invoked." << std::endl;
-    exit(1);
+    exit(0);
 }
 
 /**
@@ -96,4 +96,5 @@ int main(int argc, char** argv) {
     } else {
         error("cannot find program tuple_insertion_diff_relation");
     }
+    return 0;
 }

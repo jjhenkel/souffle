@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -23,10 +23,10 @@
 #include <string>
 #include <utility>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamSwap
+ * @class Swap
  * @brief Swap operation with respect to two relations
  *
  * Swaps the contents of the two relations
@@ -36,21 +36,20 @@ namespace souffle {
  * SWAP(A, B)
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamSwap : public RamBinRelationStatement {
+class Swap : public BinRelationStatement {
 public:
-    RamSwap(Own<RamRelationReference> f, Own<RamRelationReference> s)
-            : RamBinRelationStatement(std::move(f), std::move(s)) {}
+    Swap(std::string f, std::string s) : BinRelationStatement(f, s) {}
 
-    RamSwap* clone() const override {
-        return new RamSwap(souffle::clone(first), souffle::clone(second));
+    Swap* cloning() const override {
+        return new Swap(first, second);
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
         os << times(" ", tabpos);
-        os << "SWAP (" << getFirstRelation().getName() << ", " << getSecondRelation().getName() << ")";
+        os << "SWAP (" << getFirstRelation() << ", " << getSecondRelation() << ")";
         os << std::endl;
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

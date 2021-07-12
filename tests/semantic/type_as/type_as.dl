@@ -34,24 +34,6 @@ B(x) :- x = to_string(as(2, float)).
 .output B(IO=stdout)
 
 
-
-.type List = [h : number, t : List]
-
-.type List1 <: List
-.type SubList1 <: List1
-
-
-.decl D(x: List)
-D([1, [1, nil]]).
-
-.decl E(x: List1)
-E(as(x, List1)) :- D(x).
-E(as(x, SubList1)) :- D(x).
-
-
-.output E(IO=stdout)
-
-
 // Example from #1338
 .type Variable <: symbol
 .type StackIndex <: symbol

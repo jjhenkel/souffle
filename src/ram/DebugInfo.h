@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -16,8 +16,8 @@
 
 #include "ram/AbstractLog.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Statement.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
 #include "souffle/utility/StringUtil.h"
@@ -27,10 +27,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamDebugInfo
+ * @class DebugInfo
  * @brief Debug statement
  *
  * For example:
@@ -40,28 +40,28 @@ namespace souffle {
  * END_DEBUG
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamDebugInfo : public RamStatement, public RamAbstractLog {
+class DebugInfo : public Statement, public AbstractLog {
 public:
-    RamDebugInfo(Own<RamStatement> stmt, std::string msg) : RamAbstractLog(std::move(stmt), std::move(msg)) {}
+    DebugInfo(Own<Statement> stmt, std::string msg) : AbstractLog(std::move(stmt), std::move(msg)) {}
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        return RamAbstractLog::getChildNodes();
+    std::vector<const Node*> getChildNodes() const override {
+        return AbstractLog::getChildNodes();
     }
 
-    RamDebugInfo* clone() const override {
-        return new RamDebugInfo(souffle::clone(statement), message);
+    DebugInfo* cloning() const override {
+        return new DebugInfo(clone(statement), message);
     }
 
-    void apply(const RamNodeMapper& map) override {
-        RamAbstractLog::apply(map);
+    void apply(const NodeMapper& map) override {
+        AbstractLog::apply(map);
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
-        os << times(" ", tabpos) << "BEGIN_DEBUG \"" << stringify(message) << "\"" << std::endl;
-        RamStatement::print(statement.get(), os, tabpos + 1);
-        os << times(" ", tabpos) << "END_DEBUG" << std::endl;
+        os << times(" ", tabpos) << "DEBUG \"" << stringify(message) << "\"" << std::endl;
+        Statement::print(statement.get(), os, tabpos + 1);
+        os << times(" ", tabpos) << "END DEBUG" << std::endl;
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

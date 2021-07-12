@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -17,9 +17,9 @@
 #include "ram/Expression.h"
 #include "ram/NestedOperation.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Operation.h"
 #include "ram/TupleOperation.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
@@ -29,61 +29,59 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
-enum class RamNestedIntrinsicOp {
+enum class NestedIntrinsicOp {
     RANGE,
     URANGE,
     FRANGE,
 };
 
-inline std::ostream& operator<<(std::ostream& os, RamNestedIntrinsicOp e) {
+inline std::ostream& operator<<(std::ostream& os, NestedIntrinsicOp e) {
     switch (e) {
-        case RamNestedIntrinsicOp::RANGE: return os << "RANGE";
-        case RamNestedIntrinsicOp::URANGE: return os << "URANGE";
-        case RamNestedIntrinsicOp::FRANGE: return os << "FRANGE";
+        case NestedIntrinsicOp::RANGE: return os << "RANGE";
+        case NestedIntrinsicOp::URANGE: return os << "URANGE";
+        case NestedIntrinsicOp::FRANGE: return os << "FRANGE";
         default: fatal("invalid Operation");
     }
 }
 
 /**
- * @class RamNestedIntrinsicOperator
- * @brief Effectively identical to `RamIntrinsicOperator`, except it can produce multiple results.
+ * @class NestedIntrinsicOperator
+ * @brief Effectively identical to `IntrinsicOperator`, except it can produce multiple results.
  *
  * For example:
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  * RANGE(t0.0, t0.1, t0.2) INTO t1
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamNestedIntrinsicOperator : public RamTupleOperation {
+class NestedIntrinsicOperator : public TupleOperation {
 public:
-    RamNestedIntrinsicOperator(
-            RamNestedIntrinsicOp op, VecOwn<RamExpression> args, Own<RamOperation> nested, int ident)
-            : RamTupleOperation(ident, std::move(nested)), args(std::move(args)), op(op) {}
+    NestedIntrinsicOperator(NestedIntrinsicOp op, VecOwn<Expression> args, Own<Operation> nested, int ident)
+            : TupleOperation(ident, std::move(nested)), args(std::move(args)), op(op) {}
 
-    RamNestedIntrinsicOp getFunction() const {
+    NestedIntrinsicOp getFunction() const {
         return op;
     }
 
-    std::vector<RamExpression*> getArguments() const {
+    std::vector<Expression*> getArguments() const {
         return toPtrVector(args);
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        auto res = RamTupleOperation::getChildNodes();
+    std::vector<const Node*> getChildNodes() const override {
+        auto res = TupleOperation::getChildNodes();
         for (auto&& x : args) {
             res.push_back(x.get());
         }
         return res;
     }
 
-    RamNestedIntrinsicOperator* clone() const override {
-        return new RamNestedIntrinsicOperator(
-                op, souffle::clone(args), souffle::clone(&getOperation()), getTupleId());
+    NestedIntrinsicOperator* cloning() const override {
+        return new NestedIntrinsicOperator(op, clone(args), clone(getOperation()), getTupleId());
     }
 
-    void apply(const RamNodeMapper& map) override {
-        RamTupleOperation::apply(map);
+    void apply(const NodeMapper& map) override {
+        TupleOperation::apply(map);
         for (auto&& x : args) {
             x = map(std::move(x));
         }
@@ -92,18 +90,21 @@ public:
 protected:
     void print(std::ostream& os, int tabpos) const override {
         os << times(" ", tabpos);
-        os << op << "(" << join(args, ",", print_deref<Own<RamExpression>>()) << ") INTO t" << getTupleId()
+        os << op << "(" << join(args, ",", print_deref<Own<Expression>>()) << ") INTO t" << getTupleId()
            << "\n";
-        RamNestedOperation::print(os, tabpos + 1);
+        NestedOperation::print(os, tabpos + 1);
     }
 
-    bool equal(const RamNode& node) const override {
-        auto&& other = static_cast<const RamNestedIntrinsicOperator&>(node);
-        return RamTupleOperation::equal(node) && op == other.op && equal_targets(args, other.args);
+    bool equal(const Node& node) const override {
+        auto&& other = asAssert<NestedIntrinsicOperator>(node);
+        return TupleOperation::equal(node) && op == other.op && equal_targets(args, other.args);
     }
 
-    VecOwn<RamExpression> args;
-    RamNestedIntrinsicOp op;
+    /* Arguments */
+    VecOwn<Expression> args;
+
+    /* Operator */
+    const NestedIntrinsicOp op;
 };
 
-}  // namespace souffle
+}  // namespace souffle::ram

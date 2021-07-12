@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include "souffle/utility/MiscUtil.h"
 #include <iostream>
 
 namespace souffle {
@@ -34,12 +35,17 @@ enum class TypeAttribute {
 };
 
 // Printing of the TypeAttribute Enum.
-// To be utilised in synthesizer.
-std::ostream& operator<<(std::ostream& os, TypeAttribute T);
+inline std::ostream& operator<<(std::ostream& os, TypeAttribute T) {
+    switch (T) {
+        case TypeAttribute::Symbol: return os << "TypeAttribute::Symbol";
+        case TypeAttribute::Signed: return os << "TypeAttribute::Signed";
+        case TypeAttribute::Float: return os << "TypeAttribute::Float";
+        case TypeAttribute::Unsigned: return os << "TypeAttribute::Unsigned";
+        case TypeAttribute::Record: return os << "TypeAttribute::Record";
+        case TypeAttribute::ADT: return os << "TypeAttribute::ADT";
+    }
 
-/**
- * Check if type is numeric.
- */
-bool isNumericType(TypeAttribute ramType);
+    fatal("unhandled `TypeAttribute`");
+}
 
 }  // end of namespace souffle

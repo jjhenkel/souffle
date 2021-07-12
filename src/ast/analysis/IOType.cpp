@@ -8,7 +8,7 @@
 
 /************************************************************************
  *
- * @file IOType.cpp
+ * @file IOTypeAnalysis.cpp
  *
  * Implements methods to identify a relation as input, output, or printsize.
  *
@@ -27,37 +27,37 @@
 #include <ostream>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
-void IOType::run(const AstTranslationUnit& translationUnit) {
-    const AstProgram& program = *translationUnit.getProgram();
-    visitDepthFirst(program, [&](const AstDirective& directive) {
+void IOTypeAnalysis::run(const TranslationUnit& translationUnit) {
+    const Program& program = translationUnit.getProgram();
+    visit(program, [&](const Directive& directive) {
         auto* relation = getRelation(program, directive.getQualifiedName());
         if (relation == nullptr) {
             return;
         }
         switch (directive.getType()) {
-            case AstDirectiveType::input: inputRelations.insert(relation); break;
-            case AstDirectiveType::output: outputRelations.insert(relation); break;
-            case AstDirectiveType::printsize:
+            case ast::DirectiveType::input: inputRelations.insert(relation); break;
+            case ast::DirectiveType::output: outputRelations.insert(relation); break;
+            case ast::DirectiveType::printsize:
                 printSizeRelations.insert(relation);
                 outputRelations.insert(relation);
                 break;
-            case AstDirectiveType::limitsize:
+            case ast::DirectiveType::limitsize:
                 limitSizeRelations.insert(relation);
-                assert(directive.hasDirective("n") && "limitsize has no n directive");
-                limitSize[relation] = stoi(directive.getDirective("n"));
+                assert(directive.hasParameter("n") && "limitsize has no n directive");
+                limitSize[relation] = stoi(directive.getParameter("n"));
                 break;
         }
     });
 }
 
-void IOType::print(std::ostream& os) const {
-    auto show = [](std::ostream& os, const AstRelation* r) { os << r->getQualifiedName(); };
+void IOTypeAnalysis::print(std::ostream& os) const {
+    auto show = [](std::ostream& os, const Relation* r) { os << r->getQualifiedName(); };
     os << "input relations: {" << join(inputRelations, ", ", show) << "}\n";
     os << "output relations: {" << join(outputRelations, ", ", show) << "}\n";
     os << "printsize relations: {" << join(printSizeRelations, ", ", show) << "}\n";
     os << "limitsize relations: {" << join(limitSizeRelations, ", ", show) << "}\n";
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

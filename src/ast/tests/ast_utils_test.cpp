@@ -42,51 +42,50 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 namespace test {
 
 TEST(AstUtils, Grounded) {
     // create an example clause:
-    auto clause = mk<AstClause>();
+    auto clause = mk<Clause>("r");
 
     // something like:
     //   r(X,Y,Z) :- a(X), X = Y, !b(Z).
 
     // r(X,Y,Z)
-    auto* head = new AstAtom("r");
-    head->addArgument(Own<AstArgument>(new AstVariable("X")));
-    head->addArgument(Own<AstArgument>(new AstVariable("Y")));
-    head->addArgument(Own<AstArgument>(new AstVariable("Z")));
-    clause->setHead(Own<AstAtom>(head));
+    auto* head = clause->getHead();
+    head->addArgument(Own<Argument>(new Variable("X")));
+    head->addArgument(Own<Argument>(new Variable("Y")));
+    head->addArgument(Own<Argument>(new Variable("Z")));
 
     // a(X)
-    auto* a = new AstAtom("a");
-    a->addArgument(Own<AstArgument>(new AstVariable("X")));
-    clause->addToBody(Own<AstLiteral>(a));
+    auto* a = new Atom("a");
+    a->addArgument(Own<Argument>(new Variable("X")));
+    clause->addToBody(Own<Literal>(a));
 
     // X = Y
-    AstLiteral* e1 = new AstBinaryConstraint(BinaryConstraintOp::EQ, Own<AstArgument>(new AstVariable("X")),
-            Own<AstArgument>(new AstVariable("Y")));
-    clause->addToBody(Own<AstLiteral>(e1));
+    Literal* e1 = new BinaryConstraint(
+            BinaryConstraintOp::EQ, Own<Argument>(new Variable("X")), Own<Argument>(new Variable("Y")));
+    clause->addToBody(Own<Literal>(e1));
 
     // !b(Z)
-    auto* b = new AstAtom("b");
-    b->addArgument(Own<AstArgument>(new AstVariable("Z")));
-    auto* neg = new AstNegation(Own<AstAtom>(b));
-    clause->addToBody(Own<AstLiteral>(neg));
+    auto* b = new Atom("b");
+    b->addArgument(Own<Argument>(new Variable("Z")));
+    auto* neg = new Negation(Own<Atom>(b));
+    clause->addToBody(Own<Literal>(neg));
 
     // check construction
     EXPECT_EQ("r(X,Y,Z) :- \n   a(X),\n   X = Y,\n   !b(Z).", toString(*clause));
 
-    auto program = mk<AstProgram>();
+    auto program = mk<Program>();
     program->addClause(std::move(clause));
     DebugReport dbgReport;
     ErrorReport errReport;
-    AstTranslationUnit tu{std::move(program), errReport, dbgReport};
+    TranslationUnit tu{std::move(program), errReport, dbgReport};
 
     // obtain groundness
-    auto isGrounded = getGroundedTerms(tu, *tu.getProgram()->getClauses()[0]);
+    auto isGrounded = analysis::getGroundedTerms(tu, *tu.getProgram().getClauses()[0]);
 
     auto args = head->getArguments();
     // check selected sub-terms
@@ -98,7 +97,7 @@ TEST(AstUtils, Grounded) {
 TEST(AstUtils, GroundedRecords) {
     ErrorReport e;
     DebugReport d;
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                  .type N <: symbol
                  .type R = [ a : N, B : N ]
@@ -111,18 +110,18 @@ TEST(AstUtils, GroundedRecords) {
             )",
             e, d);
 
-    AstProgram& program = *tu->getProgram();
+    Program& program = tu->getProgram();
 
-    AstClause* clause = getClauses(program, "s")[0];
+    Clause* clause = getClauses(program, "s")[0];
 
     // check construction
     EXPECT_EQ("s(x) :- \n   r([x,y]).", toString(*clause));
 
     // obtain groundness
-    auto isGrounded = getGroundedTerms(*tu, *clause);
+    auto isGrounded = analysis::getGroundedTerms(*tu, *clause);
 
-    const AstAtom* s = clause->getHead();
-    const auto* r = dynamic_cast<const AstAtom*>(clause->getBodyLiterals()[0]);
+    const Atom* s = clause->getHead();
+    const auto* r = dynamic_cast<const Atom*>(clause->getBodyLiterals()[0]);
 
     EXPECT_TRUE(s);
     EXPECT_TRUE(r);
@@ -136,7 +135,7 @@ TEST(AstUtils, ReorderClauseAtoms) {
     ErrorReport e;
     DebugReport d;
 
-    Own<AstTranslationUnit> tu = ParserDriver::parseTranslationUnit(
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
             R"(
                 .decl a,b,c,d,e(x:number)
                 a(x) :- b(x), c(x), 1 != 2, d(y), !e(z), c(z), e(x).
@@ -144,30 +143,52 @@ TEST(AstUtils, ReorderClauseAtoms) {
             )",
             e, d);
 
-    AstProgram& program = *tu->getProgram();
+    Program& program = tu->getProgram();
     EXPECT_EQ(5, program.getRelations().size());
 
-    AstRelation* a = getRelation(program, "a");
+    Relation* a = getRelation(program, "a");
     EXPECT_NE(a, nullptr);
     const auto& clauses = getClauses(program, *a);
     EXPECT_EQ(1, clauses.size());
 
-    AstClause* clause = clauses[0];
+    Clause* clause = clauses[0];
     EXPECT_EQ("a(x) :- \n   b(x),\n   c(x),\n   1 != 2,\n   d(y),\n   !e(z),\n   c(z),\n   e(x).",
             toString(*clause));
 
     // Check trivial permutation
-    Own<AstClause> reorderedClause0 =
-            Own<AstClause>(reorderAtoms(clause, std::vector<unsigned int>({0, 1, 2, 3, 4})));
+    Own<Clause> reorderedClause0 =
+            Own<Clause>(reorderAtoms(clause, std::vector<unsigned int>({0, 1, 2, 3, 4})));
     EXPECT_EQ("a(x) :- \n   b(x),\n   c(x),\n   1 != 2,\n   d(y),\n   !e(z),\n   c(z),\n   e(x).",
             toString(*reorderedClause0));
 
     // Check more complex permutation
-    Own<AstClause> reorderedClause1 =
-            Own<AstClause>(reorderAtoms(clause, std::vector<unsigned int>({2, 3, 4, 1, 0})));
+    Own<Clause> reorderedClause1 =
+            Own<Clause>(reorderAtoms(clause, std::vector<unsigned int>({2, 3, 4, 1, 0})));
     EXPECT_EQ("a(x) :- \n   d(y),\n   c(z),\n   1 != 2,\n   e(x),\n   !e(z),\n   c(x),\n   b(x).",
             toString(*reorderedClause1));
 }
 
+TEST(AstUtils, RemoveEquivalentClauses) {
+    ErrorReport e;
+    DebugReport d;
+
+    Own<TranslationUnit> tu = ParserDriver::parseTranslationUnit(
+            R"(
+                .decl a()
+                a(). a(). a(). a(). a(). a(). a(). a(). a(). a(). a(). a(). a(). a(). a().
+            )",
+            e, d);
+
+    Program& program = tu->getProgram();
+    EXPECT_EQ(1, program.getRelations().size());
+
+    Relation* a = getRelation(program, "a");
+    EXPECT_NE(a, nullptr);
+    EXPECT_EQ(15, getClauses(program, *a).size());
+
+    removeRelationClauses(*tu, "a");
+    EXPECT_EQ(0, getClauses(program, *a).size());
+}
+
 }  // namespace test
-}  // namespace souffle
+}  // namespace souffle::ast

@@ -17,17 +17,13 @@
 #pragma once
 
 #include "ast/Constraint.h"
-#include "ast/Node.h"
 #include "parser/SrcLocation.h"
-#include <cassert>
-#include <iostream>
-#include <string>
-#include <utility>
+#include <iosfwd>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstBooleanConstraint
+ * @class BooleanConstraint
  * @brief Boolean constraint class
  *
  * Example:
@@ -35,10 +31,9 @@ namespace souffle {
  *
  * Boolean constraint representing either the 'true' or the 'false' value
  */
-class AstBooleanConstraint : public AstConstraint {
+class BooleanConstraint : public Constraint {
 public:
-    AstBooleanConstraint(bool truthValue, SrcLocation loc = {})
-            : AstConstraint(std::move(loc)), truthValue(truthValue) {}
+    BooleanConstraint(bool truthValue, SrcLocation loc = {});
 
     /** Check whether constraint holds */
     bool isTrue() const {
@@ -50,23 +45,17 @@ public:
         truthValue = value;
     }
 
-    AstBooleanConstraint* clone() const override {
-        return new AstBooleanConstraint(truthValue, getSrcLoc());
-    }
-
 protected:
-    void print(std::ostream& os) const override {
-        os << (truthValue ? "true" : "false");
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        assert(isA<AstBooleanConstraint>(&node));
-        const auto& other = static_cast<const AstBooleanConstraint&>(node);
-        return truthValue == other.truthValue;
-    }
+private:
+    bool equal(const Node& node) const override;
 
+    BooleanConstraint* cloning() const override;
+
+private:
     /** Truth value of Boolean constraint */
     bool truthValue;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

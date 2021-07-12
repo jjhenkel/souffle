@@ -16,8 +16,8 @@
 
 #include "ram/AbstractLog.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Statement.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
 #include "souffle/utility/StringUtil.h"
@@ -27,10 +27,10 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamLogTimer
+ * @class LogTimer
  * @brief Execution time logger for a statement
  *
  * Logs the execution time of a statement. Before and after
@@ -48,28 +48,28 @@ namespace souffle {
  * END_TIMER
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-class RamLogTimer : public RamStatement, public RamAbstractLog {
+class LogTimer : public Statement, public AbstractLog {
 public:
-    RamLogTimer(Own<RamStatement> stmt, std::string msg) : RamAbstractLog(std::move(stmt), std::move(msg)) {}
+    LogTimer(Own<Statement> stmt, std::string msg) : AbstractLog(std::move(stmt), std::move(msg)) {}
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        return RamAbstractLog::getChildNodes();
+    std::vector<const Node*> getChildNodes() const override {
+        return AbstractLog::getChildNodes();
     }
 
-    RamLogTimer* clone() const override {
-        return new RamLogTimer(souffle::clone(statement), message);
+    LogTimer* cloning() const override {
+        return new LogTimer(clone(statement), message);
     }
 
-    void apply(const RamNodeMapper& map) override {
-        RamAbstractLog::apply(map);
+    void apply(const NodeMapper& map) override {
+        AbstractLog::apply(map);
     }
 
 protected:
     void print(std::ostream& os, int tabpos) const override {
-        os << times(" ", tabpos) << "START_TIMER \"" << stringify(message) << "\"" << std::endl;
-        RamStatement::print(statement.get(), os, tabpos + 1);
-        os << times(" ", tabpos) << "END_TIMER" << std::endl;
+        os << times(" ", tabpos) << "TIMER \"" << stringify(message) << "\"" << std::endl;
+        Statement::print(statement.get(), os, tabpos + 1);
+        os << times(" ", tabpos) << "END TIMER" << std::endl;
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

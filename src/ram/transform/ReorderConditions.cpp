@@ -18,46 +18,45 @@
 #include "ram/Operation.h"
 #include "ram/Program.h"
 #include "ram/Statement.h"
-#include "ram/Utils.h"
-#include "ram/Visitor.h"
 #include "ram/analysis/Complexity.h"
+#include "ram/utility/Utils.h"
+#include "ram/utility/Visitor.h"
 #include "souffle/utility/MiscUtil.h"
 #include <algorithm>
 #include <functional>
 #include <memory>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
-bool ReorderConditionsTransformer::reorderConditions(RamProgram& program) {
+bool ReorderConditionsTransformer::reorderConditions(Program& program) {
     bool changed = false;
-    visitDepthFirst(program, [&](const RamQuery& query) {
-        std::function<Own<RamNode>(Own<RamNode>)> filterRewriter = [&](Own<RamNode> node) -> Own<RamNode> {
-            if (const RamFilter* filter = dynamic_cast<RamFilter*>(node.get())) {
-                const RamCondition* condition = &filter->getCondition();
-                VecOwn<RamCondition> sortedConds;
-                VecOwn<RamCondition> condList = toConjunctionList(condition);
+    visit(program, [&](const Query& query) {
+        std::function<Own<Node>(Own<Node>)> filterRewriter = [&](Own<Node> node) -> Own<Node> {
+            if (const Filter* filter = as<Filter>(node)) {
+                const Condition* condition = &filter->getCondition();
+                VecOwn<Condition> sortedConds;
+                VecOwn<Condition> condList = toConjunctionList(condition);
                 for (auto& cond : condList) {
-                    sortedConds.emplace_back(cond->clone());
+                    sortedConds.emplace_back(cond->cloning());
                 }
-                std::sort(sortedConds.begin(), sortedConds.end(),
-                        [&](Own<RamCondition>& a, Own<RamCondition>& b) {
-                            return rca->getComplexity(a.get()) < rca->getComplexity(b.get());
-                        });
+                std::sort(sortedConds.begin(), sortedConds.end(), [&](Own<Condition>& a, Own<Condition>& b) {
+                    return rca->getComplexity(a.get()) < rca->getComplexity(b.get());
+                });
 
                 if (!std::equal(sortedConds.begin(), sortedConds.end(), condList.begin(),
-                            [](Own<RamCondition>& a, Own<RamCondition>& b) { return *a == *b; })) {
+                            [](Own<Condition>& a, Own<Condition>& b) { return *a == *b; })) {
                     changed = true;
-                    node = mk<RamFilter>(Own<RamCondition>(toCondition(sortedConds)),
-                            souffle::clone(&filter->getOperation()));
+                    node = mk<Filter>(
+                            Own<Condition>(toCondition(sortedConds)), clone(filter->getOperation()));
                 }
             }
             node->apply(makeLambdaRamMapper(filterRewriter));
             return node;
         };
-        const_cast<RamQuery*>(&query)->apply(makeLambdaRamMapper(filterRewriter));
+        const_cast<Query*>(&query)->apply(makeLambdaRamMapper(filterRewriter));
     });
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

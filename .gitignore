@@ -7,12 +7,14 @@ outputs/
 aclocal.m4
 lt*.m4
 autom4te.cache
-config.*
+config.status
 configure
 env
 
 *.o
 *.a
+*.lo
+*.la
 *~
 .dirstamp
 
@@ -33,7 +35,7 @@ profiler_html/
 doc
 
 .idea/
-cmake-build-debug/
+*build*/
 
 *.swp
 *.tgz
@@ -43,9 +45,12 @@ cmake-build-debug/
 .DS_Store
 
 .vscode
+# cmake generated file used by various tools
+/compile_commands.json
 
 stamp-h1
-/CMakeLists.txt
 
 utilities/bash-completion
 debian/changelog
+
+__pycache__

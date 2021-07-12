@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -20,9 +20,10 @@
 #include "ram/Condition.h"
 #include "ram/Expression.h"
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Relation.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
+#include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
 #include <cassert>
 #include <memory>
@@ -31,25 +32,24 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamAbstractExistenceCheck
+ * @class AbstractExistenceCheck
  * @brief Abstract existence check for a tuple in a relation
  */
-class RamAbstractExistenceCheck : public RamCondition {
+class AbstractExistenceCheck : public Condition {
 public:
-    RamAbstractExistenceCheck(Own<RamRelationReference> relRef, VecOwn<RamExpression> vals)
-            : relationRef(std::move(relRef)), values(std::move(vals)) {
-        assert(relationRef != nullptr && "Relation reference is a nullptr");
+    AbstractExistenceCheck(std::string rel, VecOwn<Expression> vals)
+            : relation(std::move(rel)), values(std::move(vals)) {
         for (const auto& v : values) {
-            assert(v != nullptr && "value is a nullptr");
+            assert(v != nullptr && "NULL value");
         }
     }
 
     /** @brief Get relation */
-    const RamRelation& getRelation() const {
-        return *relationRef->get();
+    const std::string& getRelation() const {
+        return relation;
     }
 
     /**
@@ -57,20 +57,19 @@ public:
      *  A null pointer element in the vector denotes an unspecified
      *  pattern for a tuple element.
      */
-    const std::vector<RamExpression*> getValues() const {
+    const std::vector<Expression*> getValues() const {
         return toPtrVector(values);
     }
 
-    std::vector<const RamNode*> getChildNodes() const override {
-        std::vector<const RamNode*> res = {relationRef.get()};
+    std::vector<const Node*> getChildNodes() const override {
+        std::vector<const Node*> res;
         for (const auto& cur : values) {
             res.push_back(cur.get());
         }
         return res;
     }
 
-    void apply(const RamNodeMapper& map) override {
-        relationRef = map(std::move(relationRef));
+    void apply(const NodeMapper& map) override {
         for (auto& val : values) {
             val = map(std::move(val));
         }
@@ -78,28 +77,19 @@ public:
 
 protected:
     void print(std::ostream& os) const override {
-        os << "("
-           << join(values, ",",
-                      [](std::ostream& out, const Own<RamExpression>& value) {
-                          if (!value) {
-                              out << "_";
-                          } else {
-                              out << *value;
-                          }
-                      })
-           << ") ∈ " << getRelation().getName();
+        os << "(" << join(values, ",") << ") IN " << relation;
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamAbstractExistenceCheck&>(node);
-        return equal_ptr(relationRef, other.relationRef) && equal_targets(values, other.values);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<AbstractExistenceCheck>(node);
+        return relation == other.relation && equal_targets(values, other.values);
     }
 
     /** Relation */
-    Own<RamRelationReference> relationRef;
+    const std::string relation;
 
-    /** Pattern -- nullptr if undefined */
-    VecOwn<RamExpression> values;
+    /** Search tuple */
+    VecOwn<Expression> values;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

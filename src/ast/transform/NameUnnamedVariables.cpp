@@ -14,6 +14,7 @@
 
 #include "ast/transform/NameUnnamedVariables.h"
 #include "ast/Clause.h"
+#include "ast/Negation.h"
 #include "ast/Node.h"
 #include "ast/Program.h"
 #include "ast/Relation.h"
@@ -27,32 +28,35 @@
 #include <ostream>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-bool NameUnnamedVariablesTransformer::transform(AstTranslationUnit& translationUnit) {
+bool NameUnnamedVariablesTransformer::transform(TranslationUnit& translationUnit) {
     bool changed = false;
     static constexpr const char* boundPrefix = "+underscore";
-    static size_t underscoreCount = 0;
+    static std::size_t underscoreCount = 0;
 
-    struct nameVariables : public AstNodeMapper {
+    struct nameVariables : public NodeMapper {
         mutable bool changed = false;
         nameVariables() = default;
 
-        Own<AstNode> operator()(Own<AstNode> node) const override {
-            if (isA<AstUnnamedVariable>(node.get())) {
+        Own<Node> operator()(Own<Node> node) const override {
+            if (isA<Negation>(node)) {
+                return node;
+            }
+            if (isA<UnnamedVariable>(node)) {
                 changed = true;
                 std::stringstream name;
                 name << boundPrefix << "_" << underscoreCount++;
-                return mk<AstVariable>(name.str());
+                return mk<ast::Variable>(name.str());
             }
             node->apply(*this);
             return node;
         }
     };
 
-    AstProgram& program = *translationUnit.getProgram();
-    for (AstRelation* rel : program.getRelations()) {
-        for (AstClause* clause : getClauses(program, *rel)) {
+    Program& program = translationUnit.getProgram();
+    for (Relation* rel : program.getRelations()) {
+        for (Clause* clause : getClauses(program, *rel)) {
             nameVariables update;
             clause->apply(update);
             changed |= update.changed;
@@ -62,4 +66,4 @@ bool NameUnnamedVariablesTransformer::transform(AstTranslationUnit& translationU
     return changed;
 }
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

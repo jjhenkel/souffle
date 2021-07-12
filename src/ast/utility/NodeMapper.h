@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,17 +19,17 @@
 #include "souffle/utility/ContainerUtil.h"
 #include "souffle/utility/MiscUtil.h"
 #include <cassert>
-#include <memory>
+#include <utility>
 
-namespace souffle {
-class AstNode;
+namespace souffle::ast {
+class Node;
 
 /**
  * An abstract class for manipulating AST Nodes by substitution
  */
-class AstNodeMapper {
+class NodeMapper {
 public:
-    virtual ~AstNodeMapper() = default;
+    virtual ~NodeMapper() = default;
 
     /**
      * Abstract replacement method for a node.
@@ -38,17 +38,24 @@ public:
      * will be destroyed by the mapper and the returned node
      * will become owned by the caller.
      */
-    virtual Own<AstNode> operator()(Own<AstNode> node) const = 0;
+    virtual Own<Node> operator()(Own<Node> node) const = 0;
 
     /**
      * Wrapper for any subclass of the AST node hierarchy performing type casts.
      */
     template <typename T>
     Own<T> operator()(Own<T> node) const {
-        Own<AstNode> resPtr = (*this)(Own<AstNode>(static_cast<AstNode*>(node.release())));
-        assert(isA<T>(resPtr.get()) && "Invalid target node!");
-        return Own<T>(dynamic_cast<T*>(resPtr.release()));
+        Own<Node> resPtr = (*this)(Own<Node>(static_cast<Node*>(node.release())));
+        assert(isA<T>(resPtr) && "Invalid target node!");
+        return Own<T>(as<T>(resPtr.release()));
     }
 };
 
-}  // end of namespace souffle
+template <typename R>
+void mapAll(R& range, NodeMapper const& mapper) {
+    for (auto& cur : range) {
+        cur = mapper(std::move(cur));
+    }
+}
+
+}  // namespace souffle::ast

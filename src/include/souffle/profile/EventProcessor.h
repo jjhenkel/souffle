@@ -96,18 +96,17 @@ private:
      */
     std::string escape(const std::string& text) {
         std::string str(text);
-        size_t start_pos = 0;
+        std::size_t start_pos = 0;
         // replace backslashes with double backslash
         while ((start_pos = str.find('\\', start_pos)) != std::string::npos) {
             if (start_pos == str.size()) {
                 break;
             }
             ++start_pos;
-            if (str[start_pos] == 't' || str[start_pos] == '"' || str[start_pos] == '\\' ||
-                    str[start_pos] == 'n' || str[start_pos] == ';') {
-                continue;
+            if (str[start_pos] != 't' && str[start_pos] != '"' && str[start_pos] != '\\' &&
+                    str[start_pos] != 'n' && str[start_pos] != ';') {
+                str.replace(start_pos - 1, 1, "\\\\");
             }
-            str.replace(start_pos - 1, 1, "\\\\");
             ++start_pos;
         }
         return str;
@@ -122,7 +121,7 @@ private:
 
         std::string temp;
         std::string hold;
-        for (size_t i = 0; i < str.size(); i++) {
+        for (std::size_t i = 0; i < str.size(); i++) {
             if (repeat) {
                 if (str.at(i) == split_str.at(0)) {
                     while (str.at(++i) == split_str.at(0)) {
@@ -135,7 +134,7 @@ private:
             } else {
                 temp += str.at(i);
                 hold += str.at(i);
-                for (size_t j = 0; j < hold.size(); j++) {
+                for (std::size_t j = 0; j < hold.size(); j++) {
                     if (hold[j] != split_str[j]) {
                         hold = "";
                     }
@@ -156,7 +155,7 @@ private:
 
     /** split string separated by semi-colon */
     static std::vector<std::string> splitSignature(std::string str) {
-        for (size_t i = 0; i < str.size(); i++) {
+        for (std::size_t i = 0; i < str.size(); i++) {
             if (i > 0 && str[i] == ';' && str[i - 1] == '\\') {
                 // I'm assuming this isn't a thing that will be naturally found in souffle profiler files
                 str[i - 1] = '\b';
@@ -189,9 +188,9 @@ public:
         const std::string& rule = signature[3];
         microseconds start = va_arg(args, microseconds);
         microseconds end = va_arg(args, microseconds);
-        size_t startMaxRSS = va_arg(args, size_t);
-        size_t endMaxRSS = va_arg(args, size_t);
-        size_t size = va_arg(args, size_t);
+        std::size_t startMaxRSS = va_arg(args, std::size_t);
+        std::size_t endMaxRSS = va_arg(args, std::size_t);
+        std::size_t size = va_arg(args, std::size_t);
         db.addSizeEntry(
                 {"program", "relation", relation, "non-recursive-rule", rule, "maxRSS", "pre"}, startMaxRSS);
         db.addSizeEntry(
@@ -217,7 +216,7 @@ public:
         const std::string& relation = signature[1];
         const std::string& srcLocator = signature[2];
         const std::string& rule = signature[3];
-        size_t num = va_arg(args, size_t);
+        std::size_t num = va_arg(args, std::size_t);
         db.addTextEntry(
                 {"program", "relation", relation, "non-recursive-rule", rule, "source-locator"}, srcLocator);
         db.addSizeEntry({"program", "relation", relation, "non-recursive-rule", rule, "num-tuples"}, num);
@@ -239,10 +238,10 @@ public:
         const std::string& rule = signature[4];
         microseconds start = va_arg(args, microseconds);
         microseconds end = va_arg(args, microseconds);
-        size_t startMaxRSS = va_arg(args, size_t);
-        size_t endMaxRSS = va_arg(args, size_t);
-        size_t size = va_arg(args, size_t);
-        std::string iteration = std::to_string(va_arg(args, size_t));
+        std::size_t startMaxRSS = va_arg(args, std::size_t);
+        std::size_t endMaxRSS = va_arg(args, std::size_t);
+        std::size_t size = va_arg(args, std::size_t);
+        std::string iteration = std::to_string(va_arg(args, std::size_t));
         db.addSizeEntry({"program", "relation", relation, "iteration", iteration, "recursive-rule", rule,
                                 version, "maxRSS", "pre"},
                 startMaxRSS);
@@ -274,8 +273,8 @@ public:
         const std::string& version = signature[2];
         const std::string& srcLocator = signature[3];
         const std::string& rule = signature[4];
-        size_t number = va_arg(args, size_t);
-        std::string iteration = std::to_string(va_arg(args, size_t));
+        std::size_t number = va_arg(args, std::size_t);
+        std::string iteration = std::to_string(va_arg(args, std::size_t));
         db.addTextEntry({"program", "relation", relation, "iteration", iteration, "recursive-rule", rule,
                                 version, "source-locator"},
                 srcLocator);
@@ -299,9 +298,9 @@ public:
         const std::string& srcLocator = signature[2];
         microseconds start = va_arg(args, microseconds);
         microseconds end = va_arg(args, microseconds);
-        size_t startMaxRSS = va_arg(args, size_t);
-        size_t endMaxRSS = va_arg(args, size_t);
-        size_t size = va_arg(args, size_t);
+        std::size_t startMaxRSS = va_arg(args, std::size_t);
+        std::size_t endMaxRSS = va_arg(args, std::size_t);
+        std::size_t size = va_arg(args, std::size_t);
         db.addSizeEntry({"program", "relation", relation, "maxRSS", "pre"}, startMaxRSS);
         db.addSizeEntry({"program", "relation", relation, "maxRSS", "post"}, endMaxRSS);
         db.addSizeEntry({"program", "relation", relation, "num-tuples"}, size);
@@ -322,7 +321,7 @@ public:
     void process(ProfileDatabase& db, const std::vector<std::string>& signature, va_list& args) override {
         const std::string& relation = signature[1];
         const std::string& srcLocator = signature[2];
-        size_t num = va_arg(args, size_t);
+        std::size_t num = va_arg(args, std::size_t);
         db.addTextEntry({"program", "relation", relation, "source-locator"}, srcLocator);
         db.addSizeEntry({"program", "relation", relation, "num-tuples"}, num);
     }
@@ -342,10 +341,10 @@ public:
         const std::string& srcLocator = signature[2];
         microseconds start = va_arg(args, microseconds);
         microseconds end = va_arg(args, microseconds);
-        size_t startMaxRSS = va_arg(args, size_t);
-        size_t endMaxRSS = va_arg(args, size_t);
-        size_t size = va_arg(args, size_t);
-        std::string iteration = std::to_string(va_arg(args, size_t));
+        std::size_t startMaxRSS = va_arg(args, std::size_t);
+        std::size_t endMaxRSS = va_arg(args, std::size_t);
+        std::size_t size = va_arg(args, std::size_t);
+        std::string iteration = std::to_string(va_arg(args, std::size_t));
         db.addTextEntry({"program", "relation", relation, "source-locator"}, srcLocator);
         db.addDurationEntry({"program", "relation", relation, "iteration", iteration, "runtime"}, start, end);
         db.addSizeEntry(
@@ -368,8 +367,8 @@ public:
     void process(ProfileDatabase& db, const std::vector<std::string>& signature, va_list& args) override {
         const std::string& relation = signature[1];
         const std::string& srcLocator = signature[2];
-        size_t number = va_arg(args, size_t);
-        std::string iteration = std::to_string(va_arg(args, size_t));
+        std::size_t number = va_arg(args, std::size_t);
+        std::string iteration = std::to_string(va_arg(args, std::size_t));
         db.addTextEntry({"program", "relation", relation, "source-locator"}, srcLocator);
         db.addSizeEntry({"program", "relation", relation, "iteration", iteration, "num-tuples"}, number);
     }
@@ -389,10 +388,10 @@ public:
         const std::string& srcLocator = signature[2];
         microseconds start = va_arg(args, microseconds);
         microseconds end = va_arg(args, microseconds);
-        size_t startMaxRSS = va_arg(args, size_t);
-        size_t endMaxRSS = va_arg(args, size_t);
-        va_arg(args, size_t);
-        std::string iteration = std::to_string(va_arg(args, size_t));
+        std::size_t startMaxRSS = va_arg(args, std::size_t);
+        std::size_t endMaxRSS = va_arg(args, std::size_t);
+        va_arg(args, std::size_t);
+        std::string iteration = std::to_string(va_arg(args, std::size_t));
         db.addSizeEntry(
                 {"program", "relation", relation, "iteration", iteration, "maxRSS", "pre"}, startMaxRSS);
         db.addSizeEntry(
@@ -472,7 +471,7 @@ public:
         microseconds time = va_arg(args, microseconds);
         uint64_t systemTime = va_arg(args, uint64_t);
         uint64_t userTime = va_arg(args, uint64_t);
-        size_t maxRSS = va_arg(args, size_t);
+        std::size_t maxRSS = va_arg(args, std::size_t);
         std::string timeString = std::to_string(time.count());
         db.addSizeEntry({"program", "usage", "timepoint", timeString, "systemtime"}, systemTime);
         db.addSizeEntry({"program", "usage", "timepoint", timeString, "usertime"}, userTime);
@@ -495,9 +494,9 @@ public:
         const std::string& rule = signature[3];
         const std::string& atom = signature[4];
         const std::string& originalRule = signature[5];
-        size_t level = std::stoi(signature[6]);
-        size_t number = va_arg(args, size_t);
-        size_t iteration = va_arg(args, size_t);
+        std::size_t level = std::stoi(signature[6]);
+        std::size_t number = va_arg(args, std::size_t);
+        std::size_t iteration = va_arg(args, std::size_t);
         // non-recursive rule
         if (rule == originalRule) {
             db.addSizeEntry({"program", "relation", relation, "non-recursive-rule", rule, "atom-frequency",
@@ -530,7 +529,7 @@ public:
     /** process event input */
     void process(ProfileDatabase& db, const std::vector<std::string>& signature, va_list& args) override {
         const std::string& relation = signature[1];
-        size_t reads = va_arg(args, size_t);
+        std::size_t reads = va_arg(args, std::size_t);
         db.addSizeEntry({"program", "relation", relation, "reads"}, reads);
     }
 

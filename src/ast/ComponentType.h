@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -19,16 +19,14 @@
 #include "ast/Node.h"
 #include "ast/QualifiedName.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/StreamUtil.h"
-#include <ostream>
+#include <iosfwd>
 #include <string>
-#include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstComponentType
+ * @class ComponentType
  * @brief Component type of a component
  *
  * Example:
@@ -36,10 +34,9 @@ namespace souffle {
  * where name is the component name and < Type, Type, ... > is a
  * list of component type parameters (either actual or formal).
  */
-class AstComponentType : public AstNode {
+class ComponentType : public Node {
 public:
-    AstComponentType(std::string name = "", std::vector<AstQualifiedName> params = {}, SrcLocation loc = {})
-            : AstNode(std::move(loc)), name(std::move(name)), typeParams(std::move(params)) {}
+    ComponentType(std::string name = "", std::vector<QualifiedName> params = {}, SrcLocation loc = {});
 
     /** Return component name */
     const std::string& getName() const {
@@ -47,43 +44,32 @@ public:
     }
 
     /** Set component name */
-    void setName(std::string n) {
-        name = std::move(n);
-    }
+    void setName(std::string n);
 
     /** Return component type parameters */
-    const std::vector<AstQualifiedName>& getTypeParameters() const {
+    const std::vector<QualifiedName>& getTypeParameters() const {
         return typeParams;
     }
 
     /** Set component type parameters */
-    void setTypeParameters(const std::vector<AstQualifiedName>& params) {
+    void setTypeParameters(const std::vector<QualifiedName>& params) {
         typeParams = params;
     }
 
-    AstComponentType* clone() const override {
-        return new AstComponentType(name, typeParams, getSrcLoc());
-    }
-
 protected:
-    void print(std::ostream& os) const override {
-        os << name;
-        if (!typeParams.empty()) {
-            os << "<" << join(typeParams) << ">";
-        }
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstComponentType&>(node);
-        return name == other.name && typeParams == other.typeParams;
-    }
+private:
+    bool equal(const Node& node) const override;
+
+    ComponentType* cloning() const override;
 
 private:
     /** Component name */
     std::string name;
 
     /** Component type parameters */
-    std::vector<AstQualifiedName> typeParams;
+    std::vector<QualifiedName> typeParams;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

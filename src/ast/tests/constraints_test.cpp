@@ -23,14 +23,14 @@
 #include <set>
 #include <string>
 
-using namespace std;
+namespace souffle::ast {
 
-namespace souffle {
+using namespace analysis;
 
 namespace test {
 
 TEST(Constraints, Basic) {
-    using Vars = Variable<string, set_property_space<int>>;
+    using Vars = Variable<std::string, set_property_space<int>>;
 
     Vars A("A");
     Vars B("B");
@@ -60,4 +60,4 @@ TEST(Constraints, Basic) {
 }
 
 }  // end namespace test
-}  // end namespace souffle
+}  // namespace souffle::ast

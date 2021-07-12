@@ -29,7 +29,7 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
  * @class ReportIndexSetsTransformer
@@ -37,17 +37,17 @@ namespace souffle {
  *        if the debug-report flag is enabled.
  *
  */
-class ReportIndexTransformer : public RamTransformer {
+class ReportIndexTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "ReportIndexTransformer";
     }
 
 protected:
-    bool transform(RamTranslationUnit& translationUnit) override {
-        translationUnit.getAnalysis<RamIndexAnalysis>();
+    bool transform(TranslationUnit& translationUnit) override {
+        translationUnit.getAnalysis<analysis::IndexAnalysis>();
         return false;
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

@@ -28,36 +28,36 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformer that repeatedly executes a sub-transformer until no changes are made
  */
 class FixpointTransformer : public MetaTransformer {
 public:
-    FixpointTransformer(Own<AstTransformer> transformer) : transformer(std::move(transformer)) {}
+    FixpointTransformer(Own<Transformer> transformer) : transformer(std::move(transformer)) {}
 
     void setDebugReport() override {
-        if (auto* mt = dynamic_cast<MetaTransformer*>(transformer.get())) {
+        if (auto* mt = as<MetaTransformer>(transformer)) {
             mt->setDebugReport();
         } else {
             transformer = mk<DebugReporter>(std::move(transformer));
         }
     }
 
-    std::vector<AstTransformer*> getSubtransformers() const override {
+    std::vector<Transformer*> getSubtransformers() const override {
         return {transformer.get()};
     }
 
     void setVerbosity(bool verbose) override {
         this->verbose = verbose;
-        if (auto* mt = dynamic_cast<MetaTransformer*>(transformer.get())) {
+        if (auto* mt = as<MetaTransformer>(transformer)) {
             mt->setVerbosity(verbose);
         }
     }
 
     void disableTransformers(const std::set<std::string>& transforms) override {
-        if (auto* mt = dynamic_cast<MetaTransformer*>(transformer.get())) {
+        if (auto* mt = as<MetaTransformer>(transformer)) {
             mt->disableTransformers(transforms);
         } else if (transforms.find(transformer->getName()) != transforms.end()) {
             transformer = mk<NullTransformer>();
@@ -68,19 +68,21 @@ public:
         return "FixpointTransformer";
     }
 
-    FixpointTransformer* clone() const override {
-        return new FixpointTransformer(souffle::clone(transformer));
+private:
+    FixpointTransformer* cloning() const override {
+        return new FixpointTransformer(clone(transformer));
     }
 
-private:
-    Own<AstTransformer> transformer;
-    bool transform(AstTranslationUnit& translationUnit) override {
+    bool transform(TranslationUnit& translationUnit) override {
         bool changed = false;
         while (applySubtransformer(translationUnit, transformer.get())) {
             changed = true;
         }
         return changed;
     }
+
+private:
+    Own<Transformer> transformer;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

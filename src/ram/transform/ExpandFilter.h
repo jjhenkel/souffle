@@ -19,11 +19,11 @@
 #include "ram/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ram::transform {
 
 /**
  * @class ExpandFilterTransformer
- * @brief Transforms RamConjunctions into consecutive filter operations.
+ * @brief Transforms Conjunctions into consecutive filter operations.
  *
  * For example ..
  *
@@ -45,7 +45,7 @@ namespace souffle {
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
  */
-class ExpandFilterTransformer : public RamTransformer {
+class ExpandFilterTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "ExpandFilterTransformer";
@@ -56,12 +56,12 @@ public:
      * @param program Program that is transformed
      * @return Flag showing whether the program has been changed by the transformation
      */
-    bool expandFilters(RamProgram& program);
+    bool expandFilters(Program& program);
 
 protected:
-    bool transform(RamTranslationUnit& translationUnit) override {
+    bool transform(TranslationUnit& translationUnit) override {
         return expandFilters(translationUnit.getProgram());
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram::transform

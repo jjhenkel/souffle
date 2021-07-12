@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -15,49 +15,40 @@
 #pragma once
 
 #include "ram/Node.h"
-#include "ram/NodeMapper.h"
 #include "ram/Relation.h"
 #include "ram/Statement.h"
+#include "ram/utility/NodeMapper.h"
 #include "souffle/utility/ContainerUtil.h"
+#include "souffle/utility/MiscUtil.h"
 #include <cassert>
 #include <memory>
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamRelationStatement
+ * @class RelationStatement
  * @brief RAM Statements with a single relation
  */
-class RamRelationStatement : public RamStatement {
+class RelationStatement : public Statement {
 public:
-    RamRelationStatement(Own<RamRelationReference> relRef) : relationRef(std::move(relRef)) {
-        assert(relationRef != nullptr && "Relation reference is a null-pointer");
-    }
+    RelationStatement(std::string rel) : relation(std::move(rel)) {}
 
     /** @brief Get RAM relation */
-    const RamRelation& getRelation() const {
-        return *relationRef->get();
-    }
-
-    std::vector<const RamNode*> getChildNodes() const override {
-        return {relationRef.get()};
-    }
-
-    void apply(const RamNodeMapper& map) override {
-        relationRef = map(std::move(relationRef));
+    const std::string& getRelation() const {
+        return relation;
     }
 
 protected:
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamRelationStatement&>(node);
-        return equal_ptr(relationRef, other.relationRef);
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<RelationStatement>(node);
+        return relation == other.relation;
     }
 
 protected:
-    /** Relation reference */
-    Own<RamRelationReference> relationRef;
+    /** Relation */
+    std::string relation;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

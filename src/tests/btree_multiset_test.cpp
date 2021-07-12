@@ -264,7 +264,7 @@ TEST(BTreeMultiSet, IteratorStress) {
     shuffle(data.begin(), data.end(), generator);
 
     for (int i = 0; i < N; i++) {
-        EXPECT_EQ((size_t)i, t.size());
+        EXPECT_EQ((std::size_t)i, t.size());
 
         int last = -1;
         for (int i : t) {
@@ -449,7 +449,7 @@ struct reserver<std::unordered_set<A, B, C, D>> {
                 counter++;                                                             \
             }                                                                          \
         });                                                                            \
-        EXPECT_EQ((size_t)counter, set.size());                                        \
+        EXPECT_EQ((std::size_t)counter, set.size());                                   \
         bool allPresent = true;                                                        \
         time("membership in", [&]() {                                                  \
             for (const auto& cur : in) {                                               \

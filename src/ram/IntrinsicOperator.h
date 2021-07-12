@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -20,6 +20,7 @@
 #include "ram/AbstractOperator.h"
 #include "ram/Expression.h"
 #include "ram/Node.h"
+#include "souffle/utility/MiscUtil.h"
 #include "souffle/utility/StreamUtil.h"
 #include "souffle/utility/tinyformat.h"
 #include <memory>
@@ -27,32 +28,31 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ram {
 
 /**
- * @class RamIntrinsicOperator
+ * @class IntrinsicOperator
  * @brief Operator that represents an intrinsic (built-in) functor
  */
-class RamIntrinsicOperator : public RamAbstractOperator {
+class IntrinsicOperator : public AbstractOperator {
 public:
     template <typename... Args>
-    RamIntrinsicOperator(FunctorOp op, Args... args)
-            : RamAbstractOperator({std::move(args)...}), operation(op) {}
+    IntrinsicOperator(FunctorOp op, Args... args) : AbstractOperator({std::move(args)...}), operation(op) {}
 
-    RamIntrinsicOperator(FunctorOp op, VecOwn<RamExpression> args)
-            : RamAbstractOperator(std::move(args)), operation(op) {}
+    IntrinsicOperator(FunctorOp op, VecOwn<Expression> args)
+            : AbstractOperator(std::move(args)), operation(op) {}
 
     /** @brief Get operator symbol */
     FunctorOp getOperator() const {
         return operation;
     }
 
-    RamIntrinsicOperator* clone() const override {
-        VecOwn<RamExpression> argsCopy;
+    IntrinsicOperator* cloning() const override {
+        VecOwn<Expression> argsCopy;
         for (auto& arg : arguments) {
-            argsCopy.emplace_back(arg->clone());
+            argsCopy.emplace_back(arg->cloning());
         }
-        return new RamIntrinsicOperator(operation, std::move(argsCopy));
+        return new IntrinsicOperator(operation, std::move(argsCopy));
     }
 
 protected:
@@ -64,13 +64,13 @@ protected:
         }
     }
 
-    bool equal(const RamNode& node) const override {
-        const auto& other = static_cast<const RamIntrinsicOperator&>(node);
-        return RamAbstractOperator::equal(node) && operation == other.operation;
+    bool equal(const Node& node) const override {
+        const auto& other = asAssert<IntrinsicOperator>(node);
+        return AbstractOperator::equal(node) && operation == other.operation;
     }
 
     /** Operation symbol */
     const FunctorOp operation;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ram

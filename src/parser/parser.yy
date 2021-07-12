@@ -17,7 +17,7 @@
 %require "3.0.2"
 
 %defines
-%define parser_class_name {parser}
+%define api.parser.class {parser}
 %define api.token.constructor
 %define api.value.type variant
 %define parse.assert
@@ -51,6 +51,7 @@
     #include "ast/Counter.h"
     #include "ast/ExecutionOrder.h"
     #include "ast/ExecutionPlan.h"
+    #include "ast/FunctionalConstraint.h"
     #include "ast/FunctorDeclaration.h"
     #include "ast/Directive.h"
     #include "ast/IntrinsicFunctor.h"
@@ -72,111 +73,18 @@
     #include "ast/UnnamedVariable.h"
     #include "ast/UserDefinedFunctor.h"
     #include "ast/Variable.h"
+    #include "parser/Helper.h"
     #include "parser/ParserUtils.h"
     #include "souffle/RamTypes.h"
     #include "souffle/BinaryConstraintOps.h"
     #include "souffle/utility/ContainerUtil.h"
     #include "souffle/utility/StringUtil.h"
 
+    #include <ostream>
+    #include <string>
+    #include <vector>
+
     using namespace souffle;
-
-    namespace souffle {
-        class ParserDriver;
-
-        namespace parser {
-          // FIXME: (when we can finally use Bison 3.2) Expunge this abombination.
-          // HACK:  Bison 3.0.2 is stupid and ugly and doesn't support move semantics
-          //        with the `lalr1.cc` skeleton and that makes me very mad.
-          //        Thankfully (or not) two can play stupid games:
-          //          Behold! std::auto_ptr 2: The Revengening
-          // NOTE:  Bison 3.2 came out in 2019. `std::unique_ptr` appeared in C++11.
-          //        How timely.
-          // NOTE:  There are specialisations wrappers that'll allow us to (almost)
-          //        transparently remove `Mov` once we switch to Bison 3.2+.
-
-          template<typename A>
-          struct Mov {
-            mutable A value;
-
-            Mov() = default;
-            Mov(Mov&&) = default;
-            template<typename B>
-            Mov(B value) : value(std::move(value)) {}
-
-            // CRIMES AGAINST COMPUTING HAPPENS HERE
-            // HACK: Pretend you can copy it, but actually move it. Keeps Bison 3.0.2 happy.
-            Mov(const Mov& x) : value(std::move(x.value)) {}
-            Mov& operator=(Mov x) { value = std::move(x.value); return *this; }
-            // detach/convert implicitly.
-            operator A() { return std::move(value); }
-
-            // support ptr-like behaviour
-            A* operator->() { return &value; }
-            A operator*() { return std::move(value); }
-          };
-
-          template<typename A>
-          A unwrap(Mov<A> x) { return *x; }
-
-          template<typename A>
-          A unwrap(A x) { return x; }
-
-          template<typename A>
-          struct Mov<Own<A>> {
-            mutable Own<A> value;
-
-            Mov() = default;
-            Mov(Mov&&) = default;
-            template<typename B>
-            Mov(B value) : value(std::move(value)) {}
-
-            // CRIMES AGAINST COMPUTING HAPPENS HERE
-            // HACK: Pretend you can copy it, but actually move it. Keeps Bison 3.0.2 happy.
-            Mov(const Mov& x) : value(std::move(x.value)) {}
-            Mov& operator=(Mov x) { value = std::move(x.value); return *this; }
-            // detach/convert implicitly.
-            operator Own<A>() { return std::move(value); }
-            Own<A> operator*() { return std::move(value); }
-
-            // support ptr-like behaviour
-            A* operator->() { return value.get(); }
-          };
-
-          template<typename A>
-          struct Mov<std::vector<A>> {
-            mutable std::vector<A> value;
-
-            Mov() = default;
-            Mov(Mov&&) = default;
-            template<typename B>
-            Mov(B value) : value(std::move(value)) {}
-
-            // CRIMES AGAINST COMPUTING HAPPENS HERE
-            // HACK: Pretend you can copy it, but actually move it. Keeps Bison 3.0.2 happy.
-            Mov(const Mov& x) : value(std::move(x.value)) {}
-            Mov& operator=(Mov x) { value = std::move(x.value); return *this; }
-            // detach/convert implicitly.
-            operator std::vector<A>() { return std::move(value); }
-            auto operator*() {
-              std::vector<decltype(unwrap(std::declval<A>()))> ys;
-              for (auto&& x : value) ys.push_back(unwrap(std::move(x)));
-              return ys;
-            }
-
-            // basic ops
-            using iterator = typename std::vector<A>::iterator;
-            typename std::vector<A>::value_type& operator[](size_t i) { return value[i]; }
-            iterator begin() { return value.begin(); }
-            iterator end() { return value.end(); }
-            void push_back(A x) { value.push_back(std::move(x)); }
-            size_t size() const { return value.size(); }
-            bool empty() const { return value.empty(); }
-          };
-        }
-
-        template<typename A>
-        parser::Mov<A> clone(const parser::Mov<A>& x) { return clone(x.value); }
-    }
 
     using namespace souffle::parser;
 
@@ -200,7 +108,9 @@
 }
 
 %code {
-    #include "parser/ParserDriver.h"
+   #include "parser/ParserDriver.h"
+   #define YY_DECL yy::parser::symbol_type yylex(souffle::ParserDriver& driver, yyscan_t yyscanner)
+   YY_DECL;
 }
 
 %param { ParserDriver &driver }
@@ -239,6 +149,7 @@
 %token TRUE                      "true literal constraint"
 %token FALSE                     "false literal constraint"
 %token PLAN                      "plan keyword"
+%token CHOICEDOMAIN              "choice-domain"
 %token IF                        ":-"
 %token DECL                      "relation declaration"
 %token FUNCTOR                   "functor declaration"
@@ -306,57 +217,61 @@
 %token L_NOT                     "lnot"
 
 /* -- Non-Terminal Types -- */
-%type <Mov<RuleBody>>                        aggregate_body
-%type <AggregateOp>                          aggregate_func
-%type <Mov<Own<AstArgument>>>                arg
-%type <Mov<VecOwn<AstArgument>>>             arg_list
-%type <Mov<Own<AstAtom>>>                    atom
-%type <Mov<VecOwn<AstAttribute>>>            attributes_list
-%type <Mov<RuleBody>>                        body
-%type <Mov<Own<AstComponentType>>>           comp_type
-%type <Mov<Own<AstComponentInit>>>           comp_init
-%type <Mov<Own<AstComponent>>>               component
-%type <Mov<Own<AstComponent>>>               component_body
-%type <Mov<Own<AstComponent>>>               component_head
-%type <Mov<RuleBody>>                        conjunction
-%type <Mov<Own<AstConstraint>>>              constraint
-%type <Mov<RuleBody>>                        disjunction
-%type <Mov<Own<AstExecutionOrder>>>          exec_order
-%type <Mov<Own<AstExecutionPlan>>>           exec_plan
-%type <Mov<Own<AstExecutionPlan>>>           exec_plan_list
-%type <Mov<Own<AstClause>>>                  fact
-%type <Mov<std::vector<TypeAttribute>>>      functor_arg_type_list
-%type <Mov<std::string>>                     functor_built_in
-%type <Mov<Own<AstFunctorDeclaration>>>      functor_decl
-%type <Mov<VecOwn<AstAtom>>>                 head
-%type <Mov<AstQualifiedName>>                identifier
-%type <Mov<VecOwn<AstDirective>>>                   directive_list
-%type <Mov<VecOwn<AstDirective>>>                   directive_head
-%type <AstDirectiveType>                            directive_head_decl
-%type <Mov<VecOwn<AstDirective>>>                   relation_directive_list
-%type <Mov<std::string>>                     kvp_value
-%type <Mov<VecOwn<AstArgument>>>             non_empty_arg_list
-%type <Mov<Own<AstAttribute>>>               attribute
-%type <Mov<VecOwn<AstAttribute>>>            non_empty_attributes
-%type <Mov<AstExecutionOrder::ExecOrder>>    non_empty_exec_order_list
-%type <Mov<std::vector<TypeAttribute>>>      non_empty_functor_arg_type_list
+%type <Mov<RuleBody>>                          aggregate_body
+%type <AggregateOp>                            aggregate_func
+%type <Mov<Own<ast::Argument>>>                arg
+%type <Mov<VecOwn<ast::Argument>>>             arg_list
+%type <Mov<Own<ast::Atom>>>                    atom
+%type <Mov<VecOwn<ast::Attribute>>>            attributes_list
+%type <Mov<RuleBody>>                          body
+%type <Mov<Own<ast::ComponentType>>>           comp_type
+%type <Mov<Own<ast::ComponentInit>>>           comp_init
+%type <Mov<Own<ast::Component>>>               component
+%type <Mov<Own<ast::Component>>>               component_body
+%type <Mov<Own<ast::Component>>>               component_head
+%type <Mov<RuleBody>>                          conjunction
+%type <Mov<Own<ast::Constraint>>>              constraint
+%type <Mov<Own<ast::FunctionalConstraint>>>    dependency
+%type <Mov<VecOwn<ast::FunctionalConstraint>>> dependency_list
+%type <Mov<VecOwn<ast::FunctionalConstraint>>> dependency_list_aux
+%type <Mov<RuleBody>>                          disjunction
+%type <Mov<Own<ast::ExecutionOrder>>>          exec_order
+%type <Mov<Own<ast::ExecutionPlan>>>           exec_plan
+%type <Mov<Own<ast::ExecutionPlan>>>           exec_plan_list
+%type <Mov<Own<ast::Clause>>>                  fact
+%type <Mov<VecOwn<ast::Attribute>>>            functor_arg_type_list
+%type <Mov<std::string>>                       functor_built_in
+%type <Mov<Own<ast::FunctorDeclaration>>>      functor_decl
+%type <Mov<VecOwn<ast::Atom>>>                 head
+%type <Mov<ast::QualifiedName>>                identifier
+%type <Mov<VecOwn<ast::Directive>>>            directive_list
+%type <Mov<VecOwn<ast::Directive>>>            directive_head
+%type <ast::DirectiveType>                     directive_head_decl
+%type <Mov<VecOwn<ast::Directive>>>            relation_directive_list
+%type <Mov<std::string>>                       kvp_value
+%type <Mov<VecOwn<ast::Argument>>>             non_empty_arg_list
+%type <Mov<Own<ast::Attribute>>>               attribute
+%type <Mov<VecOwn<ast::Attribute>>>            non_empty_attributes
+%type <Mov<std::vector<std::string>>>          non_empty_variables
+%type <Mov<ast::ExecutionOrder::ExecOrder>>    non_empty_exec_order_list
+%type <Mov<VecOwn<ast::Attribute>>>            non_empty_functor_arg_type_list
+%type <Mov<Own<ast::Attribute>>>               functor_attribute;
 %type <Mov<std::vector<std::pair
-            <std::string, std::string>>>>    non_empty_key_value_pairs
-%type <Mov<VecOwn<AstRelation>>>             non_empty_relation_list
-%type <Mov<Own<AstPragma>>>                  pragma
-%type <TypeAttribute>                        predefined_type
-%type <Mov<VecOwn<AstAttribute>>>            record_type_list
-%type <Mov<VecOwn<AstRelation>>>             relation_decl
-%type <std::set<RelationTag>>                relation_tags
-%type <Mov<VecOwn<AstClause>>>               rule
-%type <Mov<VecOwn<AstClause>>>               rule_def
-%type <Mov<RuleBody>>                        term
-%type <Mov<Own<AstType>>>                    type
-%type <Mov<std::vector<AstQualifiedName>>>   type_params
-%type <Mov<std::vector<AstQualifiedName>>>   type_param_list
-%type <Mov<std::vector<AstQualifiedName>>>   union_type_list
-%type <Mov<VecOwn<AstBranchDeclaration>>>    sum_branch_list
-%type <Mov<Own<AstBranchDeclaration>>>       sum_branch
+            <std::string, std::string>>>>      non_empty_key_value_pairs
+%type <Mov<VecOwn<ast::Relation>>>             non_empty_relation_list
+%type <Mov<Own<ast::Pragma>>>                  pragma
+%type <Mov<VecOwn<ast::Attribute>>>            record_type_list
+%type <Mov<VecOwn<ast::Relation>>>             relation_decl
+%type <std::set<RelationTag>>                  relation_tags
+%type <Mov<VecOwn<ast::Clause>>>               rule
+%type <Mov<VecOwn<ast::Clause>>>               rule_def
+%type <Mov<RuleBody>>                          term
+%type <Mov<Own<ast::Type>>>                    type
+%type <Mov<std::vector<ast::QualifiedName>>>   type_params
+%type <Mov<std::vector<ast::QualifiedName>>>   type_param_list
+%type <Mov<std::vector<ast::QualifiedName>>>   union_type_list
+%type <Mov<VecOwn<ast::BranchDeclaration>>>    sum_branch_list
+%type <Mov<Own<ast::BranchDeclaration>>>       sum_branch
 
 /* -- Operator precedence -- */
 %left L_OR
@@ -416,10 +331,10 @@ identifier
 
 /* Type declarations */
 type
-  : TYPE IDENT SUBTYPE IDENT             { $$ = mk<AstSubsetType>($2, $4, @$); }
-  | TYPE IDENT EQUALS  union_type_list   { $$ = mk<AstUnionType>($2, $4, @$); }
-  | TYPE IDENT EQUALS  record_type_list  { $$ = mk<AstRecordType>($2, $4, @$); }
-  | TYPE IDENT EQUALS  sum_branch_list   { $$ = mk<AstAlgebraicDataType>($2, $4, @$); }
+  : TYPE IDENT SUBTYPE IDENT             { $$ = mk<ast::SubsetType>($2, $4, @$); }
+  | TYPE IDENT EQUALS  union_type_list   { $$ = mk<ast::UnionType>($2, $4, @$); }
+  | TYPE IDENT EQUALS  record_type_list  { $$ = mk<ast::RecordType>($2, $4, @$); }
+  | TYPE IDENT EQUALS  sum_branch_list   { $$ = mk<ast::AlgebraicDataType>($2, $4, @$); }
     /* deprecated subset type forms */
   | NUMBER_TYPE IDENT { $$ = driver.mkDeprecatedSubType($IDENT, "number", @$); }
   | SYMBOL_TYPE IDENT { $$ = driver.mkDeprecatedSubType($IDENT, "symbol", @$); }
@@ -439,9 +354,9 @@ sum_branch_list
 
 sum_branch
   : IDENT[name] LBRACE RBRACE
-    { $$ = mk<AstBranchDeclaration>($name, VecOwn<AstAttribute>{}, @$); }
+    { $$ = mk<ast::BranchDeclaration>($name, VecOwn<ast::Attribute>{}, @$); }
   | IDENT[name] LBRACE non_empty_attributes[attributes] RBRACE
-    { $$ = mk<AstBranchDeclaration>($name, $attributes, @$); }
+    { $$ = mk<ast::BranchDeclaration>($name, $attributes, @$); }
   ;
 
 /**
@@ -450,7 +365,7 @@ sum_branch
 
 /* Relation declaration */
 relation_decl
-  : DECL non_empty_relation_list attributes_list relation_tags {
+  : DECL non_empty_relation_list attributes_list relation_tags dependency_list {
         auto tags             = $relation_tags;
         auto attributes_list  = $attributes_list;
 
@@ -466,15 +381,20 @@ relation_decl
                 }
             }
 
+            for (auto&& fd : $dependency_list) {
+                rel->addDependency(souffle::clone(fd));
+            }
+
             rel->setAttributes(clone(attributes_list));
         }
     }
   ;
+  ;
 
 /* List of relation names to declare */
 non_empty_relation_list
-  :                               IDENT {          $$.push_back(mk<AstRelation>($1, @1)); }
-  | non_empty_relation_list COMMA IDENT { $$ = $1; $$.push_back(mk<AstRelation>($3, @3)); }
+  :                               IDENT {          $$.push_back(mk<ast::Relation>($1, @1)); }
+  | non_empty_relation_list COMMA IDENT { $$ = $1; $$.push_back(mk<ast::Relation>($3, @3)); }
   ;
 
 /* Attribute definition of a relation */
@@ -495,7 +415,7 @@ non_empty_attributes
   ;
 
 attribute
-  : IDENT[name] COLON identifier[type] { $$ = mk<AstAttribute>($name, $type, @type); }
+  : IDENT[name] COLON identifier[type] { $$ = mk<ast::Attribute>($name, $type, @type); }
   ;
 
 /* Relation tags */
@@ -515,12 +435,57 @@ relation_tags
   | relation_tags       EQREL_QUALIFIER { $$ = driver.addReprTag(RelationTag::EQREL   , @2, $1); }
   ;
 
+  /* List of variables */
+non_empty_variables
+  : IDENT {
+        $$.push_back($IDENT);
+  }
+
+  | non_empty_variables[curr_var_list] COMMA IDENT {
+        $$ = $curr_var_list;
+        $$.push_back($IDENT);
+    }
+  ;
+
+/*  a functional dependency on relation */
+dependency
+  : IDENT[key] {
+        $$ = mk<ast::FunctionalConstraint>(mk<ast::Variable>($key, @$), @$);
+    }
+
+  | LPAREN non_empty_variables RPAREN {
+        VecOwn<ast::Variable> keys;
+        for (std::string s : $non_empty_variables) {
+          keys.push_back(mk<ast::Variable>(s, @$));
+        }
+        $$ = mk<ast::FunctionalConstraint>(std::move(keys), @$);
+  }
+  ;
+
+dependency_list_aux
+  : dependency { $$.push_back($dependency); }
+
+  | dependency_list_aux[list] COMMA dependency[next] {
+    $$ = std::move($list);
+    $$.push_back(std::move($next));
+  }
+  ;
+
+/*  List of functional dependencies on relation */
+dependency_list
+  : %empty { }
+
+  | CHOICEDOMAIN dependency_list_aux[list] {
+    $$ = std::move($list);
+  }
+  ;
+
 /**
  * Datalog Rule Structure
  */
 
 /* Fact */
-fact : atom DOT { $$ = mk<AstClause>($atom, Mov<VecOwn<AstLiteral>> {}, nullptr, @$); };
+fact : atom DOT { $$ = mk<ast::Clause>($atom, Mov<VecOwn<ast::Literal>> {}, nullptr, @$); };
 
 /* Rule */
 rule
@@ -577,8 +542,8 @@ exec_plan : PLAN exec_plan_list { $$ = $exec_plan_list; };
 /* Rule execution plan list */
 exec_plan_list
   : NUMBER COLON exec_order {
-        $$ = mk<AstExecutionPlan>();
-        $$->setOrderFor(RamSignedFromString($NUMBER), Own<AstExecutionOrder>($exec_order));
+        $$ = mk<ast::ExecutionPlan>();
+        $$->setOrderFor(RamSignedFromString($NUMBER), Own<ast::ExecutionOrder>($exec_order));
     }
   | exec_plan_list[curr_list] COMMA NUMBER COLON exec_order {
         $$ = $curr_list;
@@ -588,8 +553,8 @@ exec_plan_list
 
 /* Rule execution order */
 exec_order
-  : LPAREN RPAREN                           { $$ = mk<AstExecutionOrder>(AstExecutionOrder::ExecOrder(), @$); }
-  | LPAREN non_empty_exec_order_list RPAREN { $$ = mk<AstExecutionOrder>($2, @$); }
+  : LPAREN RPAREN                           { $$ = mk<ast::ExecutionOrder>(ast::ExecutionOrder::ExecOrder(), @$); }
+  | LPAREN non_empty_exec_order_list RPAREN { $$ = mk<ast::ExecutionOrder>($2, @$); }
   ;
 non_empty_exec_order_list
   :                                 NUMBER {          $$.push_back(RamUnsignedFromString($NUMBER)); }
@@ -609,27 +574,27 @@ term
   ;
 
 /* Rule body atom */
-atom : identifier LPAREN arg_list RPAREN { $$ = mk<AstAtom>($identifier, $arg_list, @$); };
+atom : identifier LPAREN arg_list RPAREN { $$ = mk<ast::Atom>($identifier, $arg_list, @$); };
 
 /* Rule literal constraints */
 constraint
     /* binary infix constraints */
-  : arg LT      arg { $$ = mk<AstBinaryConstraint>(BinaryConstraintOp::LT, $1, $3, @$); }
-  | arg GT      arg { $$ = mk<AstBinaryConstraint>(BinaryConstraintOp::GT, $1, $3, @$); }
-  | arg LE      arg { $$ = mk<AstBinaryConstraint>(BinaryConstraintOp::LE, $1, $3, @$); }
-  | arg GE      arg { $$ = mk<AstBinaryConstraint>(BinaryConstraintOp::GE, $1, $3, @$); }
-  | arg EQUALS  arg { $$ = mk<AstBinaryConstraint>(BinaryConstraintOp::EQ, $1, $3, @$); }
-  | arg NE      arg { $$ = mk<AstBinaryConstraint>(BinaryConstraintOp::NE, $1, $3, @$); }
+  : arg LT      arg { $$ = mk<ast::BinaryConstraint>(BinaryConstraintOp::LT, $1, $3, @$); }
+  | arg GT      arg { $$ = mk<ast::BinaryConstraint>(BinaryConstraintOp::GT, $1, $3, @$); }
+  | arg LE      arg { $$ = mk<ast::BinaryConstraint>(BinaryConstraintOp::LE, $1, $3, @$); }
+  | arg GE      arg { $$ = mk<ast::BinaryConstraint>(BinaryConstraintOp::GE, $1, $3, @$); }
+  | arg EQUALS  arg { $$ = mk<ast::BinaryConstraint>(BinaryConstraintOp::EQ, $1, $3, @$); }
+  | arg NE      arg { $$ = mk<ast::BinaryConstraint>(BinaryConstraintOp::NE, $1, $3, @$); }
 
     /* binary prefix constraints */
   | TMATCH    LPAREN arg[a0] COMMA arg[a1] RPAREN
-    { $$ = mk<AstBinaryConstraint>(BinaryConstraintOp::MATCH   , $a0, $a1, @$); }
+    { $$ = mk<ast::BinaryConstraint>(BinaryConstraintOp::MATCH   , $a0, $a1, @$); }
   | TCONTAINS LPAREN arg[a0] COMMA arg[a1] RPAREN
-    { $$ = mk<AstBinaryConstraint>(BinaryConstraintOp::CONTAINS, $a0, $a1, @$); }
+    { $$ = mk<ast::BinaryConstraint>(BinaryConstraintOp::CONTAINS, $a0, $a1, @$); }
 
     /* zero-arity constraints */
-  | TRUE  { $$ = mk<AstBooleanConstraint>(true , @$); }
-  | FALSE { $$ = mk<AstBooleanConstraint>(false, @$); }
+  | TRUE  { $$ = mk<ast::BooleanConstraint>(true , @$); }
+  | FALSE { $$ = mk<ast::BooleanConstraint>(false, @$); }
   ;
 
 /* Argument list */
@@ -641,34 +606,34 @@ non_empty_arg_list
 
 /* Atom argument */
 arg
-  : STRING      { $$ = mk<AstStringConstant >($STRING, @$); }
-  | FLOAT       { $$ = mk<AstNumericConstant>($FLOAT, AstNumericConstant::Type::Float, @$); }
+  : STRING      { $$ = mk<ast::StringConstant >($STRING, @$); }
+  | FLOAT       { $$ = mk<ast::NumericConstant>($FLOAT, ast::NumericConstant::Type::Float, @$); }
   | UNSIGNED    {
       auto&& n = $UNSIGNED; // drop the last character (`u`)
-      $$ = mk<AstNumericConstant>(n.substr(0, n.size() - 1), AstNumericConstant::Type::Uint, @$);
+      $$ = mk<ast::NumericConstant>(n.substr(0, n.size() - 1), ast::NumericConstant::Type::Uint, @$);
     }
-  | NUMBER      { $$ = mk<AstNumericConstant>($NUMBER, @$); }
-  | UNDERSCORE  { $$ = mk<AstUnnamedVariable>(@$); }
-  | DOLLAR      { $$ = mk<AstCounter        >(@$); }
-  | IDENT       { $$ = mk<AstVariable       >($IDENT, @$); }
-  | NIL         { $$ = mk<AstNilConstant    >(@$); }
+  | NUMBER      { $$ = mk<ast::NumericConstant>($NUMBER, @$); }
+  | UNDERSCORE  { $$ = mk<ast::UnnamedVariable>(@$); }
+  | DOLLAR      { $$ = mk<ast::Counter        >(@$); }
+  | IDENT       { $$ = mk<ast::Variable       >($IDENT, @$); }
+  | NIL         { $$ = mk<ast::NilConstant    >(@$); }
 
   /* TODO (azreika): in next version: prepend records with identifiers */
-  | LBRACKET arg_list RBRACKET { $$ = mk<AstRecordInit>($arg_list, @$); }
+  | LBRACKET arg_list RBRACKET { $$ = mk<ast::RecordInit>($arg_list, @$); }
 
   // Branch of adt
-  | DOLLAR IDENT[branch] LPAREN arg_list RPAREN { $$ = mk<AstBranchInit>($branch, $arg_list, @$); }
-  | DOLLAR IDENT[branch]                        { $$ = mk<AstBranchInit>($branch, VecOwn<AstArgument>{}, @$); }
+  | DOLLAR IDENT[branch] LPAREN arg_list RPAREN { $$ = mk<ast::BranchInit>($branch, $arg_list, @$); }
+  | DOLLAR IDENT[branch]                        { $$ = mk<ast::BranchInit>($branch, VecOwn<ast::Argument>{}, @$); }
 
   |     LPAREN arg                  RPAREN { $$ = $2; }
-  | AS  LPAREN arg COMMA identifier RPAREN { $$ = mk<AstTypeCast>($3, $identifier, @$); }
+  | AS  LPAREN arg COMMA identifier RPAREN { $$ = mk<ast::TypeCast>($3, $identifier, @$); }
 
-  | AT IDENT         LPAREN arg_list RPAREN { $$ = mk<AstUserDefinedFunctor>($IDENT, *$arg_list, @$); }
-  | functor_built_in LPAREN arg_list RPAREN { $$ = mk<AstIntrinsicFunctor>($functor_built_in, *$arg_list, @$); }
+  | AT IDENT         LPAREN arg_list RPAREN { $$ = mk<ast::UserDefinedFunctor>($IDENT, *$arg_list, @$); }
+  | functor_built_in LPAREN arg_list RPAREN { $$ = mk<ast::IntrinsicFunctor>($functor_built_in, *$arg_list, @$); }
 
     /* some aggregates have the same name as functors */
   | aggregate_func LPAREN arg[first] COMMA non_empty_arg_list[rest] RPAREN {
-        VecOwn<AstArgument> arg_list = $rest;
+        VecOwn<ast::Argument> arg_list = $rest;
         arg_list.insert(arg_list.begin(), $first);
 
         auto agg_2_func = [](AggregateOp op) -> char const* {
@@ -684,10 +649,10 @@ arg
         };
 
         if (auto* func_op = agg_2_func($aggregate_func)) {
-          $$ = mk<AstIntrinsicFunctor>(func_op, std::move(arg_list), @$);
+          $$ = mk<ast::IntrinsicFunctor>(func_op, std::move(arg_list), @$);
         } else {
           driver.error(@$, "aggregate operation has no functor equivalent");
-          $$ = mk<AstUnnamedVariable>(@$);
+          $$ = mk<ast::UnnamedVariable>(@$);
         }
     }
 
@@ -696,32 +661,32 @@ arg
   | MINUS arg[nested_arg] %prec NEG {
         // If we have a constant that is not already negated we just negate the constant value.
         auto nested_arg = *$nested_arg;
-        const auto* asNumeric = dynamic_cast<const AstNumericConstant*>(&*nested_arg);
+        const auto* asNumeric = as<ast::NumericConstant>(*nested_arg);
         if (asNumeric && !isPrefix("-", asNumeric->getConstant())) {
-            $$ = mk<AstNumericConstant>("-" + asNumeric->getConstant(), asNumeric->getType(), @nested_arg);
+            $$ = mk<ast::NumericConstant>("-" + asNumeric->getConstant(), asNumeric->getFixedType(), @nested_arg);
         } else { // Otherwise, create a functor.
-            $$ = mk<AstIntrinsicFunctor>(@$, FUNCTOR_INTRINSIC_PREFIX_NEGATE_NAME, std::move(nested_arg));
+            $$ = mk<ast::IntrinsicFunctor>(@$, FUNCTOR_INTRINSIC_PREFIX_NEGATE_NAME, std::move(nested_arg));
         }
     }
-  | BW_NOT  arg { $$ = mk<AstIntrinsicFunctor>(@$, "~", $2); }
-  | L_NOT   arg { $$ = mk<AstIntrinsicFunctor>(@$, "!", $2); }
+  | BW_NOT  arg { $$ = mk<ast::IntrinsicFunctor>(@$, "~", $2); }
+  | L_NOT   arg { $$ = mk<ast::IntrinsicFunctor>(@$, "!", $2); }
 
     /* binary infix functors */
-  | arg PLUS                arg { $$ = mk<AstIntrinsicFunctor>(@$, "+"  , $1, $3); }
-  | arg MINUS               arg { $$ = mk<AstIntrinsicFunctor>(@$, "-"  , $1, $3); }
-  | arg STAR                arg { $$ = mk<AstIntrinsicFunctor>(@$, "*"  , $1, $3); }
-  | arg SLASH               arg { $$ = mk<AstIntrinsicFunctor>(@$, "/"  , $1, $3); }
-  | arg PERCENT             arg { $$ = mk<AstIntrinsicFunctor>(@$, "%"  , $1, $3); }
-  | arg CARET               arg { $$ = mk<AstIntrinsicFunctor>(@$, "**" , $1, $3); }
-  | arg L_AND               arg { $$ = mk<AstIntrinsicFunctor>(@$, "&&" , $1, $3); }
-  | arg L_OR                arg { $$ = mk<AstIntrinsicFunctor>(@$, "||" , $1, $3); }
-  | arg L_XOR               arg { $$ = mk<AstIntrinsicFunctor>(@$, "^^" , $1, $3); }
-  | arg BW_AND              arg { $$ = mk<AstIntrinsicFunctor>(@$, "&"  , $1, $3); }
-  | arg BW_OR               arg { $$ = mk<AstIntrinsicFunctor>(@$, "|"  , $1, $3); }
-  | arg BW_XOR              arg { $$ = mk<AstIntrinsicFunctor>(@$, "^"  , $1, $3); }
-  | arg BW_SHIFT_L          arg { $$ = mk<AstIntrinsicFunctor>(@$, "<<" , $1, $3); }
-  | arg BW_SHIFT_R          arg { $$ = mk<AstIntrinsicFunctor>(@$, ">>" , $1, $3); }
-  | arg BW_SHIFT_R_UNSIGNED arg { $$ = mk<AstIntrinsicFunctor>(@$, ">>>", $1, $3); }
+  | arg PLUS                arg { $$ = mk<ast::IntrinsicFunctor>(@$, "+"  , $1, $3); }
+  | arg MINUS               arg { $$ = mk<ast::IntrinsicFunctor>(@$, "-"  , $1, $3); }
+  | arg STAR                arg { $$ = mk<ast::IntrinsicFunctor>(@$, "*"  , $1, $3); }
+  | arg SLASH               arg { $$ = mk<ast::IntrinsicFunctor>(@$, "/"  , $1, $3); }
+  | arg PERCENT             arg { $$ = mk<ast::IntrinsicFunctor>(@$, "%"  , $1, $3); }
+  | arg CARET               arg { $$ = mk<ast::IntrinsicFunctor>(@$, "**" , $1, $3); }
+  | arg L_AND               arg { $$ = mk<ast::IntrinsicFunctor>(@$, "&&" , $1, $3); }
+  | arg L_OR                arg { $$ = mk<ast::IntrinsicFunctor>(@$, "||" , $1, $3); }
+  | arg L_XOR               arg { $$ = mk<ast::IntrinsicFunctor>(@$, "^^" , $1, $3); }
+  | arg BW_AND              arg { $$ = mk<ast::IntrinsicFunctor>(@$, "&"  , $1, $3); }
+  | arg BW_OR               arg { $$ = mk<ast::IntrinsicFunctor>(@$, "|"  , $1, $3); }
+  | arg BW_XOR              arg { $$ = mk<ast::IntrinsicFunctor>(@$, "^"  , $1, $3); }
+  | arg BW_SHIFT_L          arg { $$ = mk<ast::IntrinsicFunctor>(@$, "<<" , $1, $3); }
+  | arg BW_SHIFT_R          arg { $$ = mk<ast::IntrinsicFunctor>(@$, ">>" , $1, $3); }
+  | arg BW_SHIFT_R_UNSIGNED arg { $$ = mk<ast::IntrinsicFunctor>(@$, ">>>", $1, $3); }
 
     /* -- aggregators -- */
   | aggregate_func arg_list COLON aggregate_body {
@@ -738,8 +703,8 @@ arg
         }
 
         auto expr = $arg_list.empty() ? nullptr : std::move($arg_list[0]);
-        auto body = (bodies.size() == 1) ? clone(bodies[0]->getBodyLiterals()) : VecOwn<AstLiteral> {};
-        $$ = mk<AstAggregator>($aggregate_func, std::move(expr), std::move(body), @$);
+        auto body = (bodies.size() == 1) ? clone(bodies[0]->getBodyLiterals()) : VecOwn<ast::Literal> {};
+        $$ = mk<ast::Aggregator>($aggregate_func, std::move(expr), std::move(body), @$);
     }
   ;
 
@@ -785,13 +750,13 @@ component
 
 /* Component head */
 component_head
-  : COMPONENT             comp_type { $$ = mk<AstComponent>();  $$->setComponentType($comp_type); }
+  : COMPONENT             comp_type { $$ = mk<ast::Component>();  $$->setComponentType($comp_type); }
   | component_head COLON  comp_type { $$ = $1;                  $$->addBaseComponent($comp_type); }
   | component_head COMMA  comp_type { $$ = $1;                  $$->addBaseComponent($comp_type); }
   ;
 
 /* Component type */
-comp_type : IDENT type_params { $$ = mk<AstComponentType>($IDENT, $type_params, @$); };
+comp_type : IDENT type_params { $$ = mk<ast::ComponentType>($IDENT, $type_params, @$); };
 
 /* Component type parameters */
 type_params
@@ -807,7 +772,7 @@ type_param_list
 
 /* Component body */
 component_body
-  : %empty                        { $$ = mk<AstComponent>(); }
+  : %empty                        { $$ = mk<ast::Component>(); }
   | component_body directive_head { $$ = $1; for (auto&& x : $2) $$->addDirective(std::move(x)); }
   | component_body rule           { $$ = $1; for (auto&& x : $2) $$->addClause(std::move(x)); }
   | component_body fact           { $$ = $1; $$->addClause       ($2); }
@@ -825,7 +790,7 @@ component_body
   ;
 
 /* Component initialisation */
-comp_init : INSTANTIATE IDENT EQUALS comp_type { $$ = mk<AstComponentInit>($IDENT, $comp_type, @$); };
+comp_init : INSTANTIATE IDENT EQUALS comp_type { $$ = mk<ast::ComponentInit>($IDENT, $comp_type, @$); };
 
 /**
  * User-Defined Functors
@@ -833,34 +798,22 @@ comp_init : INSTANTIATE IDENT EQUALS comp_type { $$ = mk<AstComponentInit>($IDEN
 
 /* Functor declaration */
 functor_decl
-  : FUNCTOR IDENT LPAREN functor_arg_type_list[args] RPAREN COLON predefined_type
-    { $$ = mk<AstFunctorDeclaration>($IDENT, $args, $predefined_type, false, @$); }
-  | FUNCTOR IDENT LPAREN functor_arg_type_list[args] RPAREN COLON predefined_type STATEFUL
-    { $$ = mk<AstFunctorDeclaration>($IDENT, $args, $predefined_type, true, @$); }
+  : FUNCTOR IDENT LPAREN functor_arg_type_list[args] RPAREN COLON identifier
+    { $$ = mk<ast::FunctorDeclaration>($IDENT, $args, mk<ast::Attribute>("return_type", $identifier, @identifier), false, @$); }
+  | FUNCTOR IDENT LPAREN functor_arg_type_list[args] RPAREN COLON identifier STATEFUL
+    { $$ = mk<ast::FunctorDeclaration>($IDENT, $args, mk<ast::Attribute>("return_type", $identifier, @identifier), true, @$); }
   ;
 
 /* Functor argument list type */
 functor_arg_type_list : %empty { } | non_empty_functor_arg_type_list { $$ = $1; };
 non_empty_functor_arg_type_list
-  :                                        predefined_type {          $$.push_back($predefined_type); }
-  | non_empty_functor_arg_type_list COMMA  predefined_type { $$ = $1; $$.push_back($predefined_type); }
+  :                                        functor_attribute {          $$.push_back($functor_attribute); }
+  | non_empty_functor_arg_type_list COMMA  functor_attribute { $$ = $1; $$.push_back($functor_attribute); }
   ;
 
-/* Predefined type */
-predefined_type
-  : IDENT {
-        if ($IDENT == "number") {
-            $$ = TypeAttribute::Signed;
-        } else if ($IDENT == "symbol") {
-            $$ = TypeAttribute::Symbol;
-        } else if ($IDENT == "float") {
-            $$ = TypeAttribute::Float;
-        } else if ($IDENT == "unsigned") {
-            $$ = TypeAttribute::Unsigned;
-        } else {
-            driver.error(@IDENT, "[number | symbol | float | unsigned] identifier expected");
-        }
-    }
+functor_attribute
+  : identifier[type] { $$ = mk<ast::Attribute>("", $type, @type); }
+  | IDENT[name] COLON identifier[type] { $$ = mk<ast::Attribute>($name, $type, @type); }
   ;
 
 /**
@@ -869,8 +822,8 @@ predefined_type
 
 /* Pragma directives */
 pragma
-  : PRAGMA STRING[key   ] STRING[value] { $$ = mk<AstPragma>($key   , $value, @$); }
-  | PRAGMA STRING[option]               { $$ = mk<AstPragma>($option, ""    , @$); }
+  : PRAGMA STRING[key   ] STRING[value] { $$ = mk<ast::Pragma>($key   , $value, @$); }
+  | PRAGMA STRING[option]               { $$ = mk<ast::Pragma>($option, ""    , @$); }
   ;
 
 /* io directives */
@@ -885,10 +838,10 @@ directive_head
   ;
 
 directive_head_decl
-  : INPUT_DECL      { $$ = AstDirectiveType::input;      }
-  | OUTPUT_DECL     { $$ = AstDirectiveType::output;     }
-  | PRINTSIZE_DECL  { $$ = AstDirectiveType::printsize;  }
-  | LIMITSIZE_DECL  { $$ = AstDirectiveType::limitsize;  }
+  : INPUT_DECL      { $$ = ast::DirectiveType::input;      }
+  | OUTPUT_DECL     { $$ = ast::DirectiveType::output;     }
+  | PRINTSIZE_DECL  { $$ = ast::DirectiveType::printsize;  }
+  | LIMITSIZE_DECL  { $$ = ast::DirectiveType::limitsize;  }
   ;
 
 /* IO directive list */
@@ -899,17 +852,17 @@ directive_list
         $$ = $relation_directive_list;
         for (auto&& kvp : $non_empty_key_value_pairs) {
             for (auto&& io : $$) {
-                io->addDirective(kvp.first, kvp.second);
+                io->addParameter(kvp.first, kvp.second);
             }
         }
     }
   ;
 
 /* IO relation list */
-/* use a dummy `AstDirectiveType` for now. `directive_head` will replace it */
+/* use a dummy `ast::DirectiveType` for now. `directive_head` will replace it */
 relation_directive_list
-  :                         identifier {          $$.push_back(mk<AstDirective>(AstDirectiveType::input, $1, @1)); }
-  | relation_directive_list COMMA  identifier { $$ = $1; $$.push_back(mk<AstDirective>(AstDirectiveType::input, $3, @3)); }
+  :                         identifier {          $$.push_back(mk<ast::Directive>(ast::DirectiveType::input, $1, @1)); }
+  | relation_directive_list COMMA  identifier { $$ = $1; $$.push_back(mk<ast::Directive>(ast::DirectiveType::input, $3, @3)); }
   ;
 
 /* Key-value pairs */
@@ -920,7 +873,7 @@ non_empty_key_value_pairs
 kvp_value
   : STRING  { $$ = $STRING; }
   | IDENT   { $$ = $IDENT; }
-  | NUMBER  { $$ = $NUMBER; } 
+  | NUMBER  { $$ = $NUMBER; }
   | TRUE    { $$ = "true"; }
   | FALSE   { $$ = "false"; }
   ;

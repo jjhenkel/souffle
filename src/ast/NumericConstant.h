@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -17,14 +17,12 @@
 #pragma once
 
 #include "ast/Constant.h"
-#include "ast/Node.h"
 #include "parser/SrcLocation.h"
 #include "souffle/RamTypes.h"
 #include <optional>
 #include <string>
-#include <utility>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
  * Numeric Constant
@@ -33,43 +31,27 @@ namespace souffle {
  * If this is the case, the typesystem will be forced to use it.
  * Otherwise the type is inferred from context.
  */
-class AstNumericConstant : public AstConstant {
+class NumericConstant : public Constant {
 public:
     enum class Type { Int, Uint, Float };
 
-    AstNumericConstant(RamSigned value) : AstConstant(std::to_string(value)), type(Type::Int) {}
+    NumericConstant(RamSigned value);
 
-    AstNumericConstant(std::string constant, SrcLocation loc) : AstConstant(std::move(constant)) {
-        setSrcLoc(std::move(loc));
-    }
+    NumericConstant(std::string constant, SrcLocation loc);
 
-    AstNumericConstant(std::string constant, std::optional<Type> type = std::nullopt, SrcLocation loc = {})
-            : AstConstant(std::move(constant)), type(type) {
-        setSrcLoc(std::move(loc));
-    }
+    NumericConstant(std::string constant, std::optional<Type> fixedType = std::nullopt, SrcLocation loc = {});
 
-    AstNumericConstant* clone() const override {
-        auto* copy = new AstNumericConstant(getConstant(), getType());
-        copy->setSrcLoc(getSrcLoc());
-        return copy;
-    }
-
-    const std::optional<Type>& getType() const {
-        return type;
-    }
-
-    void setType(Type newType) {
-        type = newType;
-    }
-
-protected:
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstNumericConstant&>(node);
-        return AstConstant::equal(node) && type == other.type;
+    const std::optional<Type>& getFixedType() const {
+        return fixedType;
     }
 
 private:
-    std::optional<Type> type;
+    bool equal(const Node& node) const override;
+
+    NumericConstant* cloning() const override;
+
+private:
+    std::optional<Type> fixedType;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

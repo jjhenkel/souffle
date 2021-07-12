@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -18,20 +18,20 @@
 #include "ast/transform/Transformer.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
-class ComponentInstantiationTransformer : public AstTransformer {
+class ComponentInstantiationTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "ComponentInstantiationTransformer";
     }
 
-    ComponentInstantiationTransformer* clone() const override {
+private:
+    ComponentInstantiationTransformer* cloning() const override {
         return new ComponentInstantiationTransformer();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

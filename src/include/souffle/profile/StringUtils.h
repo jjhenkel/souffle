@@ -59,7 +59,7 @@ inline std::string formatNum(int precision, int64_t amount) {
         return std::to_string(amount);
     }
 
-    for (size_t i = 0; i < abbreviations.size(); ++i) {
+    for (std::size_t i = 0; i < abbreviations.size(); ++i) {
         if (amount > std::pow(1000, i + 2)) {
             continue;
         }
@@ -181,10 +181,10 @@ inline std::vector<std::string> split(std::string toSplit, std::string delimiter
 
 inline std::string trimWhitespace(std::string str) {
     std::string whitespace = " \t";
-    size_t first = str.find_first_not_of(whitespace);
+    std::size_t first = str.find_first_not_of(whitespace);
     if (first != std::string::npos) {
         str.erase(0, first);
-        size_t last = str.find_last_not_of(whitespace);
+        std::size_t last = str.find_last_not_of(whitespace);
         str.erase(last + 1);
     } else {
         str.clear();
@@ -208,7 +208,7 @@ inline std::string cleanString(std::string val) {
         return val;
     }
 
-    size_t start_pos = 0;
+    std::size_t start_pos = 0;
     while ((start_pos = val.find('\\', start_pos)) != std::string::npos) {
         val.erase(start_pos, 1);
         if (start_pos < val.size()) {
@@ -236,7 +236,7 @@ inline std::string cleanJsonOut(std::string value) {
         }
     }
 
-    size_t start_pos = 0;
+    std::size_t start_pos = 0;
     while ((start_pos = value.find('\\', start_pos)) != std::string::npos) {
         value.replace(start_pos, 1, "\\\\");
         start_pos += 2;

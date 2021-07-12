@@ -25,7 +25,7 @@
 #include <utility>
 #include <vector>
 
-namespace souffle {
+namespace souffle::ast::analysis {
 
 //----------------------------------------------------------------------
 //                      forward declarations
@@ -424,4 +424,4 @@ public:
     }
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::analysis

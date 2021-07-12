@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -17,74 +17,52 @@
 #pragma once
 
 #include "ast/Argument.h"
-#include "ast/Node.h"
 #include "ast/QualifiedName.h"
-#include "ast/utility/NodeMapper.h"
 #include "parser/SrcLocation.h"
-#include "souffle/utility/ContainerUtil.h"
-#include "souffle/utility/MiscUtil.h"
-#include <memory>
-#include <ostream>
-#include <string>
-#include <utility>
-#include <vector>
+#include <iosfwd>
 
-namespace souffle {
+namespace souffle::ast {
 
 /**
- * @class AstTypeCast
+ * @class TypeCast
  * @brief Defines a type cast class for expressions
  */
 
-class AstTypeCast : public AstArgument {
+class TypeCast : public Argument {
 public:
-    AstTypeCast(Own<AstArgument> value, AstQualifiedName type, SrcLocation loc = {})
-            : AstArgument(std::move(loc)), value(std::move(value)), type(std::move(type)) {}
+    TypeCast(Own<Argument> value, QualifiedName type, SrcLocation loc = {});
 
     /** Return value */
-    AstArgument* getValue() const {
+    Argument* getValue() const {
         return value.get();
     }
 
     /** Return cast type */
-    const AstQualifiedName& getType() const {
+    const QualifiedName& getType() const {
         return type;
     }
 
     /** Set cast type */
-    void setType(const AstQualifiedName& type) {
-        this->type = type;
-    }
+    void setType(QualifiedName type);
 
-    std::vector<const AstNode*> getChildNodes() const override {
-        auto res = AstArgument::getChildNodes();
-        res.push_back(value.get());
-        return res;
-    }
-
-    AstTypeCast* clone() const override {
-        return new AstTypeCast(souffle::clone(value), type, getSrcLoc());
-    }
-
-    void apply(const AstNodeMapper& map) override {
-        value = map(std::move(value));
-    }
+    void apply(const NodeMapper& map) override;
 
 protected:
-    void print(std::ostream& os) const override {
-        os << "as(" << *value << "," << type << ")";
-    }
+    void print(std::ostream& os) const override;
 
-    bool equal(const AstNode& node) const override {
-        const auto& other = static_cast<const AstTypeCast&>(node);
-        return type == other.type && equal_ptr(value, other.value);
-    }
+    NodeVec getChildNodesImpl() const override;
 
+private:
+    bool equal(const Node& node) const override;
+
+    TypeCast* cloning() const override;
+
+private:
     /** Casted value */
-    Own<AstArgument> value;
+    Own<Argument> value;
 
     /** Cast type */
-    AstQualifiedName type;
+    QualifiedName type;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast

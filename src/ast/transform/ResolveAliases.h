@@ -1,6 +1,6 @@
 /*
  * Souffle - A Datalog Compiler
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved
+ * Copyright (c) 2021, The Souffle Developers. All rights reserved
  * Licensed under the Universal Permissive License v 1.0 as shown at:
  * - https://opensource.org/licenses/UPL
  * - <souffle root>/licenses/SOUFFLE-UPL.txt
@@ -21,17 +21,24 @@
 #include <memory>
 #include <string>
 
-namespace souffle {
+namespace souffle::ast::transform {
 
 /**
  * Transformation pass to eliminate grounded aliases.
  * e.g. resolve: a(r) , r = [x,y]       => a(x,y)
  * e.g. resolve: a(x) , !b(y) , y = x   => a(x) , !b(x)
  */
-class ResolveAliasesTransformer : public AstTransformer {
+class ResolveAliasesTransformer : public Transformer {
 public:
     std::string getName() const override {
         return "ResolveAliasesTransformer";
+    }
+
+    /**
+     * ResolveAliasesTransformer cannot be disabled.
+     */
+    bool isSwitchable() override {
+        return false;
     }
 
     /**
@@ -41,7 +48,7 @@ public:
      * @param clause the clause to be processed
      * @return a modified clone of the processed clause
      */
-    static Own<AstClause> resolveAliases(const AstClause& clause);
+    static Own<Clause> resolveAliases(const Clause& clause);
 
     /**
      * Removes trivial equalities of the form t = t from the given clause.
@@ -49,7 +56,7 @@ public:
      * @param clause the clause to be processed
      * @return a modified clone of the given clause
      */
-    static Own<AstClause> removeTrivialEquality(const AstClause& clause);
+    static Own<Clause> removeTrivialEquality(const Clause& clause);
 
     /**
      * Removes complex terms in atoms, replacing them with constrained variables.
@@ -57,14 +64,14 @@ public:
      * @param clause the clause to be processed
      * @return a modified clone of the processed clause
      */
-    static Own<AstClause> removeComplexTermsInAtoms(const AstClause& clause);
+    static Own<Clause> removeComplexTermsInAtoms(const Clause& clause);
 
-    ResolveAliasesTransformer* clone() const override {
+private:
+    ResolveAliasesTransformer* cloning() const override {
         return new ResolveAliasesTransformer();
     }
 
-private:
-    bool transform(AstTranslationUnit& translationUnit) override;
+    bool transform(TranslationUnit& translationUnit) override;
 };
 
-}  // end of namespace souffle
+}  // namespace souffle::ast::transform

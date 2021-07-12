@@ -23,31 +23,34 @@
 #include "ast/analysis/Analysis.h"
 #include <string>
 
-namespace souffle {
+namespace souffle::ast {
 
-class AstTranslationUnit;
+class TranslationUnit;
+
+namespace analysis {
 
 /**
  * Analysis pass computing the precedence graph of the relations of the datalog progam.
  */
-class PrecedenceGraphAnalysis : public AstAnalysis {
+class PrecedenceGraphAnalysis : public Analysis {
 public:
     static constexpr const char* name = "precedence-graph";
 
-    PrecedenceGraphAnalysis() : AstAnalysis(name) {}
+    PrecedenceGraphAnalysis() : Analysis(name) {}
 
-    void run(const AstTranslationUnit& translationUnit) override;
+    void run(const TranslationUnit& translationUnit) override;
 
     /** Output precedence graph in graphviz format to a given stream */
     void print(std::ostream& os) const override;
 
-    const Graph<const AstRelation*, AstNameComparison>& graph() const {
+    const Graph<const Relation*, NameComparison>& graph() const {
         return backingGraph;
     }
 
 private:
     /** Adjacency list of precedence graph (determined by the dependencies of the relations) */
-    Graph<const AstRelation*, AstNameComparison> backingGraph;
+    Graph<const Relation*, NameComparison> backingGraph;
 };
 
-}  // end of namespace souffle
+}  // namespace analysis
+}  // namespace souffle::ast
