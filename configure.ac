@@ -167,6 +167,21 @@ AS_IF([test "x$enable_postgres" != "xno"], [
 ])
 AM_CONDITIONAL([POSTGRES], [test "x$enable_postgres" != "xno"])
 
+
+# Disable parquet
+AC_ARG_ENABLE(
+  [parquet],
+  AS_HELP_STRING([--disable-parquet], [Disable use of parquet IO])
+)
+AS_IF([test "x$enable_parquet" != "xno"], [
+    AC_CHECK_LIB([arrow], [main],,[AC_MSG_ERROR([required library arrow missing. Use --disable-parquet to remove support for Parquet-based IO.])])
+    AC_CHECK_LIB([arrow_dataset], [main],,[AC_MSG_ERROR([required library arrow_dataset missing. Use --disable-parquet to remove support for Parquet-based IO.])])
+    AC_CHECK_LIB([arrow_bundled_dependencies], [main],,[AC_MSG_ERROR([required library arrow_bundled_dependencies missing. Use --disable-parquet to remove support for Parquet-based IO.])])
+    AC_CHECK_LIB([parquet], [main],,[AC_MSG_ERROR([required library parquet missing. Use --disable-parquet to remove support for Parquet-based IO.])])
+    AS_VAR_APPEND(CXXFLAGS, [" -DUSE_PARQUET "])
+])
+AM_CONDITIONAL([PARQUET], [test "x$enable_parquet" != "xno"])
+
 # Disable sqlite3
 AC_ARG_ENABLE(
   [sqlite],

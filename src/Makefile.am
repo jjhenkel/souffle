@@ -214,6 +214,8 @@ souffle_sources = \
         ast/transform/SemanticChecker.h                    \
         ast/transform/SimplifyAggregateTargetExpression.cpp\
         ast/transform/SimplifyAggregateTargetExpression.h  \
+        ast/transform/StratifyInputRelations.h             \
+        ast/transform/StratifyInputRelations.cpp           \
         ast/transform/Transformer.cpp                      \
         ast/transform/Transformer.h                        \
         ast/transform/TypeChecker.cpp                      \
@@ -471,6 +473,7 @@ souffleio_HEADERS = \
         include/souffle/io/ReadStreamJSON.h                \
         include/souffle/io/ReadStreamSQLite.h              \
         include/souffle/io/ReadStreamPostgres.h            \
+        include/souffle/io/ReadStreamParquet.h             \
         include/souffle/io/SerialisationStream.h           \
         include/souffle/io/WriteStreamSQLite.h             \
         include/souffle/io/WriteStream.h                   \

@@ -33,6 +33,11 @@
 #include "souffle/io/WriteStreamPostgres.h"
 #endif
 
+#ifdef USE_PARQUET
+#include "souffle/io/ReadStreamParquet.h"
+// # include "souffle/io/WriteStreamParquet.h"
+#endif
+
 #include <map>
 #include <memory>
 #include <stdexcept>
@@ -99,6 +104,9 @@ private:
         registerReadStreamFactory(std::make_shared<ReadPostgresFactory>());
         registerWriteStreamFactory(std::make_shared<WritePostgresFactory>());
         registerReadStreamFactory(std::make_shared<ReadPostgresArrayFactory>());
+#endif
+#ifdef USE_PARQUET
+        registerReadStreamFactory(std::make_shared<ReadParquetFactory>());
 #endif
     };
     std::map<std::string, std::shared_ptr<WriteStreamFactory>> outputFactories;

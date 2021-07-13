@@ -62,6 +62,7 @@ ADD_EXECUTABLE(souffle
         ./src/WriteStreamSQLite.h
         ./src/AstTranslator.h
         ./src/ReadStreamCSV.h
+        ./src/ReadStreamParquet.h
         ./src/ReadStreamJSON.h
         ./src/TypeSystem.h
         ./src/UnaryFunctorOps.h

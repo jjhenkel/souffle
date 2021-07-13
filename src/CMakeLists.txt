@@ -98,6 +98,7 @@ set(SOUFFLE_SOURCES
     ast/transform/ResolveAnonymousRecordAliases.cpp
     ast/transform/SemanticChecker.cpp
     ast/transform/SimplifyAggregateTargetExpression.cpp
+    ast/transform/StratifyInputRelations.cpp
     ast/transform/Transformer.cpp
     ast/transform/TypeChecker.cpp
     ast/transform/UniqueAggregationVariables.cpp
@@ -197,14 +198,14 @@ if (OPENMP_FOUND)
                              $<$<BOOL:${SOUFFLE_USE_SQLITE}>:SQLite::SQLite3>
                              $<$<BOOL:${SOUFFLE_USE_CURSES}>:Curses::NCurses>
                              LibFFI::LibFFI
-                             "${CMAKE_DL_LIBS}")
+                             "${CMAKE_DL_LIBS}" arrow_shared arrow_dataset parquet)
 else()
     target_link_libraries(libsouffle
                       PUBLIC $<$<BOOL:${SOUFFLE_USE_ZLIB}>:ZLIB::ZLIB>
                              $<$<BOOL:${SOUFFLE_USE_SQLITE}>:SQLite::SQLite3>
                              $<$<BOOL:${SOUFFLE_USE_CURSES}>:Curses::NCurses>
                              LibFFI::LibFFI
-                             "${CMAKE_DL_LIBS}")
+                             "${CMAKE_DL_LIBS}" arrow_shared arrow_dataset parquet)
 endif()
 
 
@@ -226,6 +227,16 @@ endif()
 if (SOUFFLE_USE_SQLITE)
     target_compile_definitions(libsouffle
                                PUBLIC USE_SQLITE)
+endif()
+
+if (SOUFFLE_USE_POSTGRES)
+    target_compile_definitions(libsouffle
+                               PUBLIC USE_POSTGRES)
+endif()
+
+if (SOUFFLE_USE_PARQUET)
+    target_compile_definitions(libsouffle
+                               PUBLIC USE_PARQUET)
 endif()
 
 # The target names "souffle" for the library and "souffle" for the binary
@@ -306,6 +317,10 @@ function(AUTOMAKE_COMPATIBLE_SUBST F_IN F_OUT)
 
     if (SOUFFLE_USE_CURSES)
         string(APPEND LIBS " ${CURSES_NCURSES_LIBRARY}")
+    endif()
+
+    if (SOUFFLE_USE_PARQUET)
+        string(APPEND LIBS " arrow_shared arrow_dataset parquet")
     endif()
 
     configure_file("${F_IN}" "${F_OUT}" @ONLY)

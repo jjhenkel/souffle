@@ -1,0 +1,76 @@
+.type Fid <: number
+.type Gid <: number
+.type Tid <: number
+.type Nid <: number
+.type TypeName <: symbol 
+.type FieldName <: symbol
+.type ByteOffset <: number
+.type SourceText <: symbol
+
+.type FlowMod = symbol
+.type FlowKind = symbol
+.type FlowSubKind = symbol
+.type FlowTarget = Gid
+
+/* ['fid', 'idx', 'field', 'pgid', 'cgid', 'ptype', 'ctype'] */
+/* ['fid', 'fpath', 'gid', 'type', 'tid', 'sb', 'sl', 'sr', 'sc', 'er', 'ec', 'text'] */
+
+.decl child_of(
+    fid:Fid, index:number, field:FieldName,
+    parent:Gid, child:Gid, pt:TypeName, ct:TypeName
+)
+.input child_of(
+    IO=parquet,
+    filename="child_of.parquet",
+    partition="index field pt ct"
+)
+
+.decl node_info(
+    fid:Fid, fpath:symbol, gid:Gid, type:TypeName,
+    tid: Tid, sb:ByteOffset, sl:number,
+    sr: number, sc: number, er: number, ec: number, 
+    text: SourceText
+)
+.input node_info(
+    IO=parquet,
+    filename="node_info.parquet",
+    partition="type"
+)
+
+.decl literal_types(type:TypeName)
+literal_types("string").
+literal_types("none").
+literal_types("true").
+literal_types("false").
+literal_types("integer").
+literal_types("float").
+
+
+.decl synth_query(fpath:symbol, source_text_shuffle:SourceText, start_line_shuffle:number, start_col_shuffle:number, end_line_shuffle:number, end_col_shuffle:number, gid_shuffle:Gid, source_text_call:SourceText, start_line_call:number, start_col_call:number, end_line_call:number, end_col_call:number, gid_call:Gid)
+synth_query(fpath, source_text_shuffle, start_line_shuffle, start_col_shuffle, end_line_shuffle, end_col_shuffle, gid_shuffle, source_text_call, start_line_call, start_col_call, end_line_call, end_col_call, gid_call) :- 
+(type_2 = "keyword_argument"),
+out_name_2 = "shuffle",
+(type_call = "call"),
+literal_types(type_shuffle),
+(
+    child_of(fid, _, "value", gid_shuffle, gid_2, type_shuffle, type_2)
+),
+(
+    child_of(fid, _, "arguments", r11001, gid_call, _, type_call),
+    child_of(fid, _, _, gid_2, r11001, _, _)
+),
+(
+    child_of(fid, _, "name",  r31002, gid_2, "identifier", _),
+    node_info(fid, fpath, r31002, "identifier", _, _, _, _, _, _, _, out_name_2)
+),
+(
+    node_info(fid, fpath, gid_shuffle, type_shuffle, _, _, _, start_line_shuffle, start_col_shuffle, end_line_shuffle, end_col_shuffle, source_text_shuffle)
+),
+(
+    node_info(fid, fpath, gid_2, type_2, _, _, _, _, _, _, _, _)
+),
+(
+    node_info(fid, fpath, gid_call, type_call, _, _, _, start_line_call, start_col_call, end_line_call, end_col_call, source_text_call)
+)
+  .
+.output synth_query

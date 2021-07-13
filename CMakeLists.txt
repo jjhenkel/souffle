@@ -24,7 +24,10 @@
 
 cmake_minimum_required(VERSION 3.15)
 
+enable_language(CXX)
+
 find_package(Git REQUIRED)
+find_package(Arrow REQUIRED)
 
 # PACKAGE_VERSION is the full tag with git hash
 execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --always
@@ -96,6 +99,8 @@ option(SOUFFLE_SWIG_PYTHON "Enable/Disable Python SWIG" OFF)
 option(SOUFFLE_SWIG_JAVA "Enable/Disable Java SWIG" OFF)
 option(SOUFFLE_USE_ZLIB "Enable/Disable use of libz file compression" ON)
 option(SOUFFLE_USE_SQLITE "Enable/Disable use sqlite IO" ON)
+option(SOUFFLE_USE_POSTGRES "Enable/Disable use postgres IO" OFF)
+option(SOUFFLE_USE_PARQUET "Enable/Disable use parquet IO" ON)
 option(SOUFFLE_SANITISE_MEMORY "Enable/Disable memory sanitiser" OFF)
 option(SOUFFLE_SANITISE_THREAD "Enable/Disable thread sanitiser" OFF)
 # This is how souffle is built by default in Debug
