@@ -42,6 +42,9 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <numeric>
+#include <chrono>
+#include <iomanip>
 
 namespace ds = arrow::dataset;
 namespace fs = arrow::fs;
@@ -56,7 +59,12 @@ public:
             : ReadStream(rwOperation, symbolTable, recordTable),
               fileName(rwOperation.at("filename")),
               baseDir(getOr(rwOperation, "fact-dir", ".") + "/") {
-       
+        
+        std::cerr << std::fixed << std::setprecision(9) << std::left;
+        std::cerr << "Enter: ReadStreamParquet[" << fileName << "]()" << std::endl;
+
+        auto meta_start = std::chrono::high_resolution_clock::now();
+
         // Get type info 
         std::string parseErrors;
         params = Json::parse(
@@ -72,7 +80,15 @@ public:
             paramNames.push_back(params[i].string_value());
         }
 
+        auto meta_end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> diff = meta_end-meta_start;
+        std::cerr << "  + Metadata parse := " << std::setw(9) << (diff).count() << "s" << std::endl;
+
         std::string root_path;
+
+        auto ds_start = std::chrono::high_resolution_clock::now();
+
+        // chrono get time start/stop
 
         auto fs = fs::FileSystemFromUri("file:///" + baseDir, &root_path).ValueOrDie();
 
@@ -88,12 +104,18 @@ public:
         ).ValueOrDie();
 
         auto dataset = factory->Finish().ValueOrDie();
+
+        auto ds_end = std::chrono::high_resolution_clock::now();
+        diff = ds_end-ds_start;
+        std::cerr << "  + Dataset create := " << std::setw(9) << (diff).count() << "s" << std::endl;
         
         // for (const auto& fragment : dataset->GetFragments().ValueOrDie()) {
         //     std::cerr << "Found fragment: " << (*fragment)->ToString() << std::endl;
         //     std::cerr << "Partition expression: "
         //         << (*fragment)->partition_expression().ToString() << std::endl;
         // }
+
+        auto scan_start = std::chrono::high_resolution_clock::now();
 
         auto scan_builder = dataset->NewScan().ValueOrDie();
         scan_builder->Project(paramNames);
@@ -106,10 +128,14 @@ public:
             filtered = true;
         }
 
-        // TODO: for each value in partitions metadata make an equals(VAL) filter
-        
         auto scanner = scan_builder->Finish().ValueOrDie();
 
+        auto scan_end = std::chrono::high_resolution_clock::now();
+        diff = scan_end-scan_start;
+        std::cerr << "  + Scanner create := " << std::setw(9) << (diff).count() << "s" << std::endl;
+
+        auto build_batches_start = std::chrono::high_resolution_clock::now();
+      
         batchIdx = 0;
         rowIdx = 0;
         auto batch_iterator = scanner->ScanBatches().ValueOrDie();
@@ -118,11 +144,19 @@ public:
             if (arrow::IsIterationEnd(batch)) break;
             batches.push_back(batch.record_batch);
         }
+
+        auto build_batch_end = std::chrono::high_resolution_clock::now();
+        diff = build_batch_end-build_batches_start;
+        std::cerr << "  + Build batches := " << std::setw(9) << (diff).count() << "s" << std::endl;
+        std::cerr << "Exit: ReadStreamParquet[" << fileName << "]()" << std::endl;
     }
 
 protected:
 
     Own<RamDomain[]> readNextTuple() override {
+        // std::cerr << "Enter: ReadStreamParquet[" << fileName << "]::readNextTuple()" << std::endl;
+        // auto read_start = std::chrono::high_resolution_clock::now();
+
         Own<RamDomain[]> tuple = std::make_unique<RamDomain[]>(arity + auxiliaryArity);
 
         // std::cerr << "HERE Batch := " << batchIdx << " Row := " << rowIdx << std::endl;
@@ -133,12 +167,18 @@ protected:
         
         auto batch = batches[batchIdx];
         if (rowIdx >= batch->num_rows()) {
+            auto nextb_start = std::chrono::high_resolution_clock::now();
+
             batchIdx += 1;
             if (batchIdx >= batches.size()) {
                 return nullptr;
             }
             batch = batches[batchIdx];
             rowIdx = 0;
+
+            auto nextb_end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> diff = nextb_end-nextb_start;
+            std::cerr << "  + Get batch := " << std::setw(9) << (diff).count() << "s" << std::endl;
         }
 
         for (uint32_t c = 0; c < arity; c++) {
@@ -168,6 +208,11 @@ protected:
 
         rowIdx += 1;
 
+        // std::cerr << "Exit: (3) ReadStreamParquet[" << fileName << "]::readNextTuple()" << std::endl;
+
+        // auto read_end = std::chrono::high_resolution_clock::now();
+        // std::chrono::duration<double> diff = read_end-read_start;
+        // std::cerr << "  + Read tuple := " << std::setw(9) << (diff).count() << "s" << std::endl;
         return tuple;
     }
 
