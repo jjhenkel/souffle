@@ -56,26 +56,32 @@ class ReadStreamParquet : public ReadStream {
 public:
     ReadStreamParquet(const std::map<std::string, std::string>& rwOperation, SymbolTable& symbolTable,
             RecordTable& recordTable)
-            : ReadStream(rwOperation, symbolTable, recordTable),
-              fileName(rwOperation.at("filename")),
-              baseDir(getOr(rwOperation, "fact-dir", ".") + "/") {
+            : ReadStream(rwOperation, symbolTable, recordTable) {
         
+        std::string fileName = rwOperation.at("filename");
+        std::string baseDir = getOr(rwOperation, "fact-dir", ".") + "/"; 
+
         std::cerr << std::fixed << std::setprecision(9) << std::left;
-        std::cerr << "Enter: ReadStreamParquet[" << fileName << "]()" << std::endl;
+        std::cerr << "Enter: ReadStreamParquet[" << rwOperation.at("name") << "]()" << std::endl;
+
+        tidx = 0;
+        totalTuples = 0;
 
         auto meta_start = std::chrono::high_resolution_clock::now();
 
         // Get type info 
         std::string parseErrors;
-        params = Json::parse(
+        auto params = Json::parse(
             rwOperation.at("params"), parseErrors
         )["relation"]["params"].array_items();
         assert(parseErrors.size() == 0 && "Internal JSON parsing failed (params).");
 
         std::string partitioning = getOr(rwOperation, "partitioning", "{}");
         auto partitions = Json::parse(partitioning, parseErrors);
+        std::cerr << " partition_info=" << partitions.dump() << std::endl;
         assert(parseErrors.size() == 0 && "Internal JSON parsing failed (partitioning).");
 
+        std::vector<std::string> paramNames;
         for (uint32_t i = 0; i < params.size(); i++) {
             paramNames.push_back(params[i].string_value());
         }
@@ -135,14 +141,55 @@ public:
         std::cerr << "  + Scanner create := " << std::setw(9) << (diff).count() << "s" << std::endl;
 
         auto build_batches_start = std::chrono::high_resolution_clock::now();
-      
-        batchIdx = 0;
-        rowIdx = 0;
+            
+        for (uint32_t c = 0; c < arity; c++) {
+            std::vector<RamDomain> column;
+            processedColumns.push_back(column);
+        }
+                
         auto batch_iterator = scanner->ScanBatches().ValueOrDie();
         while (true) {
             auto batch = batch_iterator.Next().ValueOrDie();
+            
             if (arrow::IsIterationEnd(batch)) break;
-            batches.push_back(batch.record_batch);
+
+            totalTuples += batch.record_batch->num_rows();
+            
+            for (uint32_t c = 0; c < arity; c++) {
+                // std::cerr << "Get: " << typeAttributes[c] << std::endl;
+                if (typeAttributes[c][0] == 's') {
+                    // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
+                    auto colAsStr = std::dynamic_pointer_cast<arrow::StringArray>(
+                        batch.record_batch->GetColumnByName(paramNames[c])
+                    );
+
+                    for (int64_t r = 0; r < batch.record_batch->num_rows(); ++r) {
+                        processedColumns[c].push_back(symbolTable.unsafeEncode(
+                            colAsStr->GetString(r)
+                        ));
+                    }
+                } else if (typeAttributes[c] == "i:Fid") {
+                    // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
+                    auto colAsStr = std::dynamic_pointer_cast<arrow::StringArray>(
+                        batch.record_batch->GetColumnByName(paramNames[c])
+                    );
+
+                    for (int64_t r = 0; r < batch.record_batch->num_rows(); ++r) {
+                        processedColumns[c].push_back(RamSignedFromString(colAsStr->GetString(r)));
+                    }
+                } else if (typeAttributes[c][0] == 'i') {
+                    // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
+                    auto colAsInt = std::dynamic_pointer_cast<arrow::Int64Array>(
+                        batch.record_batch->GetColumnByName(paramNames[c])
+                    );
+
+                    for (int64_t r = 0; r < batch.record_batch->num_rows(); ++r) {
+                        processedColumns[c].push_back(colAsInt->Value(r));
+                    }
+                } else {
+                    std::cerr << "Unknown type: " << typeAttributes[c] << std::endl;
+                }
+            }
         }
 
         auto build_batch_end = std::chrono::high_resolution_clock::now();
@@ -154,75 +201,23 @@ public:
 protected:
 
     Own<RamDomain[]> readNextTuple() override {
-        // std::cerr << "Enter: ReadStreamParquet[" << fileName << "]::readNextTuple()" << std::endl;
-        // auto read_start = std::chrono::high_resolution_clock::now();
+        if (tidx < totalTuples) {
+            Own<RamDomain[]> tuple = mk<RamDomain[]>(typeAttributes.size());
 
-        Own<RamDomain[]> tuple = std::make_unique<RamDomain[]>(arity + auxiliaryArity);
+            for (uint32_t c = 0; c < arity; c++) {
+                tuple[c] = processedColumns[c][tidx];
+            }
 
-        // std::cerr << "HERE Batch := " << batchIdx << " Row := " << rowIdx << std::endl;
-
-        if (batchIdx >= batches.size()) {
-            return nullptr;
+            tidx += 1;
+            return tuple;
         }
         
-        auto batch = batches[batchIdx];
-        if (rowIdx >= batch->num_rows()) {
-            auto nextb_start = std::chrono::high_resolution_clock::now();
-
-            batchIdx += 1;
-            if (batchIdx >= batches.size()) {
-                return nullptr;
-            }
-            batch = batches[batchIdx];
-            rowIdx = 0;
-
-            auto nextb_end = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> diff = nextb_end-nextb_start;
-            std::cerr << "  + Get batch := " << std::setw(9) << (diff).count() << "s" << std::endl;
-        }
-
-        for (uint32_t c = 0; c < arity; c++) {
-            // std::cerr << "Get: " << typeAttributes[c] << std::endl;
-            if (typeAttributes[c][0] == 's') {
-                // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
-                tuple[c] = symbolTable.unsafeEncode(
-                    std::dynamic_pointer_cast<arrow::StringArray>(
-                        batch->GetColumnByName(paramNames[c])
-                    )->GetString(rowIdx)
-                );
-            } else if (typeAttributes[c] == "i:Fid") {
-                // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
-                auto val = std::dynamic_pointer_cast<arrow::StringArray>(
-                    batch->GetColumnByName(paramNames[c])
-                )->GetString(rowIdx);
-                tuple[c] = RamSignedFromString(val);
-            } else if (typeAttributes[c][0] == 'i') {
-                // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
-                tuple[c] = std::dynamic_pointer_cast<arrow::Int64Array>(
-                    batch->GetColumnByName(paramNames[c])
-                )->Value(rowIdx);
-            } else {
-                std::cerr << "Unknown type: " << typeAttributes[c] << std::endl;
-            }
-        }
-
-        rowIdx += 1;
-
-        // std::cerr << "Exit: (3) ReadStreamParquet[" << fileName << "]::readNextTuple()" << std::endl;
-
-        // auto read_end = std::chrono::high_resolution_clock::now();
-        // std::chrono::duration<double> diff = read_end-read_start;
-        // std::cerr << "  + Read tuple := " << std::setw(9) << (diff).count() << "s" << std::endl;
-        return tuple;
+        return nullptr;
     }
 
-    const std::string fileName;
-    const std::string baseDir;
-    uint64_t batchIdx;
-    int64_t rowIdx;
-    std::vector<std::shared_ptr<arrow::RecordBatch>> batches;
-    std::vector<Json> params;
-    std::vector<std::string> paramNames;
+    int64_t tidx;
+    int64_t totalTuples;
+    std::vector<std::vector<RamDomain>> processedColumns;
 };
 
 class ReadParquetFactory : public ReadStreamFactory {
