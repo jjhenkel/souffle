@@ -70,10 +70,10 @@ bool StratifyInputRelationsTransformer::transform(TranslationUnit& translationUn
     auto& program = translationUnit.getProgram();
 
     bool changed = false;
-    return changed; // TODO: REMOVE!
 
     // Let's find all the input relations and get the partition keys from them
     std::map<std::string, std::vector<uint32_t>> inputRelDirectives;
+    std::map<std::string, std::vector<std::string>> inputRelNames;
     std::map<std::string, std::map<std::string, std::string>> inputRelParams;
     visit(program, [&](const Directive& directive) {
         // We're looking for input directives
@@ -101,10 +101,12 @@ bool StratifyInputRelationsTransformer::transform(TranslationUnit& translationUn
 
         // Map columns to their indices (1-based)
         std::vector<uint32_t> indices;
+        std::vector<std::string> names;
         auto attrs = relation->getAttributes();
         for (uint32_t i = 0; i < relation->getArity(); ++i) {
             if (std::find(cols.begin(), cols.end(), attrs[i]->getName()) != cols.end()) {
                 indices.push_back(i + 1);
+                names.push_back(attrs[i]->getName());
             }
         }
 
@@ -112,6 +114,9 @@ bool StratifyInputRelationsTransformer::transform(TranslationUnit& translationUn
         // partition keys (1-based indices) for later use
         inputRelDirectives.insert(std::make_pair(
             directive.getQualifiedName().toString(), indices
+        ));
+        inputRelNames.insert(std::make_pair(
+            directive.getQualifiedName().toString(), names
         ));
         inputRelParams.insert(std::make_pair(
             directive.getQualifiedName().toString(), directive.getParameters()
@@ -182,7 +187,7 @@ bool StratifyInputRelationsTransformer::transform(TranslationUnit& translationUn
                         newAtom->addArgument(mk<ast::StringConstant>(
                             constMap[var->getName()]
                         ));
-                        break;
+                        continue;
                     }
 
                     // Not var, just keep
@@ -232,8 +237,13 @@ bool StratifyInputRelationsTransformer::transform(TranslationUnit& translationUn
                     
                     // Maybe we are a constant
                     const auto* constant = as<ast::Constant>(arg);
-                    if (constant != nullptr && std::find(pcols.begin(), pcols.end(), cidx) != pcols.end()) {
-                        pvals.insert(std::make_pair(std::to_string(cidx), json11::Json(constant->getConstant())));
+                    const auto it = std::find(pcols.begin(), pcols.end(), cidx);
+                    if (constant != nullptr && it != pcols.end()) {
+                        int pidx = it - pcols.begin();
+                        pvals.insert(std::make_pair(
+                            inputRelNames[qualName][pidx],
+                            json11::Json(constant->getConstant())
+                        ));
                         modifier += "p" + std::to_string(cidx) + "_" + std::to_string(std::hash<std::string>{}(constant->getConstant()));
                         continue;
                     } 
@@ -268,6 +278,21 @@ bool StratifyInputRelationsTransformer::transform(TranslationUnit& translationUn
 
                     // Make the input/decl for this new variant
                     if (inputVariants.find(newName) == inputVariants.end()) {
+                        auto* relation = getRelation(program, qualName);
+
+                        VecOwn<Attribute> newAttrs;
+
+                        for (uint32_t i = 0; i < relation->getAttributes().size(); ++i) {
+                            if (keepCol(i)) {
+                                newAttrs.push_back(clone(relation->getAttributes()[i]));
+                            }
+                        }
+
+                        auto newRel = clone(relation);
+                        newRel->setAttributes(std::move(newAttrs));
+                        newRel->setQualifiedName(QualifiedName(newName));
+                        program.addRelation(std::move(newRel));
+
                         auto directive = mk<ast::Directive>(
                             ast::DirectiveType::input, newName, SrcLocation()
                         );
@@ -351,7 +376,7 @@ bool StratifyInputRelationsTransformer::transform(TranslationUnit& translationUn
                                 directive->addParameter(key, newJson.dump());
                             } else if (key == "partition") {
                                 json11::Json newJson = json11::Json(pvals);
-                                directive->addParameter(key, newJson.dump());
+                                directive->addParameter(key + "ing", newJson.dump());
                             } else {
                                 directive->addParameter(key, value);
                             }

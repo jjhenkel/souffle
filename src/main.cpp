@@ -516,8 +516,8 @@ int main(int argc, char** argv) {
             mk<ast::transform::RemoveEmptyRelationsTransformer>(),
             mk<ast::transform::AddNullariesToAtomlessAggregatesTransformer>(),
             mk<ast::transform::ReorderLiteralsTransformer>(), mk<ast::transform::ExecutionPlanChecker>(),
-            std::move(provenancePipeline), mk<ast::transform::IOAttributesTransformer>(),
-            mk<ast::transform::StratifyInputRelationsTransformer>());
+            std::move(provenancePipeline), mk<ast::transform::IOAttributesTransformer>()
+            );
 
     // Disable unwanted transformations
     if (Global::config().has("disable-transformers")) {
@@ -558,6 +558,8 @@ int main(int argc, char** argv) {
     pipeline->setVerbosity(Global::config().has("verbose"));
 
     // Apply all the transformations
+    pipeline->apply(*astTranslationUnit);
+    mk<ast::transform::StratifyInputRelationsTransformer>()->apply(*astTranslationUnit);
     pipeline->apply(*astTranslationUnit);
 
     if (Global::config().has("show")) {

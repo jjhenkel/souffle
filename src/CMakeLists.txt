@@ -198,14 +198,14 @@ if (OPENMP_FOUND)
                              $<$<BOOL:${SOUFFLE_USE_SQLITE}>:SQLite::SQLite3>
                              $<$<BOOL:${SOUFFLE_USE_CURSES}>:Curses::NCurses>
                              LibFFI::LibFFI
-                             "${CMAKE_DL_LIBS}" arrow_shared arrow_dataset parquet)
+                             "${CMAKE_DL_LIBS}" arrow_shared arrow_dataset parquet stdc++fs)
 else()
     target_link_libraries(libsouffle
                       PUBLIC $<$<BOOL:${SOUFFLE_USE_ZLIB}>:ZLIB::ZLIB>
                              $<$<BOOL:${SOUFFLE_USE_SQLITE}>:SQLite::SQLite3>
                              $<$<BOOL:${SOUFFLE_USE_CURSES}>:Curses::NCurses>
                              LibFFI::LibFFI
-                             "${CMAKE_DL_LIBS}" arrow_shared arrow_dataset parquet)
+                             "${CMAKE_DL_LIBS}" arrow_shared arrow_dataset parquet stdc++fs)
 endif()
 
 

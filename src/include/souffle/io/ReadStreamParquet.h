@@ -22,6 +22,7 @@
 
 #include <arrow/api.h>
 #include <arrow/compute/cast.h>
+#include <arrow/compute/exec/expression.h>
 #include <arrow/dataset/dataset.h>
 #include <arrow/dataset/discovery.h>
 #include <arrow/dataset/file_base.h>
@@ -61,50 +62,120 @@ public:
         params = Json::parse(
             rwOperation.at("params"), parseErrors
         )["relation"]["params"].array_items();
-        assert(parseErrors.size() == 0 && "Internal JSON parsing failed.");
+        assert(parseErrors.size() == 0 && "Internal JSON parsing failed (params).");
+
+        std::string partitioning = getOr(rwOperation, "partitioning", "{}");
+        auto partitions = Json::parse(partitioning, parseErrors);
+        assert(parseErrors.size() == 0 && "Internal JSON parsing failed (partitioning).");
 
         for (uint32_t i = 0; i < params.size(); i++) {
-            paramNames.push_back(params[i].dump());
+            paramNames.push_back(params[i].string_value());
         }
-    }
 
-protected:
-    std::shared_ptr<arrow::Table> FilterAndSelectDataset() {
         std::string root_path;
 
         auto fs = fs::FileSystemFromUri("file:///" + baseDir, &root_path).ValueOrDie();
 
         fs::FileSelector selector;
-        selector.base_dir = ".";
+        selector.base_dir = baseDir + fileName;
+        selector.recursive = true;
+
+        ds::FileSystemFactoryOptions options;
+        options.partitioning = ds::HivePartitioning::MakeFactory();
         
         auto factory = ds::FileSystemDatasetFactory::Make(
-            fs, selector, std::make_shared<ds::ParquetFileFormat>(), ds::FileSystemFactoryOptions()
+            fs, selector, std::make_shared<ds::ParquetFileFormat>(), options
         ).ValueOrDie();
 
         auto dataset = factory->Finish().ValueOrDie();
+        
+        // for (const auto& fragment : dataset->GetFragments().ValueOrDie()) {
+        //     std::cerr << "Found fragment: " << (*fragment)->ToString() << std::endl;
+        //     std::cerr << "Partition expression: "
+        //         << (*fragment)->partition_expression().ToString() << std::endl;
+        // }
+
         auto scan_builder = dataset->NewScan().ValueOrDie();
-    
         scan_builder->Project(paramNames);
-        // scan_builder->Filter(ds::less(ds::field_ref("b"), ds::literal(4)));
+
+        bool filtered = false;
+        for (auto const& [key, value] : partitions.object_items()) {
+            scan_builder->Filter(arrow::compute::equal(
+                arrow::compute::field_ref(key), arrow::compute::literal(value.string_value())
+            ));
+            filtered = true;
+        }
+
+        // TODO: for each value in partitions metadata make an equals(VAL) filter
+        
         auto scanner = scan_builder->Finish().ValueOrDie();
-        return scanner->ToTable().ValueOrDie();
+
+        batchIdx = 0;
+        rowIdx = 0;
+        auto batch_iterator = scanner->ScanBatches().ValueOrDie();
+        while (true) {
+            auto batch = batch_iterator.Next().ValueOrDie();
+            if (arrow::IsIterationEnd(batch)) break;
+            batches.push_back(batch.record_batch);
+        }
     }
+
+protected:
 
     Own<RamDomain[]> readNextTuple() override {
         Own<RamDomain[]> tuple = std::make_unique<RamDomain[]>(arity + auxiliaryArity);
 
-        auto table = FilterAndSelectDataset();
+        // std::cerr << "HERE Batch := " << batchIdx << " Row := " << rowIdx << std::endl;
 
-        uint32_t column;
-        for (column = 0; column < arity; column++) {
-
+        if (batchIdx >= batches.size()) {
+            return nullptr;
         }
+        
+        auto batch = batches[batchIdx];
+        if (rowIdx >= batch->num_rows()) {
+            batchIdx += 1;
+            if (batchIdx >= batches.size()) {
+                return nullptr;
+            }
+            batch = batches[batchIdx];
+            rowIdx = 0;
+        }
+
+        for (uint32_t c = 0; c < arity; c++) {
+            // std::cerr << "Get: " << typeAttributes[c] << std::endl;
+            if (typeAttributes[c][0] == 's') {
+                // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
+                tuple[c] = symbolTable.unsafeEncode(
+                    std::dynamic_pointer_cast<arrow::StringArray>(
+                        batch->GetColumnByName(paramNames[c])
+                    )->GetString(rowIdx)
+                );
+            } else if (typeAttributes[c] == "i:Fid") {
+                // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
+                auto val = std::dynamic_pointer_cast<arrow::StringArray>(
+                    batch->GetColumnByName(paramNames[c])
+                )->GetString(rowIdx);
+                tuple[c] = RamSignedFromString(val);
+            } else if (typeAttributes[c][0] == 'i') {
+                // std::cerr << batch->GetColumnByName(paramNames[c])->ToString() << std::endl;
+                tuple[c] = std::dynamic_pointer_cast<arrow::Int64Array>(
+                    batch->GetColumnByName(paramNames[c])
+                )->Value(rowIdx);
+            } else {
+                std::cerr << "Unknown type: " << typeAttributes[c] << std::endl;
+            }
+        }
+
+        rowIdx += 1;
 
         return tuple;
     }
 
     const std::string fileName;
     const std::string baseDir;
+    uint64_t batchIdx;
+    int64_t rowIdx;
+    std::vector<std::shared_ptr<arrow::RecordBatch>> batches;
     std::vector<Json> params;
     std::vector<std::string> paramNames;
 };

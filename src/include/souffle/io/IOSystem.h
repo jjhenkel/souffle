@@ -88,6 +88,7 @@ public:
 private:
     IOSystem() {
         registerReadStreamFactory(std::make_shared<ReadFileCSVFactory>());
+        registerReadStreamFactory(std::make_shared<ReadFilesCSVFactory>());
         registerReadStreamFactory(std::make_shared<ReadCinCSVFactory>());
         registerReadStreamFactory(std::make_shared<ReadFileJSONFactory>());
         registerReadStreamFactory(std::make_shared<ReadCinJSONFactory>());

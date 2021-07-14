@@ -1,0 +1,29 @@
+
+
+.decl synth_query(source_text_shuffle:SourceText, start_line_shuffle:number, start_col_shuffle:number, end_line_shuffle:number, end_col_shuffle:number, gid_shuffle:Gid, source_text_call:SourceText, start_line_call:number, start_col_call:number, end_line_call:number, end_col_call:number, gid_call:Gid)
+synth_query(source_text_shuffle, start_line_shuffle, start_col_shuffle, end_line_shuffle, end_col_shuffle, gid_shuffle, source_text_call, start_line_call, start_col_call, end_line_call, end_col_call, gid_call) :- 
+(type_2 = "keyword_argument"),
+(type_call = "call"),
+type_shuffle = "integer",
+(
+    child_of(fid, _, "value", gid_2, gid_shuffle, type_2, type_shuffle)
+),
+(
+    child_of(fid, _, "arguments", gid_call, r11001, type_call, _),
+    child_of(fid, _, "child", r11001, gid_2, _, _)
+),
+(
+    child_of(fid, _, "name",  gid_2, r31002, _, "identifier"),
+    node_info(fid, r31002, "identifier", _, _, _, _, _, _, _, out_name_2)
+),
+(
+    node_info(fid, gid_shuffle, type_shuffle, _, _, _, start_line_shuffle, start_col_shuffle, end_line_shuffle, end_col_shuffle, source_text_shuffle)
+),
+(
+    node_info(fid, gid_2, type_2, _, _, _, _, _, _, _, _)
+),
+(
+    node_info(fid, gid_call, type_call, _, _, _, start_line_call, start_col_call, end_line_call, end_col_call, source_text_call)
+)
+  .
+.output synth_query

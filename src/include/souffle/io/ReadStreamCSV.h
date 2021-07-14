@@ -38,6 +38,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 namespace souffle {
 class RecordTable;
@@ -62,7 +63,7 @@ public:
         }
     }
 
-protected:
+public:
     /**
      * Read and return the next tuple.
      *
@@ -385,6 +386,105 @@ public:
     }
 
     ~ReadFileCSVFactory() override = default;
+};
+
+
+
+
+
+
+
+
+
+class ReadFilesCSV : public ReadStream  {
+public:
+    ReadFilesCSV(const std::map<std::string, std::string>& rwOperation, SymbolTable& symbolTable,
+            RecordTable& recordTable) : 
+            ReadStream(rwOperation, symbolTable, recordTable),
+            files(get_files(rwOperation)) {
+
+        for (uint64_t i = 0; i < files.size(); ++i) {
+            streams.push_back(
+                ReadStreamCSV(
+                    *files[i],
+                    rwOperation,
+                    symbolTable,
+                    recordTable
+                )
+            );
+        }
+    }
+
+    /**
+     * Read and return the next tuple.
+     *
+     * Returns nullptr if no tuple was readable.
+     * @return
+     */
+    Own<RamDomain[]> readNextTuple() override {
+        try {
+            if (fidx >= streams.size()) {
+                return nullptr;
+            } else {
+                auto res = streams[fidx].readNextTuple();
+                if (res == nullptr) {
+                    fidx += 1;
+                    return readNextTuple();
+                }
+                return res;
+            }
+        } catch (std::exception& e) {
+            std::stringstream errorMessage;
+            errorMessage << e.what();
+            errorMessage << "cannot parse one or more fact files!\n";
+            throw std::invalid_argument(errorMessage.str());
+        }
+    }
+
+    ~ReadFilesCSV() {
+        for (uint64_t i = 0; i < files.size(); ++i) {
+            delete files[i];
+        }
+    }
+
+protected:
+    static std::vector<gzfstream::igzfstream*> get_files(const std::map<std::string, std::string>& rwOperation) {
+        auto name = getOr(rwOperation, "filename", rwOperation.at("name") + ".facts");
+        std::string dirs = getOr(rwOperation, "fact-dir", "");
+        std::vector<gzfstream::igzfstream*> temp;
+
+        for (std::filesystem::recursive_directory_iterator i(dirs), end; i != end; ++i) {
+            if (!std::filesystem::is_directory(i->path())) {
+                if (i->path().filename() == name) {
+                    temp.push_back(
+                        new gzfstream::igzfstream(i->path())
+                    );
+                }
+            }
+        }
+
+        return temp;
+    }
+
+    std::string baseName;
+    uint64_t fidx = 0;
+    std::vector<gzfstream::igzfstream*> files;
+    std::vector<ReadStreamCSV> streams;
+};
+
+class ReadFilesCSVFactory : public ReadStreamFactory {
+public:
+    Own<ReadStream> getReader(const std::map<std::string, std::string>& rwOperation, SymbolTable& symbolTable,
+            RecordTable& recordTable) override {
+        return mk<ReadFilesCSV>(rwOperation, symbolTable, recordTable);
+    }
+
+    const std::string& getName() const override {
+        static const std::string name = "files";
+        return name;
+    }
+
+    ~ReadFilesCSVFactory() override = default;
 };
 
 } /* namespace souffle */

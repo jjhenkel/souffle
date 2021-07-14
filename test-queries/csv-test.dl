@@ -1,0 +1,47 @@
+.type Fid <: number
+.type Gid <: number
+.type Tid <: number
+.type Nid <: number
+.type TypeName <: symbol 
+.type FieldName <: symbol
+.type ByteOffset <: number
+.type SourceText <: symbol
+
+.type FlowMod = symbol
+.type FlowKind = symbol
+.type FlowSubKind = symbol
+.type FlowTarget = Gid
+
+/* ['fid', 'idx', 'field', 'pgid', 'cgid', 'ptype', 'ctype'] */
+/* ['fid', 'gid', 'type', 'tid', 'sb', 'sl', 'sr', 'sc', 'er', 'ec', 'text'] */
+
+.decl child_of(
+    fid:Fid, idx:number, field:FieldName,
+    pgid:Gid, cgid:Gid, ptype:TypeName, ctype:TypeName
+)
+.input child_of(
+    IO=files,
+    filename="child_of.csv.gz"
+)
+
+.decl node_info(
+    fid:Fid, gid:Gid, type:TypeName,
+    tid:Tid, sb:ByteOffset, sl:number,
+    sr:number, sc:number, er:number, ec:number, 
+    text:SourceText
+)
+.input node_info(
+    IO=files,
+    filename="node_info.csv.gz"
+)
+
+.decl literal_types(type:TypeName)
+literal_types("string").
+literal_types("none").
+literal_types("true").
+literal_types("false").
+literal_types("integer").
+literal_types("float").
+
+
+#include "test.dl"
